@@ -10,8 +10,9 @@ struct HomeView: View {
 
     private enum Route: Hashable {
         case listings(category: String?)
-        case newListing
+        case listingForm(editId: String?)
         case chatList
+        case myListings
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -78,7 +79,7 @@ struct HomeView: View {
                 }
 
                 Button {
-                    path.append(Route.newListing)
+                    path.append(Route.listingForm(editId: nil))
                 } label: {
                     Image(systemName: "plus")
                         .font(.title2.weight(.semibold))
@@ -93,10 +94,17 @@ struct HomeView: View {
             .navigationTitle("SoukMar")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        path.append(Route.chatList)
-                    } label: {
-                        Image(systemName: "bubble.left.and.bubble.right")
+                    HStack(spacing: 16) {
+                        Button {
+                            path.append(Route.chatList)
+                        } label: {
+                            Image(systemName: "bubble.left.and.bubble.right")
+                        }
+                        Button {
+                            path.append(Route.myListings)
+                        } label: {
+                            Image(systemName: "list.bullet.rectangle")
+                        }
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -111,13 +119,19 @@ struct HomeView: View {
                 switch route {
                 case .listings(let category):
                     ListingsView(initialCategory: category)
-                case .newListing:
-                    DeposerAnnonceView { newListingId in
+                case .listingForm(let editId):
+                    DeposerAnnonceView(editId: editId) { newListingId in
                         path.removeLast()
                         path.append(newListingId)
                     }
                 case .chatList:
                     ChatListView()
+                case .myListings:
+                    MesAnnoncesView(
+                        onOpenListing: { id in path.append(id) },
+                        onEditListing: { id in path.append(Route.listingForm(editId: id)) },
+                        onNewListing: { path.append(Route.listingForm(editId: nil)) }
+                    )
                 }
             }
             // Both registered here, not on a leaf screen, so they apply

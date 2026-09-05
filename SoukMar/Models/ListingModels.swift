@@ -139,6 +139,34 @@ struct SubcategoryWithAttributesDto: Codable, Identifiable, Equatable {
     }
 }
 
+// MARK: - My Listings (view stats, status update)
+
+struct ViewStatDayDto: Codable {
+    let date: String
+    var count: Int = 0
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        date = try c.decode(String.self, forKey: .date)
+        count = try c.decodeIfPresent(Int.self, forKey: .count) ?? 0
+    }
+}
+
+struct ViewStatsDto: Codable {
+    var days: [ViewStatDayDto] = []
+    var total: Int = 0
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        days = try c.decodeIfPresent([ViewStatDayDto].self, forKey: .days) ?? []
+        total = try c.decodeIfPresent(Int.self, forKey: .total) ?? 0
+    }
+}
+
+struct ListingStatusUpdateRequest: Encodable {
+    let status: String
+}
+
 struct CategoryFullResponse: Codable {
     var subcategories: [SubcategoryWithAttributesDto] = []
 

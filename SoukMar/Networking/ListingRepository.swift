@@ -78,4 +78,57 @@ final class ListingRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    func getMyListings() async -> Result<[ListingDto], APIError> {
+        do {
+            let response: [ListingDto] = try await api.send(path: "listings/user/mine")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func getViewStats(id: String) async -> Result<ViewStatsDto, APIError> {
+        do {
+            let response: ViewStatsDto = try await api.send(path: "listings/\(id)/view-stats")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func bump(id: String) async -> Result<ListingDto, APIError> {
+        do {
+            let response: ListingDto = try await api.send(path: "listings/\(id)/bump", method: "POST")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func updateStatus(id: String, status: String) async -> Result<ListingDto, APIError> {
+        do {
+            let response: ListingDto = try await api.send(path: "listings/\(id)", method: "PUT", body: ListingStatusUpdateRequest(status: status))
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func deleteListing(id: String) async -> Bool {
+        do {
+            let _: SuccessDto = try await api.send(path: "listings/\(id)", method: "DELETE")
+            return true
+        } catch {
+            return false
+        }
+    }
 }
