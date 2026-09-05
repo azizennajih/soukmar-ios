@@ -30,7 +30,7 @@ struct HomeView: View {
                     }
 
                     Button {
-                        path.append(.listings(category: nil))
+                        path.append(Route.listings(category: nil))
                     } label: {
                         HStack {
                             Image(systemName: "magnifyingglass")
@@ -50,7 +50,7 @@ struct HomeView: View {
                         LazyVGrid(columns: columns, spacing: 16) {
                             ForEach(CATEGORIES) { cat in
                                 Button {
-                                    path.append(.listings(category: cat.value))
+                                    path.append(Route.listings(category: cat.value))
                                 } label: {
                                     VStack(spacing: 8) {
                                         Circle()
