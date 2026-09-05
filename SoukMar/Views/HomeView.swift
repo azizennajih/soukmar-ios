@@ -14,6 +14,7 @@ struct HomeView: View {
         case chatList
         case myListings
         case favorites
+        case profile
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -114,10 +115,23 @@ struct HomeView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Se déconnecter") {
-                        AuthRepository.shared.logout()
-                        ChatSocketManager.shared.disconnect()
-                        onLoggedOut()
+                    // Mirrors Android's own Phase-8 cleanup: Profil + logout
+                    // moved behind an overflow menu instead of loose icons.
+                    Menu {
+                        Button {
+                            path.append(Route.profile)
+                        } label: {
+                            Label("Profil", systemImage: "person.circle")
+                        }
+                        Button(role: .destructive) {
+                            AuthRepository.shared.logout()
+                            ChatSocketManager.shared.disconnect()
+                            onLoggedOut()
+                        } label: {
+                            Label("Se déconnecter", systemImage: "rectangle.portrait.and.arrow.right")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
                     }
                 }
             }
@@ -143,6 +157,8 @@ struct HomeView: View {
                         onOpenListing: { id in path.append(id) },
                         onBrowse: { path.append(Route.listings(category: nil)) }
                     )
+                case .profile:
+                    ProfilView()
                 }
             }
             // Both registered here, not on a leaf screen, so they apply

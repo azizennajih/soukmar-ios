@@ -41,6 +41,25 @@ struct ForgotPasswordRequest: Codable {
     let email: String
 }
 
+/// A separate type from ProfileImageUpdateRequest: the backend only touches
+/// the fields present in the request body, so a profile-details save must
+/// never also send `image` (would overwrite it with nothing on the backend's
+/// partial-update route) — same two-DTO split soukmar-android uses.
+struct ProfileUpdateRequest: Encodable {
+    let name: String
+    var phone: String?
+    var city: String?
+}
+
+struct ProfileImageUpdateRequest: Encodable {
+    let image: String
+}
+
+struct ChangePasswordRequest: Encodable {
+    let currentPassword: String
+    let newPassword: String
+}
+
 /// Mirrors soukmar-backend's generic `{ error, unverified? }` error body.
 struct ApiErrorDto: Codable {
     var error: String?

@@ -76,4 +76,48 @@ final class AuthRepository {
     func logout() {
         TokenStore.shared.clear()
     }
+
+    func updateProfile(name: String, phone: String?, city: String?) async -> Result<UserDto, APIError> {
+        do {
+            let response: UserDto = try await api.send(
+                path: "auth/profile", method: "PUT",
+                body: ProfileUpdateRequest(name: name, phone: phone, city: city)
+            )
+            TokenStore.shared.cachedUser = response
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func updateProfileImage(url: String) async -> Result<UserDto, APIError> {
+        do {
+            let response: UserDto = try await api.send(
+                path: "auth/profile", method: "PUT",
+                body: ProfileImageUpdateRequest(image: url)
+            )
+            TokenStore.shared.cachedUser = response
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func changePassword(currentPassword: String, newPassword: String) async -> Result<MessageResponse, APIError> {
+        do {
+            let response: MessageResponse = try await api.send(
+                path: "auth/change-password", method: "PUT",
+                body: ChangePasswordRequest(currentPassword: currentPassword, newPassword: newPassword)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }
