@@ -16,12 +16,14 @@ struct HomeView: View {
         case favorites
         case profile
         case savedSearches
+        case notifications
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
     // ListingDetailView, and a homogeneous typed array can only carry one
     // destination type for the whole stack.
     @State private var path = NavigationPath()
+    @State private var unreadCount = 0
 
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 
@@ -113,6 +115,22 @@ struct HomeView: View {
                         } label: {
                             Image(systemName: "heart")
                         }
+                        Button {
+                            path.append(Route.notifications)
+                        } label: {
+                            Image(systemName: "bell")
+                                .overlay(alignment: .topTrailing) {
+                                    if unreadCount > 0 {
+                                        Text("\(min(unreadCount, 99))")
+                                            .font(.system(size: 9, weight: .bold))
+                                            .foregroundStyle(.white)
+                                            .padding(3)
+                                            .background(Color.red)
+                                            .clipShape(Circle())
+                                            .offset(x: 9, y: -9)
+                                    }
+                                }
+                        }
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -169,6 +187,12 @@ struct HomeView: View {
                     SavedSearchesView { savedSearchId in
                         path.append(Route.listings(category: nil, savedSearchId: savedSearchId))
                     }
+                case .notifications:
+                    NotificationsView(
+                        onOpenChat: { conversationId in path.append(ConversationRoute(conversationId: conversationId)) },
+                        onOpenListing: { id in path.append(id) },
+                        onOpenProfil: { path.append(Route.profile) }
+                    )
                 }
             }
             // Both registered here, not on a leaf screen, so they apply
@@ -201,6 +225,15 @@ struct HomeView: View {
             .task {
                 if let refreshed = await AuthRepository.shared.me() {
                     user = refreshed
+                }
+            }
+            // Mirrors the web navbar's 30-second unread-count poll — the
+            // backend has no live-update mechanism for the badge. Runs for
+            // as long as HomeView (the app's root screen) stays mounted.
+            .task {
+                while !Task.isCancelled {
+                    unreadCount = await NotificationRepository.shared.getUnreadCount()
+                    try? await Task.sleep(nanoseconds: 30_000_000_000)
                 }
             }
         }
