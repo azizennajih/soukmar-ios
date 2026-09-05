@@ -56,4 +56,26 @@ final class ListingRepository {
             return false
         }
     }
+
+    func createListing(_ body: ListingUpsertRequest) async -> Result<ListingDto, APIError> {
+        do {
+            let response: ListingDto = try await api.send(path: "listings", method: "POST", body: body)
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func updateListing(id: String, body: ListingUpsertRequest) async -> Result<ListingDto, APIError> {
+        do {
+            let response: ListingDto = try await api.send(path: "listings/\(id)", method: "PUT", body: body)
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }

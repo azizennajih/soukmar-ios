@@ -56,9 +56,6 @@ struct ListingsView: View {
                 }
             }
         }
-        .navigationDestination(for: String.self) { listingId in
-            ListingDetailView(listingId: listingId)
-        }
         .navigationTitle("Annonces")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

@@ -72,6 +72,33 @@ final class APIClient {
         return try await perform(req)
     }
 
+    /// Multipart/form-data upload (e.g. POST /api/upload's `images` field) —
+    /// mirrors Android's UploadRepository, which builds the same kind of
+    /// multipart request via OkHttp instead of URLSession.
+    func upload<Response: Decodable>(
+        path: String, fieldName: String, files: [(data: Data, filename: String, mimeType: String)]
+    ) async throws -> Response {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for file in files {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(file.filename)\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: \(file.mimeType)\r\n\r\n".data(using: .utf8)!)
+            body.append(file.data)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+
+        var req = URLRequest(url: baseURL.appendingPathComponent(path))
+        req.httpMethod = "POST"
+        req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        if let token {
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        req.httpBody = body
+        return try await perform(req)
+    }
+
     private func perform<Response: Decodable>(_ req: URLRequest) async throws -> Response {
         let (data, response): (Data, URLResponse)
         do {
