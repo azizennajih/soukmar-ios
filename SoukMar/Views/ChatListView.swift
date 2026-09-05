@@ -11,6 +11,7 @@ struct ConversationRoute: Hashable {
 /// Mirrors soukmar-android's ChatListScreen.
 struct ChatListView: View {
     @StateObject private var viewModel = ChatListViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         Group {
@@ -27,7 +28,7 @@ struct ChatListView: View {
                 .listStyle(.plain)
             }
         }
-        .navigationTitle("Messages")
+        .navigationTitle(i18n.t("chat.title"))
         .navigationBarTitleDisplayMode(.inline)
         .task { viewModel.load() }
     }
@@ -35,8 +36,8 @@ struct ChatListView: View {
     private var emptyState: some View {
         VStack(spacing: 8) {
             Text("💬").font(.system(size: 40))
-            Text("Aucune conversation").font(.title3.bold())
-            Text("Contactez un vendeur depuis une annonce pour démarrer une discussion.")
+            Text(i18n.t("chat.no_conv")).font(.title3.bold())
+            Text(i18n.t("chat.no_conv_sub"))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)

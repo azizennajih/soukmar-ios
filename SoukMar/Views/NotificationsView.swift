@@ -14,6 +14,7 @@ struct NotificationsView: View {
     var onOpenProfil: () -> Void
 
     @StateObject private var viewModel = NotificationsViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         Group {
@@ -35,12 +36,12 @@ struct NotificationsView: View {
                 }
             }
         }
-        .navigationTitle("Notifications")
+        .navigationTitle(i18n.t("notifications.title"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if viewModel.hasUnread {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Tout marquer comme lu") { viewModel.markAllRead() }
+                    Button(i18n.t("notifications.mark_all_read")) { viewModel.markAllRead() }
                         .font(.caption)
                 }
             }
@@ -64,7 +65,8 @@ struct NotificationsView: View {
     private var emptyState: some View {
         VStack(spacing: 8) {
             Text("🔔").font(.system(size: 40))
-            Text("Aucune notification").font(.title3.bold())
+            Text(i18n.t("notifications.empty")).font(.title3.bold())
+            Text(i18n.t("notifications.empty_sub")).font(.subheadline).foregroundStyle(.secondary).multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(24)
@@ -74,16 +76,17 @@ struct NotificationsView: View {
 private struct NotificationRow: View {
     let notification: NotificationDto
     let onOpen: () -> Void
+    @ObservedObject private var i18n = I18nRepository.shared
 
     private var template: String {
         let name = notification.actorName ?? ""
         switch notification.type {
-        case "NEW_INQUIRY": return "Vous avez reçu une nouvelle demande de \(name)."
-        case "NEW_REPLY": return "\(name) a répondu à votre demande."
-        case "NEW_MESSAGE": return "Vous avez reçu un nouveau message de \(name)."
-        case "NEW_REVIEW": return "\(name) vous a laissé une évaluation."
-        case "SAVED_SEARCH_MATCH": return "Nouvelle annonce pour votre recherche « \(name) »."
-        case "REPORT_RESOLVED": return "Votre signalement a été examiné par notre équipe."
+        case "NEW_INQUIRY": return i18n.t("notifications.new_inquiry", ["name": name])
+        case "NEW_REPLY": return i18n.t("notifications.new_reply", ["name": name])
+        case "NEW_MESSAGE": return i18n.t("notifications.new_message", ["name": name])
+        case "NEW_REVIEW": return i18n.t("notifications.new_review", ["name": name])
+        case "SAVED_SEARCH_MATCH": return i18n.t("notifications.saved_search_match", ["name": name])
+        case "REPORT_RESOLVED": return i18n.t("notifications.report_resolved")
         default: return "Nouvelle notification."
         }
     }
@@ -102,7 +105,7 @@ private struct NotificationRow: View {
                     if let title = notification.listingTitle {
                         Text("📌 \(title)").font(.caption).foregroundStyle(.secondary)
                     }
-                    Text(timeAgo(notification.createdAt)).font(.caption2).foregroundStyle(.secondary)
+                    Text(i18n.timeAgoT(notification.createdAt)).font(.caption2).foregroundStyle(.secondary)
                 }
                 Spacer()
             }

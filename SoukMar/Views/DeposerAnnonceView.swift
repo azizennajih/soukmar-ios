@@ -11,6 +11,16 @@ struct DeposerAnnonceView: View {
 
     @StateObject private var viewModel = DeposerAnnonceViewModel()
     @State private var pickerItems: [PhotosPickerItem] = []
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    /// Mirrors soukmar-android's DEPOSER_STEP_KEYS — DEPOSER_STEPS itself
+    /// (DeposerAnnonceViewModel.swift) stays a raw French array out of this
+    /// migration's scope, so the i18n keys for the step labels are looked up
+    /// by index here instead.
+    private let stepKeys = [
+        "deposer.step_category", "deposer.step_subcategory", "deposer.step_details",
+        "deposer.step_photos", "deposer.step_contact",
+    ]
 
     var body: some View {
         VStack(spacing: 0) {
@@ -32,7 +42,7 @@ struct DeposerAnnonceView: View {
                 bottomBar
             }
         }
-        .navigationTitle(viewModel.isEdit ? "Modifier l'annonce" : "Déposer une annonce")
+        .navigationTitle(viewModel.isEdit ? i18n.t("deposer.header_title_edit") : i18n.t("deposer.header_title"))
         .navigationBarTitleDisplayMode(.inline)
         .task { viewModel.start(editId: editId) }
         .onChange(of: pickerItems) { items in
@@ -51,12 +61,12 @@ struct DeposerAnnonceView: View {
 
     private var stepIndicator: some View {
         HStack(spacing: 4) {
-            ForEach(Array(DEPOSER_STEPS.enumerated()), id: \.offset) { index, label in
+            ForEach(Array(DEPOSER_STEPS.enumerated()), id: \.offset) { index, _ in
                 VStack(spacing: 4) {
                     Circle()
                         .fill(index <= viewModel.step ? Color.soukmarPrimary : Color(.secondarySystemBackground))
                         .frame(width: 8, height: 8)
-                    Text(label)
+                    Text(i18n.t(stepKeys[index]))
                         .font(.caption2)
                         .foregroundStyle(index == viewModel.step ? Color.soukmarPrimary : .secondary)
                 }
@@ -92,7 +102,7 @@ struct DeposerAnnonceView: View {
                             .overlay(
                                 Circle().stroke(Color.soukmarPrimary, lineWidth: viewModel.category == cat.value ? 2 : 0)
                             )
-                        Text(cat.label).font(.caption).multilineTextAlignment(.center).lineLimit(2)
+                        Text(i18n.tCatalog("cats.\(cat.value)", code: cat.value)).font(.caption).multilineTextAlignment(.center).lineLimit(2)
                     }
                 }
                 .buttonStyle(.plain)
@@ -112,7 +122,7 @@ struct DeposerAnnonceView: View {
                         viewModel.selectSubcategory(sub)
                     } label: {
                         HStack {
-                            Text(humanizeCode(sub.code))
+                            Text(i18n.tCatalog("subcats.\(sub.code)", code: sub.code))
                             Spacer()
                             if viewModel.subcategoryId == sub.id {
                                 Image(systemName: "checkmark").foregroundStyle(Color.soukmarPrimary)
@@ -130,25 +140,25 @@ struct DeposerAnnonceView: View {
 
     private var detailsStep: some View {
         VStack(alignment: .leading, spacing: 14) {
-            labeledField("Titre") {
-                TextField("Titre de l'annonce", text: $viewModel.title).textFieldStyle(.roundedBorder)
+            labeledField(i18n.t("deposer.summary_listing_title")) {
+                TextField(i18n.t("deposer.label_title"), text: $viewModel.title).textFieldStyle(.roundedBorder)
             }
-            labeledField("Description") {
-                TextField("Décrivez votre annonce...", text: $viewModel.description, axis: .vertical)
+            labeledField(i18n.t("listing.description")) {
+                TextField(i18n.t("deposer.placeholder_desc"), text: $viewModel.description, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(4...10)
             }
-            labeledField("Prix (MAD)") {
+            labeledField(i18n.t("deposer.label_price")) {
                 TextField("Laissez vide pour \"à négocier\"", text: $viewModel.price)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
             }
-            labeledField("Ville") {
-                TextField("Ville", text: $viewModel.city).textFieldStyle(.roundedBorder)
+            labeledField(i18n.t("deposer.label_city")) {
+                TextField(i18n.t("auth.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
             }
 
             if viewModel.showCondition {
-                labeledField("État") {
+                labeledField(i18n.t("deposer.label_condition")) {
                     HStack(spacing: 8) {
                         ForEach(CONDITION_OPTIONS, id: \.value) { option in
                             Button {
@@ -168,7 +178,7 @@ struct DeposerAnnonceView: View {
             }
 
             ForEach(viewModel.attributeDefs) { def in
-                labeledField(humanizeCode(def.code) + (def.required ? " *" : "")) {
+                labeledField(i18n.tCatalog("attrs.\(def.code)", code: def.code) + (def.required ? " *" : "")) {
                     attributeField(def)
                 }
             }
@@ -191,7 +201,7 @@ struct DeposerAnnonceView: View {
             )) {
                 Text("—").tag("")
                 ForEach(def.options, id: \.self) { option in
-                    Text(humanizeCode(option)).tag(option)
+                    Text(i18n.tCatalog("attrs.opts.\(option)", code: option)).tag(option)
                 }
             }
             .pickerStyle(.menu)
@@ -263,7 +273,7 @@ struct DeposerAnnonceView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .overlay(alignment: .bottomLeading) {
                 if index == 0 {
-                    Text("Principale")
+                    Text(i18n.t("deposer.photo_main"))
                         .font(.system(size: 8, weight: .bold))
                         .padding(.horizontal, 4).padding(.vertical, 2)
                         .background(Color.soukmarPrimary)
@@ -286,14 +296,14 @@ struct DeposerAnnonceView: View {
 
     private var contactStep: some View {
         VStack(alignment: .leading, spacing: 14) {
-            labeledField("Téléphone") {
-                TextField("Téléphone", text: $viewModel.phone).textFieldStyle(.roundedBorder).keyboardType(.phonePad)
+            labeledField(i18n.t("deposer.label_phone")) {
+                TextField(i18n.t("deposer.label_phone"), text: $viewModel.phone).textFieldStyle(.roundedBorder).keyboardType(.phonePad)
             }
-            labeledField("WhatsApp") {
+            labeledField(i18n.t("deposer.label_whatsapp")) {
                 TextField("Numéro WhatsApp (optionnel)", text: $viewModel.whatsapp).textFieldStyle(.roundedBorder).keyboardType(.phonePad)
             }
-            Toggle("Afficher mon numéro publiquement", isOn: $viewModel.showPhone)
-            Toggle("Annonce premium (jusqu'à 20 photos)", isOn: $viewModel.isPremium)
+            Toggle(i18n.t("deposer.show_phone_toggle"), isOn: $viewModel.showPhone)
+            Toggle(i18n.t("deposer.premium_toggle"), isOn: $viewModel.isPremium)
         }
     }
 
@@ -307,12 +317,12 @@ struct DeposerAnnonceView: View {
     private var bottomBar: some View {
         HStack {
             if viewModel.step > 0 {
-                Button("Retour") { viewModel.goBack() }
+                Button(i18n.t("deposer.back")) { viewModel.goBack() }
                     .buttonStyle(.bordered)
             }
             Spacer()
             if viewModel.step < DEPOSER_STEPS.count - 1 {
-                Button("Suivant") { viewModel.goNext() }
+                Button(i18n.t("deposer.next")) { viewModel.goNext() }
                     .buttonStyle(.borderedProminent)
                     .tint(Color.soukmarPrimary)
                     .disabled(!viewModel.canNext)
@@ -323,7 +333,7 @@ struct DeposerAnnonceView: View {
                     if viewModel.loading {
                         ProgressView().tint(.white)
                     } else {
-                        Text(viewModel.uploading ? "Envoi des photos..." : "Publier")
+                        Text(viewModel.uploading ? i18n.t("deposer.uploading") : i18n.t("deposer.publish"))
                     }
                 }
                 .buttonStyle(.borderedProminent)

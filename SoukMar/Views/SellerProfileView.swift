@@ -14,13 +14,14 @@ struct SellerProfileView: View {
     var onOpenListing: (String) -> Void
 
     @StateObject private var viewModel = SellerProfileViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         Group {
             if viewModel.loading {
                 ProgressView()
             } else if viewModel.notFound || viewModel.profile == nil {
-                Text("Utilisateur introuvable.").foregroundStyle(.secondary)
+                Text(i18n.t("seller.not_found")).foregroundStyle(.secondary)
             } else if let profile = viewModel.profile {
                 content(for: profile)
             }
@@ -37,9 +38,9 @@ struct SellerProfileView: View {
                 identityCard(for: profile)
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Annonces (\(profile.activeListingsCount))").font(.headline)
+                    Text("\(i18n.t("seller.listings_title")) (\(profile.activeListingsCount))").font(.headline)
                     if viewModel.listings.isEmpty {
-                        Text("Aucune annonce active.").font(.subheadline).foregroundStyle(.secondary)
+                        Text(i18n.t("seller.no_listings")).font(.subheadline).foregroundStyle(.secondary)
                     } else {
                         LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
                             ForEach(viewModel.listings) { listing in
@@ -55,9 +56,9 @@ struct SellerProfileView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Évaluations (\(viewModel.reviews.count))").font(.headline)
+                    Text("\(i18n.t("seller.reviews_title")) (\(viewModel.reviews.count))").font(.headline)
                     if viewModel.reviews.isEmpty {
-                        Text("Aucune évaluation pour le moment.").font(.subheadline).foregroundStyle(.secondary)
+                        Text(i18n.t("seller.no_reviews_yet")).font(.subheadline).foregroundStyle(.secondary)
                     } else {
                         VStack(spacing: 10) {
                             ForEach(viewModel.reviews) { review in
@@ -94,7 +95,7 @@ struct SellerProfileView: View {
                 Text("📍 \(city)").font(.subheadline).foregroundStyle(.secondary)
             }
             if let memberSince = Self.memberSince(profile.createdAt) {
-                Text("Membre depuis \(memberSince)").font(.caption).foregroundStyle(.secondary)
+                Text("\(i18n.t("seller.member_since")) \(memberSince)").font(.caption).foregroundStyle(.secondary)
             }
 
             HStack(spacing: 6) {
@@ -104,12 +105,12 @@ struct SellerProfileView: View {
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.secondary)
                 } else {
-                    Text("Aucune évaluation").font(.subheadline).foregroundStyle(.secondary)
+                    Text(i18n.t("seller.no_reviews")).font(.subheadline).foregroundStyle(.secondary)
                 }
             }
             .padding(.top, 4)
 
-            if let label = Self.responseLabel(profile.avgResponseHours) {
+            if let label = Self.responseLabel(profile.avgResponseHours, i18n: i18n) {
                 Text("⚡ \(label)")
                     .font(.caption.weight(.semibold))
                     .padding(.horizontal, 10).padding(.vertical, 4)
@@ -140,11 +141,11 @@ struct SellerProfileView: View {
     }
 
     /// Mirrors the web's seller.responds_minutes/_hours/_days copy thresholds.
-    private static func responseLabel(_ hours: Double?) -> String? {
+    private static func responseLabel(_ hours: Double?, i18n: I18nRepository) -> String? {
         guard let hours else { return nil }
-        if hours < 1 { return "Répond en quelques minutes" }
-        if hours < 24 { return "Répond généralement en \(Int(hours.rounded())) h" }
-        return "Répond généralement en \(Int((hours / 24).rounded())) j"
+        if hours < 1 { return i18n.t("seller.responds_minutes") }
+        if hours < 24 { return i18n.t("seller.responds_hours", ["hours": String(Int(hours.rounded()))]) }
+        return i18n.t("seller.responds_days", ["days": String(Int((hours / 24).rounded()))])
     }
 }
 
@@ -161,6 +162,7 @@ private struct StarRow: View {
 
 private struct ReviewRow: View {
     let review: ReviewWithDetailsDto
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -179,9 +181,9 @@ private struct ReviewRow: View {
             }
             Group {
                 if let title = review.listing?.title {
-                    Text("📌 \(title) · \(timeAgo(review.createdAt))")
+                    Text("📌 \(title) · \(i18n.timeAgoT(review.createdAt))")
                 } else {
-                    Text(timeAgo(review.createdAt))
+                    Text(i18n.timeAgoT(review.createdAt))
                 }
             }
             .font(.caption2)

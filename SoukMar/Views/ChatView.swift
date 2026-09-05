@@ -6,8 +6,11 @@ import SwiftUI
 struct ChatView: View {
     let conversationId: String
     @StateObject private var viewModel = ChatViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
-    private let quickReplies = ["Toujours disponible ?", "Dernier prix ?", "Toujours intéressé(e) ?", "Merci !"]
+    private var quickReplies: [String] {
+        [i18n.t("chat.quick_available"), i18n.t("chat.quick_last_price"), i18n.t("chat.quick_still_interested"), i18n.t("chat.quick_thanks")]
+    }
 
     var body: some View {
         Group {
@@ -35,9 +38,9 @@ struct ChatView: View {
         .sheet(isPresented: $viewModel.reportOpen) {
             ReportSheetChat(viewModel: viewModel)
         }
-        .alert("Annuler la réservation ?", isPresented: $viewModel.confirmCancelReservation) {
+        .alert("\(i18n.t("chat.cancel_reservation")) ?", isPresented: $viewModel.confirmCancelReservation) {
             Button("Confirmer", role: .destructive) { viewModel.confirmCancelReservationAction() }
-            Button("Annuler", role: .cancel) { viewModel.dismissCancelReservation() }
+            Button(i18n.t("chat.cancel"), role: .cancel) { viewModel.dismissCancelReservation() }
         } message: {
             Text("L'annonce redevient active.")
         }
@@ -46,7 +49,7 @@ struct ChatView: View {
             set: { if !$0 { viewModel.dismissCancelOffer() } }
         )) {
             Button("Confirmer", role: .destructive) { viewModel.confirmCancelOffer() }
-            Button("Annuler", role: .cancel) { viewModel.dismissCancelOffer() }
+            Button(i18n.t("chat.cancel"), role: .cancel) { viewModel.dismissCancelOffer() }
         }
         .task { viewModel.load(id: conversationId) }
     }
@@ -55,9 +58,9 @@ struct ChatView: View {
         VStack(spacing: 0) {
             if viewModel.listingStatus == "RESERVED" {
                 HStack {
-                    Text("🔒 Réservée").font(.caption).foregroundStyle(Color.soukmarGold)
+                    Text("🔒 \(i18n.t("chat.reserved_msg")) \(i18n.t("chat.reserved_word"))").font(.caption).foregroundStyle(Color.soukmarGold)
                     Spacer()
-                    Button("Annuler") { viewModel.requestCancelReservation() }.font(.caption)
+                    Button(i18n.t("chat.cancel")) { viewModel.requestCancelReservation() }.font(.caption)
                 }
                 .padding(.horizontal).padding(.vertical, 8)
                 .background(Color.soukmarGoldLight)
@@ -92,9 +95,9 @@ struct ChatView: View {
                     TextField("Montant en MAD", text: $viewModel.offerAmount)
                         .keyboardType(.numberPad)
                         .textFieldStyle(.roundedBorder)
-                    Button("Envoyer") { viewModel.sendOffer() }
+                    Button(i18n.t("chat.send_offer")) { viewModel.sendOffer() }
                         .disabled(viewModel.offerAmount.isEmpty)
-                    Button("Annuler") { viewModel.showOfferInput = false }
+                    Button(i18n.t("chat.cancel")) { viewModel.showOfferInput = false }
                 }
                 .padding()
                 .background(Color.soukmarPrimaryLight)
@@ -118,7 +121,7 @@ struct ChatView: View {
                 } label: {
                     Text("💰").font(.title3)
                 }
-                TextField("Écrire un message...", text: $viewModel.messageText, axis: .vertical)
+                TextField(i18n.t("chat.placeholder"), text: $viewModel.messageText, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(1...4)
                     .onChange(of: viewModel.messageText) { _ in viewModel.onTyping() }
@@ -177,25 +180,25 @@ struct ChatView: View {
         return VStack(alignment: mine ? .trailing : .leading, spacing: 4) {
             Text(formatMsgTime(msg.createdAt)).font(.caption2).foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 6) {
-                Text("💰 Offre").font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarGold)
+                Text("💰 \(i18n.t("chat.offer_price"))").font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarGold)
                 if let amount = msg.offerAmount {
                     let (amountText, _) = formatPriceParts(amount)
                     HStack(alignment: .lastTextBaseline, spacing: 4) {
                         Text(amountText).font(.title3.bold())
-                        Text("MAD").font(.caption2).foregroundStyle(.secondary)
+                        Text(i18n.t("common.mad")).font(.caption2).foregroundStyle(.secondary)
                     }
                 }
                 offerStatusLabel(msg, mine: mine)
                 if viewModel.canRespond(msg) {
                     HStack(spacing: 8) {
-                        Button("✅ Accepter") { viewModel.respondOffer(msg, status: "ACCEPTED") }
+                        Button("✅ \(i18n.t("chat.accept"))") { viewModel.respondOffer(msg, status: "ACCEPTED") }
                             .buttonStyle(.borderedProminent).tint(.green).font(.caption)
-                        Button("❌ Refuser") { viewModel.respondOffer(msg, status: "REJECTED") }
+                        Button("❌ \(i18n.t("chat.reject"))") { viewModel.respondOffer(msg, status: "REJECTED") }
                             .buttonStyle(.borderedProminent).tint(.red).font(.caption)
                     }
                 }
                 if viewModel.canCancel(msg) {
-                    Button("🚫 Annuler l'offre") { viewModel.requestCancelOffer(msg) }
+                    Button("🚫 \(i18n.t("chat.cancel_offer"))") { viewModel.requestCancelOffer(msg) }
                         .buttonStyle(.bordered).font(.caption)
                 }
             }
@@ -211,9 +214,9 @@ struct ChatView: View {
     @ViewBuilder
     private func offerStatusLabel(_ msg: MessageDto, mine: Bool) -> some View {
         switch msg.offerStatus {
-        case "PENDING": Text("⏳ En attente").font(.caption2).foregroundStyle(.secondary)
-        case "ACCEPTED": Text("✅ Acceptée").font(.caption2).foregroundStyle(.green)
-        case "REJECTED": Text(mine ? "🚫 Annulée" : "❌ Refusée").font(.caption2).foregroundStyle(.red)
+        case "PENDING": Text("⏳ \(i18n.t("chat.pending"))").font(.caption2).foregroundStyle(.secondary)
+        case "ACCEPTED": Text("✅ \(i18n.t("chat.accepted"))").font(.caption2).foregroundStyle(.green)
+        case "REJECTED": Text(mine ? "🚫 \(i18n.t("chat.cancelled"))" : "❌ \(i18n.t("chat.rejected"))").font(.caption2).foregroundStyle(.red)
         default: EmptyView()
         }
     }
@@ -235,6 +238,7 @@ struct ChatView: View {
 
 private struct ReportSheetChat: View {
     @ObservedObject var viewModel: ChatViewModel
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         NavigationStack {
@@ -252,7 +256,7 @@ private struct ReportSheetChat: View {
                     if viewModel.reportSubmitting {
                         ProgressView().tint(.white).frame(maxWidth: .infinity)
                     } else {
-                        Text("Envoyer le signalement").frame(maxWidth: .infinity)
+                        Text(i18n.t("report.submit")).frame(maxWidth: .infinity)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -265,7 +269,7 @@ private struct ReportSheetChat: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Annuler") { viewModel.cancelReport() }
+                    Button(i18n.t("chat.cancel")) { viewModel.cancelReport() }
                 }
             }
         }

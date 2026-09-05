@@ -6,6 +6,7 @@ import SwiftUI
 /// notifications, profile menu, admin) land in their own later iOS phases.
 struct HomeView: View {
     @State private var user: UserDto? = TokenStore.shared.cachedUser
+    @ObservedObject private var i18n = I18nRepository.shared
     var onLoggedOut: () -> Void
 
     private enum Route: Hashable {
@@ -44,7 +45,7 @@ struct HomeView: View {
                         } label: {
                             HStack {
                                 Image(systemName: "magnifyingglass")
-                                Text("Rechercher une annonce...")
+                                Text(i18n.t("home.search_placeholder"))
                                 Spacer()
                             }
                             .padding(12)
@@ -56,7 +57,7 @@ struct HomeView: View {
                         .padding(.horizontal)
 
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("Catégories").font(.headline).padding(.horizontal)
+                            Text(i18n.t("nav.categories")).font(.headline).padding(.horizontal)
                             LazyVGrid(columns: columns, spacing: 16) {
                                 ForEach(CATEGORIES) { cat in
                                     Button {
@@ -67,7 +68,7 @@ struct HomeView: View {
                                                 .fill(cat.bg)
                                                 .frame(width: 56, height: 56)
                                                 .overlay(Text(cat.emoji).font(.title2))
-                                            Text(cat.label)
+                                            Text(i18n.tCatalog("cats.\(cat.value)", code: cat.value))
                                                 .font(.caption)
                                                 .foregroundStyle(.primary)
                                                 .multilineTextAlignment(.center)
@@ -101,6 +102,7 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 16) {
+                        LanguageSwitcher()
                         Button {
                             path.append(Route.chatList)
                         } label: {
@@ -141,12 +143,12 @@ struct HomeView: View {
                         Button {
                             path.append(Route.profile)
                         } label: {
-                            Label("Profil", systemImage: "person.circle")
+                            Label(i18n.t("nav.profile"), systemImage: "person.circle")
                         }
                         Button {
                             path.append(Route.savedSearches)
                         } label: {
-                            Label("Recherches sauvegardées", systemImage: "bell")
+                            Label(i18n.t("nav.saved_searches"), systemImage: "bell")
                         }
                         // Mirrors the web navbar's own gating: only ADMIN
                         // sees this entry, even though the backend guard
@@ -156,7 +158,7 @@ struct HomeView: View {
                             Button {
                                 path.append(Route.admin)
                             } label: {
-                                Label("Signalements", systemImage: "shield")
+                                Label(i18n.t("nav.admin"), systemImage: "shield")
                             }
                         }
                         Button(role: .destructive) {
@@ -164,7 +166,7 @@ struct HomeView: View {
                             ChatSocketManager.shared.disconnect()
                             onLoggedOut()
                         } label: {
-                            Label("Se déconnecter", systemImage: "rectangle.portrait.and.arrow.right")
+                            Label(i18n.t("nav.logout"), systemImage: "rectangle.portrait.and.arrow.right")
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")

@@ -6,6 +6,7 @@ import SwiftUI
 struct ListingsView: View {
     @StateObject private var viewModel: ListingsViewModel
     @State private var showFilters = false
+    @ObservedObject private var i18n = I18nRepository.shared
 
     init(initialCategory: String? = nil, savedSearchId: String? = nil) {
         _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId))
@@ -34,7 +35,7 @@ struct ListingsView: View {
                 Spacer()
             } else if viewModel.listings.isEmpty {
                 Spacer()
-                Text("Aucune annonce trouvée.").foregroundStyle(.secondary)
+                Text(i18n.t("annonces.empty")).foregroundStyle(.secondary)
                 Spacer()
             } else {
                 ScrollView {
@@ -59,7 +60,7 @@ struct ListingsView: View {
                 }
             }
         }
-        .navigationTitle("Annonces")
+        .navigationTitle(i18n.t("listing.breadcrumb_listings"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -78,7 +79,7 @@ struct ListingsView: View {
     private var searchBar: some View {
         HStack {
             Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-            TextField("Rechercher une annonce...", text: $viewModel.query)
+            TextField(i18n.t("nav.search_placeholder"), text: $viewModel.query)
                 .textFieldStyle(.plain)
                 .onSubmit { viewModel.search() }
                 .submitLabel(.search)
@@ -93,11 +94,11 @@ struct ListingsView: View {
     private var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ChipView(label: "Tout", emoji: nil, selected: viewModel.selectedCategory == nil) {
+                ChipView(label: i18n.t("nav.all"), emoji: nil, selected: viewModel.selectedCategory == nil) {
                     viewModel.setCategory(nil)
                 }
                 ForEach(CATEGORIES) { cat in
-                    ChipView(label: cat.label, emoji: cat.emoji, selected: viewModel.selectedCategory == cat.value) {
+                    ChipView(label: i18n.tCatalog("cats.\(cat.value)", code: cat.value), emoji: cat.emoji, selected: viewModel.selectedCategory == cat.value) {
                         viewModel.setCategory(cat.value)
                     }
                 }
@@ -110,7 +111,7 @@ struct ListingsView: View {
     @ViewBuilder
     private var saveSearchSection: some View {
         if viewModel.searchSaved {
-            Text("✅ Recherche enregistrée")
+            Text("✅ \(i18n.t("annonces.search_saved"))")
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.green)
                 .padding(.horizontal)
@@ -118,10 +119,10 @@ struct ListingsView: View {
         } else if viewModel.showSaveSearchForm {
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    TextField("Nom de la recherche", text: $viewModel.newSearchName)
+                    TextField(i18n.t("annonces.save_search_name"), text: $viewModel.newSearchName)
                         .textFieldStyle(.roundedBorder)
-                    Button("Annuler") { viewModel.cancelSaveSearch() }
-                    Button(viewModel.savingSearch ? "…" : "Enregistrer") { viewModel.saveSearch() }
+                    Button(i18n.t("common.cancel")) { viewModel.cancelSaveSearch() }
+                    Button(viewModel.savingSearch ? "…" : i18n.t("common.save")) { viewModel.saveSearch() }
                         .disabled(viewModel.newSearchName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.savingSearch)
                 }
                 if let error = viewModel.saveSearchError {
@@ -131,7 +132,7 @@ struct ListingsView: View {
             .padding(.horizontal)
             .padding(.bottom, 6)
         } else {
-            Button("🔔 Enregistrer cette recherche") { viewModel.showSaveSearchForm = true }
+            Button("🔔 \(i18n.t("annonces.save_search"))") { viewModel.showSaveSearchForm = true }
                 .font(.caption.weight(.medium))
                 .padding(.horizontal)
                 .padding(.bottom, 6)
@@ -179,25 +180,26 @@ private struct ChipView: View {
 private struct FiltersSheet: View {
     @ObservedObject var viewModel: ListingsViewModel
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("Prix (MAD)") {
+                Section(i18n.t("annonces.price")) {
                     HStack {
-                        TextField("Min", text: $viewModel.minPrice).keyboardType(.numberPad)
-                        TextField("Max", text: $viewModel.maxPrice).keyboardType(.numberPad)
+                        TextField(i18n.t("annonces.min"), text: $viewModel.minPrice).keyboardType(.numberPad)
+                        TextField(i18n.t("annonces.max"), text: $viewModel.maxPrice).keyboardType(.numberPad)
                     }
                 }
 
                 if !viewModel.subcategories.isEmpty {
-                    Section("Sous-catégorie") {
+                    Section(i18n.t("annonces.subcategory")) {
                         ForEach(viewModel.subcategories) { sub in
                             Button {
                                 viewModel.setSubcategory(sub.id)
                             } label: {
                                 HStack {
-                                    Text(humanizeCode(sub.code))
+                                    Text(i18n.tCatalog("subcats.\(sub.code)", code: sub.code))
                                     Spacer()
                                     if viewModel.selectedSubcategoryId == sub.id {
                                         Image(systemName: "checkmark").foregroundStyle(Color.soukmarPrimary)
@@ -210,21 +212,21 @@ private struct FiltersSheet: View {
                 }
 
                 ForEach(viewModel.filterableAttributes) { attr in
-                    Section(humanizeCode(attr.code)) {
+                    Section(i18n.tCatalog("attrs.\(attr.code)", code: attr.code)) {
                         attributeFilter(attr)
                     }
                 }
             }
-            .navigationTitle("Filtres")
+            .navigationTitle(i18n.t("annonces.filters"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Réinitialiser") {
+                    Button(i18n.t("annonces.reset")) {
                         viewModel.clearFilters()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("OK") {
+                    Button(i18n.t("annonces.apply")) {
                         viewModel.applyAttrRange()
                         dismiss()
                     }
@@ -242,7 +244,7 @@ private struct FiltersSheet: View {
                     viewModel.toggleAttrOption(code: attr.code, option: option)
                 } label: {
                     HStack {
-                        Text(humanizeCode(option))
+                        Text(i18n.tCatalog("attrs.opts.\(option)", code: option))
                         Spacer()
                         if viewModel.attrSelections[attr.code]?.contains(option) == true {
                             Image(systemName: "checkmark").foregroundStyle(Color.soukmarPrimary)
@@ -256,7 +258,7 @@ private struct FiltersSheet: View {
                 viewModel.toggleAttrOption(code: attr.code, option: "true")
             } label: {
                 HStack {
-                    Text("Oui")
+                    Text(i18n.t("common.yes"))
                     Spacer()
                     if viewModel.attrSelections[attr.code]?.contains("true") == true {
                         Image(systemName: "checkmark").foregroundStyle(Color.soukmarPrimary)
@@ -266,11 +268,11 @@ private struct FiltersSheet: View {
             .foregroundStyle(.primary)
         case "NUMBER":
             HStack {
-                TextField("Min", text: Binding(
+                TextField(i18n.t("annonces.min"), text: Binding(
                     get: { viewModel.attrRanges[attr.code]?.min ?? "" },
                     set: { viewModel.setAttrRange(code: attr.code, min: $0, max: viewModel.attrRanges[attr.code]?.max ?? "") }
                 )).keyboardType(.decimalPad)
-                TextField("Max", text: Binding(
+                TextField(i18n.t("annonces.max"), text: Binding(
                     get: { viewModel.attrRanges[attr.code]?.max ?? "" },
                     set: { viewModel.setAttrRange(code: attr.code, min: viewModel.attrRanges[attr.code]?.min ?? "", max: $0) }
                 )).keyboardType(.decimalPad)

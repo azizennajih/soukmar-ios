@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ForgotPasswordView: View {
     @StateObject private var viewModel = ForgotPasswordViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
     var onBackToLogin: () -> Void
 
     var body: some View {
@@ -9,15 +10,15 @@ struct ForgotPasswordView: View {
             SoukMarLogo().padding(.top, 32)
 
             VStack(spacing: 4) {
-                Text("Mot de passe oublié ?").font(.title2.bold())
-                Text("Entrez votre email, nous vous enverrons un lien de réinitialisation.")
+                Text(i18n.t("auth.forgot_title")).font(.title2.bold())
+                Text(i18n.t("auth.forgot_sub"))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
 
             if viewModel.sent {
-                SuccessBanner(message: "Si un compte existe pour \(viewModel.email), un email avec un lien de réinitialisation vient d'être envoyé.")
-                Button("Retour à la connexion") { onBackToLogin() }
+                SuccessBanner(message: i18n.t("auth.forgot_sent", ["email": viewModel.email]))
+                Button(i18n.t("auth.back_to_login")) { onBackToLogin() }
                     .buttonStyle(.borderedProminent)
                     .tint(Color.soukmarPrimary)
                     .controlSize(.large)
@@ -25,7 +26,7 @@ struct ForgotPasswordView: View {
                 if let error = viewModel.errorMessage {
                     ErrorBanner(message: error)
                 }
-                TextField("Email", text: $viewModel.email)
+                TextField(i18n.t("auth.email"), text: $viewModel.email)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
                     .keyboardType(.emailAddress)
@@ -37,7 +38,7 @@ struct ForgotPasswordView: View {
                     if viewModel.loading {
                         ProgressView().tint(.white)
                     } else {
-                        Text("Envoyer le lien").frame(maxWidth: .infinity)
+                        Text(i18n.t("auth.forgot_btn")).frame(maxWidth: .infinity)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -45,7 +46,7 @@ struct ForgotPasswordView: View {
                 .controlSize(.large)
                 .disabled(viewModel.loading)
 
-                Button("Retour à la connexion", action: onBackToLogin)
+                Button(i18n.t("auth.back_to_login"), action: onBackToLogin)
             }
             Spacer()
         }

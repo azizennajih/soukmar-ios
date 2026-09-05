@@ -7,6 +7,7 @@ struct SavedSearchesView: View {
     var onOpenSearch: (String) -> Void
 
     @StateObject private var viewModel = SavedSearchesViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         Group {
@@ -25,7 +26,7 @@ struct SavedSearchesView: View {
                 }
             }
         }
-        .navigationTitle("Recherches sauvegardées (\(viewModel.searches.count))")
+        .navigationTitle("\(i18n.t("saved_searches.title")) (\(viewModel.searches.count))")
         .navigationBarTitleDisplayMode(.inline)
         .task { viewModel.load() }
     }
@@ -33,8 +34,8 @@ struct SavedSearchesView: View {
     private var emptyState: some View {
         VStack(spacing: 8) {
             Text("🔔").font(.system(size: 40))
-            Text("Aucune recherche sauvegardée").font(.title3.bold())
-            Text("Enregistrez une recherche depuis la liste des annonces pour la retrouver ici.")
+            Text(i18n.t("saved_searches.empty")).font(.title3.bold())
+            Text(i18n.t("saved_searches.empty_sub"))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -48,16 +49,18 @@ private struct SavedSearchRow: View {
     let onOpen: () -> Void
     let onDelete: () -> Void
 
+    @ObservedObject private var i18n = I18nRepository.shared
+
     private var cat: CategoryConfig? { search.category.flatMap(categoryConfig) }
 
     private var meta: [String] {
         var parts: [String] = []
-        if let cat { parts.append("\(cat.emoji) \(cat.label)") }
+        if let cat { parts.append("\(cat.emoji) \(i18n.tCatalog("cats.\(cat.value)", code: cat.value))") }
         if let city = search.city { parts.append("📍 \(city)") }
         if search.minPrice != nil || search.maxPrice != nil {
             let min = search.minPrice.map(Self.formatPlain) ?? "0"
             let max = search.maxPrice.map(Self.formatPlain) ?? "∞"
-            parts.append("\(min)–\(max) MAD")
+            parts.append("\(min)–\(max) \(i18n.t("common.mad"))")
         }
         return parts
     }

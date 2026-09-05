@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
     var onLoginSuccess: () -> Void
     var onNavigateToRegister: () -> Void = {}
     var onNavigateToForgotPassword: () -> Void = {}
@@ -12,10 +13,12 @@ struct LoginView: View {
                 SoukMarLogo()
                     .padding(.top, 32)
 
+                LanguageSwitcher()
+
                 VStack(spacing: 4) {
-                    Text("Bon retour !")
+                    Text(i18n.t("auth.login_title"))
                         .font(.title2.bold())
-                    Text("Connectez-vous à votre compte")
+                    Text(i18n.t("auth.login_sub"))
                         .foregroundStyle(.secondary)
                 }
 
@@ -25,9 +28,9 @@ struct LoginView: View {
 
                 if let unverified = viewModel.unverifiedEmail {
                     if viewModel.resendOk {
-                        SuccessBanner(message: "Email renvoyé !")
+                        SuccessBanner(message: i18n.t("auth.verify_resend_ok"))
                     } else {
-                        Button(viewModel.resendLoading ? "Envoi..." : "Renvoyer l'email de confirmation") {
+                        Button(viewModel.resendLoading ? "…" : i18n.t("auth.unverified_resend")) {
                             viewModel.resendVerification()
                         }
                         .disabled(viewModel.resendLoading)
@@ -36,19 +39,19 @@ struct LoginView: View {
                 }
 
                 VStack(spacing: 12) {
-                    TextField("Email", text: $viewModel.email)
+                    TextField(i18n.t("auth.email"), text: $viewModel.email)
                         .textFieldStyle(.roundedBorder)
                         .textInputAutocapitalization(.never)
                         .keyboardType(.emailAddress)
                         .autocorrectionDisabled()
 
-                    SecureField("Mot de passe", text: $viewModel.password)
+                    SecureField(i18n.t("auth.password"), text: $viewModel.password)
                         .textFieldStyle(.roundedBorder)
                 }
 
                 HStack {
                     Spacer()
-                    Button("Mot de passe oublié ?", action: onNavigateToForgotPassword)
+                    Button(i18n.t("auth.forgot"), action: onNavigateToForgotPassword)
                         .font(.footnote)
                 }
 
@@ -58,7 +61,7 @@ struct LoginView: View {
                     if viewModel.loading {
                         ProgressView().tint(.white)
                     } else {
-                        Text("Se connecter").frame(maxWidth: .infinity)
+                        Text(i18n.t("auth.login_btn")).frame(maxWidth: .infinity)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -67,8 +70,8 @@ struct LoginView: View {
                 .disabled(viewModel.loading)
 
                 HStack(spacing: 4) {
-                    Text("Pas encore de compte ?").foregroundStyle(.secondary)
-                    Button("S'inscrire gratuitement", action: onNavigateToRegister)
+                    Text(i18n.t("auth.no_account")).foregroundStyle(.secondary)
+                    Button(i18n.t("auth.register_link"), action: onNavigateToRegister)
                         .fontWeight(.bold)
                 }
                 .font(.footnote)

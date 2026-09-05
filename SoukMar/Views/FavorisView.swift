@@ -7,6 +7,7 @@ struct FavorisView: View {
     var onBrowse: () -> Void
 
     @StateObject private var viewModel = FavorisViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
@@ -46,7 +47,7 @@ struct FavorisView: View {
                 }
             }
         }
-        .navigationTitle("Mes favoris (\(viewModel.listings.count))")
+        .navigationTitle("\(i18n.t("mes_favoris.title")) (\(viewModel.listings.count))")
         .navigationBarTitleDisplayMode(.inline)
         .task { viewModel.load() }
     }
@@ -54,11 +55,11 @@ struct FavorisView: View {
     private var emptyState: some View {
         VStack(spacing: 8) {
             Text("🤍").font(.system(size: 40))
-            Text("Aucun favori").font(.title3.bold())
-            Text("Ajoutez des annonces à vos favoris pour les retrouver ici.")
+            Text(i18n.t("mes_favoris.empty")).font(.title3.bold())
+            Text(i18n.t("mes_favoris.empty_sub"))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            Button("Parcourir les annonces", action: onBrowse)
+            Button(i18n.t("mes_favoris.browse_btn"), action: onBrowse)
                 .buttonStyle(.borderedProminent)
                 .tint(Color.soukmarPrimary)
                 .padding(.top, 8)

@@ -5,6 +5,8 @@ import SwiftUI
 struct ListingCardView: View {
     let listing: ListingDto
 
+    @ObservedObject private var i18n = I18nRepository.shared
+
     private var cat: CategoryConfig? { categoryConfig(listing.category) }
 
     var body: some View {
@@ -27,7 +29,7 @@ struct ListingCardView: View {
                 }
 
                 if listing.isPremium {
-                    Text("⭐ Premium")
+                    Text("⭐ \(i18n.t("listing.premium_badge"))")
                         .font(.caption2.bold())
                         .padding(.horizontal, 8).padding(.vertical, 4)
                         .background(Color.soukmarGold)
@@ -48,13 +50,13 @@ struct ListingCardView: View {
                 (Text(amount + " ").font(.subheadline.bold()) + Text(currency).font(.caption))
                     .foregroundStyle(Color.soukmarPrimary)
             } else {
-                Text("Prix sur demande").font(.subheadline.bold()).foregroundStyle(Color.soukmarPrimary)
+                Text(i18n.t("listing.negotiate")).font(.subheadline.bold()).foregroundStyle(Color.soukmarPrimary)
             }
 
             HStack(spacing: 4) {
                 Text(listing.city)
                 Text("·")
-                Text(timeAgo(listing.createdAt))
+                Text(i18n.timeAgoT(listing.createdAt))
             }
             .font(.caption)
             .foregroundStyle(Color.soukmarTextMuted)

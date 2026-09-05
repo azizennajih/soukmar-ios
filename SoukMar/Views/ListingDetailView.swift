@@ -14,13 +14,14 @@ struct ListingDetailView: View {
     var onOpenSeller: (String) -> Void = { _ in }
 
     @StateObject private var viewModel = ListingDetailViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         Group {
             if viewModel.loading {
                 ProgressView()
             } else if viewModel.loadError || viewModel.listing == nil {
-                Text("Annonce introuvable.").foregroundStyle(.secondary)
+                Text(i18n.t("listing.not_found")).foregroundStyle(.secondary)
             } else if let listing = viewModel.listing {
                 content(for: listing)
             }
@@ -66,9 +67,9 @@ struct ListingDetailView: View {
                     HStack(spacing: 6) {
                         Text(listing.city)
                         Text("·")
-                        Text(timeAgo(listing.createdAt))
+                        Text(i18n.timeAgoT(listing.createdAt))
                         Text("·")
-                        Text("\(listing.views) vues")
+                        Text("\(listing.views) \(i18n.t("listing.views"))")
                     }
                     .font(.caption)
                     .foregroundStyle(Color.soukmarTextMuted)
@@ -78,7 +79,7 @@ struct ListingDetailView: View {
                     if let cat = categoryConfig(listing.category) {
                         HStack(spacing: 4) {
                             Text(cat.emoji)
-                            Text(cat.label)
+                            Text(i18n.tCatalog("cats.\(cat.value)", code: cat.value))
                         }
                         .font(.caption.weight(.semibold))
                         .padding(.horizontal, 10).padding(.vertical, 4)
@@ -91,7 +92,7 @@ struct ListingDetailView: View {
 
                 if !listing.description.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Description").font(.headline)
+                        Text(i18n.t("listing.description")).font(.headline)
                         Text(listing.description).foregroundStyle(.primary)
                     }
                     .padding(.horizontal)
@@ -99,7 +100,7 @@ struct ListingDetailView: View {
 
                 if !listing.attributeValues.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Caractéristiques").font(.headline)
+                        Text(i18n.t("listing.specs_title")).font(.headline)
                         VStack(spacing: 0) {
                             ForEach(listing.attributeValues) { av in
                                 specRow(av)
@@ -135,7 +136,7 @@ struct ListingDetailView: View {
                 ErrorBanner(message: message)
             }
             if !viewModel.isLoggedIn {
-                Text("Connectez-vous pour contacter le vendeur.")
+                Text(i18n.t("listing.login_contact"))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             } else {
@@ -161,7 +162,7 @@ struct ListingDetailView: View {
                     if viewModel.chatStarting {
                         ProgressView().tint(.white).frame(maxWidth: .infinity)
                     } else {
-                        Text("💬 Contacter le vendeur").frame(maxWidth: .infinity)
+                        Text("💬 \(i18n.t("listing.contact"))").frame(maxWidth: .infinity)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -187,7 +188,7 @@ struct ListingDetailView: View {
                 }
             }
             Spacer()
-            Button("Voir ses annonces") {
+            Button(i18n.t("listing.seller_listings")) {
                 onOpenSeller(seller.id)
             }
             .font(.caption.weight(.semibold))
@@ -233,14 +234,14 @@ struct ListingDetailView: View {
                 Text(amount).font(.title2.bold())
                 Text(currency).font(.subheadline.weight(.semibold)).foregroundStyle(Color.soukmarTextMuted)
             } else {
-                Text("Prix à négocier").font(.title2.bold())
+                Text(i18n.t("listing.negotiate")).font(.title2.bold())
             }
         }
         if let pct = viewModel.priceComparisonPct {
             let good = pct < 0
             Text(good
-                ? "📉 \(-pct)% moins cher que la moyenne"
-                : "📈 \(pct)% plus cher que la moyenne"
+                ? "📉 \(i18n.t("listing.price_below", ["pct": "\(-pct)"]))"
+                : "📈 \(i18n.t("listing.price_above", ["pct": "\(pct)"]))"
             )
             .font(.caption.weight(.semibold))
             .foregroundStyle(good ? .green : (pct > 10 ? .red : Color.soukmarTextMuted))
@@ -249,14 +250,14 @@ struct ListingDetailView: View {
 
     private func specRow(_ av: ListingAttributeValueDto) -> some View {
         let def = av.attributeDefinition
-        let label = def.map { humanizeCode($0.code) } ?? ""
+        let label = def.map { i18n.tCatalog("attrs.\($0.code)", code: $0.code) } ?? ""
         let value: String = {
             switch def?.type {
-            case "BOOLEAN": return (av.valueBoolean == true) ? "Oui" : "Non"
+            case "BOOLEAN": return (av.valueBoolean == true) ? i18n.t("common.yes") : i18n.t("common.no")
             case "NUMBER":
                 guard let n = av.valueNumber else { return "" }
                 return n == n.rounded() ? String(Int(n)) : String(n)
-            case "SELECT": return av.valueText.map(humanizeCode) ?? ""
+            case "SELECT": return av.valueText.map { i18n.tCatalog("attrs.opts.\($0)", code: $0) } ?? ""
             default: return av.valueText ?? ""
             }
         }()
@@ -272,11 +273,11 @@ struct ListingDetailView: View {
     @ViewBuilder
     private var reviewSection: some View {
         if viewModel.reviewSubmitted {
-            SuccessBanner(message: "Merci pour votre évaluation !").padding(.horizontal)
+            SuccessBanner(message: i18n.t("listing.review_thanks")).padding(.horizontal)
         } else if viewModel.canReview {
             VStack(alignment: .leading, spacing: 10) {
                 if viewModel.showReviewForm {
-                    Text("Laisser une évaluation").font(.headline)
+                    Text(i18n.t("listing.leave_review")).font(.headline)
                     HStack(spacing: 4) {
                         ForEach(1...5, id: \.self) { star in
                             Image(systemName: star <= viewModel.reviewRating ? "star.fill" : "star")
@@ -284,7 +285,7 @@ struct ListingDetailView: View {
                                 .onTapGesture { viewModel.reviewRating = star }
                         }
                     }
-                    TextField("Commentaire (optionnel)", text: $viewModel.reviewComment, axis: .vertical)
+                    TextField(i18n.t("listing.review_placeholder"), text: $viewModel.reviewComment, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .lineLimit(3...6)
                     Button {
@@ -293,14 +294,14 @@ struct ListingDetailView: View {
                         if viewModel.reviewSubmitting {
                             ProgressView().tint(.white).frame(maxWidth: .infinity)
                         } else {
-                            Text("Envoyer").frame(maxWidth: .infinity)
+                            Text(i18n.t("listing.submit_review")).frame(maxWidth: .infinity)
                         }
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(Color.soukmarPrimary)
                     .disabled(viewModel.reviewSubmitting)
                 } else {
-                    Button("Laisser une évaluation") { viewModel.showReviewForm = true }
+                    Button(i18n.t("listing.leave_review")) { viewModel.showReviewForm = true }
                         .buttonStyle(.bordered)
                 }
             }
@@ -311,16 +312,17 @@ struct ListingDetailView: View {
 
 private struct ReportSheet: View {
     @ObservedObject var viewModel: ListingDetailViewModel
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Pourquoi signalez-vous cette annonce ?")
+                Text(i18n.t("report.form_title"))
                     .font(.headline)
                 if let error = viewModel.reportError {
                     ErrorBanner(message: error)
                 }
-                TextField("Décrivez la raison (10 caractères min.)", text: $viewModel.reportReason, axis: .vertical)
+                TextField(i18n.t("report.placeholder"), text: $viewModel.reportReason, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(4...8)
                 Button {
@@ -329,7 +331,7 @@ private struct ReportSheet: View {
                     if viewModel.reportSubmitting {
                         ProgressView().tint(.white).frame(maxWidth: .infinity)
                     } else {
-                        Text("Envoyer le signalement").frame(maxWidth: .infinity)
+                        Text(i18n.t("report.submit")).frame(maxWidth: .infinity)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -342,7 +344,7 @@ private struct ReportSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Annuler") { viewModel.cancelReport() }
+                    Button(i18n.t("common.cancel")) { viewModel.cancelReport() }
                 }
             }
         }

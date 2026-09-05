@@ -6,6 +6,7 @@ import PhotosUI
 struct ProfilView: View {
     @StateObject private var viewModel = ProfilViewModel()
     @State private var avatarItem: PhotosPickerItem?
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         Group {
@@ -81,7 +82,7 @@ struct ProfilView: View {
             Text(profile.name).font(.headline)
             Text(profile.email).font(.caption).foregroundStyle(.secondary)
             if profile.role == "ADMIN" {
-                Text("🛡️ Admin")
+                Text(i18n.t("profil.role_admin"))
                     .font(.caption2.bold())
                     .padding(.horizontal, 10).padding(.vertical, 4)
                     .background(Color.soukmarGoldLight)
@@ -97,7 +98,7 @@ struct ProfilView: View {
 
     private var editForm: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Modifier le profil").font(.headline)
+            Text(i18n.t("profil.edit_title")).font(.headline)
 
             if let success = viewModel.successMessage {
                 SuccessBanner(message: success)
@@ -106,15 +107,15 @@ struct ProfilView: View {
                 ErrorBanner(message: error)
             }
 
-            TextField("Nom", text: $viewModel.name).textFieldStyle(.roundedBorder)
+            TextField(i18n.t("profil.name"), text: $viewModel.name).textFieldStyle(.roundedBorder)
             TextField("Email", text: .constant(viewModel.profile?.email ?? ""))
                 .textFieldStyle(.roundedBorder)
                 .disabled(true)
                 .foregroundStyle(.secondary)
-            TextField("Téléphone", text: $viewModel.phone)
+            TextField(i18n.t("profil.phone"), text: $viewModel.phone)
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.phonePad)
-            TextField("Ville", text: $viewModel.city).textFieldStyle(.roundedBorder)
+            TextField(i18n.t("profil.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
 
             Button {
                 viewModel.saveProfile()
@@ -122,7 +123,7 @@ struct ProfilView: View {
                 if viewModel.saving {
                     ProgressView().tint(.white).frame(maxWidth: .infinity)
                 } else {
-                    Text("Enregistrer").frame(maxWidth: .infinity)
+                    Text(i18n.t("profil.save")).frame(maxWidth: .infinity)
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -136,7 +137,7 @@ struct ProfilView: View {
 
     private var passwordForm: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Changer le mot de passe").font(.headline)
+            Text(i18n.t("profil.change_password_title")).font(.headline)
 
             if let success = viewModel.pwSuccessMessage {
                 SuccessBanner(message: success)
@@ -145,9 +146,9 @@ struct ProfilView: View {
                 ErrorBanner(message: error)
             }
 
-            SecureField("Mot de passe actuel", text: $viewModel.currentPassword).textFieldStyle(.roundedBorder)
-            SecureField("Nouveau mot de passe", text: $viewModel.newPassword).textFieldStyle(.roundedBorder)
-            SecureField("Confirmer le nouveau mot de passe", text: $viewModel.confirmPassword).textFieldStyle(.roundedBorder)
+            SecureField(i18n.t("profil.current_password"), text: $viewModel.currentPassword).textFieldStyle(.roundedBorder)
+            SecureField(i18n.t("profil.new_password"), text: $viewModel.newPassword).textFieldStyle(.roundedBorder)
+            SecureField(i18n.t("profil.confirm_password"), text: $viewModel.confirmPassword).textFieldStyle(.roundedBorder)
 
             Button {
                 viewModel.changePassword()
@@ -155,7 +156,7 @@ struct ProfilView: View {
                 if viewModel.pwSaving {
                     ProgressView().tint(.white).frame(maxWidth: .infinity)
                 } else {
-                    Text("Modifier le mot de passe").frame(maxWidth: .infinity)
+                    Text(i18n.t("profil.change_password_btn")).frame(maxWidth: .infinity)
                 }
             }
             .buttonStyle(.borderedProminent)

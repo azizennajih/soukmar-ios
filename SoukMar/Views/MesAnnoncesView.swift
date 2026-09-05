@@ -6,14 +6,14 @@ private struct StatusStyle {
     let fg: Color
 }
 
-private func statusStyle(_ status: String) -> StatusStyle {
+private func statusStyle(_ status: String, _ i18n: I18nRepository) -> StatusStyle {
     switch status {
-    case "ACTIVE": return StatusStyle(label: "Active", bg: Color(hex: 0xDCFCE7), fg: Color(hex: 0x15803D))
-    case "RESERVED": return StatusStyle(label: "Réservée", bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207))
-    case "PENDING": return StatusStyle(label: "En attente", bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207))
-    case "SOLD": return StatusStyle(label: "Vendue", bg: Color(hex: 0xDBEAFE), fg: Color(hex: 0x1D4ED8))
-    case "REJECTED": return StatusStyle(label: "Rejetée", bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
-    case "EXPIRED": return StatusStyle(label: "Expirée", bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
+    case "ACTIVE": return StatusStyle(label: i18n.t("annonces.active"), bg: Color(hex: 0xDCFCE7), fg: Color(hex: 0x15803D))
+    case "RESERVED": return StatusStyle(label: i18n.t("annonces.reserved"), bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207))
+    case "PENDING": return StatusStyle(label: i18n.t("annonces.pending"), bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207))
+    case "SOLD": return StatusStyle(label: i18n.t("annonces.sold"), bg: Color(hex: 0xDBEAFE), fg: Color(hex: 0x1D4ED8))
+    case "REJECTED": return StatusStyle(label: i18n.t("annonces.rejected"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
+    case "EXPIRED": return StatusStyle(label: i18n.t("annonces.expired"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
     default: return StatusStyle(label: status, bg: Color(.secondarySystemBackground), fg: .secondary)
     }
 }
@@ -27,6 +27,7 @@ struct MesAnnoncesView: View {
     var onNewListing: () -> Void
 
     @StateObject private var viewModel = MesAnnoncesViewModel()
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -76,7 +77,7 @@ struct MesAnnoncesView: View {
                     }
             }
         }
-        .navigationTitle("Mes annonces (\(viewModel.listings.count))")
+        .navigationTitle("\(i18n.t("mes_annonces.title")) (\(viewModel.listings.count))")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -87,12 +88,12 @@ struct MesAnnoncesView: View {
                 }
             }
         }
-        .alert("Supprimer cette annonce ?", isPresented: Binding(
+        .alert(i18n.t("mes_annonces.confirm_delete"), isPresented: Binding(
             get: { viewModel.deleteConfirmId != nil },
             set: { if !$0 { viewModel.dismissDelete() } }
         )) {
-            Button("Supprimer", role: .destructive) { viewModel.confirmDelete() }
-            Button("Annuler", role: .cancel) { viewModel.dismissDelete() }
+            Button(i18n.t("mes_annonces.delete"), role: .destructive) { viewModel.confirmDelete() }
+            Button(i18n.t("common.cancel"), role: .cancel) { viewModel.dismissDelete() }
         } message: {
             Text("Cette action est irréversible.")
         }
@@ -102,11 +103,11 @@ struct MesAnnoncesView: View {
     private var emptyState: some View {
         VStack(spacing: 8) {
             Text("📋").font(.system(size: 40))
-            Text("Aucune annonce").font(.title3.bold())
-            Text("Vos annonces publiées apparaîtront ici.")
+            Text(i18n.t("mes_annonces.empty")).font(.title3.bold())
+            Text(i18n.t("mes_annonces.empty_sub"))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            Button("Déposer une annonce", action: onNewListing)
+            Button(i18n.t("mes_annonces.post_btn"), action: onNewListing)
                 .buttonStyle(.borderedProminent)
                 .tint(Color.soukmarPrimary)
                 .padding(.top, 8)
@@ -128,8 +129,10 @@ private struct ListingRow: View {
     let onToggleStats: () -> Void
     let onDelete: () -> Void
 
+    @ObservedObject private var i18n = I18nRepository.shared
+
     private var cat: CategoryConfig? { categoryConfig(listing.category) }
-    private var style: StatusStyle { statusStyle(listing.status) }
+    private var style: StatusStyle { statusStyle(listing.status, i18n) }
     private var canToggleReserve: Bool { listing.status == "ACTIVE" || listing.status == "RESERVED" }
 
     var body: some View {
@@ -171,9 +174,9 @@ private struct ListingRow: View {
                             let (amount, currency) = formatPriceParts(price, currency: listing.currency)
                             Text("\(amount) \(currency)").font(.caption.bold()).foregroundStyle(.primary)
                         } else {
-                            Text("Prix à négocier").font(.caption.bold()).foregroundStyle(.primary)
+                            Text(i18n.t("listing.negotiate")).font(.caption.bold()).foregroundStyle(.primary)
                         }
-                        Text("👁 \(listing.views) vues · 🕐 \(timeAgo(listing.createdAt)) · 📍 \(listing.city)")
+                        Text("👁 \(listing.views) \(i18n.t("listing.views")) · 🕐 \(i18n.timeAgoT(listing.createdAt)) · 📍 \(listing.city)")
                             .font(.caption2)
                             .foregroundStyle(Color.soukmarTextMuted)
                             .lineLimit(1)
@@ -233,10 +236,11 @@ private struct RowActionButton: View {
 
 private struct StatsPanel: View {
     let days: [ViewStatDayDto]?
+    @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Vues (14 derniers jours)").font(.caption.weight(.semibold))
+            Text(i18n.t("mes_annonces.stats_title")).font(.caption.weight(.semibold))
             if let days {
                 let maxCount = max(days.map(\.count).max() ?? 0, 1)
                 HStack(alignment: .bottom, spacing: 3) {
