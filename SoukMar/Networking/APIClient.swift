@@ -54,6 +54,24 @@ final class APIClient {
         try await perform(request(path: path, method: method))
     }
 
+    /// GET with query parameters (e.g. listing filters), decoding a Codable response.
+    func send<Response: Decodable>(path: String, query: [String: String]) async throws -> Response {
+        var components = URLComponents(
+            url: baseURL.appendingPathComponent(path),
+            resolvingAgainstBaseURL: false
+        )!
+        if !query.isEmpty {
+            components.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }
+        }
+        var req = URLRequest(url: components.url!)
+        req.httpMethod = "GET"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token {
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        return try await perform(req)
+    }
+
     private func perform<Response: Decodable>(_ req: URLRequest) async throws -> Response {
         let (data, response): (Data, URLResponse)
         do {
