@@ -1,0 +1,26 @@
+workflows:
+  simulator-build:
+    name: SoukMar — Simulator build (compile check)
+    max_build_duration: 30
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+    scripts:
+      - name: Install XcodeGen
+        script: |
+          brew list xcodegen &>/dev/null || brew install xcodegen
+      - name: Generate Xcode project
+        script: |
+          xcodegen generate
+      - name: Build for iOS Simulator (no code signing needed)
+        script: |
+          xcodebuild build \
+            -project SoukMar.xcodeproj \
+            -scheme SoukMar \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
+    # No `publishing:` section on purpose — this workflow only proves the
+    # app compiles. A second workflow (device-build, code-signed, shipping
+    # to TestFlight) gets added once an Apple Developer Program account and
+    # App Store Connect API key are set up in the Codemagic UI.

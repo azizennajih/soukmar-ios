@@ -1,0 +1,35 @@
+name: SoukMar
+options:
+  bundleIdPrefix: com.soukmar
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  SoukMar:
+    type: application
+    platform: iOS
+    sources:
+      - path: SoukMar
+    info:
+      path: SoukMar/Info.plist
+      properties:
+        CFBundleDisplayName: SoukMar
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.soukmar.app
+        TARGETED_DEVICE_FAMILY: "1,2"
+    scheme:
+      testTargets: []
+      gatherCoverageData: false
