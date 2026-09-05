@@ -1,15 +1,17 @@
 import SwiftUI
 
 /// Mirrors soukmar-android's ListingDetailScreen — gallery, price with
-/// average-price comparison, attributes, favorites, reporting, and contacting
-/// the seller (phone/WhatsApp/chat). The seller profile link is still
-/// deferred (Phase 9 equivalent).
+/// average-price comparison, attributes, favorites, reporting, contacting
+/// the seller (phone/WhatsApp/chat), and a link to the seller's public
+/// profile.
 struct ListingDetailView: View {
     let listingId: String
-    /// Provided by HomeView so a freshly-started conversation can be pushed
-    /// onto the shared NavigationPath — this view has no path binding of its
-    /// own. Defaults to a no-op for previews/other call sites.
+    /// Both provided by HomeView so a freshly-started conversation, or a tap
+    /// on the seller card, can be pushed onto the shared NavigationPath —
+    /// this view has no path binding of its own. Default to no-ops for
+    /// previews/other call sites.
     var onOpenConversation: (String) -> Void = { _ in }
+    var onOpenSeller: (String) -> Void = { _ in }
 
     @StateObject private var viewModel = ListingDetailViewModel()
 
@@ -114,6 +116,10 @@ struct ListingDetailView: View {
 
                 contactCard(for: listing).padding(.horizontal)
 
+                if let seller = listing.user {
+                    sellerCard(seller).padding(.horizontal)
+                }
+
                 if viewModel.isLoggedIn {
                     reviewSection
                 }
@@ -164,6 +170,30 @@ struct ListingDetailView: View {
             }
         }
         .padding(14)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func sellerCard(_ seller: ListingUserDto) -> some View {
+        HStack(spacing: 12) {
+            Circle()
+                .fill(Color.soukmarPrimary)
+                .frame(width: 44, height: 44)
+                .overlay(Text(seller.name.prefix(1).uppercased()).foregroundStyle(.white).fontWeight(.bold))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(seller.name).font(.subheadline.weight(.semibold))
+                if let city = seller.city {
+                    Text(city).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            Spacer()
+            Button("Voir ses annonces") {
+                onOpenSeller(seller.id)
+            }
+            .font(.caption.weight(.semibold))
+            .buttonStyle(.bordered)
+        }
+        .padding(12)
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }

@@ -170,12 +170,23 @@ struct HomeView: View {
             // navigationDestination(for:) only takes effect while the view
             // that declared it is present in the stack.
             .navigationDestination(for: String.self) { listingId in
-                ListingDetailView(listingId: listingId) { conversationId in
-                    path.append(ConversationRoute(conversationId: conversationId))
-                }
+                ListingDetailView(
+                    listingId: listingId,
+                    onOpenConversation: { conversationId in
+                        path.append(ConversationRoute(conversationId: conversationId))
+                    },
+                    onOpenSeller: { sellerId in
+                        path.append(SellerRoute(sellerId: sellerId))
+                    }
+                )
             }
             .navigationDestination(for: ConversationRoute.self) { route in
                 ChatView(conversationId: route.conversationId)
+            }
+            .navigationDestination(for: SellerRoute.self) { route in
+                SellerProfileView(sellerId: route.sellerId) { listingId in
+                    path.append(listingId)
+                }
             }
             .task {
                 if let refreshed = await AuthRepository.shared.me() {

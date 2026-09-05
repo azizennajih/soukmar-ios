@@ -33,4 +33,15 @@ final class ReviewRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    func getForUser(userId: String) async -> Result<ReviewsForUserResponse, APIError> {
+        do {
+            let response: ReviewsForUserResponse = try await api.send(path: "reviews/user/\(userId)")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }
