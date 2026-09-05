@@ -1,9 +1,10 @@
 import Foundation
 
-/// Mirrors soukmar-android's ListingsViewModel — same filter state and
-/// buildParams()/search()/loadMore() contract against GET /api/listings.
-/// Saved-search integration is a later iOS phase (Android Phase 10 equivalent),
-/// so it's intentionally omitted here.
+/// Mirrors soukmar-android's ListingsViewModel — same filter state,
+/// buildParams()/search()/loadMore() contract against GET /api/listings,
+/// and saved-search save/restore (Android Phase 10 equivalent). No city
+/// filter exists here (never did on Android either) so a saved search's
+/// `city` field is never set on create.
 @MainActor
 final class ListingsViewModel: ObservableObject {
     @Published var query: String = ""
@@ -28,15 +29,25 @@ final class ListingsViewModel: ObservableObject {
     private var page = 1
     @Published private(set) var hasMore = false
 
+    @Published var showSaveSearchForm = false
+    @Published var newSearchName = ""
+    @Published private(set) var savingSearch = false
+    @Published private(set) var searchSaved = false
+    @Published private(set) var saveSearchError: String?
+
     private let listingRepository = ListingRepository.shared
     private let catalogRepository = CatalogRepository.shared
+    private let savedSearchRepository = SavedSearchRepository.shared
 
-    init(initialCategory: String? = nil) {
+    init(initialCategory: String? = nil, savedSearchId: String? = nil) {
         if let initialCategory {
             selectedCategory = initialCategory
             loadCategoryFilters(initialCategory)
         }
         search()
+        if let savedSearchId {
+            applySavedSearchById(savedSearchId)
+        }
     }
 
     func setCategory(_ value: String?) {
@@ -170,6 +181,98 @@ final class ListingsViewModel: ObservableObject {
             }
             loadingMore = false
         }
+    }
+
+    func saveSearch() {
+        let trimmedName = newSearchName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty, !savingSearch else { return }
+        savingSearch = true
+        saveSearchError = nil
+        Task {
+            let attrs: [String: [String]]? = {
+                let filtered = attrSelections.filter { !$0.value.isEmpty }.mapValues { Array($0) }
+                return filtered.isEmpty ? nil : filtered
+            }()
+            let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+            let body = SavedSearchCreateRequest(
+                name: trimmedName,
+                category: selectedCategory,
+                subcategoryId: selectedSubcategoryId,
+                q: trimmedQuery.isEmpty ? nil : trimmedQuery,
+                city: nil,
+                minPrice: Double(minPrice),
+                maxPrice: Double(maxPrice),
+                condition: selectedCondition,
+                attrs: attrs
+            )
+            switch await savedSearchRepository.create(body) {
+            case .success:
+                showSaveSearchForm = false
+                newSearchName = ""
+                searchSaved = true
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                searchSaved = false
+            case .failure(let error):
+                saveSearchError = Self.message(for: error)
+            }
+            savingSearch = false
+        }
+    }
+
+    func cancelSaveSearch() {
+        showSaveSearchForm = false
+        saveSearchError = nil
+        newSearchName = ""
+    }
+
+    /// Re-fetches the user's saved searches to find `id` and re-applies its
+    /// stored filters — there's no GET-by-id endpoint, only the list one.
+    func applySavedSearchById(_ id: String) {
+        Task {
+            switch await savedSearchRepository.getAll() {
+            case .success(let all):
+                if let saved = all.first(where: { $0.id == id }) {
+                    await applySavedSearch(saved)
+                }
+            case .failure:
+                break // fall back to whatever filters are already set
+            }
+        }
+    }
+
+    private func applySavedSearch(_ saved: SavedSearchDto) async {
+        query = saved.q ?? ""
+        minPrice = saved.minPrice.map(Self.formatPlain) ?? ""
+        maxPrice = saved.maxPrice.map(Self.formatPlain) ?? ""
+        selectedCondition = saved.condition
+        selectedSubcategoryId = saved.subcategoryId
+        attrSelections = Dictionary(uniqueKeysWithValues: (saved.attrs ?? [:]).map { ($0.key, Set($0.value)) })
+        attrRanges = [:]
+        selectedCategory = saved.category
+
+        if let category = saved.category {
+            switch await catalogRepository.getCategoryFull(category: category) {
+            case .success(let data):
+                subcategories = data.subcategories
+                if let subcategoryId = saved.subcategoryId {
+                    filterableAttributes = subcategories.first { $0.id == subcategoryId }?
+                        .attributeDefinitions.filter(\.filterable) ?? Self.unionFilterableAttrs(subcategories)
+                } else {
+                    filterableAttributes = Self.unionFilterableAttrs(subcategories)
+                }
+            case .failure:
+                subcategories = []
+                filterableAttributes = []
+            }
+        } else {
+            subcategories = []
+            filterableAttributes = []
+        }
+        search()
+    }
+
+    private static func formatPlain(_ value: Double) -> String {
+        value == value.rounded() ? String(Int(value)) : String(value)
     }
 
     private static func message(for error: APIError) -> String {

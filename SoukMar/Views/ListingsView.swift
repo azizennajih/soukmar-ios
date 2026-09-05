@@ -7,8 +7,8 @@ struct ListingsView: View {
     @StateObject private var viewModel: ListingsViewModel
     @State private var showFilters = false
 
-    init(initialCategory: String? = nil) {
-        _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory))
+    init(initialCategory: String? = nil, savedSearchId: String? = nil) {
+        _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId))
     }
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
@@ -19,6 +19,9 @@ struct ListingsView: View {
             categoryChips
             if let selectedCategory = viewModel.selectedCategory, CONDITION_CATEGORIES.contains(selectedCategory) {
                 conditionChips
+            }
+            if TokenStore.shared.isLoggedIn {
+                saveSearchSection
             }
 
             if let error = viewModel.error {
@@ -101,6 +104,37 @@ struct ListingsView: View {
             }
             .padding(.horizontal)
             .padding(.vertical, 10)
+        }
+    }
+
+    @ViewBuilder
+    private var saveSearchSection: some View {
+        if viewModel.searchSaved {
+            Text("✅ Recherche enregistrée")
+                .font(.caption.weight(.medium))
+                .foregroundStyle(.green)
+                .padding(.horizontal)
+                .padding(.bottom, 6)
+        } else if viewModel.showSaveSearchForm {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    TextField("Nom de la recherche", text: $viewModel.newSearchName)
+                        .textFieldStyle(.roundedBorder)
+                    Button("Annuler") { viewModel.cancelSaveSearch() }
+                    Button(viewModel.savingSearch ? "…" : "Enregistrer") { viewModel.saveSearch() }
+                        .disabled(viewModel.newSearchName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.savingSearch)
+                }
+                if let error = viewModel.saveSearchError {
+                    Text(error).font(.caption2).foregroundStyle(.red)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 6)
+        } else {
+            Button("🔔 Enregistrer cette recherche") { viewModel.showSaveSearchForm = true }
+                .font(.caption.weight(.medium))
+                .padding(.horizontal)
+                .padding(.bottom, 6)
         }
     }
 

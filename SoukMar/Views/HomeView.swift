@@ -9,12 +9,13 @@ struct HomeView: View {
     var onLoggedOut: () -> Void
 
     private enum Route: Hashable {
-        case listings(category: String?)
+        case listings(category: String?, savedSearchId: String?)
         case listingForm(editId: String?)
         case chatList
         case myListings
         case favorites
         case profile
+        case savedSearches
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -36,7 +37,7 @@ struct HomeView: View {
                         }
 
                         Button {
-                            path.append(Route.listings(category: nil))
+                            path.append(Route.listings(category: nil, savedSearchId: nil))
                         } label: {
                             HStack {
                                 Image(systemName: "magnifyingglass")
@@ -56,7 +57,7 @@ struct HomeView: View {
                             LazyVGrid(columns: columns, spacing: 16) {
                                 ForEach(CATEGORIES) { cat in
                                     Button {
-                                        path.append(Route.listings(category: cat.value))
+                                        path.append(Route.listings(category: cat.value, savedSearchId: nil))
                                     } label: {
                                         VStack(spacing: 8) {
                                             Circle()
@@ -123,6 +124,11 @@ struct HomeView: View {
                         } label: {
                             Label("Profil", systemImage: "person.circle")
                         }
+                        Button {
+                            path.append(Route.savedSearches)
+                        } label: {
+                            Label("Recherches sauvegardées", systemImage: "bell")
+                        }
                         Button(role: .destructive) {
                             AuthRepository.shared.logout()
                             ChatSocketManager.shared.disconnect()
@@ -137,8 +143,8 @@ struct HomeView: View {
             }
             .navigationDestination(for: Route.self) { route in
                 switch route {
-                case .listings(let category):
-                    ListingsView(initialCategory: category)
+                case .listings(let category, let savedSearchId):
+                    ListingsView(initialCategory: category, savedSearchId: savedSearchId)
                 case .listingForm(let editId):
                     DeposerAnnonceView(editId: editId) { newListingId in
                         path.removeLast()
@@ -155,10 +161,14 @@ struct HomeView: View {
                 case .favorites:
                     FavorisView(
                         onOpenListing: { id in path.append(id) },
-                        onBrowse: { path.append(Route.listings(category: nil)) }
+                        onBrowse: { path.append(Route.listings(category: nil, savedSearchId: nil)) }
                     )
                 case .profile:
                     ProfilView()
+                case .savedSearches:
+                    SavedSearchesView { savedSearchId in
+                        path.append(Route.listings(category: nil, savedSearchId: savedSearchId))
+                    }
                 }
             }
             // Both registered here, not on a leaf screen, so they apply
