@@ -11,7 +11,11 @@ struct HomeView: View {
     private enum Route: Hashable {
         case listings(category: String?)
     }
-    @State private var path: [Route] = []
+    // NavigationPath (type-erased), not a plain [Route] array: ListingsView
+    // pushes a String (listing id) further down this same stack for
+    // ListingDetailView, and a homogeneous typed array can only carry one
+    // destination type for the whole stack.
+    @State private var path = NavigationPath()
 
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 

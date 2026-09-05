@@ -2,8 +2,7 @@ import SwiftUI
 
 /// Mirrors soukmar-android's ListingsScreen — category/subcategory/condition
 /// chips, price range, dynamic EAV attribute filters, and paginated results.
-/// Tapping a card does nothing yet: listing detail is a later iOS phase
-/// (Android Phase 3 equivalent), same intentional gap as Home's placeholder.
+/// Tapping a card pushes ListingDetailView.
 struct ListingsView: View {
     @StateObject private var viewModel: ListingsViewModel
     @State private var showFilters = false
@@ -38,12 +37,15 @@ struct ListingsView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.listings) { listing in
-                            ListingCardView(listing: listing)
-                                .onAppear {
-                                    if listing.id == viewModel.listings.last?.id {
-                                        viewModel.loadMore()
-                                    }
+                            NavigationLink(value: listing.id) {
+                                ListingCardView(listing: listing)
+                            }
+                            .buttonStyle(.plain)
+                            .onAppear {
+                                if listing.id == viewModel.listings.last?.id {
+                                    viewModel.loadMore()
                                 }
+                            }
                         }
                     }
                     .padding(12)
@@ -53,6 +55,9 @@ struct ListingsView: View {
                     }
                 }
             }
+        }
+        .navigationDestination(for: String.self) { listingId in
+            ListingDetailView(listingId: listingId)
         }
         .navigationTitle("Annonces")
         .navigationBarTitleDisplayMode(.inline)

@@ -27,4 +27,33 @@ final class ListingRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    /// Mirrors Android's getFavoriteIds(): there's no dedicated "is this
+    /// favorited" endpoint, so fetch the full list and test membership.
+    func getFavoriteIds() async -> Set<String> {
+        do {
+            let favorites: [ListingDto] = try await api.send(path: "favorites")
+            return Set(favorites.map(\.id))
+        } catch {
+            return []
+        }
+    }
+
+    func addFavorite(id: String) async -> Bool {
+        do {
+            let _: FavoriteRecordDto = try await api.send(path: "favorites/\(id)", method: "POST")
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    func removeFavorite(id: String) async -> Bool {
+        do {
+            let _: SuccessDto = try await api.send(path: "favorites/\(id)", method: "DELETE")
+            return true
+        } catch {
+            return false
+        }
+    }
 }
