@@ -35,6 +35,20 @@ final class AuthRepository {
         }
     }
 
+    func forgotPassword(email: String) async -> Result<MessageResponse, APIError> {
+        do {
+            let response: MessageResponse = try await api.send(
+                path: "auth/forgot-password", method: "POST",
+                body: ForgotPasswordRequest(email: email)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func resendVerification(email: String) async -> Result<MessageResponse, APIError> {
         do {
             let response: MessageResponse = try await api.send(

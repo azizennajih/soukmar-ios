@@ -44,7 +44,7 @@ Sobald ein Apple Developer Program-Konto existiert: zweiten Workflow (`device-bu
 
 Reihenfolge und Stand:
 
-1. 🟡 **Auth (nur Login voll funktionsfähig)** — `Views/LoginView.swift` + `ViewModels/LoginViewModel.swift`, gegen `POST /api/auth/login`. Register/ForgotPassword/ResetPassword sind aktuell **Stubs ohne UI** (Buttons in `RootView.swift` sind No-ops) — nächste Teilaufgabe dieser Phase, nicht separat gezählt.
+1. ✅ **Auth (Login, Register, Passwort vergessen)** — `Views/LoginView.swift`, `RegisterView.swift`, `ForgotPasswordView.swift` + zugehörige ViewModels, echte Push-Navigation zwischen den dreien via `RootView.swift`'s `AuthFlowView` (`NavigationStack` + Enum-Route, mirrort Androids Login/Register/ForgotPassword-Nav-Graph-Einträge). **ResetPassword fehlt noch** (braucht einen per E-Mail zugestellten Deep-Link-Token — Universal Links/Deep-Linking für iOS ist eigene Recherche, noch nicht angegangen). Noch **ungetestet gegen einen echten Codemagic-Build** nach dem letzten Push — Build davor (nur Login) war grün.
 2. ⬜ Home + Anzeigen durchsuchen/suchen
 3. ⬜ Anzeigendetail
 4. ⬜ Anzeige aufgeben

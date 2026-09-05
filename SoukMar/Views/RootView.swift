@@ -10,12 +10,39 @@ struct RootView: View {
         if isLoggedIn {
             HomeView(onLoggedOut: { isLoggedIn = false })
         } else {
-            NavigationStack {
-                LoginView(
-                    onLoginSuccess: { isLoggedIn = true },
-                    onNavigateToRegister: {},
-                    onNavigateToForgotPassword: {}
-                )
+            AuthFlowView(onLoginSuccess: { isLoggedIn = true })
+        }
+    }
+}
+
+/// Owns the push-navigation stack between Login → Register / Login →
+/// Forgot-password, mirroring the Android nav graph's LOGIN/REGISTER/
+/// FORGOT_PASSWORD routes (minus reset-password, which needs a deep-linked
+/// token from an email and isn't wired up yet).
+private struct AuthFlowView: View {
+    var onLoginSuccess: () -> Void
+
+    private enum Route: Hashable {
+        case register
+        case forgotPassword
+    }
+
+    @State private var path: [Route] = []
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            LoginView(
+                onLoginSuccess: onLoginSuccess,
+                onNavigateToRegister: { path.append(.register) },
+                onNavigateToForgotPassword: { path.append(.forgotPassword) }
+            )
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .register:
+                    RegisterView(onNavigateToLogin: { path.removeAll() })
+                case .forgotPassword:
+                    ForgotPasswordView(onBackToLogin: { path.removeAll() })
+                }
             }
         }
     }
