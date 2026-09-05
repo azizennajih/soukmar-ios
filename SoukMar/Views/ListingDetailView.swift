@@ -1,11 +1,16 @@
 import SwiftUI
 
 /// Mirrors soukmar-android's ListingDetailScreen — gallery, price with
-/// average-price comparison, attributes, favorites, and reporting. "Contacter
-/// le vendeur" (chat) and the seller profile link are intentionally left out:
-/// both are later iOS phases (Android Phase 5/9 equivalents).
+/// average-price comparison, attributes, favorites, reporting, and contacting
+/// the seller (phone/WhatsApp/chat). The seller profile link is still
+/// deferred (Phase 9 equivalent).
 struct ListingDetailView: View {
     let listingId: String
+    /// Provided by HomeView so a freshly-started conversation can be pushed
+    /// onto the shared NavigationPath — this view has no path binding of its
+    /// own. Defaults to a no-op for previews/other call sites.
+    var onOpenConversation: (String) -> Void = { _ in }
+
     @StateObject private var viewModel = ListingDetailViewModel()
 
     var body: some View {
@@ -107,12 +112,60 @@ struct ListingDetailView: View {
                     .padding(.horizontal)
                 }
 
+                contactCard(for: listing).padding(.horizontal)
+
                 if viewModel.isLoggedIn {
                     reviewSection
                 }
             }
             .padding(.vertical)
         }
+    }
+
+    @ViewBuilder
+    private func contactCard(for listing: ListingDto) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if let message = viewModel.chatMessage {
+                ErrorBanner(message: message)
+            }
+            if !viewModel.isLoggedIn {
+                Text("Connectez-vous pour contacter le vendeur.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else {
+                if let phone = listing.phone {
+                    HStack {
+                        Text("📞 \(phone)").fontWeight(.semibold).foregroundStyle(.green)
+                        Spacer()
+                    }
+                    .padding(12)
+                    .background(Color.green.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                if let whatsapp = listing.whatsapp, let url = URL(string: "https://wa.me/\(whatsapp)") {
+                    Link(destination: url) {
+                        Text("💬 WhatsApp · \(whatsapp)")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                }
+                Button {
+                    viewModel.startChat(onNavigate: onOpenConversation)
+                } label: {
+                    if viewModel.chatStarting {
+                        ProgressView().tint(.white).frame(maxWidth: .infinity)
+                    } else {
+                        Text("💬 Contacter le vendeur").frame(maxWidth: .infinity)
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Color.soukmarPrimary)
+                .disabled(viewModel.chatStarting)
+            }
+        }
+        .padding(14)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     @ViewBuilder

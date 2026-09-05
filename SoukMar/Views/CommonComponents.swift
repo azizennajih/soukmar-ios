@@ -4,7 +4,9 @@ import SwiftUI
 /// styles.scss CSS variables — keep these three in sync.
 extension Color {
     static let soukmarPrimary = Color(red: 0xD9 / 255, green: 0x3D / 255, blue: 0x4A / 255)
+    static let soukmarPrimaryLight = Color(red: 0xFE / 255, green: 0xF1 / 255, blue: 0xF2 / 255)
     static let soukmarGold = Color(red: 0xC9 / 255, green: 0x94 / 255, blue: 0x1A / 255)
+    static let soukmarGoldLight = Color(red: 0xFE / 255, green: 0xF6 / 255, blue: 0xE4 / 255)
     static let soukmarTextMuted = Color(red: 0x6B / 255, green: 0x72 / 255, blue: 0x80 / 255)
 }
 

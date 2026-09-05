@@ -11,6 +11,7 @@ struct HomeView: View {
     private enum Route: Hashable {
         case listings(category: String?)
         case newListing
+        case chatList
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -91,9 +92,17 @@ struct HomeView: View {
             }
             .navigationTitle("SoukMar")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        path.append(Route.chatList)
+                    } label: {
+                        Image(systemName: "bubble.left.and.bubble.right")
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Se déconnecter") {
                         AuthRepository.shared.logout()
+                        ChatSocketManager.shared.disconnect()
                         onLoggedOut()
                     }
                 }
@@ -107,15 +116,25 @@ struct HomeView: View {
                         path.removeLast()
                         path.append(newListingId)
                     }
+                case .chatList:
+                    ChatListView()
                 }
             }
-            // Registered here, not on ListingsView, so it applies regardless
-            // of which route pushed a listing id — e.g. DeposerAnnonceView's
-            // onPublished pushes one directly without ListingsView ever
-            // being part of the active stack, and navigationDestination(for:)
-            // only takes effect while the view that declared it is present.
+            // Both registered here, not on a leaf screen, so they apply
+            // regardless of which route pushed the value — e.g.
+            // DeposerAnnonceView's onPublished pushes a listing id directly
+            // without ListingsView ever being part of the active stack, and
+            // ListingDetailView's "Contacter le vendeur" pushes a
+            // ConversationRoute without ChatListView being part of it either.
+            // navigationDestination(for:) only takes effect while the view
+            // that declared it is present in the stack.
             .navigationDestination(for: String.self) { listingId in
-                ListingDetailView(listingId: listingId)
+                ListingDetailView(listingId: listingId) { conversationId in
+                    path.append(ConversationRoute(conversationId: conversationId))
+                }
+            }
+            .navigationDestination(for: ConversationRoute.self) { route in
+                ChatView(conversationId: route.conversationId)
             }
             .task {
                 if let refreshed = await AuthRepository.shared.me() {

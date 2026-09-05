@@ -1,9 +1,8 @@
 import Foundation
 
-/// Mirrors soukmar-android's ListingDetailViewModel. Chat entry ("Contacter
-/// le vendeur") is intentionally left out — chat itself is a later iOS phase
-/// (Android Phase 5 equivalent), same deferred-scope approach as Phase 2's
-/// listing-tap-does-nothing gap it now closes.
+/// Mirrors soukmar-android's ListingDetailViewModel, now including
+/// "Contacter le vendeur" (deferred in Phase 3, unblocked now that chat
+/// exists — Phase 5).
 @MainActor
 final class ListingDetailViewModel: ObservableObject {
     @Published private(set) var listing: ListingDto?
@@ -29,9 +28,13 @@ final class ListingDetailViewModel: ObservableObject {
     @Published private(set) var reportSubmitted = false
     @Published private(set) var reportError: String?
 
+    @Published private(set) var chatStarting = false
+    @Published private(set) var chatMessage: String?
+
     private let listingRepository = ListingRepository.shared
     private let reviewRepository = ReviewRepository.shared
     private let reportRepository = ReportRepository.shared
+    private let chatRepository = ChatRepository.shared
 
     var priceComparisonPct: Int? {
         guard let price = listing?.price, let avg = listing?.avgPrice, avg != 0 else { return nil }
@@ -120,6 +123,23 @@ final class ListingDetailViewModel: ObservableObject {
         reportOpen = false
         reportError = nil
     }
+
+    func startChat(onNavigate: @escaping (String) -> Void) {
+        guard let id = listing?.id, !chatStarting else { return }
+        chatStarting = true
+        chatMessage = nil
+        Task {
+            switch await chatRepository.startConversation(listingId: id) {
+            case .success(let conversation):
+                onNavigate(conversation.id)
+            case .failure(let error):
+                chatMessage = Self.message(for: error)
+            }
+            chatStarting = false
+        }
+    }
+
+    func clearChatMessage() { chatMessage = nil }
 
     private static func message(for error: APIError) -> String {
         switch error {
