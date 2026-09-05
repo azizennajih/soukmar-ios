@@ -13,6 +13,7 @@ struct HomeView: View {
         case listingForm(editId: String?)
         case chatList
         case myListings
+        case favorites
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -105,6 +106,11 @@ struct HomeView: View {
                         } label: {
                             Image(systemName: "list.bullet.rectangle")
                         }
+                        Button {
+                            path.append(Route.favorites)
+                        } label: {
+                            Image(systemName: "heart")
+                        }
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -131,6 +137,11 @@ struct HomeView: View {
                         onOpenListing: { id in path.append(id) },
                         onEditListing: { id in path.append(Route.listingForm(editId: id)) },
                         onNewListing: { path.append(Route.listingForm(editId: nil)) }
+                    )
+                case .favorites:
+                    FavorisView(
+                        onOpenListing: { id in path.append(id) },
+                        onBrowse: { path.append(Route.listings(category: nil)) }
                     )
                 }
             }
