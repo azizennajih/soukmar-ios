@@ -17,6 +17,7 @@ struct HomeView: View {
         case profile
         case savedSearches
         case notifications
+        case admin
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -147,6 +148,17 @@ struct HomeView: View {
                         } label: {
                             Label("Recherches sauvegardées", systemImage: "bell")
                         }
+                        // Mirrors the web navbar's own gating: only ADMIN
+                        // sees this entry, even though the backend guard
+                        // also allows MODERATOR — same intentional
+                        // inconsistency Android kept for parity.
+                        if user?.role == "ADMIN" {
+                            Button {
+                                path.append(Route.admin)
+                            } label: {
+                                Label("Signalements", systemImage: "shield")
+                            }
+                        }
                         Button(role: .destructive) {
                             AuthRepository.shared.logout()
                             ChatSocketManager.shared.disconnect()
@@ -193,6 +205,8 @@ struct HomeView: View {
                         onOpenListing: { id in path.append(id) },
                         onOpenProfil: { path.append(Route.profile) }
                     )
+                case .admin:
+                    AdminView(onOpenListing: { id in path.append(id) })
                 }
             }
             // Both registered here, not on a leaf screen, so they apply
