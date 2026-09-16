@@ -99,12 +99,13 @@ struct ListingDetailView: View {
                 }
 
                 if !listing.attributeValues.isEmpty {
+                    let groups = groupedAttributeValues(listing.attributeValues)
                     VStack(alignment: .leading, spacing: 6) {
                         Text(i18n.t("listing.specs_title")).font(.headline)
                         VStack(spacing: 0) {
-                            ForEach(listing.attributeValues) { av in
-                                specRow(av)
-                                if av.id != listing.attributeValues.last?.id {
+                            ForEach(Array(groups.enumerated()), id: \.offset) { index, group in
+                                specRow(group)
+                                if index != groups.count - 1 {
                                     Divider()
                                 }
                             }
@@ -248,17 +249,52 @@ struct ListingDetailView: View {
         }
     }
 
-    private func specRow(_ av: ListingAttributeValueDto) -> some View {
-        let def = av.attributeDefinition
+    /// MULTI_SELECT stores one row per selected option (same
+    /// attributeDefinitionId, several rows) — group by it first so each
+    /// attribute renders as a single combined row ("Matière: Mathématiques,
+    /// Physique") instead of one row per selected value. Mirrors Android's
+    /// own fix for this exact bug (Tranche 3).
+    private func groupedAttributeValues(_ values: [ListingAttributeValueDto]) -> [[ListingAttributeValueDto]] {
+        var order: [String] = []
+        var groups: [String: [ListingAttributeValueDto]] = [:]
+        for av in values {
+            if groups[av.attributeDefinitionId] == nil { order.append(av.attributeDefinitionId) }
+            groups[av.attributeDefinitionId, default: []].append(av)
+        }
+        return order.compactMap { groups[$0] }
+    }
+
+    private static let dateAttrFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        f.calendar = Calendar(identifier: .gregorian)
+        f.timeZone = TimeZone(identifier: "UTC")
+        return f
+    }()
+
+    private func specRow(_ group: [ListingAttributeValueDto]) -> some View {
+        let def = group.first?.attributeDefinition
         let label = def.map { i18n.tCatalog("attrs.\($0.code)", code: $0.code) } ?? ""
         let value: String = {
             switch def?.type {
-            case "BOOLEAN": return (av.valueBoolean == true) ? i18n.t("common.yes") : i18n.t("common.no")
+            case "BOOLEAN": return (group.first?.valueBoolean == true) ? i18n.t("common.yes") : i18n.t("common.no")
             case "NUMBER":
-                guard let n = av.valueNumber else { return "" }
+                guard let n = group.first?.valueNumber else { return "" }
                 return n == n.rounded() ? String(Int(n)) : String(n)
-            case "SELECT": return av.valueText.map { i18n.tCatalog("attrs.opts.\($0)", code: $0) } ?? ""
-            default: return av.valueText ?? ""
+            case "SELECT": return group.first?.valueText.map { i18n.tCatalog("attrs.opts.\($0)", code: $0) } ?? ""
+            case "MULTI_SELECT":
+                return group.compactMap { $0.valueText }
+                    .map { i18n.tCatalog("attrs.opts.\($0)", code: $0) }
+                    .joined(separator: ", ")
+            case "DATE":
+                guard let raw = group.first?.valueText, let date = Self.dateAttrFormatter.date(from: raw) else {
+                    return group.first?.valueText ?? ""
+                }
+                let display = DateFormatter()
+                display.dateStyle = .medium
+                display.locale = Locale(identifier: i18n.currentLang)
+                return display.string(from: date)
+            default: return group.first?.valueText ?? ""
             }
         }()
         return HStack {

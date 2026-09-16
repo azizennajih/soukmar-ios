@@ -212,6 +212,29 @@ struct DeposerAnnonceView: View {
             ))
             .textFieldStyle(.roundedBorder)
             .keyboardType(.decimalPad)
+        case "MULTI_SELECT":
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(def.options, id: \.self) { option in
+                    let isOn = (viewModel.attrMulti[def.code] ?? []).contains(option)
+                    Button {
+                        viewModel.toggleAttrMulti(def.code, option)
+                    } label: {
+                        HStack {
+                            Image(systemName: isOn ? "checkmark.square.fill" : "square")
+                                .foregroundStyle(isOn ? Color.soukmarPrimary : Color(.systemGray3))
+                            Text(i18n.tCatalog("attrs.opts.\(option)", code: option))
+                                .foregroundStyle(.primary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        case "DATE":
+            DatePicker("", selection: Binding(
+                get: { Self.isoDateFormatter.date(from: viewModel.attrText[def.code] ?? "") ?? Date() },
+                set: { viewModel.attrText[def.code] = Self.isoDateFormatter.string(from: $0) }
+            ), displayedComponents: .date)
+            .labelsHidden()
         default:
             TextField("", text: Binding(
                 get: { viewModel.attrText[def.code] ?? "" },
@@ -220,6 +243,16 @@ struct DeposerAnnonceView: View {
             .textFieldStyle(.roundedBorder)
         }
     }
+
+    /// ISO "yyyy-MM-dd" — matches the backend's `z.iso.date()` expectation
+    /// for DATE attributes (no time component).
+    private static let isoDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter
+    }()
 
     private var photosStep: some View {
         VStack(alignment: .leading, spacing: 12) {

@@ -100,7 +100,7 @@ struct AttributeDefinitionDto: Codable, Identifiable, Equatable {
     let id: String
     let subcategoryId: String
     let code: String
-    /// TEXT | NUMBER | SELECT | BOOLEAN
+    /// TEXT | NUMBER | SELECT | BOOLEAN | MULTI_SELECT | DATE
     let type: String
     var required: Bool = false
     var filterable: Bool = false

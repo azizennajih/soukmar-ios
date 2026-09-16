@@ -51,6 +51,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
     @Published var showPhone = true
     @Published var attrText: [String: String] = [:]
     @Published var attrBool: [String: Bool] = [:]
+    @Published var attrMulti: [String: [String]] = [:]
 
     private let listingRepository = ListingRepository.shared
     private let catalogRepository = CatalogRepository.shared
@@ -85,13 +86,22 @@ final class DeposerAnnonceViewModel: ObservableObject {
         showPhone = listing.showPhone ?? true
         attrText = [:]
         attrBool = [:]
-        for av in listing.attributeValues {
-            guard let code = av.attributeDefinition?.code else { continue }
-            if let b = av.valueBoolean {
+        attrMulti = [:]
+        // MULTI_SELECT produces one row per selected option (same
+        // attributeDefinitionId, several rows) — group by code first so a
+        // naive one-row-per-code assignment doesn't silently drop all but the
+        // last selected value, same bug Android found and fixed in its own
+        // Tranche 3.
+        let withCode = listing.attributeValues.filter { !($0.attributeDefinition?.code ?? "").isEmpty }
+        let grouped = Dictionary(grouping: withCode) { $0.attributeDefinition!.code }
+        for (code, rows) in grouped {
+            if rows.first?.attributeDefinition?.type == "MULTI_SELECT" {
+                attrMulti[code] = rows.compactMap { $0.valueText }
+            } else if let b = rows.first?.valueBoolean {
                 attrBool[code] = b
-            } else if let n = av.valueNumber {
+            } else if let n = rows.first?.valueNumber {
                 attrText[code] = Self.plainNumber(n)
-            } else if let t = av.valueText {
+            } else if let t = rows.first?.valueText {
                 attrText[code] = t
             }
         }
@@ -116,6 +126,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
         subcategoryId = ""
         attrText = [:]
         attrBool = [:]
+        attrMulti = [:]
         attributeDefs = []
         loadingSubcats = true
         Task {
@@ -135,6 +146,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
         subcategoryId = sub.id
         attrText = [:]
         attrBool = [:]
+        attrMulti = [:]
         attributeDefs = sub.attributeDefinitions
         step = 2
     }
@@ -156,6 +168,8 @@ final class DeposerAnnonceViewModel: ObservableObject {
             for def in attributeDefs where def.required {
                 if def.type == "BOOLEAN" {
                     if attrBool[def.code] == nil { return false }
+                } else if def.type == "MULTI_SELECT" {
+                    if (attrMulti[def.code] ?? []).isEmpty { return false }
                 } else if (attrText[def.code] ?? "").isEmpty {
                     return false
                 }
@@ -163,6 +177,16 @@ final class DeposerAnnonceViewModel: ObservableObject {
             return true
         default: return true
         }
+    }
+
+    func toggleAttrMulti(_ code: String, _ option: String) {
+        var current = attrMulti[code] ?? []
+        if let idx = current.firstIndex(of: option) {
+            current.remove(at: idx)
+        } else {
+            current.append(option)
+        }
+        attrMulti[code] = current
     }
 
     func addPhotos(_ newPhotos: [PhotoItem]) {
@@ -220,6 +244,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
             var attributes: [String: AttrValue] = [:]
             for (code, value) in attrText where !value.isEmpty { attributes[code] = .text(value) }
             for (code, value) in attrBool { attributes[code] = .bool(value) }
+            for (code, values) in attrMulti where !values.isEmpty { attributes[code] = .stringArray(values) }
 
             let body = ListingUpsertRequest(
                 title: title,

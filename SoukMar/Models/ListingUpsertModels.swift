@@ -8,12 +8,18 @@ import Foundation
 enum AttrValue: Encodable {
     case text(String)
     case bool(Bool)
+    /// MULTI_SELECT travels as a JSON array of option codes — the backend's
+    /// `buildAttributeValueRows()` (soukmar-backend/src/lib/attributes.ts)
+    /// turns it into one ListingAttributeValue row per entry, mirroring
+    /// Android's `JsonArray(options.map { JsonPrimitive(it) })`.
+    case stringArray([String])
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case .text(let value): try container.encode(value)
         case .bool(let value): try container.encode(value)
+        case .stringArray(let value): try container.encode(value)
         }
     }
 }
