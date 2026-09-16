@@ -21,11 +21,11 @@ final class AuthRepository {
         }
     }
 
-    func register(name: String, email: String, password: String, phone: String?, city: String?) async -> Result<MessageResponse, APIError> {
+    func register(name: String, email: String, password: String, phone: String?, city: String?, accountType: String) async -> Result<MessageResponse, APIError> {
         do {
             let response: MessageResponse = try await api.send(
                 path: "auth/register", method: "POST",
-                body: RegisterRequest(name: name, email: email, password: password, phone: phone, city: city)
+                body: RegisterRequest(name: name, email: email, password: password, phone: phone, city: city, accountType: accountType)
             )
             return .success(response)
         } catch let error as APIError {

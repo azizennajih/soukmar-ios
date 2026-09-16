@@ -54,6 +54,18 @@ struct RegisterView: View {
                             .keyboardType(.phonePad)
                         TextField(i18n.t("auth.city"), text: $viewModel.city)
                             .textFieldStyle(.roundedBorder)
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(i18n.t("auth.account_type")).font(.subheadline.weight(.medium))
+                            AccountTypeSelector(
+                                selected: $viewModel.accountType,
+                                options: [
+                                    ("PRIVATE", i18n.t("auth.account_type_private")),
+                                    ("BUSINESS", i18n.t("auth.account_type_business")),
+                                ]
+                            )
+                        }
+
                         SecureField(i18n.t("auth.password"), text: $viewModel.password)
                             .textFieldStyle(.roundedBorder)
                         SecureField(i18n.t("auth.reset_confirm_password"), text: $viewModel.confirmPassword)

@@ -8,6 +8,7 @@ final class RegisterViewModel: ObservableObject {
     @Published var city: String = ""
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
+    @Published var accountType: String = ""
     @Published var loading: Bool = false
     @Published var errorMessage: String?
     @Published var registeredEmail: String?
@@ -30,6 +31,10 @@ final class RegisterViewModel: ObservableObject {
             errorMessage = "Champs requis manquants."
             return
         }
+        guard accountType == "PRIVATE" || accountType == "BUSINESS" else {
+            errorMessage = "Veuillez sélectionner un type de compte."
+            return
+        }
 
         loading = true
         errorMessage = nil
@@ -40,7 +45,8 @@ final class RegisterViewModel: ObservableObject {
                 email: trimmedEmail,
                 password: password,
                 phone: phone.isEmpty ? nil : phone,
-                city: city.isEmpty ? nil : city
+                city: city.isEmpty ? nil : city,
+                accountType: accountType
             )
             loading = false
             switch result {

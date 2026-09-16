@@ -30,7 +30,7 @@ targets:
     info:
       path: SoukMar/Info.plist
       properties:
-        CFBundleDisplayName: SoukMar
+        CFBundleDisplayName: SouqMar24
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait

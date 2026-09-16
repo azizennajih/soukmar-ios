@@ -30,6 +30,7 @@ struct RegisterRequest: Codable {
     let password: String
     var phone: String?
     var city: String?
+    let accountType: String
 }
 
 struct MessageResponse: Codable {

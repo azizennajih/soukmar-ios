@@ -98,7 +98,7 @@ struct HomeView: View {
                 }
                 .padding(20)
             }
-            .navigationTitle("SoukMar")
+            .navigationTitle("SouqMar24")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 16) {

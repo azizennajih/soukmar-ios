@@ -20,10 +20,17 @@ let CATEGORIES: [CategoryConfig] = [
     CategoryConfig(value: "HOME_GARDEN", label: "Maison & Jardin", emoji: "🌿", bg: Color(hex: 0xD1FAE5), fg: Color(hex: 0x065F46)),
     CategoryConfig(value: "FASHION", label: "Mode", emoji: "👗", bg: Color(hex: 0xFCE7F3), fg: Color(hex: 0xBE185D)),
     CategoryConfig(value: "SERVICES", label: "Services", emoji: "🔧", bg: Color(hex: 0xFFEDD5), fg: Color(hex: 0xC2410C)),
-    CategoryConfig(value: "OTHER", label: "Autres", emoji: "📦", bg: Color(hex: 0xF1F5F9), fg: Color(hex: 0x475569)),
-    CategoryConfig(value: "BABY_KIDS", label: "Bébé & Enfants", emoji: "🍼", bg: Color(hex: 0xCCFBF1), fg: Color(hex: 0x0F766E)),
+    CategoryConfig(value: "BABY_KIDS", label: "Bébé & Enfants", emoji: "🧸", bg: Color(hex: 0xCCFBF1), fg: Color(hex: 0x0F766E)),
+    CategoryConfig(value: "LESSONS_COURSES", label: "Cours & Leçons", emoji: "📚", bg: Color(hex: 0xCFFAFE), fg: Color(hex: 0x0E7490)),
     CategoryConfig(value: "PETS", label: "Animaux", emoji: "🐾", bg: Color(hex: 0xF5E9D9), fg: Color(hex: 0x92603A)),
     CategoryConfig(value: "SPORTS_LEISURE", label: "Sport & Loisirs", emoji: "⚽", bg: Color(hex: 0xE0E7FF), fg: Color(hex: 0x4338CA)),
+    CategoryConfig(value: "CARPOOLING", label: "Covoiturage", emoji: "🚕", bg: Color(hex: 0xDBEAFE), fg: Color(hex: 0x1D4ED8)),
+    CategoryConfig(value: "TRANSPORT", label: "Transport", emoji: "🚛", bg: Color(hex: 0xFFEDD5), fg: Color(hex: 0xC2410C)),
+    CategoryConfig(value: "RENTAL", label: "Location", emoji: "🚙", bg: Color(hex: 0xF3E8FF), fg: Color(hex: 0x7E22CE)),
+    CategoryConfig(value: "TICKETS", label: "Billets & Tickets", emoji: "🎫", bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207)),
+    CategoryConfig(value: "GIVEAWAY_SWAP", label: "Dons & Échanges", emoji: "🎁", bg: Color(hex: 0xDCFCE7), fg: Color(hex: 0x15803D)),
+    CategoryConfig(value: "MOVING", label: "Déménagement", emoji: "🚚", bg: Color(hex: 0xF5E9D9), fg: Color(hex: 0x92603A)),
+    CategoryConfig(value: "OTHER", label: "Autres", emoji: "📦", bg: Color(hex: 0xF1F5F9), fg: Color(hex: 0x475569)),
 ]
 
 func categoryConfig(_ value: String) -> CategoryConfig? {

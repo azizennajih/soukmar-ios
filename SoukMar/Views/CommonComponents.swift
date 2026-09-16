@@ -18,10 +18,41 @@ struct SoukMarLogo: View {
                 .frame(width: 36, height: 36)
                 .overlay(Text("S").font(.headline.bold()).foregroundStyle(.white))
             HStack(spacing: 0) {
-                Text("Souk").fontWeight(.black)
-                Text("Mar").fontWeight(.black).foregroundStyle(Color.soukmarPrimary)
+                Text("SouqMar").fontWeight(.black)
+                Text("24").fontWeight(.black).foregroundStyle(Color.soukmarPrimary)
             }
             .font(.title3)
+        }
+    }
+}
+
+/// Mirrors soukmar-android's AccountTypeSelector composable — two side-by-side
+/// toggle buttons for the PRIVATE/BUSINESS choice required at registration
+/// (and, in a later phase, editable from the profile).
+struct AccountTypeSelector: View {
+    @Binding var selected: String
+    let options: [(value: String, label: String)]
+
+    var body: some View {
+        HStack(spacing: 12) {
+            ForEach(options, id: \.value) { option in
+                let isSelected = selected == option.value
+                Button {
+                    selected = option.value
+                } label: {
+                    Text(option.label)
+                        .fontWeight(isSelected ? .bold : .regular)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                }
+                .foregroundStyle(isSelected ? Color.soukmarPrimary : .primary)
+                .background(isSelected ? Color.soukmarPrimaryLight : Color.clear)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(isSelected ? Color.soukmarPrimary : Color(.systemGray4), lineWidth: 1.5)
+                )
+            }
         }
     }
 }
