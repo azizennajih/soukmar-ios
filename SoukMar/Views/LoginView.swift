@@ -45,8 +45,7 @@ struct LoginView: View {
                         .keyboardType(.emailAddress)
                         .autocorrectionDisabled()
 
-                    SecureField(i18n.t("auth.password"), text: $viewModel.password)
-                        .textFieldStyle(.roundedBorder)
+                    PasswordField(placeholder: i18n.t("auth.password"), text: $viewModel.password)
                 }
 
                 HStack {

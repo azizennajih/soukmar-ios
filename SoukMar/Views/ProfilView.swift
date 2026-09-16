@@ -112,9 +112,7 @@ struct ProfilView: View {
                 .textFieldStyle(.roundedBorder)
                 .disabled(true)
                 .foregroundStyle(.secondary)
-            TextField(i18n.t("profil.phone"), text: $viewModel.phone)
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.phonePad)
+            PhoneInputField(value: $viewModel.phone)
             TextField(i18n.t("profil.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
 
             Button {
@@ -146,9 +144,9 @@ struct ProfilView: View {
                 ErrorBanner(message: error)
             }
 
-            SecureField(i18n.t("profil.current_password"), text: $viewModel.currentPassword).textFieldStyle(.roundedBorder)
-            SecureField(i18n.t("profil.new_password"), text: $viewModel.newPassword).textFieldStyle(.roundedBorder)
-            SecureField(i18n.t("profil.confirm_password"), text: $viewModel.confirmPassword).textFieldStyle(.roundedBorder)
+            PasswordField(placeholder: i18n.t("profil.current_password"), text: $viewModel.currentPassword)
+            PasswordField(placeholder: i18n.t("profil.new_password"), text: $viewModel.newPassword)
+            PasswordField(placeholder: i18n.t("profil.confirm_password"), text: $viewModel.confirmPassword)
 
             Button {
                 viewModel.changePassword()

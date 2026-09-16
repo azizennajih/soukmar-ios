@@ -297,10 +297,10 @@ struct DeposerAnnonceView: View {
     private var contactStep: some View {
         VStack(alignment: .leading, spacing: 14) {
             labeledField(i18n.t("deposer.label_phone")) {
-                TextField(i18n.t("deposer.label_phone"), text: $viewModel.phone).textFieldStyle(.roundedBorder).keyboardType(.phonePad)
+                PhoneInputField(value: $viewModel.phone)
             }
             labeledField(i18n.t("deposer.label_whatsapp")) {
-                TextField("Numéro WhatsApp (optionnel)", text: $viewModel.whatsapp).textFieldStyle(.roundedBorder).keyboardType(.phonePad)
+                PhoneInputField(value: $viewModel.whatsapp)
             }
             Toggle(i18n.t("deposer.show_phone_toggle"), isOn: $viewModel.showPhone)
             Toggle(i18n.t("deposer.premium_toggle"), isOn: $viewModel.isPremium)

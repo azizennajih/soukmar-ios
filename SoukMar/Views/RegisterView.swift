@@ -49,9 +49,7 @@ struct RegisterView: View {
                             .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
                             .autocorrectionDisabled()
-                        TextField(i18n.t("auth.phone"), text: $viewModel.phone)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.phonePad)
+                        PhoneInputField(value: $viewModel.phone)
                         TextField(i18n.t("auth.city"), text: $viewModel.city)
                             .textFieldStyle(.roundedBorder)
 
@@ -66,10 +64,8 @@ struct RegisterView: View {
                             )
                         }
 
-                        SecureField(i18n.t("auth.password"), text: $viewModel.password)
-                            .textFieldStyle(.roundedBorder)
-                        SecureField(i18n.t("auth.reset_confirm_password"), text: $viewModel.confirmPassword)
-                            .textFieldStyle(.roundedBorder)
+                        PasswordField(placeholder: i18n.t("auth.password"), text: $viewModel.password)
+                        PasswordField(placeholder: i18n.t("auth.reset_confirm_password"), text: $viewModel.confirmPassword)
                     }
 
                     Button {

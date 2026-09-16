@@ -57,6 +57,47 @@ struct AccountTypeSelector: View {
     }
 }
 
+/// Secure field with a show/hide eye toggle that auto-hides again after 8s —
+/// mirrors soukmar-android's `AppTextField(isPassword = true)`, which itself
+/// mirrors the web's password-input component. Drop-in replacement for a
+/// plain `SecureField`.
+struct PasswordField: View {
+    let placeholder: String
+    @Binding var text: String
+    @State private var isVisible = false
+    @State private var hideTask: Task<Void, Never>?
+
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            Group {
+                if isVisible {
+                    TextField(placeholder, text: $text)
+                } else {
+                    SecureField(placeholder, text: $text)
+                }
+            }
+            .textFieldStyle(.roundedBorder)
+            .padding(.trailing, 30)
+
+            Button {
+                isVisible.toggle()
+            } label: {
+                Image(systemName: isVisible ? "eye.slash" : "eye")
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.trailing, 10)
+        }
+        .onChange(of: isVisible) { newValue in
+            hideTask?.cancel()
+            guard newValue else { return }
+            hideTask = Task {
+                try? await Task.sleep(nanoseconds: 8_000_000_000)
+                if !Task.isCancelled { isVisible = false }
+            }
+        }
+    }
+}
+
 struct ErrorBanner: View {
     let message: String
     var body: some View {
