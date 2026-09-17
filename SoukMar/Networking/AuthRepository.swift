@@ -77,6 +77,25 @@ final class AuthRepository {
         TokenStore.shared.clear()
     }
 
+    /// Soft-deletes the account (anonymized, not a hard delete) — mirrors
+    /// Android's `deleteAccount()`. Android needs `@HTTP(method="DELETE",
+    /// hasBody=true)` since Retrofit's `@DELETE` can't carry a body; a plain
+    /// `URLRequest` has no such restriction, so this is just a normal
+    /// `send(method: "DELETE", body:)` call.
+    func deleteAccount(password: String) async -> Result<MessageResponse, APIError> {
+        do {
+            let response: MessageResponse = try await api.send(
+                path: "auth/account", method: "DELETE",
+                body: DeleteAccountRequest(password: password)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func updateProfile(name: String, phone: String?, city: String?) async -> Result<UserDto, APIError> {
         do {
             let response: UserDto = try await api.send(

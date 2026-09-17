@@ -20,6 +20,7 @@ struct HomeView: View {
         case notifications
         case admin
         case legalNotice
+        case deleteAccount
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -168,6 +169,11 @@ struct HomeView: View {
                             }
                         }
                         Button(role: .destructive) {
+                            path.append(Route.deleteAccount)
+                        } label: {
+                            Label(i18n.t("parametres.delete_account"), systemImage: "trash")
+                        }
+                        Button(role: .destructive) {
                             AuthRepository.shared.logout()
                             ChatSocketManager.shared.disconnect()
                             onLoggedOut()
@@ -217,6 +223,8 @@ struct HomeView: View {
                     AdminView(onOpenListing: { id in path.append(id) })
                 case .legalNotice:
                     LegalNoticeView()
+                case .deleteAccount:
+                    DeleteAccountView(onLoggedOut: onLoggedOut)
                 }
             }
             // Both registered here, not on a leaf screen, so they apply

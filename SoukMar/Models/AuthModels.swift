@@ -33,6 +33,10 @@ struct RegisterRequest: Codable {
     let accountType: String
 }
 
+struct DeleteAccountRequest: Encodable {
+    let password: String
+}
+
 struct MessageResponse: Codable {
     var message: String?
     var emailSent: Bool = false
