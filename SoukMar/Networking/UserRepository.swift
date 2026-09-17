@@ -27,4 +27,26 @@ final class UserRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    func blockUser(id: String) async -> Result<BlockStatusDto, APIError> {
+        do {
+            let response: BlockStatusDto = try await api.send(path: "users/\(id)/block", method: "POST")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func unblockUser(id: String) async -> Result<BlockStatusDto, APIError> {
+        do {
+            let response: BlockStatusDto = try await api.send(path: "users/\(id)/block", method: "DELETE")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }

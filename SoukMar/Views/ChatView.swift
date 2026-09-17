@@ -25,7 +25,7 @@ struct ChatView: View {
         .navigationTitle(viewModel.partnerName())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if viewModel.conversation != nil {
+            if let conv = viewModel.conversation {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.reportOpen = true
@@ -33,10 +33,25 @@ struct ChatView: View {
                         Image(systemName: "flag")
                     }
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.requestBlockToggle()
+                    } label: {
+                        Image(systemName: conv.blockedByMe ? "minus.circle" : "nosign")
+                            .foregroundStyle(conv.blockedByMe ? Color.soukmarPrimary : Color.soukmarTextMuted)
+                    }
+                    .disabled(viewModel.blockSubmitting)
+                }
             }
         }
         .sheet(isPresented: $viewModel.reportOpen) {
             ReportSheetChat(viewModel: viewModel)
+        }
+        .alert(i18n.t("block.block"), isPresented: $viewModel.confirmBlock) {
+            Button(i18n.t("block.block"), role: .destructive) { viewModel.confirmBlockToggle() }
+            Button(i18n.t("chat.cancel"), role: .cancel) { viewModel.dismissBlockConfirm() }
+        } message: {
+            Text(i18n.t("block.confirm"))
         }
         .alert("\(i18n.t("chat.cancel_reservation")) ?", isPresented: $viewModel.confirmCancelReservation) {
             Button("Confirmer", role: .destructive) { viewModel.confirmCancelReservationAction() }
@@ -89,51 +104,61 @@ struct ChatView: View {
                 }
             }
 
-            if viewModel.showOfferInput {
-                HStack {
-                    Text("💰")
-                    TextField("Montant en MAD", text: $viewModel.offerAmount)
-                        .keyboardType(.numberPad)
-                        .textFieldStyle(.roundedBorder)
-                    Button(i18n.t("chat.send_offer")) { viewModel.sendOffer() }
-                        .disabled(viewModel.offerAmount.isEmpty)
-                    Button(i18n.t("chat.cancel")) { viewModel.showOfferInput = false }
-                }
-                .padding()
-                .background(Color.soukmarPrimaryLight)
-            }
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(quickReplies, id: \.self) { reply in
-                        Button(reply) { viewModel.useQuickReply(reply) }
-                            .font(.caption)
-                            .buttonStyle(.bordered)
+            if viewModel.messagingBlocked() {
+                Text("🚫 \(i18n.t("chat.blocked_banner"))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding(16)
+                    .background(Color(.secondarySystemBackground))
+            } else {
+                if viewModel.showOfferInput {
+                    HStack {
+                        Text("💰")
+                        TextField("Montant en MAD", text: $viewModel.offerAmount)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
+                        Button(i18n.t("chat.send_offer")) { viewModel.sendOffer() }
+                            .disabled(viewModel.offerAmount.isEmpty)
+                        Button(i18n.t("chat.cancel")) { viewModel.showOfferInput = false }
                     }
+                    .padding()
+                    .background(Color.soukmarPrimaryLight)
                 }
-                .padding(.horizontal).padding(.vertical, 6)
-            }
 
-            Divider()
-            HStack(alignment: .bottom, spacing: 8) {
-                Button {
-                    viewModel.showOfferInput.toggle()
-                } label: {
-                    Text("💰").font(.title3)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(quickReplies, id: \.self) { reply in
+                            Button(reply) { viewModel.useQuickReply(reply) }
+                                .font(.caption)
+                                .buttonStyle(.bordered)
+                        }
+                    }
+                    .padding(.horizontal).padding(.vertical, 6)
                 }
-                TextField(i18n.t("chat.placeholder"), text: $viewModel.messageText, axis: .vertical)
-                    .textFieldStyle(.roundedBorder)
-                    .lineLimit(1...4)
-                    .onChange(of: viewModel.messageText) { _ in viewModel.onTyping() }
-                Button {
-                    viewModel.sendMessage()
-                } label: {
-                    Image(systemName: "paperplane.fill")
-                        .foregroundStyle(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? Color.soukmarTextMuted : Color.soukmarPrimary)
+
+                Divider()
+                HStack(alignment: .bottom, spacing: 8) {
+                    Button {
+                        viewModel.showOfferInput.toggle()
+                    } label: {
+                        Text("💰").font(.title3)
+                    }
+                    TextField(i18n.t("chat.placeholder"), text: $viewModel.messageText, axis: .vertical)
+                        .textFieldStyle(.roundedBorder)
+                        .lineLimit(1...4)
+                        .onChange(of: viewModel.messageText) { _ in viewModel.onTyping() }
+                    Button {
+                        viewModel.sendMessage()
+                    } label: {
+                        Image(systemName: "paperplane.fill")
+                            .foregroundStyle(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? Color.soukmarTextMuted : Color.soukmarPrimary)
+                    }
+                    .disabled(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
-                .disabled(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .padding(8)
             }
-            .padding(8)
         }
     }
 

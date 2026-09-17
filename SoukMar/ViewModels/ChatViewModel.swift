@@ -27,10 +27,14 @@ final class ChatViewModel: ObservableObject {
     @Published var confirmCancelReservation = false
     @Published var confirmCancelOfferId: String?
 
+    @Published var confirmBlock = false
+    @Published private(set) var blockSubmitting = false
+
     private var typingTask: Task<Void, Never>?
 
     private let chatRepository = ChatRepository.shared
     private let reportRepository = ReportRepository.shared
+    private let userRepository = UserRepository.shared
     private let socketManager = ChatSocketManager.shared
 
     func load(id: String) {
@@ -85,6 +89,43 @@ final class ChatViewModel: ObservableObject {
                     if listingId == self.conversation?.listingId { self.listingStatus = status }
                 }
             }
+        }
+    }
+
+    func messagingBlocked() -> Bool { conversation?.messagingBlocked ?? false }
+
+    /// Blocking requires confirmation (mirrors the web's `confirm()` before
+    /// blocking, and Android's `requestBlockToggle()`); unblocking is
+    /// immediate.
+    func requestBlockToggle() {
+        guard let conv = conversation else { return }
+        if conv.blockedByMe {
+            toggleBlock()
+        } else {
+            confirmBlock = true
+        }
+    }
+
+    func dismissBlockConfirm() { confirmBlock = false }
+
+    func confirmBlockToggle() {
+        confirmBlock = false
+        toggleBlock()
+    }
+
+    private func toggleBlock() {
+        guard let conv = conversation, let partner = partnerId(), !blockSubmitting else { return }
+        blockSubmitting = true
+        Task {
+            let result = conv.blockedByMe
+                ? await userRepository.unblockUser(id: partner)
+                : await userRepository.blockUser(id: partner)
+            if case .success(let status) = result {
+                var updated = conv
+                updated.blockedByMe = status.blocked
+                conversation = updated
+            }
+            blockSubmitting = false
         }
     }
 

@@ -4,6 +4,10 @@ struct CreateConversationRequest: Encodable {
     let listingId: String
 }
 
+struct BlockStatusDto: Codable {
+    let blocked: Bool
+}
+
 struct ChatUserDto: Codable {
     let id: String
     let name: String
@@ -79,6 +83,13 @@ struct ConversationDto: Codable, Identifiable, Equatable {
     let listing: ChatListingDto
     let buyer: ChatUserDto
     var messages: [MessageDto] = []
+    var blockedByMe: Bool = false
+    var blockedByThem: Bool = false
+
+    /// Either side has blocked the other — messaging is disabled and the
+    /// input row is replaced by a banner. Mirrors Android's
+    /// `ConversationDto.messagingBlocked`.
+    var messagingBlocked: Bool { blockedByMe || blockedByThem }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -89,6 +100,8 @@ struct ConversationDto: Codable, Identifiable, Equatable {
         listing = try c.decode(ChatListingDto.self, forKey: .listing)
         buyer = try c.decode(ChatUserDto.self, forKey: .buyer)
         messages = try c.decodeIfPresent([MessageDto].self, forKey: .messages) ?? []
+        blockedByMe = try c.decodeIfPresent(Bool.self, forKey: .blockedByMe) ?? false
+        blockedByThem = try c.decodeIfPresent(Bool.self, forKey: .blockedByThem) ?? false
     }
 
     /// True when `myId` is the listing's seller — the conversation's "other
