@@ -8,8 +8,8 @@ struct ListingsView: View {
     @State private var showFilters = false
     @ObservedObject private var i18n = I18nRepository.shared
 
-    init(initialCategory: String? = nil, savedSearchId: String? = nil) {
-        _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId))
+    init(initialCategory: String? = nil, savedSearchId: String? = nil, editSearchId: String? = nil) {
+        _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId, editSearchId: editSearchId))
     }
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
@@ -122,7 +122,7 @@ struct ListingsView: View {
                     TextField(i18n.t("annonces.save_search_name"), text: $viewModel.newSearchName)
                         .textFieldStyle(.roundedBorder)
                     Button(i18n.t("common.cancel")) { viewModel.cancelSaveSearch() }
-                    Button(viewModel.savingSearch ? "…" : i18n.t("common.save")) { viewModel.saveSearch() }
+                    Button(viewModel.savingSearch ? "…" : (viewModel.editSearchId != nil ? i18n.t("annonces.update_search") : i18n.t("common.save"))) { viewModel.saveSearch() }
                         .disabled(viewModel.newSearchName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.savingSearch)
                 }
                 if let error = viewModel.saveSearchError {

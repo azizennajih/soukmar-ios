@@ -5,6 +5,7 @@ import SwiftUI
 /// ListingsView, swipe/× to delete.
 struct SavedSearchesView: View {
     var onOpenSearch: (String) -> Void
+    var onEditSearch: (String) -> Void
 
     @StateObject private var viewModel = SavedSearchesViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
@@ -19,7 +20,12 @@ struct SavedSearchesView: View {
                 ScrollView {
                     LazyVStack(spacing: 10) {
                         ForEach(viewModel.searches) { search in
-                            SavedSearchRow(search: search, onOpen: { onOpenSearch(search.id) }, onDelete: { viewModel.remove(search.id) })
+                            SavedSearchRow(
+                                search: search,
+                                onOpen: { onOpenSearch(search.id) },
+                                onEdit: { onEditSearch(search.id) },
+                                onDelete: { viewModel.remove(search.id) }
+                            )
                         }
                     }
                     .padding(12)
@@ -47,6 +53,7 @@ struct SavedSearchesView: View {
 private struct SavedSearchRow: View {
     let search: SavedSearchDto
     let onOpen: () -> Void
+    let onEdit: () -> Void
     let onDelete: () -> Void
 
     @ObservedObject private var i18n = I18nRepository.shared
@@ -75,6 +82,10 @@ private struct SavedSearchRow: View {
                     }
                 }
                 Spacer()
+                Button(action: onEdit) {
+                    Image(systemName: "pencil").foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
                 Button(action: onDelete) {
                     Image(systemName: "xmark").foregroundStyle(.secondary)
                 }
@@ -93,5 +104,5 @@ private struct SavedSearchRow: View {
 }
 
 #Preview {
-    NavigationStack { SavedSearchesView(onOpenSearch: { _ in }) }
+    NavigationStack { SavedSearchesView(onOpenSearch: { _ in }, onEditSearch: { _ in }) }
 }

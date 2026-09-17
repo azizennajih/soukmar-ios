@@ -10,7 +10,7 @@ struct HomeView: View {
     var onLoggedOut: () -> Void
 
     private enum Route: Hashable {
-        case listings(category: String?, savedSearchId: String?)
+        case listings(category: String?, savedSearchId: String?, editSearchId: String?)
         case listingForm(editId: String?)
         case chatList
         case myListings
@@ -43,7 +43,7 @@ struct HomeView: View {
                         }
 
                         Button {
-                            path.append(Route.listings(category: nil, savedSearchId: nil))
+                            path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: nil))
                         } label: {
                             HStack {
                                 Image(systemName: "magnifyingglass")
@@ -63,7 +63,7 @@ struct HomeView: View {
                             LazyVGrid(columns: columns, spacing: 16) {
                                 ForEach(CATEGORIES) { cat in
                                     Button {
-                                        path.append(Route.listings(category: cat.value, savedSearchId: nil))
+                                        path.append(Route.listings(category: cat.value, savedSearchId: nil, editSearchId: nil))
                                     } label: {
                                         VStack(spacing: 8) {
                                             Circle()
@@ -187,8 +187,8 @@ struct HomeView: View {
             }
             .navigationDestination(for: Route.self) { route in
                 switch route {
-                case .listings(let category, let savedSearchId):
-                    ListingsView(initialCategory: category, savedSearchId: savedSearchId)
+                case .listings(let category, let savedSearchId, let editSearchId):
+                    ListingsView(initialCategory: category, savedSearchId: savedSearchId, editSearchId: editSearchId)
                 case .listingForm(let editId):
                     DeposerAnnonceView(editId: editId) { newListingId in
                         path.removeLast()
@@ -205,14 +205,19 @@ struct HomeView: View {
                 case .favorites:
                     FavorisView(
                         onOpenListing: { id in path.append(id) },
-                        onBrowse: { path.append(Route.listings(category: nil, savedSearchId: nil)) }
+                        onBrowse: { path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: nil)) }
                     )
                 case .profile:
                     ProfilView()
                 case .savedSearches:
-                    SavedSearchesView { savedSearchId in
-                        path.append(Route.listings(category: nil, savedSearchId: savedSearchId))
-                    }
+                    SavedSearchesView(
+                        onOpenSearch: { savedSearchId in
+                            path.append(Route.listings(category: nil, savedSearchId: savedSearchId, editSearchId: nil))
+                        },
+                        onEditSearch: { editSearchId in
+                            path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: editSearchId))
+                        }
+                    )
                 case .notifications:
                     NotificationsView(
                         onOpenChat: { conversationId in path.append(ConversationRoute(conversationId: conversationId)) },

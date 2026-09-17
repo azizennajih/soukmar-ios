@@ -34,18 +34,21 @@ final class ListingsViewModel: ObservableObject {
     @Published private(set) var savingSearch = false
     @Published private(set) var searchSaved = false
     @Published private(set) var saveSearchError: String?
+    @Published private(set) var editSearchId: String?
 
     private let listingRepository = ListingRepository.shared
     private let catalogRepository = CatalogRepository.shared
     private let savedSearchRepository = SavedSearchRepository.shared
 
-    init(initialCategory: String? = nil, savedSearchId: String? = nil) {
+    init(initialCategory: String? = nil, savedSearchId: String? = nil, editSearchId: String? = nil) {
         if let initialCategory {
             selectedCategory = initialCategory
             loadCategoryFilters(initialCategory)
         }
         search()
-        if let savedSearchId {
+        if let editSearchId {
+            applySavedSearchForEdit(editSearchId)
+        } else if let savedSearchId {
             applySavedSearchById(savedSearchId)
         }
     }
@@ -205,10 +208,17 @@ final class ListingsViewModel: ObservableObject {
                 condition: selectedCondition,
                 attrs: attrs
             )
-            switch await savedSearchRepository.create(body) {
+            let result: Result<SavedSearchDto, APIError>
+            if let editing = editSearchId {
+                result = await savedSearchRepository.update(id: editing, body)
+            } else {
+                result = await savedSearchRepository.create(body)
+            }
+            switch result {
             case .success:
                 showSaveSearchForm = false
                 newSearchName = ""
+                editSearchId = nil
                 searchSaved = true
                 try? await Task.sleep(nanoseconds: 3_000_000_000)
                 searchSaved = false
@@ -223,6 +233,7 @@ final class ListingsViewModel: ObservableObject {
         showSaveSearchForm = false
         saveSearchError = nil
         newSearchName = ""
+        editSearchId = nil
     }
 
     /// Re-fetches the user's saved searches to find `id` and re-applies its
@@ -233,6 +244,26 @@ final class ListingsViewModel: ObservableObject {
             case .success(let all):
                 if let saved = all.first(where: { $0.id == id }) {
                     await applySavedSearch(saved)
+                }
+            case .failure:
+                break // fall back to whatever filters are already set
+            }
+        }
+    }
+
+    /// Same as `applySavedSearchById` but also opens the save-search form
+    /// pre-filled with the existing name and marks it for update-in-place —
+    /// entered from SavedSearchesView's "Modifier" action. Mirrors Android's
+    /// `applySavedSearchForEdit()`.
+    func applySavedSearchForEdit(_ id: String) {
+        Task {
+            switch await savedSearchRepository.getAll() {
+            case .success(let all):
+                if let saved = all.first(where: { $0.id == id }) {
+                    await applySavedSearch(saved)
+                    editSearchId = saved.id
+                    newSearchName = saved.name
+                    showSaveSearchForm = true
                 }
             case .failure:
                 break // fall back to whatever filters are already set

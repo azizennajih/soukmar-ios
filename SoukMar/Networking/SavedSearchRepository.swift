@@ -28,6 +28,17 @@ final class SavedSearchRepository {
         }
     }
 
+    func update(id: String, _ body: SavedSearchCreateRequest) async -> Result<SavedSearchDto, APIError> {
+        do {
+            let response: SavedSearchDto = try await api.send(path: "saved-searches/\(id)", method: "PATCH", body: body)
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func delete(id: String) async -> Bool {
         do {
             let _: SuccessDto = try await api.send(path: "saved-searches/\(id)", method: "DELETE")
