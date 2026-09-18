@@ -13,6 +13,8 @@ struct UserDto: Codable, Equatable {
     var image: String?
     var createdAt: String?
     var accountType: String?
+    var emailVerified: Bool = false
+    var phoneVerified: Bool = false
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -25,6 +27,22 @@ struct UserDto: Codable, Equatable {
         image = try c.decodeIfPresent(String.self, forKey: .image)
         createdAt = try c.decodeIfPresent(String.self, forKey: .createdAt)
         accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
+        emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
+        phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+    }
+
+    init(id: String, name: String, email: String, role: String = "USER", phone: String?, city: String?, image: String?, createdAt: String?, accountType: String?, emailVerified: Bool, phoneVerified: Bool) {
+        self.id = id
+        self.name = name
+        self.email = email
+        self.role = role
+        self.phone = phone
+        self.city = city
+        self.image = image
+        self.createdAt = createdAt
+        self.accountType = accountType
+        self.emailVerified = emailVerified
+        self.phoneVerified = phoneVerified
     }
 }
 
@@ -78,6 +96,10 @@ struct ProfileImageUpdateRequest: Encodable {
 struct ChangePasswordRequest: Encodable {
     let currentPassword: String
     let newPassword: String
+}
+
+struct PhoneVerifyRequest: Encodable {
+    let code: String
 }
 
 /// Mirrors soukmar-backend's generic `{ error, unverified? }` error body.

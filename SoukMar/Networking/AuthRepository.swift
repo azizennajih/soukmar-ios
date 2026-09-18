@@ -111,6 +111,34 @@ final class AuthRepository {
         }
     }
 
+    /// SMS phone verification — mirrors Android's `sendPhoneCode()`/
+    /// `verifyPhoneCode()`. Backend rate-limits both via `phoneActionLimiter`
+    /// and expires the code after 10 minutes / 5 wrong attempts.
+    func sendPhoneCode() async -> Result<MessageResponse, APIError> {
+        do {
+            let response: MessageResponse = try await api.send(path: "auth/phone/send-code", method: "POST")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func verifyPhoneCode(_ code: String) async -> Result<MessageResponse, APIError> {
+        do {
+            let response: MessageResponse = try await api.send(
+                path: "auth/phone/verify", method: "POST",
+                body: PhoneVerifyRequest(code: code)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func updateProfileImage(url: String) async -> Result<UserDto, APIError> {
         do {
             let response: UserDto = try await api.send(

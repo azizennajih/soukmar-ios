@@ -24,6 +24,13 @@ final class ProfilViewModel: ObservableObject {
     @Published private(set) var pwSuccessMessage: String?
     @Published private(set) var pwErrorMessage: String?
 
+    @Published private(set) var phoneCodeSent = false
+    @Published var phoneCode = ""
+    @Published private(set) var phoneSendingCode = false
+    @Published private(set) var phoneVerifying = false
+    @Published private(set) var phoneMessage: String?
+    @Published private(set) var phoneErrorMessage: String?
+
     private let authRepository = AuthRepository.shared
     private let uploadRepository = UploadRepository.shared
 
@@ -65,10 +72,60 @@ final class ProfilViewModel: ObservableObject {
             case .success(let user):
                 profile = user
                 successMessage = "Profil mis à jour."
+                // A changed phone number invalidates any prior verification
+                // server-side — drop any in-progress code entry for the old number.
+                phoneCodeSent = false
+                phoneCode = ""
+                phoneMessage = nil
+                phoneErrorMessage = nil
             case .failure(let error):
                 errorMessage = Self.message(for: error)
             }
             saving = false
+        }
+    }
+
+    func sendPhoneCode() {
+        guard !phoneSendingCode else { return }
+        phoneMessage = nil
+        phoneErrorMessage = nil
+        phoneSendingCode = true
+        Task {
+            switch await authRepository.sendPhoneCode() {
+            case .success:
+                phoneCodeSent = true
+                phoneCode = ""
+                phoneMessage = "Code envoyé par SMS."
+            case .failure(let error):
+                phoneErrorMessage = Self.message(for: error)
+            }
+            phoneSendingCode = false
+        }
+    }
+
+    func verifyPhoneCode() {
+        guard !phoneCode.trimmingCharacters(in: .whitespaces).isEmpty, !phoneVerifying else { return }
+        phoneMessage = nil
+        phoneErrorMessage = nil
+        phoneVerifying = true
+        Task {
+            switch await authRepository.verifyPhoneCode(phoneCode.trimmingCharacters(in: .whitespaces)) {
+            case .success:
+                if let current = profile {
+                    profile = UserDto(
+                        id: current.id, name: current.name, email: current.email, role: current.role,
+                        phone: current.phone, city: current.city, image: current.image,
+                        createdAt: current.createdAt, accountType: current.accountType,
+                        emailVerified: current.emailVerified, phoneVerified: true
+                    )
+                }
+                phoneCodeSent = false
+                phoneCode = ""
+                phoneMessage = "Numéro de téléphone vérifié avec succès !"
+            case .failure(let error):
+                phoneErrorMessage = Self.message(for: error)
+            }
+            phoneVerifying = false
         }
     }
 

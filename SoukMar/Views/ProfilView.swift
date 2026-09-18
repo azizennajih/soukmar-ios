@@ -113,6 +113,9 @@ struct ProfilView: View {
                 .disabled(true)
                 .foregroundStyle(.secondary)
             PhoneInputField(value: $viewModel.phone)
+            if !(viewModel.profile?.phone ?? "").isEmpty {
+                PhoneVerificationRow(viewModel: viewModel)
+            }
             TextField(i18n.t("profil.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
 
             VStack(alignment: .leading, spacing: 6) {
@@ -175,6 +178,58 @@ struct ProfilView: View {
         .padding(16)
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+}
+
+private struct PhoneVerificationRow: View {
+    @ObservedObject var viewModel: ProfilViewModel
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if viewModel.profile?.phoneVerified == true {
+                Text("✓ \(i18n.t("profil.phone_verified"))")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.green)
+            } else if !viewModel.phoneCodeSent {
+                HStack {
+                    Text(i18n.t("profil.phone_not_verified"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button(viewModel.phoneSendingCode ? i18n.t("profil.phone_sending") : i18n.t("profil.phone_verify_btn")) {
+                        viewModel.sendPhoneCode()
+                    }
+                    .font(.caption)
+                    .disabled(viewModel.phoneSendingCode)
+                }
+            } else {
+                Text(i18n.t("profil.phone_code_hint"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                HStack {
+                    TextField("", text: $viewModel.phoneCode)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                    Button(viewModel.phoneVerifying ? i18n.t("profil.phone_verifying") : i18n.t("profil.phone_confirm_btn")) {
+                        viewModel.verifyPhoneCode()
+                    }
+                    .font(.caption)
+                    .disabled(viewModel.phoneVerifying || viewModel.phoneCode.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+                Button(i18n.t("profil.phone_resend")) {
+                    viewModel.sendPhoneCode()
+                }
+                .font(.caption)
+                .disabled(viewModel.phoneSendingCode)
+            }
+            if let message = viewModel.phoneMessage {
+                SuccessBanner(message: message)
+            }
+            if let error = viewModel.phoneErrorMessage {
+                ErrorBanner(message: error)
+            }
+        }
     }
 }
 
