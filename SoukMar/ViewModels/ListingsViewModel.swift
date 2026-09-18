@@ -15,6 +15,13 @@ final class ListingsViewModel: ObservableObject {
     @Published var minPrice: String = ""
     @Published var maxPrice: String = ""
 
+    @Published private(set) var sortBy: String = ""
+    @Published private(set) var lat: Double?
+    @Published private(set) var lng: Double?
+    @Published var radius: String = "10"
+    @Published private(set) var locationLoading = false
+    @Published private(set) var locationError: String?
+
     @Published private(set) var subcategories: [SubcategoryWithAttributesDto] = []
     @Published private(set) var filterableAttributes: [AttributeDefinitionDto] = []
 
@@ -112,6 +119,44 @@ final class ListingsViewModel: ObservableObject {
 
     func applyAttrRange() { search() }
 
+    func setSort(_ value: String) {
+        sortBy = value
+        search()
+    }
+
+    func setRadius(_ value: String) {
+        radius = value
+        search()
+    }
+
+    /// Mirrors web's `useGps()`: on success, replaces the (non-existent,
+    /// here) city filter with the device's own coordinates and defaults the
+    /// radius to 10 km, same as `onGpsSelected()` does when none was set yet.
+    func useCurrentLocation() {
+        guard !locationLoading else { return }
+        locationLoading = true
+        locationError = nil
+        Task {
+            do {
+                let coordinate = try await LocationService.shared.requestCurrentLocation()
+                lat = coordinate.latitude
+                lng = coordinate.longitude
+                if radius.isEmpty { radius = "10" }
+                search()
+            } catch {
+                locationError = "annonces.gps_error"
+            }
+            locationLoading = false
+        }
+    }
+
+    func clearLocation() {
+        lat = nil
+        lng = nil
+        locationError = nil
+        search()
+    }
+
     func clearFilters() {
         selectedSubcategoryId = nil
         selectedCondition = nil
@@ -120,6 +165,11 @@ final class ListingsViewModel: ObservableObject {
         maxPrice = ""
         attrSelections = [:]
         attrRanges = [:]
+        sortBy = ""
+        lat = nil
+        lng = nil
+        radius = "10"
+        locationError = nil
         filterableAttributes = Self.unionFilterableAttrs(subcategories)
         search()
     }
@@ -166,6 +216,12 @@ final class ListingsViewModel: ObservableObject {
         for (code, range) in attrRanges {
             if !range.min.isEmpty { params["attr_\(code)_min"] = range.min }
             if !range.max.isEmpty { params["attr_\(code)_max"] = range.max }
+        }
+        if !sortBy.isEmpty { params["tri"] = sortBy }
+        if let lat, let lng {
+            params["lat"] = "\(lat)"
+            params["lng"] = "\(lng)"
+            if !radius.isEmpty { params["radius"] = radius }
         }
         return params
     }

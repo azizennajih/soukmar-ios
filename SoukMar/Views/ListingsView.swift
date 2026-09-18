@@ -237,6 +237,49 @@ private struct FiltersSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section(i18n.t("annonces.city")) {
+                    if viewModel.lat != nil {
+                        HStack {
+                            Label(i18n.t("annonces.current_location"), systemImage: "location.fill")
+                            Spacer()
+                            Button {
+                                viewModel.clearLocation()
+                            } label: {
+                                Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                            }
+                        }
+                        Picker(i18n.t("annonces.radius"), selection: $viewModel.radius) {
+                            ForEach(["5", "10", "20", "30", "50", "100", "150", "200"], id: \.self) { r in
+                                Text("+\(r) km").tag(r)
+                            }
+                        }
+                        .onChange(of: viewModel.radius) { viewModel.setRadius($0) }
+                    } else {
+                        Button {
+                            viewModel.useCurrentLocation()
+                        } label: {
+                            if viewModel.locationLoading {
+                                HStack { ProgressView(); Text(i18n.t("annonces.use_gps")) }
+                            } else {
+                                Label(i18n.t("annonces.use_gps"), systemImage: "location")
+                            }
+                        }
+                        .disabled(viewModel.locationLoading)
+                        if let locationError = viewModel.locationError {
+                            Text(i18n.t(locationError)).font(.caption).foregroundStyle(.red)
+                        }
+                    }
+                }
+
+                Section(i18n.t("annonces.sort")) {
+                    sortRow("", label: i18n.t("annonces.newest"))
+                    sortRow("prix_asc", label: i18n.t("annonces.price_asc"))
+                    sortRow("prix_desc", label: i18n.t("annonces.price_desc"))
+                    if viewModel.lat != nil {
+                        sortRow("distance", label: i18n.t("annonces.distance"))
+                    }
+                }
+
                 Section(i18n.t("annonces.price")) {
                     HStack {
                         TextField(i18n.t("annonces.min"), text: $viewModel.minPrice).keyboardType(.numberPad)
@@ -285,6 +328,21 @@ private struct FiltersSheet: View {
                 }
             }
         }
+    }
+
+    private func sortRow(_ value: String, label: String) -> some View {
+        Button {
+            viewModel.setSort(value)
+        } label: {
+            HStack {
+                Text(label)
+                Spacer()
+                if viewModel.sortBy == value {
+                    Image(systemName: "checkmark").foregroundStyle(Color.soukmarPrimary)
+                }
+            }
+        }
+        .foregroundStyle(.primary)
     }
 
     @ViewBuilder

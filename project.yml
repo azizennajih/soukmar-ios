@@ -36,6 +36,7 @@ targets:
           - UIInterfaceOrientationPortrait
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
+        NSLocationWhenInUseUsageDescription: "SouqMar24 utilise votre position pour trouver les annonces proches de vous."
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.soukmar.app
