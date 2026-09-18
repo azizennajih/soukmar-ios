@@ -76,6 +76,8 @@ struct SellerProfileDto: Codable {
     var reviewCount: Int = 0
     var activeListingsCount: Int = 0
     var avgResponseHours: Double?
+    var emailVerified: Bool = false
+    var phoneVerified: Bool = false
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -88,5 +90,7 @@ struct SellerProfileDto: Codable {
         reviewCount = try c.decodeIfPresent(Int.self, forKey: .reviewCount) ?? 0
         activeListingsCount = try c.decodeIfPresent(Int.self, forKey: .activeListingsCount) ?? 0
         avgResponseHours = try c.decodeIfPresent(Double.self, forKey: .avgResponseHours)
+        emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
+        phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
     }
 }

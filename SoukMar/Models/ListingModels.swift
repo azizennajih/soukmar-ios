@@ -4,6 +4,17 @@ struct ListingUserDto: Codable {
     let id: String
     let name: String
     var city: String?
+    var emailVerified: Bool = false
+    var phoneVerified: Bool = false
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        name = try c.decode(String.self, forKey: .name)
+        city = try c.decodeIfPresent(String.self, forKey: .city)
+        emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
+        phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+    }
 }
 
 struct ListingAttributeValueDto: Codable, Identifiable {

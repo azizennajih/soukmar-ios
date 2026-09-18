@@ -22,9 +22,16 @@ struct ChatView: View {
                 content
             }
         }
-        .navigationTitle(viewModel.partnerName())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                VStack(spacing: 1) {
+                    Text(viewModel.partnerName()).font(.headline)
+                    if let partner = viewModel.partnerUser() {
+                        VerifiedBadge(emailVerified: partner.emailVerified, phoneVerified: partner.phoneVerified)
+                    }
+                }
+            }
             if let conv = viewModel.conversation {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {

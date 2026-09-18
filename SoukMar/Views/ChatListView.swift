@@ -60,6 +60,7 @@ private struct ConversationRow: View {
                 .overlay(Text(name.prefix(1).uppercased()).foregroundStyle(.white).fontWeight(.bold))
             VStack(alignment: .leading, spacing: 2) {
                 Text(name).fontWeight(.semibold).lineLimit(1)
+                VerifiedBadge(emailVerified: conv.partnerUser(myId: myId).emailVerified, phoneVerified: conv.partnerUser(myId: myId).phoneVerified)
                 Text(conv.listing.title).font(.caption).foregroundStyle(.secondary).lineLimit(1)
                 Text(lastMessagePreview).font(.subheadline).foregroundStyle(.secondary).lineLimit(1)
             }

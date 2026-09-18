@@ -131,6 +131,7 @@ final class ChatViewModel: ObservableObject {
 
     func partnerId() -> String? { conversation?.partnerId(myId: currentUserId) }
     func partnerName() -> String { conversation?.partnerName(myId: currentUserId) ?? "" }
+    func partnerUser() -> ChatUserDto? { conversation?.partnerUser(myId: currentUserId) }
     func isMine(_ msg: MessageDto) -> Bool { msg.senderId == currentUserId }
     func isOffer(_ msg: MessageDto) -> Bool { msg.type == "OFFER" }
     func isSystem(_ msg: MessageDto) -> Bool { msg.type == "SYSTEM" }

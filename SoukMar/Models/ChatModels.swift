@@ -11,6 +11,16 @@ struct BlockStatusDto: Codable {
 struct ChatUserDto: Codable {
     let id: String
     let name: String
+    var emailVerified: Bool = false
+    var phoneVerified: Bool = false
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        name = try c.decode(String.self, forKey: .name)
+        emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
+        phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+    }
 }
 
 struct ChatListingDto: Codable {
@@ -113,5 +123,9 @@ struct ConversationDto: Codable, Identifiable, Equatable {
 
     func partnerName(myId: String?) -> String {
         listing.userId == myId ? buyer.name : listing.user.name
+    }
+
+    func partnerUser(myId: String?) -> ChatUserDto {
+        listing.userId == myId ? buyer : listing.user
     }
 }

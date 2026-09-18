@@ -98,6 +98,34 @@ struct PasswordField: View {
     }
 }
 
+/// Trust-signal badge mirroring the web's `app-verified-badge` (and
+/// soukmar-android's `VerifiedBadge`): renders nothing if neither flag is
+/// set, so an unverified account just shows no badge rather than a warning.
+struct VerifiedBadge: View {
+    let emailVerified: Bool
+    let phoneVerified: Bool
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    var body: some View {
+        if emailVerified || phoneVerified {
+            HStack(spacing: 4) {
+                if emailVerified { pill(i18n.t("seller.email_verified_short")) }
+                if phoneVerified { pill(i18n.t("seller.phone_verified_short")) }
+            }
+        }
+    }
+
+    private func pill(_ label: String) -> some View {
+        Text("✓ \(label)")
+            .font(.system(size: 10, weight: .semibold))
+            .foregroundStyle(.green)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(Color.green.opacity(0.12))
+            .clipShape(Capsule())
+    }
+}
+
 struct ErrorBanner: View {
     let message: String
     var body: some View {
