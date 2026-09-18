@@ -74,7 +74,7 @@ final class ProfilViewModel: ObservableObject {
         uploadingImage = true
         errorMessage = nil
         Task {
-            switch await uploadRepository.uploadImages([(data: data, filename: "avatar.jpg", mimeType: "image/jpeg")]) {
+            switch await uploadRepository.uploadImages([(data: data, filename: "avatar.jpg", mimeType: "image/jpeg")], type: "avatar") {
             case .success(let urls):
                 if let url = urls.first {
                     switch await authRepository.updateProfileImage(url: url) {

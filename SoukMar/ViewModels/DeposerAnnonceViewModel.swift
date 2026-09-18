@@ -220,7 +220,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
                 let files = localIndexed.map { (idx, photo) in
                     (data: photo.localData!, filename: "upload_\(idx).jpg", mimeType: "image/jpeg")
                 }
-                switch await uploadRepository.uploadImages(files) {
+                switch await uploadRepository.uploadImages(files, type: "listing") {
                 case .success(let urls):
                     uploadedUrls = urls
                 case .failure:

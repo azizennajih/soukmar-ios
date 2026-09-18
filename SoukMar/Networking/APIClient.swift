@@ -76,10 +76,15 @@ final class APIClient {
     /// mirrors Android's UploadRepository, which builds the same kind of
     /// multipart request via OkHttp instead of URLSession.
     func upload<Response: Decodable>(
-        path: String, fieldName: String, files: [(data: Data, filename: String, mimeType: String)]
+        path: String, fieldName: String, files: [(data: Data, filename: String, mimeType: String)], fields: [String: String] = [:]
     ) async throws -> Response {
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
+        for (key, value) in fields {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
         for file in files {
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(file.filename)\"\r\n".data(using: .utf8)!)
