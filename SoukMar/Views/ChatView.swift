@@ -122,7 +122,7 @@ struct ChatView: View {
             } else {
                 if viewModel.showOfferInput {
                     HStack {
-                        Text("💰")
+                        Image(systemName: "tag")
                         TextField("Montant en MAD", text: $viewModel.offerAmount)
                             .keyboardType(.numberPad)
                             .textFieldStyle(.roundedBorder)
@@ -150,7 +150,7 @@ struct ChatView: View {
                     Button {
                         viewModel.showOfferInput.toggle()
                     } label: {
-                        Text("💰").font(.title3)
+                        Image(systemName: "tag").font(.title3)
                     }
                     TextField(i18n.t("chat.placeholder"), text: $viewModel.messageText, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
@@ -220,7 +220,11 @@ struct ChatView: View {
         return HStack(alignment: .bottom, spacing: 4) {
             msgTimeLabel(msg.createdAt)
             VStack(alignment: .leading, spacing: 6) {
-                Text("💰 \(i18n.t("chat.offer_price"))").font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarGold)
+                HStack(spacing: 4) {
+                    Image(systemName: "tag")
+                    Text(i18n.t("chat.offer_price"))
+                }
+                .font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarGold)
                 if let amount = msg.offerAmount {
                     let (amountText, _) = formatPriceParts(amount)
                     HStack(alignment: .lastTextBaseline, spacing: 4) {

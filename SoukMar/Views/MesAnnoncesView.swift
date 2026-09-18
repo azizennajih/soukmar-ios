@@ -176,10 +176,14 @@ private struct ListingRow: View {
                         } else {
                             Text(i18n.t("listing.negotiate")).font(.caption.bold()).foregroundStyle(.primary)
                         }
-                        Text("👁 \(listing.views) \(i18n.t("listing.views")) · 🕐 \(i18n.timeAgoT(listing.createdAt)) · 📍 \(listing.city)")
-                            .font(.caption2)
-                            .foregroundStyle(Color.soukmarTextMuted)
-                            .lineLimit(1)
+                        HStack(spacing: 3) {
+                            Text("👁 \(listing.views) \(i18n.t("listing.views")) · 🕐 \(i18n.timeAgoT(listing.createdAt)) ·")
+                            Image(systemName: "mappin").font(.system(size: 10))
+                            Text(listing.city)
+                        }
+                        .font(.caption2)
+                        .foregroundStyle(Color.soukmarTextMuted)
+                        .lineLimit(1)
                     }
                 }
                 .buttonStyle(.plain)

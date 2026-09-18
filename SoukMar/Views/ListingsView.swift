@@ -95,11 +95,11 @@ struct ListingsView: View {
     private var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ChipView(label: i18n.t("nav.all"), emoji: nil, selected: viewModel.selectedCategory == nil) {
+                ChipView(label: i18n.t("nav.all"), category: nil, selected: viewModel.selectedCategory == nil) {
                     viewModel.setCategory(nil)
                 }
                 ForEach(CATEGORIES) { cat in
-                    ChipView(label: i18n.tCatalog("cats.\(cat.value)", code: cat.value), emoji: cat.emoji, selected: viewModel.selectedCategory == cat.value) {
+                    ChipView(label: i18n.tCatalog("cats.\(cat.value)", code: cat.value), category: cat.value, selected: viewModel.selectedCategory == cat.value) {
                         viewModel.setCategory(cat.value)
                     }
                 }
@@ -144,7 +144,7 @@ struct ListingsView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(CONDITION_OPTIONS, id: \.value) { option in
-                    ChipView(label: option.label, emoji: nil, selected: viewModel.selectedCondition == option.value) {
+                    ChipView(label: option.label, category: nil, selected: viewModel.selectedCondition == option.value) {
                         viewModel.setCondition(option.value)
                     }
                 }
@@ -157,10 +157,10 @@ struct ListingsView: View {
     private var accountTypeChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ChipView(label: i18n.t("auth.account_type_private"), emoji: nil, selected: viewModel.selectedAccountType == "PRIVATE") {
+                ChipView(label: i18n.t("auth.account_type_private"), category: nil, selected: viewModel.selectedAccountType == "PRIVATE") {
                     viewModel.setAccountType("PRIVATE")
                 }
-                ChipView(label: i18n.t("auth.account_type_business"), emoji: nil, selected: viewModel.selectedAccountType == "BUSINESS") {
+                ChipView(label: i18n.t("auth.account_type_business"), category: nil, selected: viewModel.selectedAccountType == "BUSINESS") {
                     viewModel.setAccountType("BUSINESS")
                 }
             }
@@ -172,14 +172,17 @@ struct ListingsView: View {
 
 private struct ChipView: View {
     let label: String
-    let emoji: String?
+    let category: String?
     let selected: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: 4) {
-                if let emoji { Text(emoji) }
+                if let category {
+                    CategoryIcon(category: category, tint: selected ? .white : .primary)
+                        .frame(width: 15, height: 15)
+                }
                 Text(label)
             }
             .font(.caption.weight(.medium))

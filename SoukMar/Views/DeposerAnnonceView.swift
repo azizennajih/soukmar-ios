@@ -1,6 +1,23 @@
 import SwiftUI
 import PhotosUI
 
+/// A small icon per option makes it much faster to spot the right entry in a
+/// 20-item dropdown than reading text alone — scoped to this one attribute
+/// (not baked into the shared `attrs.opts.*` strings) since MACHINE_TYPE is
+/// the only attribute that needs it. Mirrors web's `machineTypeIcon()`.
+private let MACHINE_TYPE_ICONS: [String: String] = [
+    "FORKLIFT": "📦", "EXCAVATOR": "⛏️", "BULLDOZER": "🚜", "CRANE": "🏗️",
+    "CONCRETE_MIXER": "🧱", "CONCRETE_PUMP": "🚰", "ROAD_ROLLER": "🛣️",
+    "PLATE_COMPACTOR": "🚧", "AERIAL_PLATFORM": "🪜", "SCISSOR_LIFT": "⬆️",
+    "SCAFFOLDING": "🧗", "GENERATOR": "🔌", "COMPRESSOR": "💨",
+    "WELDING_MACHINE": "🔥", "WATER_PUMP": "💧", "CHAINSAW": "🪚",
+    "LAWN_MOWER": "🌱", "POWER_TOOLS": "🛠️", "CLEANING_MACHINE": "🧹", "OTHER": "🔩",
+]
+
+private func machineTypeIcon(_ code: String) -> String {
+    MACHINE_TYPE_ICONS[code].map { "\($0) " } ?? ""
+}
+
 /// Mirrors soukmar-android's DeposerAnnonceScreen — 5-step wizard (category
 /// → subcategory → details/attributes → photos → contact). Uses SwiftUI's
 /// native `PhotosPicker` (iOS 16+) in place of Android's
@@ -98,7 +115,7 @@ struct DeposerAnnonceView: View {
                         Circle()
                             .fill(cat.bg)
                             .frame(width: 56, height: 56)
-                            .overlay(Text(cat.emoji).font(.title2))
+                            .overlay(CategoryIcon(category: cat.value, tint: viewModel.category == cat.value ? Color.soukmarPrimary : cat.fg).frame(width: 26, height: 26))
                             .overlay(
                                 Circle().stroke(Color.soukmarPrimary, lineWidth: viewModel.category == cat.value ? 2 : 0)
                             )
@@ -198,6 +215,17 @@ struct DeposerAnnonceView: View {
                 options: options,
                 labelPrefix: "job_professions."
             )
+        } else if def.code == "MACHINE_TYPE" {
+            Picker("", selection: Binding(
+                get: { viewModel.attrText[def.code] ?? "" },
+                set: { viewModel.attrText[def.code] = $0 }
+            )) {
+                Text("—").tag("")
+                ForEach(def.options, id: \.self) { option in
+                    Text("\(machineTypeIcon(option))\(i18n.tCatalog("attrs.opts.\(option)", code: option))").tag(option)
+                }
+            }
+            .pickerStyle(.menu)
         } else {
             attributeFieldByType(def)
         }

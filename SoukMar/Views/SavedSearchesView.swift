@@ -60,14 +60,16 @@ private struct SavedSearchRow: View {
 
     private var cat: CategoryConfig? { search.category.flatMap(categoryConfig) }
 
-    private var meta: [String] {
-        var parts: [String] = []
-        if let cat { parts.append("\(cat.emoji) \(i18n.tCatalog("cats.\(cat.value)", code: cat.value))") }
-        if let city = search.city { parts.append("📍 \(city)") }
+    private var meta: [Text] {
+        var parts: [Text] = []
+        if let cat { parts.append(Text("\(cat.emoji) \(i18n.tCatalog("cats.\(cat.value)", code: cat.value))")) }
+        if let city = search.city {
+            parts.append(Text(Image(systemName: "mappin")) + Text(" \(city)"))
+        }
         if search.minPrice != nil || search.maxPrice != nil {
             let min = search.minPrice.map(Self.formatPlain) ?? "0"
             let max = search.maxPrice.map(Self.formatPlain) ?? "∞"
-            parts.append("\(min)–\(max) \(i18n.t("common.mad"))")
+            parts.append(Text("\(min)–\(max) \(i18n.t("common.mad"))"))
         }
         return parts
     }
@@ -77,8 +79,9 @@ private struct SavedSearchRow: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(search.name).font(.subheadline.weight(.semibold)).foregroundStyle(.primary)
-                    if !meta.isEmpty {
-                        Text(meta.joined(separator: " · ")).font(.caption).foregroundStyle(.secondary)
+                    if let first = meta.first {
+                        meta.dropFirst().reduce(first) { $0 + Text(" · ") + $1 }
+                            .font(.caption).foregroundStyle(.secondary)
                     }
                 }
                 Spacer()

@@ -69,7 +69,7 @@ struct HomeView: View {
                                             Circle()
                                                 .fill(cat.bg)
                                                 .frame(width: 56, height: 56)
-                                                .overlay(Text(cat.emoji).font(.title2))
+                                                .overlay(CategoryIcon(category: cat.value, tint: cat.fg).frame(width: 26, height: 26))
                                             Text(i18n.tCatalog("cats.\(cat.value)", code: cat.value))
                                                 .font(.caption)
                                                 .foregroundStyle(.primary)

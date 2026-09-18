@@ -65,7 +65,10 @@ struct ListingDetailView: View {
                     Text(listing.title).font(.title3.bold())
 
                     HStack(spacing: 6) {
-                        Text(listing.city)
+                        HStack(spacing: 3) {
+                            Image(systemName: "mappin").font(.system(size: 10))
+                            Text(listing.city)
+                        }
                         Text("·")
                         Text(i18n.timeAgoT(listing.createdAt))
                         Text("·")
@@ -212,7 +215,11 @@ struct ListingDetailView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(seller.name).font(.subheadline.weight(.semibold))
                 if let city = seller.city {
-                    Text(city).font(.caption).foregroundStyle(.secondary)
+                    HStack(spacing: 3) {
+                        Image(systemName: "mappin").font(.system(size: 10))
+                        Text(city)
+                    }
+                    .font(.caption).foregroundStyle(.secondary)
                 }
                 AccountTypeLabel(accountType: seller.accountType)
                 VerifiedBadge(emailVerified: seller.emailVerified, phoneVerified: seller.phoneVerified)

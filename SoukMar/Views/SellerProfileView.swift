@@ -94,7 +94,11 @@ struct SellerProfileView: View {
             AccountTypeLabel(accountType: profile.accountType)
             VerifiedBadge(emailVerified: profile.emailVerified, phoneVerified: profile.phoneVerified)
             if let city = profile.city {
-                Text("📍 \(city)").font(.subheadline).foregroundStyle(.secondary)
+                HStack(spacing: 4) {
+                    Image(systemName: "mappin")
+                    Text(city)
+                }
+                .font(.subheadline).foregroundStyle(.secondary)
             }
             if let memberSince = Self.memberSince(profile.createdAt) {
                 Text("\(i18n.t("seller.member_since")) \(memberSince)").font(.caption).foregroundStyle(.secondary)
