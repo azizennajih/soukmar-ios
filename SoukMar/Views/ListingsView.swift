@@ -21,6 +21,7 @@ struct ListingsView: View {
             if let selectedCategory = viewModel.selectedCategory, CONDITION_CATEGORIES.contains(selectedCategory) {
                 conditionChips
             }
+            accountTypeChips
             if TokenStore.shared.isLoggedIn {
                 saveSearchSection
             }
@@ -146,6 +147,21 @@ struct ListingsView: View {
                     ChipView(label: option.label, emoji: nil, selected: viewModel.selectedCondition == option.value) {
                         viewModel.setCondition(option.value)
                     }
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 8)
+        }
+    }
+
+    private var accountTypeChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ChipView(label: i18n.t("auth.account_type_private"), emoji: nil, selected: viewModel.selectedAccountType == "PRIVATE") {
+                    viewModel.setAccountType("PRIVATE")
+                }
+                ChipView(label: i18n.t("auth.account_type_business"), emoji: nil, selected: viewModel.selectedAccountType == "BUSINESS") {
+                    viewModel.setAccountType("BUSINESS")
                 }
             }
             .padding(.horizontal)

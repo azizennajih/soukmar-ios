@@ -115,6 +115,17 @@ struct ProfilView: View {
             PhoneInputField(value: $viewModel.phone)
             TextField(i18n.t("profil.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
 
+            VStack(alignment: .leading, spacing: 6) {
+                Text(i18n.t("auth.account_type")).font(.subheadline.weight(.medium))
+                AccountTypeSelector(
+                    selected: $viewModel.accountType,
+                    options: [
+                        ("PRIVATE", i18n.t("auth.account_type_private")),
+                        ("BUSINESS", i18n.t("auth.account_type_business")),
+                    ]
+                )
+            }
+
             Button {
                 viewModel.saveProfile()
             } label: {

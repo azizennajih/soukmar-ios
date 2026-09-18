@@ -96,11 +96,11 @@ final class AuthRepository {
         }
     }
 
-    func updateProfile(name: String, phone: String?, city: String?) async -> Result<UserDto, APIError> {
+    func updateProfile(name: String, phone: String?, city: String?, accountType: String? = nil) async -> Result<UserDto, APIError> {
         do {
             let response: UserDto = try await api.send(
                 path: "auth/profile", method: "PUT",
-                body: ProfileUpdateRequest(name: name, phone: phone, city: city)
+                body: ProfileUpdateRequest(name: name, phone: phone, city: city, accountType: accountType)
             )
             TokenStore.shared.cachedUser = response
             return .success(response)

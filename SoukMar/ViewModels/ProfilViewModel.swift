@@ -10,6 +10,7 @@ final class ProfilViewModel: ObservableObject {
     @Published var name = ""
     @Published var phone = ""
     @Published var city = ""
+    @Published var accountType = "PRIVATE"
     @Published private(set) var saving = false
     @Published private(set) var successMessage: String?
     @Published private(set) var errorMessage: String?
@@ -35,6 +36,7 @@ final class ProfilViewModel: ObservableObject {
                 name = user.name
                 phone = user.phone ?? ""
                 city = user.city ?? ""
+                accountType = user.accountType ?? "PRIVATE"
             } else {
                 loadError = true
             }
@@ -57,7 +59,8 @@ final class ProfilViewModel: ObservableObject {
             switch await authRepository.updateProfile(
                 name: name.trimmingCharacters(in: .whitespacesAndNewlines),
                 phone: trimmedPhone.isEmpty ? nil : trimmedPhone,
-                city: trimmedCity.isEmpty ? nil : trimmedCity
+                city: trimmedCity.isEmpty ? nil : trimmedCity,
+                accountType: accountType
             ) {
             case .success(let user):
                 profile = user

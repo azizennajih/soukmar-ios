@@ -6,6 +6,7 @@ struct ListingUserDto: Codable {
     var city: String?
     var emailVerified: Bool = false
     var phoneVerified: Bool = false
+    var accountType: String?
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -14,6 +15,7 @@ struct ListingUserDto: Codable {
         city = try c.decodeIfPresent(String.self, forKey: .city)
         emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
         phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+        accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
     }
 }
 

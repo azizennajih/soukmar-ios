@@ -91,6 +91,7 @@ struct SellerProfileView: View {
                 }
             }
             Text(profile.name).font(.headline)
+            AccountTypeLabel(accountType: profile.accountType)
             VerifiedBadge(emailVerified: profile.emailVerified, phoneVerified: profile.phoneVerified)
             if let city = profile.city {
                 Text("📍 \(city)").font(.subheadline).foregroundStyle(.secondary)

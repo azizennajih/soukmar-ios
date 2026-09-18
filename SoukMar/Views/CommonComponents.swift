@@ -126,6 +126,27 @@ struct VerifiedBadge: View {
     }
 }
 
+/// Small icon+label row for a seller's account type (Privat/Gewerblich) —
+/// mirrors the web's business/private icon+text pairing and Android's
+/// `AccountTypeLabel`. Renders nothing for a nil/unknown type.
+struct AccountTypeLabel: View {
+    let accountType: String?
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    var body: some View {
+        if let accountType {
+            let isBusiness = accountType == "BUSINESS"
+            HStack(spacing: 4) {
+                Image(systemName: isBusiness ? "building.2" : "person")
+                    .font(.system(size: 11))
+                Text(i18n.t(isBusiness ? "auth.account_type_business" : "auth.account_type_private"))
+                    .font(.caption)
+            }
+            .foregroundStyle(.secondary)
+        }
+    }
+}
+
 struct ErrorBanner: View {
     let message: String
     var body: some View {

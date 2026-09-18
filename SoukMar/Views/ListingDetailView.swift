@@ -214,6 +214,7 @@ struct ListingDetailView: View {
                 if let city = seller.city {
                     Text(city).font(.caption).foregroundStyle(.secondary)
                 }
+                AccountTypeLabel(accountType: seller.accountType)
                 VerifiedBadge(emailVerified: seller.emailVerified, phoneVerified: seller.phoneVerified)
             }
             Spacer()

@@ -11,6 +11,7 @@ final class ListingsViewModel: ObservableObject {
     @Published private(set) var selectedCategory: String?
     @Published private(set) var selectedSubcategoryId: String?
     @Published private(set) var selectedCondition: String?
+    @Published private(set) var selectedAccountType: String?
     @Published var minPrice: String = ""
     @Published var maxPrice: String = ""
 
@@ -84,6 +85,11 @@ final class ListingsViewModel: ObservableObject {
         search()
     }
 
+    func setAccountType(_ value: String) {
+        selectedAccountType = (selectedAccountType == value) ? nil : value
+        search()
+    }
+
     func toggleAttrOption(code: String, option: String) {
         var current = attrSelections[code] ?? []
         if current.contains(option) { current.remove(option) } else { current.insert(option) }
@@ -100,6 +106,7 @@ final class ListingsViewModel: ObservableObject {
     func clearFilters() {
         selectedSubcategoryId = nil
         selectedCondition = nil
+        selectedAccountType = nil
         minPrice = ""
         maxPrice = ""
         attrSelections = [:]
@@ -141,6 +148,7 @@ final class ListingsViewModel: ObservableObject {
         if let selectedCategory { params["category"] = selectedCategory }
         if let selectedSubcategoryId { params["subcategoryId"] = selectedSubcategoryId }
         if let selectedCondition { params["condition"] = selectedCondition }
+        if let selectedAccountType { params["accountType"] = selectedAccountType }
         if !minPrice.isEmpty { params["minPrice"] = minPrice }
         if !maxPrice.isEmpty { params["maxPrice"] = maxPrice }
         for (code, values) in attrSelections where !values.isEmpty {

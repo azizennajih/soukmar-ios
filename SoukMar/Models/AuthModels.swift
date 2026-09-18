@@ -12,6 +12,20 @@ struct UserDto: Codable, Equatable {
     var city: String?
     var image: String?
     var createdAt: String?
+    var accountType: String?
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        name = try c.decode(String.self, forKey: .name)
+        email = try c.decode(String.self, forKey: .email)
+        role = try c.decodeIfPresent(String.self, forKey: .role) ?? "USER"
+        phone = try c.decodeIfPresent(String.self, forKey: .phone)
+        city = try c.decodeIfPresent(String.self, forKey: .city)
+        image = try c.decodeIfPresent(String.self, forKey: .image)
+        createdAt = try c.decodeIfPresent(String.self, forKey: .createdAt)
+        accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
+    }
 }
 
 struct LoginRequest: Codable {
@@ -54,6 +68,7 @@ struct ProfileUpdateRequest: Encodable {
     let name: String
     var phone: String?
     var city: String?
+    var accountType: String?
 }
 
 struct ProfileImageUpdateRequest: Encodable {
