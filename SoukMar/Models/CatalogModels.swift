@@ -48,6 +48,12 @@ let CONDITION_CATEGORIES: Set<String> = [
     "VEHICLES", "ELECTRONICS", "HOME_GARDEN", "FASHION", "BABY_KIDS", "SPORTS_LEISURE",
 ]
 
+/// Subcategories that opt out of the Neuf/Occasion condition field despite
+/// being in an otherwise physical-goods `CONDITION_CATEGORIES` category
+/// (e.g. Sport & Loisirs' "Offres d'entraînement" coaching, a service not a
+/// good). Mirrors listing.model.ts's/Android's `NO_CONDITION_SUBCATEGORIES`.
+let NO_CONDITION_SUBCATEGORIES: Set<String> = ["TRAINING_OFFERS"]
+
 let CONDITION_OPTIONS: [(value: String, label: String)] = [
     ("NEW", "Neuf"),
     ("LIKE_NEW", "Comme neuf"),

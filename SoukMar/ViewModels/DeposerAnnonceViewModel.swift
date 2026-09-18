@@ -58,7 +58,14 @@ final class DeposerAnnonceViewModel: ObservableObject {
     private let uploadRepository = UploadRepository.shared
 
     var maxPhotos: Int { isPremium ? 20 : 10 }
-    var showCondition: Bool { !category.isEmpty && CONDITION_CATEGORIES.contains(category) }
+    /// Mirrors Android's `showCondition` — hides "Neuf/Occasion" for
+    /// subcategories that opt out even within an otherwise physical-goods
+    /// category (e.g. Sport & Loisirs' "Offres d'entraînement" coaching).
+    var showCondition: Bool {
+        guard !category.isEmpty, CONDITION_CATEGORIES.contains(category) else { return false }
+        guard let subCode = subcategories.first(where: { $0.id == subcategoryId })?.code else { return true }
+        return !NO_CONDITION_SUBCATEGORIES.contains(subCode)
+    }
 
     func start(editId: String?) {
         guard self.editId == nil, let editId else { return }

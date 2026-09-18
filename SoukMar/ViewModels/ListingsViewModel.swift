@@ -90,6 +90,15 @@ final class ListingsViewModel: ObservableObject {
         search()
     }
 
+    /// Mirrors Android's `showCondition` — hides "Neuf/Occasion" for
+    /// subcategories that opt out even within an otherwise physical-goods
+    /// category (e.g. Sport & Loisirs' "Offres d'entraînement" coaching).
+    var showCondition: Bool {
+        guard let selectedCategory, CONDITION_CATEGORIES.contains(selectedCategory) else { return false }
+        guard let subCode = subcategories.first(where: { $0.id == selectedSubcategoryId })?.code else { return true }
+        return !NO_CONDITION_SUBCATEGORIES.contains(subCode)
+    }
+
     func toggleAttrOption(code: String, option: String) {
         var current = attrSelections[code] ?? []
         if current.contains(option) { current.remove(option) } else { current.insert(option) }

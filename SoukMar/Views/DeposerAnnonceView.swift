@@ -141,10 +141,10 @@ struct DeposerAnnonceView: View {
     private var detailsStep: some View {
         VStack(alignment: .leading, spacing: 14) {
             labeledField(i18n.t("deposer.summary_listing_title")) {
-                TextField(i18n.t("deposer.label_title"), text: $viewModel.title).textFieldStyle(.roundedBorder)
+                TextField(i18n.t("deposer.placeholder_title_\(viewModel.category.lowercased())"), text: $viewModel.title).textFieldStyle(.roundedBorder)
             }
             labeledField(i18n.t("listing.description")) {
-                TextField(i18n.t("deposer.placeholder_desc"), text: $viewModel.description, axis: .vertical)
+                TextField(i18n.t("deposer.placeholder_desc_\(viewModel.category.lowercased())"), text: $viewModel.description, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(4...10)
             }

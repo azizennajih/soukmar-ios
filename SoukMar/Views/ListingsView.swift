@@ -18,7 +18,7 @@ struct ListingsView: View {
         VStack(spacing: 0) {
             searchBar
             categoryChips
-            if let selectedCategory = viewModel.selectedCategory, CONDITION_CATEGORIES.contains(selectedCategory) {
+            if viewModel.showCondition {
                 conditionChips
             }
             accountTypeChips
