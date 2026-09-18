@@ -125,8 +125,35 @@ struct ListingDetailView: View {
                 if viewModel.isLoggedIn {
                     reviewSection
                 }
+
+                if !viewModel.similarListings.isEmpty {
+                    similarListingsSection
+                }
             }
             .padding(.vertical)
+        }
+    }
+
+    /// Mirrors the web/Android's "Cela pourrait aussi vous intéresser"
+    /// section — a horizontal scroll strip here rather than Android's
+    /// row-pairs-in-a-VStack workaround, since a horizontally scrolling
+    /// ScrollView doesn't hit the same unbounded-height problem a nested
+    /// LazyVGrid would inside this screen's outer vertical ScrollView.
+    private var similarListingsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(i18n.t("listing.similar")).font(.headline).padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(viewModel.similarListings) { similar in
+                        NavigationLink(value: similar.id) {
+                            ListingCardView(listing: similar)
+                                .frame(width: 160)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal)
+            }
         }
     }
 

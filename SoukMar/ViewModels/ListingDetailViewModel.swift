@@ -31,6 +31,8 @@ final class ListingDetailViewModel: ObservableObject {
     @Published private(set) var chatStarting = false
     @Published private(set) var chatMessage: String?
 
+    @Published private(set) var similarListings: [ListingDto] = []
+
     private let listingRepository = ListingRepository.shared
     private let reviewRepository = ReviewRepository.shared
     private let reportRepository = ReportRepository.shared
@@ -45,6 +47,7 @@ final class ListingDetailViewModel: ObservableObject {
         Task {
             loading = true
             loadError = false
+            similarListings = []
             isLoggedIn = TokenStore.shared.isLoggedIn
             switch await listingRepository.getListing(id: id) {
             case .success(let data):
@@ -53,10 +56,18 @@ final class ListingDetailViewModel: ObservableObject {
                     favorited = await listingRepository.getFavoriteIds().contains(id)
                     await checkCanReview(listingId: id)
                 }
+                await loadSimilar(id: id)
             case .failure:
                 loadError = true
             }
             loading = false
+        }
+    }
+
+    /// Non-essential section — fail silently on error, mirrors the web/Android.
+    private func loadSimilar(id: String) async {
+        if case .success(let data) = await listingRepository.getSimilar(id: id) {
+            similarListings = data
         }
     }
 

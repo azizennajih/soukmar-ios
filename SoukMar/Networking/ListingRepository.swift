@@ -28,6 +28,17 @@ final class ListingRepository {
         }
     }
 
+    func getSimilar(id: String) async -> Result<[ListingDto], APIError> {
+        do {
+            let response: [ListingDto] = try await api.send(path: "listings/\(id)/similar")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func getFavorites() async -> Result<[ListingDto], APIError> {
         do {
             let response: [ListingDto] = try await api.send(path: "favorites")
