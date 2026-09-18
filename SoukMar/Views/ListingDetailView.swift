@@ -15,6 +15,7 @@ struct ListingDetailView: View {
 
     @StateObject private var viewModel = ListingDetailViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
+    @State private var showMap = false
 
     var body: some View {
         Group {
@@ -119,6 +120,10 @@ struct ListingDetailView: View {
                     .padding(.horizontal)
                 }
 
+                if listing.lat != nil, listing.lng != nil {
+                    locationSection(for: listing).padding(.horizontal)
+                }
+
                 contactCard(for: listing).padding(.horizontal)
 
                 if let seller = listing.user {
@@ -134,6 +139,31 @@ struct ListingDetailView: View {
                 }
             }
             .padding(.vertical)
+        }
+    }
+
+    /// Mirrors web's `detail__location` card — reuses the same
+    /// `ListingsMapView` the search page uses, just with a single-element
+    /// array, exactly like web reuses `app-listings-map` for both. Collapsed
+    /// by default; the toggle button just flips `showMap`.
+    private func locationSection(for listing: ListingDto) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                HStack(spacing: 4) {
+                    Image(systemName: "mappin").font(.system(size: 14))
+                    Text(i18n.t("listing.location_title")).font(.headline)
+                }
+                Spacer()
+                Button(i18n.t(showMap ? "listing.hide_map" : "listing.show_map")) {
+                    showMap.toggle()
+                }
+                .font(.caption)
+            }
+            if showMap {
+                ListingsMapView(listings: [listing])
+                    .frame(height: 220)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
         }
     }
 

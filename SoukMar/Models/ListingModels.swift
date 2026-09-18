@@ -55,6 +55,8 @@ struct ListingDto: Codable, Identifiable, Equatable {
     var avgPrice: Double?
     var bumpedAt: String?
     let createdAt: String
+    var lat: Double?
+    var lng: Double?
 
     // Swift's synthesized Decodable ignores stored-property defaults for a
     // missing key (unlike kotlinx.serialization on the Android side), and a
@@ -87,6 +89,8 @@ struct ListingDto: Codable, Identifiable, Equatable {
         avgPrice = try c.decodeIfPresent(Double.self, forKey: .avgPrice)
         bumpedAt = try c.decodeIfPresent(String.self, forKey: .bumpedAt)
         createdAt = try c.decode(String.self, forKey: .createdAt)
+        lat = try c.decodeIfPresent(Double.self, forKey: .lat)
+        lng = try c.decodeIfPresent(Double.self, forKey: .lng)
     }
 }
 

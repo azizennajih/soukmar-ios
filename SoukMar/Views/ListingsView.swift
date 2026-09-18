@@ -6,7 +6,10 @@ import SwiftUI
 struct ListingsView: View {
     @StateObject private var viewModel: ListingsViewModel
     @State private var showFilters = false
+    @State private var viewMode: ViewMode = .list
     @ObservedObject private var i18n = I18nRepository.shared
+
+    private enum ViewMode { case list, map }
 
     init(initialCategory: String? = nil, savedSearchId: String? = nil, editSearchId: String? = nil) {
         _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId, editSearchId: editSearchId))
@@ -30,6 +33,10 @@ struct ListingsView: View {
                 ErrorBanner(message: error).padding(.horizontal).padding(.top, 8)
             }
 
+            if !viewModel.listings.isEmpty {
+                viewModeToggle
+            }
+
             if viewModel.loading && viewModel.listings.isEmpty {
                 Spacer()
                 ProgressView()
@@ -38,6 +45,8 @@ struct ListingsView: View {
                 Spacer()
                 Text(i18n.t("annonces.empty")).foregroundStyle(.secondary)
                 Spacer()
+            } else if viewMode == .map {
+                ListingsMapView(listings: viewModel.listings)
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
@@ -75,6 +84,30 @@ struct ListingsView: View {
         .sheet(isPresented: $showFilters) {
             FiltersSheet(viewModel: viewModel)
         }
+    }
+
+    private var viewModeToggle: some View {
+        HStack(spacing: 0) {
+            toggleButton(.list, label: i18n.t("annonces.view_list"), icon: "list.bullet")
+            toggleButton(.map, label: i18n.t("annonces.view_map"), icon: "map")
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal)
+        .padding(.bottom, 8)
+    }
+
+    private func toggleButton(_ mode: ViewMode, label: String, icon: String) -> some View {
+        Button {
+            viewMode = mode
+        } label: {
+            Label(label, systemImage: icon)
+                .font(.caption.weight(.medium))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .background(viewMode == mode ? Color.soukmarPrimary : Color(.secondarySystemBackground))
+                .foregroundStyle(viewMode == mode ? .white : .primary)
+        }
+        .buttonStyle(.plain)
     }
 
     private var searchBar: some View {
