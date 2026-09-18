@@ -21,6 +21,7 @@ struct HomeView: View {
         case admin
         case legalNotice
         case deleteAccount
+        case settings
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -139,23 +140,15 @@ struct HomeView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    // Mirrors Android's own Phase-8 cleanup: Profil + logout
-                    // moved behind an overflow menu instead of loose icons.
+                    // Mirrors Android's Tranche 4 cleanup: profile, legal,
+                    // delete-account and logout moved out of this menu into
+                    // the consolidated SettingsView — only admin/saved
+                    // searches/settings stay here now.
                     Menu {
-                        Button {
-                            path.append(Route.profile)
-                        } label: {
-                            Label(i18n.t("nav.profile"), systemImage: "person.circle")
-                        }
                         Button {
                             path.append(Route.savedSearches)
                         } label: {
                             Label(i18n.t("nav.saved_searches"), systemImage: "bell")
-                        }
-                        Button {
-                            path.append(Route.legalNotice)
-                        } label: {
-                            Label(i18n.t("legal.notice_title"), systemImage: "doc.text")
                         }
                         // Mirrors the web navbar's own gating: only ADMIN
                         // sees this entry, even though the backend guard
@@ -168,17 +161,10 @@ struct HomeView: View {
                                 Label(i18n.t("nav.admin"), systemImage: "shield")
                             }
                         }
-                        Button(role: .destructive) {
-                            path.append(Route.deleteAccount)
+                        Button {
+                            path.append(Route.settings)
                         } label: {
-                            Label(i18n.t("parametres.delete_account"), systemImage: "trash")
-                        }
-                        Button(role: .destructive) {
-                            AuthRepository.shared.logout()
-                            ChatSocketManager.shared.disconnect()
-                            onLoggedOut()
-                        } label: {
-                            Label(i18n.t("nav.logout"), systemImage: "rectangle.portrait.and.arrow.right")
+                            Label(i18n.t("nav.settings"), systemImage: "gearshape")
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
@@ -230,6 +216,14 @@ struct HomeView: View {
                     LegalNoticeView()
                 case .deleteAccount:
                     DeleteAccountView(onLoggedOut: onLoggedOut)
+                case .settings:
+                    SettingsView(
+                        onOpenProfil: { path.append(Route.profile) },
+                        onOpenNotifications: { path.append(Route.notifications) },
+                        onOpenLegal: { path.append(Route.legalNotice) },
+                        onOpenDeleteAccount: { path.append(Route.deleteAccount) },
+                        onLoggedOut: onLoggedOut
+                    )
                 }
             }
             // Both registered here, not on a leaf screen, so they apply
