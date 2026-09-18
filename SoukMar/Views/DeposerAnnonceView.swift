@@ -187,6 +187,24 @@ struct DeposerAnnonceView: View {
 
     @ViewBuilder
     private func attributeField(_ def: AttributeDefinitionDto) -> some View {
+        if def.code == "PROFESSION" {
+            let industry = viewModel.attrText["INDUSTRY"] ?? ""
+            let options = JOB_PROFESSIONS_BY_SECTOR[industry] ?? JOB_PROFESSION_CODES
+            TextAutocompleteField(
+                value: Binding(
+                    get: { viewModel.attrText[def.code] ?? "" },
+                    set: { viewModel.attrText[def.code] = $0 }
+                ),
+                options: options,
+                labelPrefix: "job_professions."
+            )
+        } else {
+            attributeFieldByType(def)
+        }
+    }
+
+    @ViewBuilder
+    private func attributeFieldByType(_ def: AttributeDefinitionDto) -> some View {
         switch def.type {
         case "BOOLEAN":
             Toggle(isOn: Binding(

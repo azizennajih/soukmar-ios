@@ -193,24 +193,32 @@ struct ChatView: View {
         }
     }
 
+    private func msgTimeLabel(_ iso: String) -> some View {
+        let (date, time) = formatMsgTimeParts(iso)
+        return VStack(alignment: .leading, spacing: 0) {
+            Text(date).font(.caption2).foregroundStyle(.secondary)
+            Text(time).font(.caption2).foregroundStyle(.secondary)
+        }
+    }
+
     private func textBubble(_ msg: MessageDto) -> some View {
         let mine = viewModel.isMine(msg)
-        return VStack(alignment: mine ? .trailing : .leading, spacing: 2) {
-            Text(formatMsgTime(msg.createdAt)).font(.caption2).foregroundStyle(.secondary)
+        return HStack(alignment: .bottom, spacing: 4) {
+            msgTimeLabel(msg.createdAt)
             Text(msg.content)
                 .padding(.horizontal, 12).padding(.vertical, 8)
                 .background(mine ? Color.soukmarPrimary : Color(.secondarySystemBackground))
                 .foregroundStyle(mine ? .white : .primary)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
-                .frame(maxWidth: 280, alignment: mine ? .trailing : .leading)
+                .frame(maxWidth: 260, alignment: mine ? .trailing : .leading)
         }
         .frame(maxWidth: .infinity, alignment: mine ? .trailing : .leading)
     }
 
     private func offerBubble(_ msg: MessageDto) -> some View {
         let mine = viewModel.isMine(msg)
-        return VStack(alignment: mine ? .trailing : .leading, spacing: 4) {
-            Text(formatMsgTime(msg.createdAt)).font(.caption2).foregroundStyle(.secondary)
+        return HStack(alignment: .bottom, spacing: 4) {
+            msgTimeLabel(msg.createdAt)
             VStack(alignment: .leading, spacing: 6) {
                 Text("💰 \(i18n.t("chat.offer_price"))").font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarGold)
                 if let amount = msg.offerAmount {
@@ -253,7 +261,7 @@ struct ChatView: View {
         }
     }
 
-    private func formatMsgTime(_ iso: String) -> String {
+    private func formatMsgTimeParts(_ iso: String) -> (String, String) {
         let iso8601 = ISO8601DateFormatter()
         iso8601.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         var date = iso8601.date(from: iso)
@@ -261,10 +269,12 @@ struct ChatView: View {
             iso8601.formatOptions = [.withInternetDateTime]
             date = iso8601.date(from: iso)
         }
-        guard let date else { return "" }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter.string(from: date)
+        guard let date else { return ("", "") }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM."
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        return (dateFormatter.string(from: date), timeFormatter.string(from: date))
     }
 }
 
