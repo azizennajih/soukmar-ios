@@ -171,7 +171,7 @@ private struct ListingRow: View {
                                 .clipShape(Capsule())
                         }
                         if let price = listing.price {
-                            let (amount, currency) = formatPriceParts(price, currency: listing.currency)
+                            let (amount, currency) = formatPriceParts(price, currency: listing.currency, lang: i18n.currentLang)
                             Text("\(amount) \(currency)").font(.caption.bold()).foregroundStyle(.primary)
                         } else {
                             Text(i18n.t("listing.negotiate")).font(.caption.bold()).foregroundStyle(.primary)

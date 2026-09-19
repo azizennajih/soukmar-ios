@@ -7,6 +7,16 @@ import Foundation
 /// `city` field is never set on create.
 @MainActor
 final class ListingsViewModel: ObservableObject {
+    /// Defaults to whatever the visitor is currently browsing app-wide
+    /// (mirrors web's annonces.component.ts reading countryService.country()
+    /// as its default) — a one-time read, not a live subscription, since
+    /// this ViewModel is recreated fresh each time the screen is opened
+    /// (mirrors Android's identical `var country by
+    /// mutableStateOf(countryRepository.country)`, not a reactive flow).
+    /// Changing it via `selectCountry(_:)` updates both this and the shared
+    /// CountryRepository, so the choice persists for the next screen too.
+    @Published private(set) var country: String = CountryRepository.shared.country
+
     @Published var query: String = ""
     @Published private(set) var selectedCategory: String?
     @Published private(set) var selectedSubcategoryId: String?
@@ -201,7 +211,7 @@ final class ListingsViewModel: ObservableObject {
     }
 
     private func buildParams(targetPage: Int) -> [String: String] {
-        var params: [String: String] = ["page": "\(targetPage)", "limit": "20"]
+        var params: [String: String] = ["page": "\(targetPage)", "limit": "20", "country": country]
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedQuery.isEmpty { params["q"] = trimmedQuery }
         if let selectedCategory { params["category"] = selectedCategory }
@@ -224,6 +234,16 @@ final class ListingsViewModel: ObservableObject {
             if !radius.isEmpty { params["radius"] = radius }
         }
         return params
+    }
+
+    /// Mirrors Android's `selectCountry(code)` — updates local state, persists
+    /// to the shared repository (so other screens see the new default next
+    /// time they're opened), and re-runs the search.
+    func selectCountry(_ code: String) {
+        guard code != country else { return }
+        country = code
+        CountryRepository.shared.setCountry(code)
+        search()
     }
 
     func search() {

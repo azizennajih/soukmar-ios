@@ -237,6 +237,10 @@ private struct FiltersSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section(i18n.t("deposer.label_country").replacingOccurrences(of: " *", with: "")) {
+                    CountrySwitcher(country: viewModel.country) { viewModel.selectCountry($0) }
+                }
+
                 Section(i18n.t("annonces.city")) {
                     if viewModel.lat != nil {
                         HStack {

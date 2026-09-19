@@ -165,13 +165,28 @@ struct DeposerAnnonceView: View {
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(4...10)
             }
-            labeledField(i18n.t("deposer.label_price")) {
+            // No country field here on purpose — country is centrally
+            // controlled by the app-wide CountrySwitcher (Home/Login), never
+            // a separate choice within this form. The price label and city
+            // source below both derive from viewModel.country, which the
+            // ViewModel keeps in live sync with CountryRepository (see
+            // start(editId:)'s Combine subscription).
+            labeledField("\(i18n.t("deposer.label_price")) (\(viewModel.derivedCurrency))") {
                 TextField("Laissez vide pour \"à négocier\"", text: $viewModel.price)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
             }
             labeledField(i18n.t("deposer.label_city")) {
-                TextField(i18n.t("auth.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
+                // citiesForCountry empty means the chosen country has no
+                // curated list (most of the ~195 countries don't) — falls
+                // back to a plain free-text field, exactly like web/Android's
+                // fallback (Listing.city is a free string backend-side
+                // either way, only without suggestions).
+                if viewModel.citiesForCountry.isEmpty {
+                    TextField(i18n.t("auth.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
+                } else {
+                    CityPickerButton(cities: viewModel.citiesForCountry, selected: $viewModel.city)
+                }
             }
 
             if viewModel.showCondition {
@@ -421,6 +436,77 @@ struct DeposerAnnonceView: View {
             }
         }
         .padding()
+    }
+}
+
+/// Searchable city picker shown only when the currently selected country has
+/// a curated city list (`citiesForCountry` non-empty) — mirrors the same
+/// `.sheet` + `.searchable()` pattern as `PhoneInputField`'s
+/// `CountryPickerSheet`/`CountrySwitcher`'s picker.
+private struct CityPickerButton: View {
+    let cities: [String]
+    @Binding var selected: String
+    @ObservedObject private var i18n = I18nRepository.shared
+    @State private var pickerOpen = false
+
+    var body: some View {
+        Button {
+            pickerOpen = true
+        } label: {
+            HStack {
+                Text(selected.isEmpty ? i18n.t("auth.city") : selected)
+                    .foregroundStyle(selected.isEmpty ? .secondary : .primary)
+                Spacer()
+                Image(systemName: "chevron.down").font(.caption).foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, 12).padding(.vertical, 10)
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.systemGray4), lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .sheet(isPresented: $pickerOpen) {
+            CityPickerSheet(cities: cities, selected: selected) { picked in
+                selected = picked
+                pickerOpen = false
+            }
+        }
+    }
+}
+
+private struct CityPickerSheet: View {
+    let cities: [String]
+    let selected: String
+    let onSelect: (String) -> Void
+    @ObservedObject private var i18n = I18nRepository.shared
+    @State private var query = ""
+    @Environment(\.dismiss) private var dismiss
+
+    private var filtered: [String] {
+        let q = query.trimmingCharacters(in: .whitespaces).lowercased()
+        guard !q.isEmpty else { return cities }
+        return cities.filter { $0.lowercased().contains(q) }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                if filtered.isEmpty {
+                    Text(i18n.t("common.no_results")).foregroundStyle(.secondary)
+                } else {
+                    ForEach(filtered, id: \.self) { city in
+                        Button { onSelect(city) } label: {
+                            Text(city).foregroundStyle(.primary)
+                        }
+                        .listRowBackground(city == selected ? Color.soukmarPrimaryLight : Color(.systemBackground))
+                    }
+                }
+            }
+            .searchable(text: $query, prompt: i18n.t("common.search"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(i18n.t("common.close")) { dismiss() }
+                }
+            }
+        }
     }
 }
 

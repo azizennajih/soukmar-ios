@@ -24,15 +24,19 @@ enum AttrValue: Encodable {
     }
 }
 
+/// No `currency` field on purpose: the backend derives it server-side from
+/// `country` (currencyForCountry) since the international-country tranche —
+/// mirrors web's deposer-annonce.component.ts publish() payload / Android's
+/// ListingUpsertRequest, which dropped their own currency field the same way.
 struct ListingUpsertRequest: Encodable {
     var title: String
     var description: String
     var price: Double?
-    var currency: String = "MAD"
     var category: String
     var subcategoryId: String?
     var condition: String?
     var city: String
+    var country: String
     var images: [String] = []
     var phone: String?
     var whatsapp: String?

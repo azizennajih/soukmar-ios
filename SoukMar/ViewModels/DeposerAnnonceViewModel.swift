@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import UIKit
 
@@ -46,6 +47,15 @@ final class DeposerAnnonceViewModel: ObservableObject {
     @Published var description = ""
     @Published var price = ""
     @Published var city = ""
+    /// Not directly settable from this form on purpose — country is
+    /// centrally controlled by the app-wide `CountrySwitcher` (Home/Login),
+    /// never a separate choice within the create-listing wizard. Kept in
+    /// live sync with `CountryRepository.shared.country` for new listings
+    /// (see `start(editId:)`'s Combine subscription) so switching country
+    /// elsewhere while the wizard is open takes effect immediately. Editing
+    /// an existing listing instead preserves its own country (set in
+    /// `applyListingToForm`), never re-synced to the currently browsed one.
+    @Published private(set) var country = CountryRepository.defaultCountry
     @Published var phone = ""
     @Published var whatsapp = ""
     @Published var showPhone = true
@@ -57,7 +67,12 @@ final class DeposerAnnonceViewModel: ObservableObject {
     private let catalogRepository = CatalogRepository.shared
     private let uploadRepository = UploadRepository.shared
 
+    private var countryCancellable: AnyCancellable?
+    private var countrySyncStarted = false
+
     var maxPhotos: Int { isPremium ? 20 : 10 }
+    var derivedCurrency: String { currencyForCountry(country) }
+    var citiesForCountry: [String] { country == "MA" ? MOROCCO_CITIES : (CITIES_BY_COUNTRY[country] ?? []) }
     /// Mirrors Android's `showCondition` — hides "Neuf/Occasion" for
     /// subcategories that opt out even within an otherwise physical-goods
     /// category (e.g. Sport & Loisirs' "Offres d'entraînement" coaching).
@@ -68,15 +83,30 @@ final class DeposerAnnonceViewModel: ObservableObject {
     }
 
     func start(editId: String?) {
-        guard self.editId == nil, let editId else { return }
-        self.editId = editId
-        initLoading = true
-        Task {
-            switch await listingRepository.getListing(id: editId) {
-            case .success(let listing): await applyListingToForm(listing)
-            case .failure(let err): error = Self.message(for: err)
+        if let editId, self.editId == nil {
+            self.editId = editId
+            initLoading = true
+            Task {
+                switch await listingRepository.getListing(id: editId) {
+                case .success(let listing): await applyListingToForm(listing)
+                case .failure(let err): error = Self.message(for: err)
+                }
+                initLoading = false
             }
-            initLoading = false
+        } else if editId == nil, !countrySyncStarted {
+            countrySyncStarted = true
+            // Combine's @Published publisher emits the current value
+            // immediately upon subscription, so this single sink covers both
+            // the initial default and every later live change — mirrors
+            // Android's `snapshotFlow { countryRepository.country }.collect`
+            // in DeposerAnnonceViewModel.init(), itself the Compose
+            // equivalent of web's constructor effect().
+            countryCancellable = CountryRepository.shared.$country
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] newCountry in
+                    self?.country = newCountry
+                    self?.city = ""
+                }
         }
     }
 
@@ -88,6 +118,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
         description = listing.description
         price = listing.price.map(Self.plainNumber) ?? ""
         city = listing.city
+        country = listing.country
         phone = listing.phone ?? ""
         whatsapp = listing.whatsapp ?? ""
         showPhone = listing.showPhone ?? true
@@ -257,11 +288,11 @@ final class DeposerAnnonceViewModel: ObservableObject {
                 title: title,
                 description: description,
                 price: Double(price),
-                currency: "MAD",
                 category: category,
                 subcategoryId: subcategoryId.isEmpty ? nil : subcategoryId,
                 condition: condition.isEmpty ? nil : condition,
                 city: city,
+                country: country,
                 images: images,
                 phone: phone.isEmpty ? nil : phone,
                 whatsapp: whatsapp.isEmpty ? nil : whatsapp,

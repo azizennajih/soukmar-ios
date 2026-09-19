@@ -46,7 +46,7 @@ struct ListingCardView: View {
                 .foregroundStyle(.primary)
 
             if let price = listing.price {
-                let (amount, currency) = formatPriceParts(price, currency: listing.currency)
+                let (amount, currency) = formatPriceParts(price, currency: listing.currency, lang: i18n.currentLang)
                 (Text(amount + " ").font(.subheadline.bold()) + Text(currency).font(.caption))
                     .foregroundStyle(Color.soukmarPrimary)
             } else {
@@ -55,6 +55,12 @@ struct ListingCardView: View {
 
             HStack(spacing: 4) {
                 Text(listing.city)
+                // Only shown for non-Morocco listings — Morocco is the
+                // overwhelming majority, so a foreign listing is the one
+                // worth calling out while browsing. Mirrors web's foreignFlag.
+                if listing.country != "MA" {
+                    Text(flagEmoji(listing.country))
+                }
                 Text("·")
                 Text(i18n.timeAgoT(listing.createdAt))
             }

@@ -123,7 +123,7 @@ struct ChatView: View {
                 if viewModel.showOfferInput {
                     HStack {
                         Image(systemName: "tag")
-                        TextField("Montant en MAD", text: $viewModel.offerAmount)
+                        TextField("Montant en \(viewModel.conversation?.listing.currency ?? "MAD")", text: $viewModel.offerAmount)
                             .keyboardType(.numberPad)
                             .textFieldStyle(.roundedBorder)
                         Button(i18n.t("chat.send_offer")) { viewModel.sendOffer() }
@@ -226,10 +226,14 @@ struct ChatView: View {
                 }
                 .font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarGold)
                 if let amount = msg.offerAmount {
-                    let (amountText, _) = formatPriceParts(amount)
+                    // Was hardcoded to "common.mad" regardless of the actual
+                    // listing currency — now that listings can be denominated
+                    // in any country's currency (see CountryModels.swift),
+                    // that would show "MAD" on e.g. a EUR-denominated offer.
+                    let (amountText, currencyLabel) = formatPriceParts(amount, currency: viewModel.conversation?.listing.currency ?? "MAD", lang: i18n.currentLang)
                     HStack(alignment: .lastTextBaseline, spacing: 4) {
                         Text(amountText).font(.title3.bold())
-                        Text(i18n.t("common.mad")).font(.caption2).foregroundStyle(.secondary)
+                        Text(currencyLabel).font(.caption2).foregroundStyle(.secondary)
                     }
                 }
                 offerStatusLabel(msg, mine: mine)

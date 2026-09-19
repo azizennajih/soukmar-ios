@@ -103,15 +103,99 @@ let HIGHLIGHT_ATTR_CODES: [String: [String]] = [
     "HOME_GARDEN": ["FURNITURE_TYPE"],
 ]
 
+/// Major/mid-size Moroccan cities/communes — mirrors Android's
+/// ui/model/CatalogModels.kt MOROCCO_CITIES (itself 1:1 from web's
+/// listing.model.ts), used as the curated picker list when the centrally
+/// selected country is Morocco. iOS had no city list at all before this
+/// (unlike Android, which already had this from an earlier phase) — the
+/// Arabic-name display map (MOROCCO_CITIES_AR on web/Android) is a
+/// separate, deliberately deferred gap (see CLAUDE.md's existing i18n
+/// gap list), not needed for the country/currency feature itself.
+let MOROCCO_CITIES: [String] = [
+    "Casablanca", "Mohammedia", "El Jadida", "Settat", "Berrechid", "Benslimane", "Médiouna", "Nouaceur",
+    "Bouskoura", "Dar Bouazza", "Oulad Teima", "Azemmour", "Haouzia", "Sidi Bennour", "Khémis Zemamra", "Oulad Frej",
+    "Bir Jdid", "Lqliaa", "Sidi Smail", "Oulad Amrane", "Had Soualem", "Echemmaia", "Sidi Rahhal", "Bouznika",
+    "Benhmed", "Oulad Abbou", "Rabat", "Salé", "Kénitra", "Khémisset", "Sidi Kacem", "Sidi Slimane",
+    "Sidi Yahia du Gharb", "Lalla Mimouna", "Mechra Bel Ksiri", "Jorf El Melha", "Ouazzane", "Had Kourt", "Aïn Johra", "Tiflet",
+    "Rommani", "Maaziz", "Souk el Arbaa", "Moulay Bousselham", "Sidi Allal Tazi", "Arbaoua", "Fès", "Meknès",
+    "Taza", "Ifrane", "Azrou", "Moulay Yacoub", "El Hajeb", "Aïn Taoujdate", "Missour", "Boulemane",
+    "Guercif", "Sefrou", "Imouzzer Kandar", "Almis Marmoucha", "Aïn Leuh", "Boulmane du Dadès", "Tahla", "Ain Bni Mathar",
+    "Itzer", "Rich", "Marrakech", "Safi", "Essaouira", "Kelaa des Sraghna", "Chichaoua", "Youssoufia",
+    "Rehamna", "Ben Guerir", "Tamansourt", "Ait Ourir", "Amizmiz", "Tahannaout", "Tahnaout", "Asni",
+    "Tighedouine", "Ouarzazate", "Kelaa M'Gouna", "Skoura", "Agdz", "Zagora", "M'Hamid", "Tinzouline",
+    "Tamegroute", "Taroudant", "Aoulouz", "Biougra", "Aït Baha", "Massa", "Imintanoute", "Imi n'Tlit",
+    "Agadir", "Inezgane", "Aït Melloul", "Tiznit", "Chtouka Aït Baha", "Bensergao", "Drarga", "Tafraout",
+    "Sidi Ifni", "Guelmim", "Tan-Tan", "Sidi Bibi", "Sebt Aït Ahmed", "Oulad Dahou", "Aït Iaazza", "Aït Amira",
+    "Dcheira El Jihadia", "Tanger", "Tétouan", "Al Hoceïma", "Chefchaouen", "Larache", "Asilah", "Fnideq",
+    "Martil", "Mdiq", "Oued Laou", "Bab Berred", "Brikcha", "Jebha", "Targuist", "Imzouren",
+    "Bni Bouayach", "Rif", "Ksar El Kébir", "Souk El Arbaa du Rharb", "Zouada", "Ain Defali", "Oujda", "Nador",
+    "Berkane", "Taourirt", "Jerada", "Figuig", "Bouarfa", "Aïn Bni Mathar", "Ras El Ma", "Debdou",
+    "Aïn Sfa", "Zaïo", "Selouane", "Ben Taïeb", "Saidia", "Aklim", "Boudnib", "Guenfouda",
+    "Ahfir", "Garéat Ben Ouali", "Touissit", "Béni Mellal", "Khouribga", "Fquih Ben Salah", "Azilal", "Kasba Tadla",
+    "Oued Zem", "Boujad", "El Ksiba", "Demnate", "Aït Attab", "Bzou", "Rahhal", "Souk Sebt Oulad Nemma",
+    "El Brouj", "Oulad Ayad", "Afourer", "Bni Ayat", "Timoulilt", "Errachidia", "Tinghir", "Midelt",
+    "Er-Rich", "Goulmima", "Erfoud", "Rissani", "Merzouga", "Aoufous", "Arfoud", "Jorf",
+    "Ksar Souk", "Alnif", "Ghris", "Tinjdad", "Tinejdad", "Iknioun", "Laâyoune", "Boujdour",
+    "Smara", "Tarfaya", "Foum El Oued", "Dakhla", "Assa", "Zag", "Tata", "Akka",
+    "Foum Zguid", "Tissint", "Aousserd", "Bir Gandouz", "Ouled Teima", "Aïn Harrouda", "Mansouria", "Aïn Chock",
+    "Hay Hassani", "Ben Msik", "Sidi Bernoussi", "Aïn Sebaâ", "Sidi Moumen", "Oulfa", "Bel Air", "Anfa",
+    "Maarif", "Gauthier", "Agdal", "Hassan", "Souissi", "Hay Riad", "Yacoub El Mansour", "Temara",
+    "Aïn Atiq", "Skhirat", "Harhoura", "Aouinet Torkoz", "Taghazout", "Aglou", "Mirleft", "Legzira",
+    "Souss", "Tasila", "Imi Mqorn", "Imsouane", "Tamraght", "Aourir", "Belfaa", "Ait Baamrane",
+    "Warzazat", "Tazzarine", "Nkob", "Mhamid El Ghizlane", "Akka Ighane", "Icht", "Bou Izakarn", "Ifrane Anti-Atlas",
+    "Aït Herbil", "Souk El Had", "Had Hrara", "Tamzaourt", "Tikki", "Imourane", "Oued Souss", "Tikiouine",
+    "Tassila", "Dcheira", "Sebt Gzoula", "Sebt Jahjouh", "Sidi L'Mokhtar", "Jemâa Shaïm", "Abda", "Ounagha",
+    "Ida Ougnidif", "Chiadma", "Chemaia", "Lalla Fatna", "Sidi Aïssa Ben Slimane", "Tlat Hanchane", "Oulad Berhil", "Tassaout",
+    "Aït Ourirr", "Tnine Chtouka", "Tnine Aït Ourir", "Tnine Sidi Yamani", "Moulay Abdallah", "Moulay Brahim", "Moulay Idriss Zerhoun", "Sidi Harazem",
+    "Sidi Bettache", "Sidi Bouknadel", "Sidi Yahia el Gharb", "Sidi Allal Bahraoui", "Sidi Mohamed Ben Abdallah", "Sidi Taibi", "Sidi Yahia Zaer", "Aïn El Aouda",
+    "Aïn Cheggag", "Aït Oumghar", "Zaïda", "Mrirt", "Khenifra", "Aït Ishaq", "El Kbab", "Timahdite",
+    "Ain Aicha", "Taounate", "Ghafsai", "Rhafsai", "Aïn Mediouna", "Galaz", "Arbala", "Zoumi",
+    "Derdara", "Bab Taza", "Dar Chaoui", "Ain Bahja", "Tlat Taghramt", "Ametrasse", "Fifi", "Irherm",
+    "Askaoun", "Aït Oujane", "Aït Benhaddou",
+]
+
+/// Mirrors listing.model.ts's localeForLang() — used everywhere a UI
+/// language code needs to become a Locale for formatting.
+func localeForLang(_ lang: String) -> Locale {
+    switch lang {
+    case "ar": return Locale(identifier: "ar_MA")
+    case "en": return Locale(identifier: "en_US")
+    case "de": return Locale(identifier: "de_DE")
+    case "es": return Locale(identifier: "es_ES")
+    case "it": return Locale(identifier: "it_IT")
+    default: return Locale(identifier: "fr_FR")
+    }
+}
+
 /// Mirrors formatPriceParts() in listing.model.ts — splits amount/currency so
-/// the currency can be rendered smaller.
-func formatPriceParts(_ price: Double, currency: String = "MAD") -> (String, String) {
+/// the currency can be rendered smaller. Any valid ISO 4217 code formats
+/// correctly via `NumberFormatter.currency` regardless of currency, now that
+/// listings can be denominated in any of ~195 countries' currencies (see
+/// CountryModels.swift) — no more hand-rolled MAD-only decimal formatting.
+func formatPriceParts(_ price: Double, currency: String = "MAD", lang: String = "fr") -> (String, String) {
     let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    formatter.groupingSeparator = " "
+    formatter.numberStyle = .currency
+    formatter.locale = localeForLang(lang)
+    formatter.currencyCode = currency
     formatter.maximumFractionDigits = 0
-    let formatted = formatter.string(from: NSNumber(value: price)) ?? "\(Int(price))"
-    return (formatted, currency)
+    formatter.minimumFractionDigits = 0
+    guard let formatted = formatter.string(from: NSNumber(value: price)) else {
+        return ("\(Int(price))", currency)
+    }
+    // NumberFormatter has no formatToParts() equivalent — split the amount
+    // from the currency symbol/code by removing whatever the formatter's own
+    // currencySymbol/currencyCode property resolved to for this locale
+    // (mirrors Android's formatToCharacterIterator() field-tagging approach,
+    // just via string removal since Foundation offers no structured parts API).
+    let symbol = formatter.currencySymbol ?? currency
+    var amount = formatted
+    var currencyLabel = currency
+    if formatted.contains(symbol), !symbol.isEmpty {
+        amount = formatted.replacingOccurrences(of: symbol, with: "")
+        currencyLabel = symbol
+    }
+    amount = amount.trimmingCharacters(in: .whitespacesAndNewlines)
+    return (amount, currencyLabel)
 }
 
 /// French relative-time label, e.g. "il y a 5 min" — mirrors Android's timeAgo().

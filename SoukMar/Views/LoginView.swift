@@ -13,7 +13,10 @@ struct LoginView: View {
                 SoukMarLogo()
                     .padding(.top, 32)
 
-                LanguageSwitcher()
+                HStack(spacing: 8) {
+                    CountrySwitcher()
+                    LanguageSwitcher()
+                }
 
                 VStack(spacing: 4) {
                     Text(i18n.t("auth.login_title"))

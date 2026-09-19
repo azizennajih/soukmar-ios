@@ -105,6 +105,7 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 16) {
+                        CountrySwitcher()
                         LanguageSwitcher()
                         Button {
                             path.append(Route.chatList)

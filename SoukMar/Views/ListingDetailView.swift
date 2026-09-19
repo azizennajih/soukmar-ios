@@ -69,6 +69,9 @@ struct ListingDetailView: View {
                         HStack(spacing: 3) {
                             Image(systemName: "mappin").font(.system(size: 10))
                             Text(listing.city)
+                            if listing.country != "MA" {
+                                Text(flagEmoji(listing.country))
+                            }
                         }
                         Text("·")
                         Text(i18n.timeAgoT(listing.createdAt))
@@ -297,7 +300,7 @@ struct ListingDetailView: View {
     private func priceSection(for listing: ListingDto) -> some View {
         HStack(alignment: .lastTextBaseline, spacing: 6) {
             if let price = listing.price {
-                let (amount, currency) = formatPriceParts(price, currency: listing.currency)
+                let (amount, currency) = formatPriceParts(price, currency: listing.currency, lang: i18n.currentLang)
                 Text(amount).font(.title2.bold())
                 Text(currency).font(.subheadline.weight(.semibold)).foregroundStyle(Color.soukmarTextMuted)
             } else {

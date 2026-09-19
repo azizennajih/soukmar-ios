@@ -41,6 +41,7 @@ struct ListingDto: Codable, Identifiable, Equatable {
     var condition: String?
     let city: String
     var region: String?
+    var country: String = "MA"
     var images: [String] = []
     var status: String = "ACTIVE"
     var isPremium: Bool = false
@@ -75,6 +76,7 @@ struct ListingDto: Codable, Identifiable, Equatable {
         condition = try c.decodeIfPresent(String.self, forKey: .condition)
         city = try c.decode(String.self, forKey: .city)
         region = try c.decodeIfPresent(String.self, forKey: .region)
+        country = try c.decodeIfPresent(String.self, forKey: .country) ?? "MA"
         images = try c.decodeIfPresent([String].self, forKey: .images) ?? []
         status = try c.decodeIfPresent(String.self, forKey: .status) ?? "ACTIVE"
         isPremium = try c.decodeIfPresent(Bool.self, forKey: .isPremium) ?? false
