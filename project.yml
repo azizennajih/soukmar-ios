@@ -37,6 +37,7 @@ targets:
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
         NSLocationWhenInUseUsageDescription: "SouqMar24 utilise votre position pour trouver les annonces proches de vous."
+        NSCameraUsageDescription: "SouqMar24 a besoin de l'appareil photo pour prendre des photos de votre annonce."
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.soukmar.app

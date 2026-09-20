@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import UIKit
 
 /// A small icon per option makes it much faster to spot the right entry in a
 /// 20-item dropdown than reading text alone — scoped to this one attribute
@@ -28,6 +29,7 @@ struct DeposerAnnonceView: View {
 
     @StateObject private var viewModel = DeposerAnnonceViewModel()
     @State private var pickerItems: [PhotosPickerItem] = []
+    @State private var cameraOpen = false
     @ObservedObject private var i18n = I18nRepository.shared
 
     /// Mirrors soukmar-android's DEPOSER_STEP_KEYS — DEPOSER_STEPS itself
@@ -73,6 +75,12 @@ struct DeposerAnnonceView: View {
                 viewModel.addPhotos(newPhotos)
                 pickerItems = []
             }
+        }
+        .fullScreenCover(isPresented: $cameraOpen) {
+            CameraPicker { data in
+                viewModel.addPhotos([PhotoItem(localData: data)])
+            }
+            .ignoresSafeArea()
         }
     }
 
@@ -339,6 +347,21 @@ struct DeposerAnnonceView: View {
                         .background(Color(.secondarySystemBackground))
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                         .foregroundStyle(.secondary)
+                    }
+
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button {
+                            cameraOpen = true
+                        } label: {
+                            VStack {
+                                Image(systemName: "camera").font(.title2)
+                                Text(i18n.t("deposer.take_photo")).font(.caption2)
+                            }
+                            .frame(width: 80, height: 80)
+                            .background(Color(.secondarySystemBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            .foregroundStyle(.secondary)
+                        }
                     }
                 }
             }
