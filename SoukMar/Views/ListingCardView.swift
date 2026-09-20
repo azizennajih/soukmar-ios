@@ -29,7 +29,7 @@ struct ListingCardView: View {
                 }
 
                 if listing.isPremium {
-                    Text("⭐ \(i18n.t("listing.premium_badge"))")
+                    Label(i18n.t("listing.premium_badge"), systemImage: "star.fill")
                         .font(.caption2.bold())
                         .padding(.horizontal, 8).padding(.vertical, 4)
                         .background(Color.soukmarGold)
@@ -73,6 +73,14 @@ struct ListingCardView: View {
         Rectangle()
             .fill(cat?.bg ?? Color(hex: 0xF1F5F9))
             .aspectRatio(1.2, contentMode: .fit)
-            .overlay(Text(cat?.emoji ?? "📦").font(.largeTitle))
+            .overlay(
+                Group {
+                    if let emoji = cat?.emoji {
+                        Text(emoji).font(.largeTitle)
+                    } else {
+                        Image(systemName: "shippingbox").font(.largeTitle).foregroundStyle(.secondary)
+                    }
+                }
+            )
     }
 }

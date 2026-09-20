@@ -145,7 +145,7 @@ struct ListingsView: View {
     @ViewBuilder
     private var saveSearchSection: some View {
         if viewModel.searchSaved {
-            Text("✅ \(i18n.t("annonces.search_saved"))")
+            Label(i18n.t("annonces.search_saved"), systemImage: "checkmark.circle.fill")
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.green)
                 .padding(.horizontal)
@@ -166,7 +166,7 @@ struct ListingsView: View {
             .padding(.horizontal)
             .padding(.bottom, 6)
         } else {
-            Button("🔔 \(i18n.t("annonces.save_search"))") { viewModel.showSaveSearchForm = true }
+            Button { viewModel.showSaveSearchForm = true } label: { Label(i18n.t("annonces.save_search"), systemImage: "bell") }
                 .font(.caption.weight(.medium))
                 .padding(.horizontal)
                 .padding(.bottom, 6)

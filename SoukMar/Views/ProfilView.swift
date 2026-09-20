@@ -188,7 +188,7 @@ private struct PhoneVerificationRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             if viewModel.profile?.phoneVerified == true {
-                Text("✓ \(i18n.t("profil.phone_verified"))")
+                Label(i18n.t("profil.phone_verified"), systemImage: "checkmark.seal.fill")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.green)
             } else if !viewModel.phoneCodeSent {

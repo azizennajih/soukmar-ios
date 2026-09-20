@@ -116,13 +116,15 @@ struct VerifiedBadge: View {
     }
 
     private func pill(_ label: String) -> some View {
-        Text("✓ \(label)")
-            .font(.system(size: 10, weight: .semibold))
-            .foregroundStyle(.green)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(Color.green.opacity(0.12))
-            .clipShape(Capsule())
+        HStack(spacing: 3) {
+            Image(systemName: "checkmark.seal.fill").font(.system(size: 9))
+            Text(label).font(.system(size: 10, weight: .semibold))
+        }
+        .foregroundStyle(.green)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .background(Color.green.opacity(0.12))
+        .clipShape(Capsule())
     }
 }
 
@@ -163,12 +165,15 @@ struct ErrorBanner: View {
 struct SuccessBanner: View {
     let message: String
     var body: some View {
-        Text("✅ \(message)")
-            .font(.subheadline)
-            .foregroundStyle(.green)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(12)
-            .background(Color.green.opacity(0.08))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+        HStack(spacing: 6) {
+            Image(systemName: "checkmark.circle.fill")
+            Text(message)
+        }
+        .font(.subheadline)
+        .foregroundStyle(.green)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Color.green.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

@@ -150,7 +150,15 @@ private struct ListingRow: View {
                             }
                         } else {
                             Rectangle().fill(cat?.bg ?? Color(.secondarySystemBackground))
-                                .overlay(Text(cat?.emoji ?? "📦").font(.title2))
+                                .overlay(
+                                    Group {
+                                        if let emoji = cat?.emoji {
+                                            Text(emoji).font(.title2)
+                                        } else {
+                                            Image(systemName: "shippingbox").font(.title2).foregroundStyle(.secondary)
+                                        }
+                                    }
+                                )
                         }
                     }
                     .frame(width: 72, height: 72)
@@ -177,7 +185,10 @@ private struct ListingRow: View {
                             Text(i18n.t("listing.negotiate")).font(.caption.bold()).foregroundStyle(.primary)
                         }
                         HStack(spacing: 3) {
-                            Text("👁 \(listing.views) \(i18n.t("listing.views")) · 🕐 \(i18n.timeAgoT(listing.createdAt)) ·")
+                            Image(systemName: "eye").font(.system(size: 10))
+                            Text("\(listing.views) \(i18n.t("listing.views")) ·")
+                            Image(systemName: "clock").font(.system(size: 10))
+                            Text("\(i18n.timeAgoT(listing.createdAt)) ·")
                             Image(systemName: "mappin").font(.system(size: 10))
                             Text(listing.city)
                         }

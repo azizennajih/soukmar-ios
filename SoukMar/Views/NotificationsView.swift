@@ -103,7 +103,7 @@ private struct NotificationRow: View {
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                     if let title = notification.listingTitle {
-                        Text("📌 \(title)").font(.caption).foregroundStyle(.secondary)
+                        Label(title, systemImage: "link").font(.caption).foregroundStyle(.secondary)
                     }
                     Text(i18n.timeAgoT(notification.createdAt)).font(.caption2).foregroundStyle(.secondary)
                 }

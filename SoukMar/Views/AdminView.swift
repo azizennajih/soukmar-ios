@@ -136,7 +136,7 @@ private struct ReportCard: View {
                 Button {
                     onOpenListing(listing.id)
                 } label: {
-                    Text("📌 \(listing.title)").font(.subheadline.weight(.semibold)).foregroundStyle(Color.soukmarPrimary)
+                    Label(listing.title, systemImage: "link").font(.subheadline.weight(.semibold)).foregroundStyle(Color.soukmarPrimary)
                 }
                 .buttonStyle(.plain)
             }
@@ -144,7 +144,7 @@ private struct ReportCard: View {
             Text(report.reason).font(.subheadline)
 
             if let note = report.adminNote, !note.isEmpty {
-                Text("📝 \(note)").font(.caption).foregroundStyle(.secondary)
+                Label(note, systemImage: "note.text").font(.caption).foregroundStyle(.secondary)
             }
 
             if report.status == "PENDING" {

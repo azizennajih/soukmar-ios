@@ -206,7 +206,7 @@ struct ListingDetailView: View {
             } else {
                 if let phone = listing.phone {
                     HStack {
-                        Text("📞 \(phone)").fontWeight(.semibold).foregroundStyle(.green)
+                        Label(phone, systemImage: "phone.fill").fontWeight(.semibold).foregroundStyle(.green)
                         Spacer()
                     }
                     .padding(12)
@@ -215,7 +215,7 @@ struct ListingDetailView: View {
                 }
                 if let whatsapp = listing.whatsapp, let url = URL(string: "https://wa.me/\(whatsapp)") {
                     Link(destination: url) {
-                        Text("💬 WhatsApp · \(whatsapp)")
+                        Label("WhatsApp · \(whatsapp)", systemImage: "message.fill")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.bordered)
@@ -226,7 +226,7 @@ struct ListingDetailView: View {
                     if viewModel.chatStarting {
                         ProgressView().tint(.white).frame(maxWidth: .infinity)
                     } else {
-                        Text("💬 \(i18n.t("listing.contact"))").frame(maxWidth: .infinity)
+                        Label(i18n.t("listing.contact"), systemImage: "message.fill").frame(maxWidth: .infinity)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -275,7 +275,15 @@ struct ListingDetailView: View {
             Rectangle()
                 .fill(categoryConfig(listing.category)?.bg ?? Color(hex: 0xF1F5F9))
                 .aspectRatio(1.3, contentMode: .fit)
-                .overlay(Text(categoryConfig(listing.category)?.emoji ?? "📦").font(.system(size: 48)))
+                .overlay(
+                    Group {
+                        if let emoji = categoryConfig(listing.category)?.emoji {
+                            Text(emoji).font(.system(size: 48))
+                        } else {
+                            Image(systemName: "shippingbox").font(.system(size: 48)).foregroundStyle(.secondary)
+                        }
+                    }
+                )
         } else {
             TabView {
                 ForEach(listing.images, id: \.self) { urlString in
@@ -309,9 +317,9 @@ struct ListingDetailView: View {
         }
         if let pct = viewModel.priceComparisonPct {
             let good = pct < 0
-            Text(good
-                ? "📉 \(i18n.t("listing.price_below", ["pct": "\(-pct)"]))"
-                : "📈 \(i18n.t("listing.price_above", ["pct": "\(pct)"]))"
+            Label(
+                good ? i18n.t("listing.price_below", ["pct": "\(-pct)"]) : i18n.t("listing.price_above", ["pct": "\(pct)"]),
+                systemImage: good ? "arrow.down.right.circle.fill" : "arrow.up.right.circle.fill"
             )
             .font(.caption.weight(.semibold))
             .foregroundStyle(good ? .green : (pct > 10 ? .red : Color.soukmarTextMuted))

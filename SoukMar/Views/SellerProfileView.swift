@@ -117,7 +117,7 @@ struct SellerProfileView: View {
             .padding(.top, 4)
 
             if let label = Self.responseLabel(profile.avgResponseHours, i18n: i18n) {
-                Text("⚡ \(label)")
+                Label(label, systemImage: "bolt.fill")
                     .font(.caption.weight(.semibold))
                     .padding(.horizontal, 10).padding(.vertical, 4)
                     .background(Color(.secondarySystemBackground))
@@ -187,7 +187,7 @@ private struct ReviewRow: View {
             }
             Group {
                 if let title = review.listing?.title {
-                    Text("📌 \(title) · \(i18n.timeAgoT(review.createdAt))")
+                    Label("\(title) · \(i18n.timeAgoT(review.createdAt))", systemImage: "link")
                 } else {
                     Text(i18n.timeAgoT(review.createdAt))
                 }

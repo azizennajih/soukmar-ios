@@ -80,7 +80,7 @@ struct ChatView: View {
         VStack(spacing: 0) {
             if viewModel.listingStatus == "RESERVED" {
                 HStack {
-                    Text("🔒 \(i18n.t("chat.reserved_msg")) \(i18n.t("chat.reserved_word"))").font(.caption).foregroundStyle(Color.soukmarGold)
+                    Label("\(i18n.t("chat.reserved_msg")) \(i18n.t("chat.reserved_word"))", systemImage: "lock.fill").font(.caption).foregroundStyle(Color.soukmarGold)
                     Spacer()
                     Button(i18n.t("chat.cancel")) { viewModel.requestCancelReservation() }.font(.caption)
                 }
@@ -89,7 +89,7 @@ struct ChatView: View {
             }
 
             if viewModel.reportSubmitted {
-                Text("✅ Signalement envoyé, merci.")
+                Label("Signalement envoyé, merci.", systemImage: "checkmark.circle.fill")
                     .font(.caption).foregroundStyle(.green)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal).padding(.vertical, 4)
@@ -112,7 +112,7 @@ struct ChatView: View {
             }
 
             if viewModel.messagingBlocked() {
-                Text("🚫 \(i18n.t("chat.blocked_banner"))")
+                Label(i18n.t("chat.blocked_banner"), systemImage: "nosign")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -239,14 +239,14 @@ struct ChatView: View {
                 offerStatusLabel(msg, mine: mine)
                 if viewModel.canRespond(msg) {
                     HStack(spacing: 8) {
-                        Button("✅ \(i18n.t("chat.accept"))") { viewModel.respondOffer(msg, status: "ACCEPTED") }
+                        Button { viewModel.respondOffer(msg, status: "ACCEPTED") } label: { Label(i18n.t("chat.accept"), systemImage: "checkmark.circle.fill") }
                             .buttonStyle(.borderedProminent).tint(.green).font(.caption)
-                        Button("❌ \(i18n.t("chat.reject"))") { viewModel.respondOffer(msg, status: "REJECTED") }
+                        Button { viewModel.respondOffer(msg, status: "REJECTED") } label: { Label(i18n.t("chat.reject"), systemImage: "xmark.circle.fill") }
                             .buttonStyle(.borderedProminent).tint(.red).font(.caption)
                     }
                 }
                 if viewModel.canCancel(msg) {
-                    Button("🚫 \(i18n.t("chat.cancel_offer"))") { viewModel.requestCancelOffer(msg) }
+                    Button { viewModel.requestCancelOffer(msg) } label: { Label(i18n.t("chat.cancel_offer"), systemImage: "nosign") }
                         .buttonStyle(.bordered).font(.caption)
                 }
             }
@@ -262,9 +262,9 @@ struct ChatView: View {
     @ViewBuilder
     private func offerStatusLabel(_ msg: MessageDto, mine: Bool) -> some View {
         switch msg.offerStatus {
-        case "PENDING": Text("⏳ \(i18n.t("chat.pending"))").font(.caption2).foregroundStyle(.secondary)
-        case "ACCEPTED": Text("✅ \(i18n.t("chat.accepted"))").font(.caption2).foregroundStyle(.green)
-        case "REJECTED": Text(mine ? "🚫 \(i18n.t("chat.cancelled"))" : "❌ \(i18n.t("chat.rejected"))").font(.caption2).foregroundStyle(.red)
+        case "PENDING": Label(i18n.t("chat.pending"), systemImage: "clock.fill").font(.caption2).foregroundStyle(.secondary)
+        case "ACCEPTED": Label(i18n.t("chat.accepted"), systemImage: "checkmark.circle.fill").font(.caption2).foregroundStyle(.green)
+        case "REJECTED": Label(mine ? i18n.t("chat.cancelled") : i18n.t("chat.rejected"), systemImage: mine ? "nosign" : "xmark.circle.fill").font(.caption2).foregroundStyle(.red)
         default: EmptyView()
         }
     }
