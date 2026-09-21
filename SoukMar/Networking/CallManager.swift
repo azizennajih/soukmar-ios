@@ -242,14 +242,17 @@ final class CallManager: NSObject, ObservableObject {
     /// `RTCAudioSession.h` (verified directly against
     /// webrtc.googlesource.com's current header, which only declares
     /// `setCategory:mode:options:error:` and `setCategory:withOptions:error:`
-    /// now) — the demo app predates that header change.
+    /// now) — the demo app predates that header change. Both parameters take
+    /// the `AVAudioSession.Category`/`.Mode` value itself, not `.rawValue`
+    /// (a first attempt passed `.rawValue`, i.e. a `String`, which doesn't
+    /// match either overload's expected enum-typed parameter).
     private func configureAudioSession() {
         let session = RTCAudioSession.sharedInstance()
         session.lockForConfiguration()
         defer { session.unlockForConfiguration() }
         do {
-            try session.setCategory(AVAudioSession.Category.playAndRecord.rawValue, withOptions: [])
-            try session.setMode(AVAudioSession.Mode.voiceChat.rawValue)
+            try session.setCategory(AVAudioSession.Category.playAndRecord, withOptions: [])
+            try session.setMode(AVAudioSession.Mode.voiceChat)
             try session.setActive(true)
         } catch {
             // Non-fatal — the call can still proceed with default routing.
