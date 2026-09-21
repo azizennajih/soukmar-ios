@@ -18,6 +18,16 @@ packages:
   SocketIO:
     url: https://github.com/socketio/socket.io-client-swift
     from: 16.1.1
+  # Masked in-app voice calling (Tranche 23) — iOS has no first-party WebRTC
+  # framework. stasel/WebRTC ships a prebuilt Google WebRTC XCFramework via
+  # SPM: free, no signup/account/API key, BSD-3-licensed build scripts (the
+  # underlying WebRTC code keeps its own webrtc.org license). Pinned to an
+  # exact version (not `from:`) since this is a binary framework tracking
+  # Chromium release numbers as its major version — an automatic major bump
+  # could silently pull an ABI-incompatible binary in CI.
+  WebRTC:
+    url: https://github.com/stasel/WebRTC.git
+    exactVersion: 153.0.0
 
 targets:
   SoukMar:
@@ -27,6 +37,7 @@ targets:
       - path: SoukMar
     dependencies:
       - package: SocketIO
+      - package: WebRTC
     info:
       path: SoukMar/Info.plist
       properties:
@@ -38,6 +49,7 @@ targets:
           NSAllowsArbitraryLoads: true
         NSLocationWhenInUseUsageDescription: "SouqMar24 utilise votre position pour trouver les annonces proches de vous."
         NSCameraUsageDescription: "SouqMar24 a besoin de l'appareil photo pour prendre des photos de votre annonce."
+        NSMicrophoneUsageDescription: "SouqMar24 a besoin du microphone pour les appels audio avec les autres utilisateurs."
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.soukmar.app
