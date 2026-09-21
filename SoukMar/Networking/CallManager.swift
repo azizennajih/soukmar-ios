@@ -245,13 +245,17 @@ final class CallManager: NSObject, ObservableObject {
     /// now) — the demo app predates that header change. Both parameters take
     /// the `AVAudioSession.Category`/`.Mode` value itself, not `.rawValue`
     /// (a first attempt passed `.rawValue`, i.e. a `String`, which doesn't
-    /// match either overload's expected enum-typed parameter).
+    /// match either overload's expected enum-typed parameter). The Swift
+    /// argument label for the options parameter is `with:`, not
+    /// `withOptions:` — Swift renamed it from the ObjC-derived
+    /// `setCategory(_:withOptions:)` to `setCategory(_:with:)` (the older
+    /// spelling is `obsoleted in Swift 3` per the compiler's own note).
     private func configureAudioSession() {
         let session = RTCAudioSession.sharedInstance()
         session.lockForConfiguration()
         defer { session.unlockForConfiguration() }
         do {
-            try session.setCategory(AVAudioSession.Category.playAndRecord, withOptions: [])
+            try session.setCategory(AVAudioSession.Category.playAndRecord, with: [])
             try session.setMode(AVAudioSession.Mode.voiceChat)
             try session.setActive(true)
         } catch {
