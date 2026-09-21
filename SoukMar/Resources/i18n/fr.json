@@ -21,7 +21,18 @@
     "categories": "Catégories",
     "all": "Toutes",
     "suggest_in_all": "dans toutes les catégories",
-    "suggest_in": "dans"
+    "suggest_in": "dans",
+    "search_by_image": "Rechercher par photo"
+  },
+  "image_search": {
+    "title": "Recherche par photo",
+    "subtitle": "Trouvez des annonces avec des photos similaires à la vôtre.",
+    "pick_btn": "Choisir une photo",
+    "loading": "Recherche en cours…",
+    "error": "La recherche a échoué. Veuillez réessayer.",
+    "no_results": "Aucune annonce similaire trouvée",
+    "no_results_sub": "Essayez une autre photo, prise sous un angle différent.",
+    "results_count": "Annonces similaires"
   },
   "home": {
     "hero_badge": "Plus de 50 000 annonces actives",
@@ -193,7 +204,18 @@
     "no_message": "Aucun message",
     "offer_short": "Offre: {amount} MAD",
     "amount_placeholder": "Montant en MAD",
-    "blocked_banner": "La messagerie avec cet utilisateur n'est plus disponible."
+    "blocked_banner": "La messagerie avec cet utilisateur n'est plus disponible.",
+    "call_start": "Démarrer un appel",
+    "call_incoming": "Appel entrant",
+    "call_ringing": "Appel en cours…",
+    "call_active": "En communication",
+    "call_accept": "Accepter",
+    "call_reject": "Refuser",
+    "call_end": "Raccrocher",
+    "call_mute": "Couper le micro",
+    "call_unmute": "Réactiver le micro",
+    "call_mic_denied": "Accès au micro refusé. Veuillez l'autoriser dans les paramètres du navigateur.",
+    "call_failed": "L'appel a échoué."
   },
   "notifications": {
     "title": "Notifications",
@@ -209,7 +231,9 @@
     "enable_push_btn": "Activer",
     "report_resolved": "Votre signalement a été examiné par notre équipe.",
     "listing_expiring_soon": "Votre annonce expire dans environ une semaine.",
-    "listing_expired": "Votre annonce a expiré. Passez en Premium pour la réactiver."
+    "listing_expired": "Votre annonce a expiré. Passez en Premium pour la réactiver.",
+    "price_drop": "Baisse de prix ({name}) sur une annonce que vous suivez.",
+    "id_verification_reviewed": "Le statut de votre vérification d'identité a été mis à jour."
   },
   "auth": {
     "login_title": "Bon retour !",
@@ -1197,7 +1221,18 @@
     "reports_status_pending": "En attente",
     "reports_status_resolved": "Résolu",
     "reports_status_dismissed": "Rejeté",
+    "reports_status_approved": "Approuvé",
+    "reports_status_rejected": "Refusé",
     "reports_note_prompt": "Note interne (optionnel) :",
+    "tab_id_verifications": "Vérifications",
+    "id_verifications_title": "Vérifications d'identité",
+    "id_verifications_empty": "Aucune demande de vérification pour le moment.",
+    "id_verifications_user": "Utilisateur",
+    "id_verifications_id_photo": "Voir la pièce d'identité",
+    "id_verifications_selfie_photo": "Voir le selfie",
+    "id_verifications_approve": "Approuver",
+    "id_verifications_reject": "Refuser",
+    "id_verification_note_prompt": "Motif du refus (optionnel) :",
     "filter_all": "Toutes",
     "col_listing": "Annonce",
     "col_seller": "Vendeur",
@@ -1357,6 +1392,12 @@
     "extend": "Prolonger de 3 semaines maintenant (gratuit, une seule fois)",
     "stats": "Statistiques",
     "stats_title": "Vues sur les 14 derniers jours",
+    "funnel_title": "Entonnoir de conversion",
+    "funnel_views": "Vues",
+    "funnel_favorites": "Favoris",
+    "funnel_contacts": "Contacts",
+    "funnel_offers": "Offres reçues",
+    "funnel_accepted": "Offres acceptées",
     "expires_in_days": "Expire dans {n} jours",
     "expires_today": "Expire aujourd'hui"
   },
@@ -1409,7 +1450,18 @@
     "phone_code_sent": "Code envoyé par SMS.",
     "phone_code_send_error": "Le code n'a pas pu être envoyé.",
     "phone_verified_success": "Numéro de téléphone vérifié avec succès !",
-    "phone_code_invalid": "Le code est invalide ou expiré."
+    "phone_code_invalid": "Le code est invalide ou expiré.",
+    "id_verification_title": "Vérification d'identité",
+    "id_verification_desc": "Renforcez la confiance des autres utilisateurs en vérifiant votre identité. Un membre de notre équipe examine manuellement votre pièce d'identité et votre selfie — gratuit, sans service tiers payant.",
+    "id_verification_id_label": "Photo de votre pièce d'identité (CNI, passeport...)",
+    "id_verification_selfie_label": "Selfie (visage bien visible)",
+    "id_verification_submit": "Envoyer pour vérification",
+    "id_verification_submitted": "Votre demande a été envoyée. Nous l'examinerons sous peu.",
+    "id_verification_files_required": "Veuillez ajouter les deux photos.",
+    "id_verification_error": "L'envoi a échoué. Réessayez.",
+    "id_verification_pending": "Votre demande est en cours d'examen.",
+    "id_verification_approved": "Identité vérifiée",
+    "id_verification_rejected": "Demande refusée. Vous pouvez soumettre une nouvelle demande."
   },
   "parametres": {
     "title": "Paramètres",
@@ -1544,7 +1596,9 @@
     "email_verified": "Adresse e-mail vérifiée",
     "email_verified_short": "E-mail",
     "phone_verified": "Numéro de téléphone vérifié",
-    "phone_verified_short": "Téléphone"
+    "phone_verified_short": "Téléphone",
+    "id_verified": "Identité vérifiée par notre équipe",
+    "id_verified_short": "Identité"
   },
   "saved_searches": {
     "title": "Recherches sauvegardées",

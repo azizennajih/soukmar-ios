@@ -21,7 +21,18 @@
     "city_placeholder_short": "Città",
     "settings": "Impostazioni",
     "suggest_in_all": "in tutte le categorie",
-    "suggest_in": "in"
+    "suggest_in": "in",
+    "search_by_image": "Cerca per foto"
+  },
+  "image_search": {
+    "title": "Ricerca per foto",
+    "subtitle": "Trova annunci con foto simili alla tua.",
+    "pick_btn": "Scegli una foto",
+    "loading": "Ricerca in corso…",
+    "error": "La ricerca non è riuscita. Riprova.",
+    "no_results": "Nessun annuncio simile trovato",
+    "no_results_sub": "Prova un'altra foto, scattata da un'angolazione diversa.",
+    "results_count": "Annunci simili"
   },
   "home": {
     "hero_badge": "Oltre 50.000 annunci attivi",
@@ -193,7 +204,18 @@
     "no_message": "Nessun messaggio",
     "offer_short": "Offerta: {amount} MAD",
     "amount_placeholder": "Importo in MAD",
-    "blocked_banner": "La messaggistica con questo utente non è più disponibile."
+    "blocked_banner": "La messaggistica con questo utente non è più disponibile.",
+    "call_start": "Avvia chiamata",
+    "call_incoming": "Chiamata in arrivo",
+    "call_ringing": "Chiamata in corso…",
+    "call_active": "In chiamata",
+    "call_accept": "Accetta",
+    "call_reject": "Rifiuta",
+    "call_end": "Riaggancia",
+    "call_mute": "Disattiva microfono",
+    "call_unmute": "Riattiva microfono",
+    "call_mic_denied": "Accesso al microfono negato. Consentilo nelle impostazioni del browser.",
+    "call_failed": "Chiamata non riuscita."
   },
   "notifications": {
     "title": "Notifiche",
@@ -209,7 +231,9 @@
     "enable_push_btn": "Attiva",
     "report_resolved": "La tua segnalazione è stata esaminata dal nostro team.",
     "listing_expiring_soon": "Il tuo annuncio scade tra circa una settimana.",
-    "listing_expired": "Il tuo annuncio è scaduto. Passa a Premium per riattivarlo."
+    "listing_expired": "Il tuo annuncio è scaduto. Passa a Premium per riattivarlo.",
+    "price_drop": "Calo di prezzo ({name}) su un annuncio che segui.",
+    "id_verification_reviewed": "Lo stato della tua verifica d'identità è stato aggiornato."
   },
   "auth": {
     "login_title": "Bentornato!",
@@ -449,7 +473,18 @@
     "reports_status_pending": "In attesa",
     "reports_status_resolved": "Risolto",
     "reports_status_dismissed": "Rifiutato",
-    "reports_note_prompt": "Nota interna (facoltativa):"
+    "reports_status_approved": "Approvato",
+    "reports_status_rejected": "Rifiutato",
+    "reports_note_prompt": "Nota interna (facoltativa):",
+    "tab_id_verifications": "Verifiche",
+    "id_verifications_title": "Verifiche d'identità",
+    "id_verifications_empty": "Nessuna richiesta di verifica per ora.",
+    "id_verifications_user": "Utente",
+    "id_verifications_id_photo": "Vedi documento d'identità",
+    "id_verifications_selfie_photo": "Vedi selfie",
+    "id_verifications_approve": "Approva",
+    "id_verifications_reject": "Rifiuta",
+    "id_verification_note_prompt": "Motivo del rifiuto (facoltativo):"
   },
   "mes_annonces": {
     "title": "I miei annunci",
@@ -468,6 +503,12 @@
     "extend": "Prolunga di 3 settimane ora (gratis, una sola volta)",
     "stats": "Statistiche",
     "stats_title": "Visualizzazioni negli ultimi 14 giorni",
+    "funnel_title": "Imbuto di conversione",
+    "funnel_views": "Visualizzazioni",
+    "funnel_favorites": "Preferiti",
+    "funnel_contacts": "Contatti",
+    "funnel_offers": "Offerte ricevute",
+    "funnel_accepted": "Offerte accettate",
     "expires_in_days": "Scade tra {n} giorni",
     "expires_today": "Scade oggi"
   },
@@ -520,7 +561,18 @@
     "phone_code_sent": "Codice inviato via SMS.",
     "phone_code_send_error": "Impossibile inviare il codice.",
     "phone_verified_success": "Numero di telefono verificato con successo!",
-    "phone_code_invalid": "Il codice non è valido o è scaduto."
+    "phone_code_invalid": "Il codice non è valido o è scaduto.",
+    "id_verification_title": "Verifica dell'identità",
+    "id_verification_desc": "Aumenta la fiducia degli altri utenti verificando la tua identità. Un membro del nostro team esamina manualmente il tuo documento e il tuo selfie — gratis, senza servizi di terze parti a pagamento.",
+    "id_verification_id_label": "Foto del tuo documento (carta d'identità, passaporto...)",
+    "id_verification_selfie_label": "Selfie (volto ben visibile)",
+    "id_verification_submit": "Invia per la verifica",
+    "id_verification_submitted": "La tua richiesta è stata inviata. La esamineremo a breve.",
+    "id_verification_files_required": "Aggiungi entrambe le foto.",
+    "id_verification_error": "Invio non riuscito. Riprova.",
+    "id_verification_pending": "La tua richiesta è in fase di revisione.",
+    "id_verification_approved": "Identità verificata",
+    "id_verification_rejected": "Richiesta rifiutata. Puoi inviarne una nuova."
   },
   "parametres": {
     "title": "Impostazioni",
@@ -1544,7 +1596,9 @@
     "email_verified": "Indirizzo email verificato",
     "email_verified_short": "Email",
     "phone_verified": "Numero di telefono verificato",
-    "phone_verified_short": "Telefono"
+    "phone_verified_short": "Telefono",
+    "id_verified": "Identità verificata dal nostro team",
+    "id_verified_short": "Identità"
   },
   "saved_searches": {
     "title": "Ricerche salvate",

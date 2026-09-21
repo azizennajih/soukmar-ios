@@ -54,7 +54,7 @@ struct MesAnnoncesView: View {
                                         onDelete: { viewModel.requestDelete(listing.id) }
                                     )
                                     if viewModel.statsOpenId == listing.id {
-                                        StatsPanel(days: viewModel.statsData[listing.id])
+                                        StatsPanel(days: viewModel.statsData[listing.id], funnel: viewModel.funnelData[listing.id])
                                     }
                                 }
                             }
@@ -251,6 +251,7 @@ private struct RowActionButton: View {
 
 private struct StatsPanel: View {
     let days: [ViewStatDayDto]?
+    let funnel: FunnelDto?
     @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
@@ -275,11 +276,68 @@ private struct StatsPanel: View {
                 }
                 .frame(height: 48)
             }
+
+            Divider().padding(.vertical, 2)
+
+            Text(i18n.t("mes_annonces.funnel_title")).font(.caption.weight(.semibold))
+            if let funnel {
+                VStack(spacing: 6) {
+                    FunnelRow(label: i18n.t("mes_annonces.funnel_views"), count: funnel.views, pct: 100, accented: false)
+                    FunnelRow(label: i18n.t("mes_annonces.funnel_favorites"), count: funnel.favorites, pct: Self.pct(funnel.favorites, of: funnel.views), accented: false)
+                    FunnelRow(label: i18n.t("mes_annonces.funnel_contacts"), count: funnel.contacts, pct: Self.pct(funnel.contacts, of: funnel.views), accented: false)
+                    FunnelRow(label: i18n.t("mes_annonces.funnel_offers"), count: funnel.offers, pct: Self.pct(funnel.offers, of: funnel.views), accented: false)
+                    FunnelRow(label: i18n.t("mes_annonces.funnel_accepted"), count: funnel.offersAccepted, pct: Self.pct(funnel.offersAccepted, of: funnel.views), accented: true)
+                }
+            } else {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+                .frame(height: 32)
+            }
         }
         .padding(12)
         .background(Color.soukmarPrimaryLight)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding(.top, 6)
+    }
+
+    /// Each funnel step's bar width relative to the top of the funnel
+    /// (views) — mirrors Web's funnelPct(): 100 for views itself, shrinking
+    /// down through favorites/contacts/offers/accepted. Guards against
+    /// divide-by-zero on a brand-new listing.
+    private static func pct(_ count: Int, of views: Int) -> Double {
+        guard views > 0 else { return 0 }
+        return min(100, Double(count) / Double(views) * 100)
+    }
+}
+
+private struct FunnelRow: View {
+    let label: String
+    let count: Int
+    let pct: Double
+    let accented: Bool
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .frame(width: 92, alignment: .leading)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color(.systemGray5)).frame(height: 8)
+                    Capsule()
+                        .fill(accented ? Color.green : Color.soukmarPrimary)
+                        .frame(width: geo.size.width * CGFloat(pct / 100), height: 8)
+                }
+            }
+            .frame(height: 8)
+            Text("\(count)")
+                .font(.caption2.bold())
+                .frame(width: 28, alignment: .trailing)
+        }
     }
 }
 

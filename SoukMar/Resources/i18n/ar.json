@@ -21,7 +21,18 @@
     "city_placeholder_short": "المدينة",
     "settings": "الإعدادات",
     "suggest_in_all": "في جميع الفئات",
-    "suggest_in": "في"
+    "suggest_in": "في",
+    "search_by_image": "البحث بالصورة"
+  },
+  "image_search": {
+    "title": "البحث بالصورة",
+    "subtitle": "ابحث عن إعلانات بصور مشابهة لصورتك.",
+    "pick_btn": "اختر صورة",
+    "loading": "جارٍ البحث…",
+    "error": "فشل البحث. يرجى المحاولة مرة أخرى.",
+    "no_results": "لم يتم العثور على إعلانات مشابهة",
+    "no_results_sub": "جرّب صورة أخرى، مُلتقطة من زاوية مختلفة.",
+    "results_count": "إعلانات مشابهة"
   },
   "home": {
     "hero_badge": "أكثر من 50,000 إعلان نشط",
@@ -193,7 +204,18 @@
     "no_message": "لا توجد رسائل",
     "offer_short": "عرض: {amount} درهم",
     "amount_placeholder": "المبلغ بالدرهم",
-    "blocked_banner": "لم تعد المراسلة مع هذا المستخدم متاحة."
+    "blocked_banner": "لم تعد المراسلة مع هذا المستخدم متاحة.",
+    "call_start": "بدء مكالمة",
+    "call_incoming": "مكالمة واردة",
+    "call_ringing": "جارٍ الاتصال…",
+    "call_active": "مكالمة جارية",
+    "call_accept": "قبول",
+    "call_reject": "رفض",
+    "call_end": "إنهاء المكالمة",
+    "call_mute": "كتم الصوت",
+    "call_unmute": "إلغاء كتم الصوت",
+    "call_mic_denied": "تم رفض الوصول إلى الميكروفون. يرجى السماح به في إعدادات المتصفح.",
+    "call_failed": "فشلت المكالمة."
   },
   "notifications": {
     "title": "الإشعارات",
@@ -209,7 +231,9 @@
     "enable_push_btn": "تفعيل",
     "report_resolved": "تمت مراجعة بلاغك من قبل فريقنا.",
     "listing_expiring_soon": "ستنتهي صلاحية إعلانك خلال حوالي أسبوع.",
-    "listing_expired": "انتهت صلاحية إعلانك. اشترك في Premium لإعادة تفعيله."
+    "listing_expired": "انتهت صلاحية إعلانك. اشترك في Premium لإعادة تفعيله.",
+    "price_drop": "انخفاض السعر ({name}) على إعلان تتابعه.",
+    "id_verification_reviewed": "تم تحديث حالة التحقق من هويتك."
   },
   "auth": {
     "login_title": "مرحبًا بعودتك!",
@@ -421,7 +445,18 @@
     "reports_status_pending": "قيد الانتظار",
     "reports_status_resolved": "تم الحل",
     "reports_status_dismissed": "مرفوض",
-    "reports_note_prompt": "ملاحظة داخلية (اختياري):"
+    "reports_status_approved": "مقبول",
+    "reports_status_rejected": "مرفوض",
+    "reports_note_prompt": "ملاحظة داخلية (اختياري):",
+    "tab_id_verifications": "التحققات",
+    "id_verifications_title": "التحقق من الهوية",
+    "id_verifications_empty": "لا توجد طلبات تحقق حاليًا.",
+    "id_verifications_user": "المستخدم",
+    "id_verifications_id_photo": "عرض صورة الهوية",
+    "id_verifications_selfie_photo": "عرض الصورة الشخصية",
+    "id_verifications_approve": "قبول",
+    "id_verifications_reject": "رفض",
+    "id_verification_note_prompt": "سبب الرفض (اختياري):"
   },
   "deposer": {
     "gate_title": "يجب تسجيل الدخول",
@@ -561,6 +596,12 @@
     "extend": "تمديد 3 أسابيع الآن (مجانًا، مرة واحدة)",
     "stats": "الإحصائيات",
     "stats_title": "المشاهدات خلال آخر 14 يومًا",
+    "funnel_title": "قمع التحويل",
+    "funnel_views": "المشاهدات",
+    "funnel_favorites": "المفضلة",
+    "funnel_contacts": "التواصل",
+    "funnel_offers": "العروض المستلمة",
+    "funnel_accepted": "العروض المقبولة",
     "expires_in_days": "تنتهي خلال {n} يومًا",
     "expires_today": "تنتهي اليوم"
   },
@@ -613,7 +654,18 @@
     "phone_code_sent": "تم إرسال الرمز عبر الرسائل النصية.",
     "phone_code_send_error": "تعذر إرسال الرمز.",
     "phone_verified_success": "تم توثيق رقم الهاتف بنجاح!",
-    "phone_code_invalid": "الرمز غير صحيح أو منتهي الصلاحية."
+    "phone_code_invalid": "الرمز غير صحيح أو منتهي الصلاحية.",
+    "id_verification_title": "التحقق من الهوية",
+    "id_verification_desc": "عزّز ثقة المستخدمين الآخرين بالتحقق من هويتك. يقوم أحد أعضاء فريقنا بمراجعة بطاقة هويتك وصورتك الشخصية يدويًا — مجانًا، دون أي خدمة خارجية مدفوعة.",
+    "id_verification_id_label": "صورة بطاقة هويتك (بطاقة وطنية، جواز سفر...)",
+    "id_verification_selfie_label": "صورة شخصية (الوجه واضح)",
+    "id_verification_submit": "إرسال للتحقق",
+    "id_verification_submitted": "تم إرسال طلبك. سنراجعه قريبًا.",
+    "id_verification_files_required": "يرجى إضافة الصورتين.",
+    "id_verification_error": "فشل الإرسال. حاول مرة أخرى.",
+    "id_verification_pending": "طلبك قيد المراجعة.",
+    "id_verification_approved": "تم التحقق من الهوية",
+    "id_verification_rejected": "تم رفض الطلب. يمكنك تقديم طلب جديد."
   },
   "parametres": {
     "title": "الإعدادات",
@@ -1544,7 +1596,9 @@
     "email_verified": "البريد الإلكتروني موثق",
     "email_verified_short": "البريد الإلكتروني",
     "phone_verified": "رقم الهاتف موثق",
-    "phone_verified_short": "الهاتف"
+    "phone_verified_short": "الهاتف",
+    "id_verified": "تم التحقق من الهوية من قبل فريقنا",
+    "id_verified_short": "الهوية"
   },
   "saved_searches": {
     "title": "عمليات البحث المحفوظة",

@@ -28,7 +28,7 @@ struct ChatView: View {
                 VStack(spacing: 1) {
                     Text(viewModel.partnerName()).font(.headline)
                     if let partner = viewModel.partnerUser() {
-                        VerifiedBadge(emailVerified: partner.emailVerified, phoneVerified: partner.phoneVerified)
+                        VerifiedBadge(emailVerified: partner.emailVerified, phoneVerified: partner.phoneVerified, idVerified: partner.idVerified)
                     }
                 }
             }

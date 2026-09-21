@@ -6,6 +6,7 @@ struct ListingUserDto: Codable {
     var city: String?
     var emailVerified: Bool = false
     var phoneVerified: Bool = false
+    var idVerified: Bool = false
     var accountType: String?
 
     init(from decoder: Decoder) throws {
@@ -15,6 +16,7 @@ struct ListingUserDto: Codable {
         city = try c.decodeIfPresent(String.self, forKey: .city)
         emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
         phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+        idVerified = try c.decodeIfPresent(Bool.self, forKey: .idVerified) ?? false
         accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
     }
 }
@@ -184,6 +186,26 @@ struct ViewStatsDto: Codable {
 
 struct ListingStatusUpdateRequest: Encodable {
     let status: String
+}
+
+/// Mirrors soukmar-backend's GET /api/listings/:id/funnel (owner or ADMIN
+/// only) — a conversion funnel over data already tracked elsewhere
+/// (Listing.views, Favorite, Conversation, Message), no new analytics infra.
+struct FunnelDto: Codable {
+    var views: Int = 0
+    var favorites: Int = 0
+    var contacts: Int = 0
+    var offers: Int = 0
+    var offersAccepted: Int = 0
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        views = try c.decodeIfPresent(Int.self, forKey: .views) ?? 0
+        favorites = try c.decodeIfPresent(Int.self, forKey: .favorites) ?? 0
+        contacts = try c.decodeIfPresent(Int.self, forKey: .contacts) ?? 0
+        offers = try c.decodeIfPresent(Int.self, forKey: .offers) ?? 0
+        offersAccepted = try c.decodeIfPresent(Int.self, forKey: .offersAccepted) ?? 0
+    }
 }
 
 struct CategoryFullResponse: Codable {

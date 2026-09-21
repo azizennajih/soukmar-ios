@@ -13,6 +13,7 @@ struct ChatUserDto: Codable {
     let name: String
     var emailVerified: Bool = false
     var phoneVerified: Bool = false
+    var idVerified: Bool = false
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -20,6 +21,7 @@ struct ChatUserDto: Codable {
         name = try c.decode(String.self, forKey: .name)
         emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
         phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+        idVerified = try c.decodeIfPresent(Bool.self, forKey: .idVerified) ?? false
     }
 }
 

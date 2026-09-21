@@ -78,6 +78,7 @@ struct SellerProfileDto: Codable {
     var avgResponseHours: Double?
     var emailVerified: Bool = false
     var phoneVerified: Bool = false
+    var idVerified: Bool = false
     var accountType: String?
 
     init(from decoder: Decoder) throws {
@@ -93,6 +94,7 @@ struct SellerProfileDto: Codable {
         avgResponseHours = try c.decodeIfPresent(Double.self, forKey: .avgResponseHours)
         emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
         phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+        idVerified = try c.decodeIfPresent(Bool.self, forKey: .idVerified) ?? false
         accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
     }
 }

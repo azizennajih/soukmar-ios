@@ -21,7 +21,18 @@
     "city_placeholder_short": "City",
     "settings": "Settings",
     "suggest_in_all": "in all categories",
-    "suggest_in": "in"
+    "suggest_in": "in",
+    "search_by_image": "Search by photo"
+  },
+  "image_search": {
+    "title": "Search by photo",
+    "subtitle": "Find listings with photos similar to yours.",
+    "pick_btn": "Choose a photo",
+    "loading": "Searching…",
+    "error": "The search failed. Please try again.",
+    "no_results": "No similar listings found",
+    "no_results_sub": "Try another photo, taken from a different angle.",
+    "results_count": "Similar listings"
   },
   "home": {
     "hero_badge": "Over 50,000 active listings",
@@ -193,7 +204,18 @@
     "no_message": "No message",
     "offer_short": "Offer: {amount} MAD",
     "amount_placeholder": "Amount in MAD",
-    "blocked_banner": "Messaging with this user is no longer available."
+    "blocked_banner": "Messaging with this user is no longer available.",
+    "call_start": "Start call",
+    "call_incoming": "Incoming call",
+    "call_ringing": "Calling…",
+    "call_active": "In call",
+    "call_accept": "Accept",
+    "call_reject": "Decline",
+    "call_end": "Hang up",
+    "call_mute": "Mute",
+    "call_unmute": "Unmute",
+    "call_mic_denied": "Microphone access denied. Please allow it in your browser settings.",
+    "call_failed": "Call failed."
   },
   "notifications": {
     "title": "Notifications",
@@ -209,7 +231,9 @@
     "enable_push_btn": "Enable",
     "report_resolved": "Your report has been reviewed by our team.",
     "listing_expiring_soon": "Your listing expires in about a week.",
-    "listing_expired": "Your listing has expired. Go Premium to reactivate it."
+    "listing_expired": "Your listing has expired. Go Premium to reactivate it.",
+    "price_drop": "Price drop ({name}) on a listing you're following.",
+    "id_verification_reviewed": "Your identity verification status has been updated."
   },
   "auth": {
     "login_title": "Welcome back!",
@@ -421,7 +445,18 @@
     "reports_status_pending": "Pending",
     "reports_status_resolved": "Resolved",
     "reports_status_dismissed": "Dismissed",
-    "reports_note_prompt": "Internal note (optional):"
+    "reports_status_approved": "Approved",
+    "reports_status_rejected": "Rejected",
+    "reports_note_prompt": "Internal note (optional):",
+    "tab_id_verifications": "Verifications",
+    "id_verifications_title": "Identity verifications",
+    "id_verifications_empty": "No verification requests yet.",
+    "id_verifications_user": "User",
+    "id_verifications_id_photo": "View ID photo",
+    "id_verifications_selfie_photo": "View selfie",
+    "id_verifications_approve": "Approve",
+    "id_verifications_reject": "Reject",
+    "id_verification_note_prompt": "Reason for rejection (optional):"
   },
   "deposer": {
     "gate_title": "Login required",
@@ -561,6 +596,12 @@
     "extend": "Extend by 3 weeks now (free, one time)",
     "stats": "Statistics",
     "stats_title": "Views over the last 14 days",
+    "funnel_title": "Conversion funnel",
+    "funnel_views": "Views",
+    "funnel_favorites": "Favorites",
+    "funnel_contacts": "Contacts",
+    "funnel_offers": "Offers received",
+    "funnel_accepted": "Offers accepted",
     "expires_in_days": "Expires in {n} days",
     "expires_today": "Expires today"
   },
@@ -613,7 +654,18 @@
     "phone_code_sent": "Code sent by SMS.",
     "phone_code_send_error": "The code could not be sent.",
     "phone_verified_success": "Phone number verified successfully!",
-    "phone_code_invalid": "The code is invalid or expired."
+    "phone_code_invalid": "The code is invalid or expired.",
+    "id_verification_title": "Identity verification",
+    "id_verification_desc": "Build trust with other users by verifying your identity. A team member manually reviews your ID and selfie — free, no paid third-party service.",
+    "id_verification_id_label": "Photo of your ID (national ID, passport...)",
+    "id_verification_selfie_label": "Selfie (face clearly visible)",
+    "id_verification_submit": "Submit for verification",
+    "id_verification_submitted": "Your request has been sent. We'll review it shortly.",
+    "id_verification_files_required": "Please add both photos.",
+    "id_verification_error": "Submission failed. Please try again.",
+    "id_verification_pending": "Your request is under review.",
+    "id_verification_approved": "Identity verified",
+    "id_verification_rejected": "Request declined. You can submit a new one."
   },
   "parametres": {
     "title": "Settings",
@@ -1544,7 +1596,9 @@
     "email_verified": "Email address verified",
     "email_verified_short": "Email",
     "phone_verified": "Phone number verified",
-    "phone_verified_short": "Phone"
+    "phone_verified_short": "Phone",
+    "id_verified": "Identity verified by our team",
+    "id_verified_short": "Identity"
   },
   "saved_searches": {
     "title": "Saved Searches",

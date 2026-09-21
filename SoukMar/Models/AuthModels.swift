@@ -15,6 +15,7 @@ struct UserDto: Codable, Equatable {
     var accountType: String?
     var emailVerified: Bool = false
     var phoneVerified: Bool = false
+    var idVerified: Bool = false
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -29,9 +30,10 @@ struct UserDto: Codable, Equatable {
         accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
         emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
         phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+        idVerified = try c.decodeIfPresent(Bool.self, forKey: .idVerified) ?? false
     }
 
-    init(id: String, name: String, email: String, role: String = "USER", phone: String?, city: String?, image: String?, createdAt: String?, accountType: String?, emailVerified: Bool, phoneVerified: Bool) {
+    init(id: String, name: String, email: String, role: String = "USER", phone: String?, city: String?, image: String?, createdAt: String?, accountType: String?, emailVerified: Bool, phoneVerified: Bool, idVerified: Bool = false) {
         self.id = id
         self.name = name
         self.email = email
@@ -43,6 +45,7 @@ struct UserDto: Codable, Equatable {
         self.accountType = accountType
         self.emailVerified = emailVerified
         self.phoneVerified = phoneVerified
+        self.idVerified = idVerified
     }
 }
 
@@ -100,6 +103,28 @@ struct ChangePasswordRequest: Encodable {
 
 struct PhoneVerifyRequest: Encodable {
     let code: String
+}
+
+/// Mirrors soukmar-backend's GET /api/auth/id-verification response body:
+/// `null` when never submitted, otherwise the current request's status.
+/// Free KYC-lite (ID photo + selfie, reviewed manually by an admin) — see
+/// soukmar-backend's IdVerification model / auth.ts.
+struct IdVerificationStatusDto: Codable {
+    let status: String
+    var createdAt: String?
+    var adminNote: String?
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        status = try c.decode(String.self, forKey: .status)
+        createdAt = try c.decodeIfPresent(String.self, forKey: .createdAt)
+        adminNote = try c.decodeIfPresent(String.self, forKey: .adminNote)
+    }
+}
+
+struct IdVerificationSubmitRequest: Encodable {
+    let idImageUrl: String
+    let selfieImageUrl: String
 }
 
 /// Mirrors soukmar-backend's generic `{ error, unverified? }` error body.

@@ -154,6 +154,35 @@ final class AuthRepository {
         }
     }
 
+    /// Free KYC-lite: submit an ID photo + selfie (already uploaded via
+    /// POST /api/upload with type=idVerification) for manual admin review —
+    /// mirrors the web's loadIdVerificationStatus()/submitIdVerification().
+    /// `nil` means never submitted (backend returns a bare `null` body).
+    func getIdVerificationStatus() async -> Result<IdVerificationStatusDto?, APIError> {
+        do {
+            let response: IdVerificationStatusDto? = try await api.send(path: "auth/id-verification")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func submitIdVerification(idImageUrl: String, selfieImageUrl: String) async -> Result<IdVerificationStatusDto, APIError> {
+        do {
+            let response: IdVerificationStatusDto = try await api.send(
+                path: "auth/id-verification", method: "POST",
+                body: IdVerificationSubmitRequest(idImageUrl: idImageUrl, selfieImageUrl: selfieImageUrl)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func changePassword(currentPassword: String, newPassword: String) async -> Result<MessageResponse, APIError> {
         do {
             let response: MessageResponse = try await api.send(

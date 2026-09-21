@@ -11,6 +11,7 @@ final class MesAnnoncesViewModel: ObservableObject {
     @Published private(set) var bumpingId: String?
     @Published private(set) var statsOpenId: String?
     @Published private(set) var statsData: [String: [ViewStatDayDto]] = [:]
+    @Published private(set) var funnelData: [String: FunnelDto] = [:]
     @Published var deleteConfirmId: String?
 
     @Published private(set) var toastMessage: String?
@@ -74,13 +75,25 @@ final class MesAnnoncesViewModel: ObservableObject {
     func toggleStats(_ listing: ListingDto) {
         let id = listing.id
         statsOpenId = statsOpenId == id ? nil : id
-        guard statsOpenId == id, statsData[id] == nil else { return }
-        Task {
-            switch await listingRepository.getViewStats(id: id) {
-            case .success(let data):
-                statsData[id] = data.days
-            case .failure:
-                break // stats panel just stays empty on failure
+        guard statsOpenId == id else { return }
+        if statsData[id] == nil {
+            Task {
+                switch await listingRepository.getViewStats(id: id) {
+                case .success(let data):
+                    statsData[id] = data.days
+                case .failure:
+                    break // stats panel just stays empty on failure
+                }
+            }
+        }
+        if funnelData[id] == nil {
+            Task {
+                switch await listingRepository.getFunnel(id: id) {
+                case .success(let data):
+                    funnelData[id] = data
+                case .failure:
+                    break // funnel section just stays empty on failure
+                }
             }
         }
     }

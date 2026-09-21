@@ -21,7 +21,18 @@
     "city_placeholder_short": "Stadt",
     "settings": "Einstellungen",
     "suggest_in_all": "in allen Kategorien",
-    "suggest_in": "in"
+    "suggest_in": "in",
+    "search_by_image": "Nach Foto suchen"
+  },
+  "image_search": {
+    "title": "Suche per Foto",
+    "subtitle": "Finden Sie Anzeigen mit ähnlichen Fotos wie Ihrem.",
+    "pick_btn": "Foto auswählen",
+    "loading": "Suche läuft…",
+    "error": "Die Suche ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "no_results": "Keine ähnlichen Anzeigen gefunden",
+    "no_results_sub": "Versuchen Sie ein anderes Foto, aus einem anderen Blickwinkel.",
+    "results_count": "Ähnliche Anzeigen"
   },
   "home": {
     "hero_badge": "Über 50.000 aktive Anzeigen",
@@ -193,7 +204,18 @@
     "no_message": "Keine Nachricht",
     "offer_short": "Angebot: {amount} MAD",
     "amount_placeholder": "Betrag in MAD",
-    "blocked_banner": "Die Kommunikation mit diesem Nutzer ist nicht mehr möglich."
+    "blocked_banner": "Die Kommunikation mit diesem Nutzer ist nicht mehr möglich.",
+    "call_start": "Anruf starten",
+    "call_incoming": "Eingehender Anruf",
+    "call_ringing": "Anruf wird verbunden…",
+    "call_active": "Im Gespräch",
+    "call_accept": "Annehmen",
+    "call_reject": "Ablehnen",
+    "call_end": "Auflegen",
+    "call_mute": "Stummschalten",
+    "call_unmute": "Stummschaltung aufheben",
+    "call_mic_denied": "Mikrofonzugriff verweigert. Bitte in den Browsereinstellungen erlauben.",
+    "call_failed": "Anruf fehlgeschlagen."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -209,7 +231,9 @@
     "enable_push_btn": "Aktivieren",
     "report_resolved": "Ihre Meldung wurde von unserem Team geprüft.",
     "listing_expiring_soon": "Ihre Anzeige läuft in etwa einer Woche ab.",
-    "listing_expired": "Ihre Anzeige ist abgelaufen. Werden Sie Premium, um sie wieder zu aktivieren."
+    "listing_expired": "Ihre Anzeige ist abgelaufen. Werden Sie Premium, um sie wieder zu aktivieren.",
+    "price_drop": "Preissenkung ({name}) bei einer beobachteten Anzeige.",
+    "id_verification_reviewed": "Der Status Ihrer Identitätsprüfung wurde aktualisiert."
   },
   "auth": {
     "login_title": "Willkommen zurück!",
@@ -449,7 +473,18 @@
     "reports_status_pending": "Offen",
     "reports_status_resolved": "Gelöst",
     "reports_status_dismissed": "Abgelehnt",
-    "reports_note_prompt": "Interne Notiz (optional):"
+    "reports_status_approved": "Genehmigt",
+    "reports_status_rejected": "Abgelehnt",
+    "reports_note_prompt": "Interne Notiz (optional):",
+    "tab_id_verifications": "Verifizierungen",
+    "id_verifications_title": "Identitätsprüfungen",
+    "id_verifications_empty": "Noch keine Verifizierungsanfragen.",
+    "id_verifications_user": "Nutzer",
+    "id_verifications_id_photo": "Ausweisfoto ansehen",
+    "id_verifications_selfie_photo": "Selfie ansehen",
+    "id_verifications_approve": "Genehmigen",
+    "id_verifications_reject": "Ablehnen",
+    "id_verification_note_prompt": "Ablehnungsgrund (optional):"
   },
   "mes_annonces": {
     "title": "Meine Anzeigen",
@@ -468,6 +503,12 @@
     "extend": "Jetzt um 3 Wochen verlängern (einmalig kostenlos)",
     "stats": "Statistiken",
     "stats_title": "Aufrufe der letzten 14 Tage",
+    "funnel_title": "Conversion-Trichter",
+    "funnel_views": "Aufrufe",
+    "funnel_favorites": "Favoriten",
+    "funnel_contacts": "Kontaktaufnahmen",
+    "funnel_offers": "Erhaltene Angebote",
+    "funnel_accepted": "Angenommene Angebote",
     "expires_in_days": "Läuft in {n} Tagen ab",
     "expires_today": "Läuft heute ab"
   },
@@ -520,7 +561,18 @@
     "phone_code_sent": "Code per SMS gesendet.",
     "phone_code_send_error": "Der Code konnte nicht gesendet werden.",
     "phone_verified_success": "Telefonnummer erfolgreich verifiziert!",
-    "phone_code_invalid": "Der Code ist ungültig oder abgelaufen."
+    "phone_code_invalid": "Der Code ist ungültig oder abgelaufen.",
+    "id_verification_title": "Identitätsprüfung",
+    "id_verification_desc": "Schaffen Sie Vertrauen bei anderen Nutzern, indem Sie Ihre Identität verifizieren. Ein Teammitglied prüft Ihren Ausweis und Ihr Selfie manuell — kostenlos, ohne bezahlten Drittanbieter.",
+    "id_verification_id_label": "Foto Ihres Ausweises (Personalausweis, Reisepass...)",
+    "id_verification_selfie_label": "Selfie (Gesicht gut sichtbar)",
+    "id_verification_submit": "Zur Prüfung einreichen",
+    "id_verification_submitted": "Ihre Anfrage wurde gesendet. Wir prüfen sie in Kürze.",
+    "id_verification_files_required": "Bitte fügen Sie beide Fotos hinzu.",
+    "id_verification_error": "Senden fehlgeschlagen. Bitte erneut versuchen.",
+    "id_verification_pending": "Ihre Anfrage wird geprüft.",
+    "id_verification_approved": "Identität verifiziert",
+    "id_verification_rejected": "Anfrage abgelehnt. Sie können eine neue Anfrage stellen."
   },
   "parametres": {
     "title": "Einstellungen",
@@ -1544,7 +1596,9 @@
     "email_verified": "E-Mail-Adresse verifiziert",
     "email_verified_short": "E-Mail",
     "phone_verified": "Telefonnummer verifiziert",
-    "phone_verified_short": "Telefon"
+    "phone_verified_short": "Telefon",
+    "id_verified": "Identität von unserem Team verifiziert",
+    "id_verified_short": "Identität"
   },
   "saved_searches": {
     "title": "Gespeicherte Suchen",

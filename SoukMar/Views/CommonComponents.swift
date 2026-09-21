@@ -104,13 +104,15 @@ struct PasswordField: View {
 struct VerifiedBadge: View {
     let emailVerified: Bool
     let phoneVerified: Bool
+    var idVerified: Bool = false
     @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
-        if emailVerified || phoneVerified {
+        if emailVerified || phoneVerified || idVerified {
             HStack(spacing: 4) {
                 if emailVerified { pill(i18n.t("seller.email_verified_short")) }
                 if phoneVerified { pill(i18n.t("seller.phone_verified_short")) }
+                if idVerified { pill(i18n.t("seller.id_verified_short")) }
             }
         }
     }

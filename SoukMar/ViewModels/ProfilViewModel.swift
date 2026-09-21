@@ -31,6 +31,17 @@ final class ProfilViewModel: ObservableObject {
     @Published private(set) var phoneMessage: String?
     @Published private(set) var phoneErrorMessage: String?
 
+    /// Free KYC-lite: "NONE" (never submitted) | "PENDING" | "APPROVED" |
+    /// "REJECTED" (resubmission allowed) — mirrors the web's
+    /// idVerificationStatus signal.
+    @Published private(set) var idVerificationStatus = "NONE"
+    @Published private(set) var idVerificationNote: String?
+    @Published var idImageData: Data?
+    @Published var selfieImageData: Data?
+    @Published private(set) var idVerificationSubmitting = false
+    @Published private(set) var idVerificationMessage: String?
+    @Published private(set) var idVerificationErrorMessage: String?
+
     private let authRepository = AuthRepository.shared
     private let uploadRepository = UploadRepository.shared
 
@@ -48,6 +59,57 @@ final class ProfilViewModel: ObservableObject {
                 loadError = true
             }
             loading = false
+        }
+        loadIdVerificationStatus()
+    }
+
+    func loadIdVerificationStatus() {
+        Task {
+            switch await authRepository.getIdVerificationStatus() {
+            case .success(let status):
+                idVerificationStatus = status?.status ?? "NONE"
+                idVerificationNote = status?.adminNote
+            case .failure:
+                break // non-essential — just leave the form open, like the web
+            }
+        }
+    }
+
+    func pickIdImage(data: Data) { idImageData = data }
+    func pickSelfieImage(data: Data) { selfieImageData = data }
+
+    func submitIdVerification() {
+        guard let idData = idImageData, let selfieData = selfieImageData else {
+            idVerificationErrorMessage = "Veuillez ajouter les deux photos."
+            return
+        }
+        guard !idVerificationSubmitting else { return }
+        idVerificationSubmitting = true
+        idVerificationMessage = nil
+        idVerificationErrorMessage = nil
+        Task {
+            async let idUpload = uploadRepository.uploadImages([(data: idData, filename: "id.jpg", mimeType: "image/jpeg")], type: "idVerification")
+            async let selfieUpload = uploadRepository.uploadImages([(data: selfieData, filename: "selfie.jpg", mimeType: "image/jpeg")], type: "idVerification")
+            let (idResult, selfieResult) = await (idUpload, selfieUpload)
+
+            guard case .success(let idUrls) = idResult, let idImageUrl = idUrls.first,
+                  case .success(let selfieUrls) = selfieResult, let selfieImageUrl = selfieUrls.first
+            else {
+                idVerificationErrorMessage = "L'envoi a échoué. Réessayez."
+                idVerificationSubmitting = false
+                return
+            }
+
+            switch await authRepository.submitIdVerification(idImageUrl: idImageUrl, selfieImageUrl: selfieImageUrl) {
+            case .success:
+                idVerificationStatus = "PENDING"
+                idImageData = nil
+                selfieImageData = nil
+                idVerificationMessage = "Votre demande a été envoyée. Nous l'examinerons sous peu."
+            case .failure(let error):
+                idVerificationErrorMessage = Self.message(for: error)
+            }
+            idVerificationSubmitting = false
         }
     }
 
@@ -116,7 +178,7 @@ final class ProfilViewModel: ObservableObject {
                         id: current.id, name: current.name, email: current.email, role: current.role,
                         phone: current.phone, city: current.city, image: current.image,
                         createdAt: current.createdAt, accountType: current.accountType,
-                        emailVerified: current.emailVerified, phoneVerified: true
+                        emailVerified: current.emailVerified, phoneVerified: true, idVerified: current.idVerified
                     )
                 }
                 phoneCodeSent = false

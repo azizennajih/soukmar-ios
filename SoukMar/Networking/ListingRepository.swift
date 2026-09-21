@@ -119,6 +119,17 @@ final class ListingRepository {
         }
     }
 
+    func getFunnel(id: String) async -> Result<FunnelDto, APIError> {
+        do {
+            let response: FunnelDto = try await api.send(path: "listings/\(id)/funnel")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func bump(id: String) async -> Result<ListingDto, APIError> {
         do {
             let response: ListingDto = try await api.send(path: "listings/\(id)/bump", method: "POST")
@@ -133,6 +144,27 @@ final class ListingRepository {
     func updateStatus(id: String, status: String) async -> Result<ListingDto, APIError> {
         do {
             let response: ListingDto = try await api.send(path: "listings/\(id)", method: "PUT", body: ListingStatusUpdateRequest(status: status))
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    /// POST /api/listings/search-by-image — free "search by photo" (local
+    /// perceptual-hash matching server-side, no paid vision API). Public
+    /// (no auth), single `image` field (not the general-purpose `images`
+    /// field POST /api/upload uses), returns a plain array of Listing
+    /// objects ranked closest-match-first, same shape as the regular feed —
+    /// can be empty. Mirrors Web's ListingService.searchByImage(), which
+    /// likewise sends no `?country=` filter.
+    func searchByImage(data: Data, filename: String, mimeType: String) async -> Result<[ListingDto], APIError> {
+        do {
+            let response: [ListingDto] = try await api.upload(
+                path: "listings/search-by-image", fieldName: "image",
+                files: [(data: data, filename: filename, mimeType: mimeType)]
+            )
             return .success(response)
         } catch let error as APIError {
             return .failure(error)

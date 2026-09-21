@@ -255,7 +255,7 @@ struct ListingDetailView: View {
                     .font(.caption).foregroundStyle(.secondary)
                 }
                 AccountTypeLabel(accountType: seller.accountType)
-                VerifiedBadge(emailVerified: seller.emailVerified, phoneVerified: seller.phoneVerified)
+                VerifiedBadge(emailVerified: seller.emailVerified, phoneVerified: seller.phoneVerified, idVerified: seller.idVerified)
             }
             Spacer()
             Button(i18n.t("listing.seller_listings")) {

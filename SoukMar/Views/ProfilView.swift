@@ -6,6 +6,8 @@ import PhotosUI
 struct ProfilView: View {
     @StateObject private var viewModel = ProfilViewModel()
     @State private var avatarItem: PhotosPickerItem?
+    @State private var idPhotoItem: PhotosPickerItem?
+    @State private var selfiePhotoItem: PhotosPickerItem?
     @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
@@ -30,6 +32,22 @@ struct ProfilView: View {
                 avatarItem = nil
             }
         }
+        .onChange(of: idPhotoItem) { item in
+            guard let item else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self) {
+                    viewModel.pickIdImage(data: data)
+                }
+            }
+        }
+        .onChange(of: selfiePhotoItem) { item in
+            guard let item else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self) {
+                    viewModel.pickSelfieImage(data: data)
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -38,9 +56,93 @@ struct ProfilView: View {
             VStack(spacing: 16) {
                 identityCard(for: profile)
                 editForm
+                idVerificationCard
                 passwordForm
             }
             .padding(16)
+        }
+    }
+
+    /// Free KYC-lite: ID photo + selfie, reviewed manually by an admin (see
+    /// AdminView's "Vérifications" tab). Four states, mirrors the web's
+    /// profil.component.html card: not yet submitted (form) / pending
+    /// (status only) / approved (status only) / rejected (note + form again,
+    /// resubmission allowed).
+    @ViewBuilder
+    private var idVerificationCard: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(i18n.t("profil.id_verification_title")).font(.headline)
+            Text(i18n.t("profil.id_verification_desc"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            switch viewModel.idVerificationStatus {
+            case "APPROVED":
+                Label(i18n.t("profil.id_verification_approved"), systemImage: "checkmark.seal.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.green)
+            case "PENDING":
+                Label(i18n.t("profil.id_verification_pending"), systemImage: "clock.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Color.soukmarGold)
+            default:
+                if viewModel.idVerificationStatus == "REJECTED" {
+                    Label(i18n.t("profil.id_verification_rejected"), systemImage: "xmark.circle.fill")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.red)
+                    if let note = viewModel.idVerificationNote, !note.isEmpty {
+                        Text(note).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+
+                idPhotoPicker(
+                    label: i18n.t("profil.id_verification_id_label"),
+                    item: $idPhotoItem,
+                    hasData: viewModel.idImageData != nil
+                )
+                idPhotoPicker(
+                    label: i18n.t("profil.id_verification_selfie_label"),
+                    item: $selfiePhotoItem,
+                    hasData: viewModel.selfieImageData != nil
+                )
+
+                if let success = viewModel.idVerificationMessage {
+                    SuccessBanner(message: success)
+                }
+                if let error = viewModel.idVerificationErrorMessage {
+                    ErrorBanner(message: error)
+                }
+
+                Button {
+                    viewModel.submitIdVerification()
+                } label: {
+                    if viewModel.idVerificationSubmitting {
+                        ProgressView().tint(.white).frame(maxWidth: .infinity)
+                    } else {
+                        Text(i18n.t("profil.id_verification_submit")).frame(maxWidth: .infinity)
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Color.soukmarPrimary)
+                .disabled(viewModel.idVerificationSubmitting || viewModel.idImageData == nil || viewModel.selfieImageData == nil)
+            }
+        }
+        .padding(16)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func idPhotoPicker(label: String, item: Binding<PhotosPickerItem?>, hasData: Bool) -> some View {
+        PhotosPicker(selection: item, matching: .images) {
+            HStack {
+                Image(systemName: hasData ? "checkmark.circle.fill" : "photo.badge.plus")
+                    .foregroundStyle(hasData ? .green : Color.soukmarPrimary)
+                Text(label).font(.subheadline).foregroundStyle(.primary)
+                Spacer()
+            }
+            .padding(10)
+            .background(Color(.tertiarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
     }
 

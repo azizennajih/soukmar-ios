@@ -72,11 +72,14 @@ final class APIClient {
         return try await perform(req)
     }
 
-    /// Multipart/form-data upload (e.g. POST /api/upload's `images` field) —
-    /// mirrors Android's UploadRepository, which builds the same kind of
-    /// multipart request via OkHttp instead of URLSession.
+    /// Multipart/form-data upload (e.g. POST /api/upload's `images` field, or
+    /// POST /api/listings/search-by-image's single `image` field) — mirrors
+    /// Android's UploadRepository, which builds the same kind of multipart
+    /// request via OkHttp instead of URLSession. `query` is optional (e.g.
+    /// search-by-image's `?country=`); the Authorization header is attached
+    /// whenever a token exists, harmless on endpoints that don't require one.
     func upload<Response: Decodable>(
-        path: String, fieldName: String, files: [(data: Data, filename: String, mimeType: String)], fields: [String: String] = [:]
+        path: String, fieldName: String, files: [(data: Data, filename: String, mimeType: String)], fields: [String: String] = [:], query: [String: String] = [:]
     ) async throws -> Response {
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
@@ -94,7 +97,11 @@ final class APIClient {
         }
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
 
-        var req = URLRequest(url: baseURL.appendingPathComponent(path))
+        var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
+        if !query.isEmpty {
+            components.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }
+        }
+        var req = URLRequest(url: components.url!)
         req.httpMethod = "POST"
         req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         if let token {

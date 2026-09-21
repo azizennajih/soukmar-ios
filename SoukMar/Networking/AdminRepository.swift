@@ -33,4 +33,32 @@ final class AdminRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    /// GET /api/admin/id-verifications — pending-first (server-side
+    /// ordering, no client-side re-sort needed).
+    func getIdVerifications() async -> Result<[IdVerificationAdminDto], APIError> {
+        do {
+            let response: [IdVerificationAdminDto] = try await api.send(path: "admin/id-verifications")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func reviewIdVerification(id: String, status: String, adminNote: String?) async -> Result<IdVerificationAdminDto, APIError> {
+        do {
+            let trimmedNote = adminNote?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let response: IdVerificationAdminDto = try await api.send(
+                path: "admin/id-verifications/\(id)", method: "PATCH",
+                body: IdVerificationReviewRequest(status: status, adminNote: (trimmedNote?.isEmpty ?? true) ? nil : trimmedNote)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }

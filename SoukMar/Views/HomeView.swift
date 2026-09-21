@@ -22,6 +22,7 @@ struct HomeView: View {
         case legalNotice
         case deleteAccount
         case settings
+        case imageSearch
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
     // pushes a String (listing id) further down this same stack for
@@ -43,20 +44,37 @@ struct HomeView: View {
                                 .padding(.horizontal)
                         }
 
-                        Button {
-                            path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: nil))
-                        } label: {
-                            HStack {
-                                Image(systemName: "magnifyingglass")
-                                Text(i18n.t("home.search_placeholder"))
-                                Spacer()
+                        HStack(spacing: 8) {
+                            Button {
+                                path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: nil))
+                            } label: {
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                    Text(i18n.t("home.search_placeholder"))
+                                    Spacer()
+                                }
+                                .padding(12)
+                                .background(Color(.secondarySystemBackground))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .foregroundStyle(.secondary)
                             }
-                            .padding(12)
-                            .background(Color(.secondarySystemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .foregroundStyle(.secondary)
+                            .buttonStyle(.plain)
+
+                            // Free "search by photo" (Tranche 23) — mirrors
+                            // Web's camera icon inside the navbar search
+                            // field; iOS has no navbar search field, so this
+                            // sits right next to the search-entry button
+                            // instead.
+                            Button {
+                                path.append(Route.imageSearch)
+                            } label: {
+                                Image(systemName: "camera")
+                                    .padding(12)
+                                    .background(Color(.secondarySystemBackground))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .foregroundStyle(.secondary)
+                            }
                         }
-                        .buttonStyle(.plain)
                         .padding(.horizontal)
 
                         VStack(alignment: .leading, spacing: 12) {
@@ -225,6 +243,8 @@ struct HomeView: View {
                         onOpenDeleteAccount: { path.append(Route.deleteAccount) },
                         onLoggedOut: onLoggedOut
                     )
+                case .imageSearch:
+                    ImageSearchView(onOpenListing: { id in path.append(id) })
                 }
             }
             // Both registered here, not on a leaf screen, so they apply
