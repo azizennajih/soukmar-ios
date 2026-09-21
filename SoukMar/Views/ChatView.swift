@@ -7,6 +7,7 @@ struct ChatView: View {
     let conversationId: String
     @StateObject private var viewModel = ChatViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
+    @ObservedObject private var callManager = CallManager.shared
 
     private var quickReplies: [String] {
         [i18n.t("chat.quick_available"), i18n.t("chat.quick_last_price"), i18n.t("chat.quick_still_interested"), i18n.t("chat.quick_thanks")]
@@ -33,6 +34,15 @@ struct ChatView: View {
                 }
             }
             if let conv = viewModel.conversation {
+                if !viewModel.messagingBlocked() && callManager.state == .idle {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            viewModel.startCall()
+                        } label: {
+                            Image(systemName: "phone.fill")
+                        }
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.reportOpen = true
@@ -73,11 +83,38 @@ struct ChatView: View {
             Button("Confirmer", role: .destructive) { viewModel.confirmCancelOffer() }
             Button(i18n.t("chat.cancel"), role: .cancel) { viewModel.dismissCancelOffer() }
         }
+        .fullScreenCover(isPresented: Binding(
+            get: { callManager.state == .incoming },
+            set: { _ in }
+        )) {
+            IncomingCallOverlay(callManager: callManager)
+        }
         .task { viewModel.load(id: conversationId) }
     }
 
     private var content: some View {
         VStack(spacing: 0) {
+            if callManager.state == .outgoing || callManager.state == .active {
+                CallBar(callManager: callManager)
+            }
+
+            if let error = callManager.callError {
+                HStack {
+                    Label(
+                        error == "mic_denied" ? i18n.t("chat.call_mic_denied") : i18n.t("chat.call_failed"),
+                        systemImage: "xmark.circle.fill"
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    Spacer()
+                    Button { callManager.callError = nil } label: {
+                        Image(systemName: "xmark").font(.caption2)
+                    }
+                }
+                .padding(.horizontal).padding(.vertical, 8)
+                .background(Color.red.opacity(0.08))
+            }
+
             if viewModel.listingStatus == "RESERVED" {
                 HStack {
                     Label("\(i18n.t("chat.reserved_msg")) \(i18n.t("chat.reserved_word"))", systemImage: "lock.fill").font(.caption).foregroundStyle(Color.soukmarGold)
@@ -283,6 +320,94 @@ struct ChatView: View {
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "HH:mm"
         return (dateFormatter.string(from: date), timeFormatter.string(from: date))
+    }
+}
+
+/// Outgoing-ringing / active-call bar, mirrors Web's `.call-bar` (mute
+/// toggle only shown once the call is actually connected, end-call always
+/// available).
+private struct CallBar: View {
+    @ObservedObject var callManager: CallManager
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    var body: some View {
+        HStack {
+            Label(
+                callManager.state == .outgoing ? i18n.t("chat.call_ringing") : i18n.t("chat.call_active"),
+                systemImage: "phone.fill"
+            )
+            .font(.subheadline.weight(.medium))
+            Spacer()
+            if callManager.state == .active {
+                Button {
+                    callManager.toggleMute()
+                } label: {
+                    Image(systemName: callManager.muted ? "mic.slash.fill" : "mic.fill")
+                }
+            }
+            Button {
+                callManager.endCall()
+            } label: {
+                Image(systemName: "phone.down.fill")
+                    .foregroundStyle(.white)
+                    .padding(8)
+                    .background(Color.red)
+                    .clipShape(Circle())
+            }
+        }
+        .padding(.horizontal).padding(.vertical, 10)
+        .background(Color.soukmarPrimaryLight)
+    }
+}
+
+/// Full-screen incoming-call cover, mirrors Web's `.call-overlay` card
+/// (caller-initial avatar, name, accept/reject).
+private struct IncomingCallOverlay: View {
+    @ObservedObject var callManager: CallManager
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Spacer()
+            Circle()
+                .fill(Color.soukmarPrimary)
+                .frame(width: 96, height: 96)
+                .overlay(
+                    Text((callManager.incomingCallerName ?? "?").prefix(1).uppercased())
+                        .font(.largeTitle.bold())
+                        .foregroundStyle(.white)
+                )
+            Text(callManager.incomingCallerName ?? "").font(.title3.bold())
+            Label(i18n.t("chat.call_incoming"), systemImage: "phone.fill")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            Spacer()
+            HStack(spacing: 60) {
+                Button {
+                    callManager.rejectCall()
+                } label: {
+                    Image(systemName: "phone.down.fill")
+                        .font(.title)
+                        .foregroundStyle(.white)
+                        .frame(width: 64, height: 64)
+                        .background(Color.red)
+                        .clipShape(Circle())
+                }
+                Button {
+                    callManager.acceptCall()
+                } label: {
+                    Image(systemName: "phone.fill")
+                        .font(.title)
+                        .foregroundStyle(.white)
+                        .frame(width: 64, height: 64)
+                        .background(Color.green)
+                        .clipShape(Circle())
+                }
+            }
+            .padding(.bottom, 60)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
     }
 }
 

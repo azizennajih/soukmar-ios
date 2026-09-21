@@ -6,6 +6,14 @@ enum ChatSocketEvent {
     case offerUpdated(MessageDto)
     case userTyping(Bool)
     case listingStatusChanged(listingId: String, status: String)
+    // Masked in-app voice calling (Tranche 23) — same 4 relay events as
+    // soukmar-backend's socket.ts, payloads mirror Web's chat.service.ts
+    // exactly (sdp/candidate travel as nested dicts matching the browser's
+    // native RTCSessionDescriptionInit/RTCIceCandidateInit JSON shape).
+    case callOffer(conversationId: String, sdpType: String, sdp: String, fromUserId: String, fromUserName: String)
+    case callAnswer(conversationId: String, sdpType: String, sdp: String, fromUserId: String)
+    case callIceCandidate(conversationId: String, candidate: String, sdpMid: String?, sdpMLineIndex: Int32, fromUserId: String)
+    case callEnd(conversationId: String, fromUserId: String)
 }
 
 /// Thin wrapper around socket.io-client-swift mirroring Android's
@@ -79,6 +87,44 @@ final class ChatSocketManager {
             guard let dict = data.first as? [String: Any], let listingId = dict["listingId"] as? String else { return }
             self?.onEvent?(.listingStatusChanged(listingId: listingId, status: dict["status"] as? String ?? "ACTIVE"))
         }
+
+        socket.on("call_offer") { [weak self] data, _ in
+            guard let dict = data.first as? [String: Any],
+                  let conversationId = dict["conversationId"] as? String,
+                  let sdpDict = dict["sdp"] as? [String: Any],
+                  let sdpType = sdpDict["type"] as? String,
+                  let sdp = sdpDict["sdp"] as? String,
+                  let fromUserId = dict["fromUserId"] as? String
+            else { return }
+            let fromUserName = dict["fromUserName"] as? String ?? ""
+            self?.onEvent?(.callOffer(conversationId: conversationId, sdpType: sdpType, sdp: sdp, fromUserId: fromUserId, fromUserName: fromUserName))
+        }
+        socket.on("call_answer") { [weak self] data, _ in
+            guard let dict = data.first as? [String: Any],
+                  let conversationId = dict["conversationId"] as? String,
+                  let sdpDict = dict["sdp"] as? [String: Any],
+                  let sdpType = sdpDict["type"] as? String,
+                  let sdp = sdpDict["sdp"] as? String,
+                  let fromUserId = dict["fromUserId"] as? String
+            else { return }
+            self?.onEvent?(.callAnswer(conversationId: conversationId, sdpType: sdpType, sdp: sdp, fromUserId: fromUserId))
+        }
+        socket.on("call_ice_candidate") { [weak self] data, _ in
+            guard let dict = data.first as? [String: Any],
+                  let conversationId = dict["conversationId"] as? String,
+                  let candidateDict = dict["candidate"] as? [String: Any],
+                  let candidate = candidateDict["candidate"] as? String,
+                  let fromUserId = dict["fromUserId"] as? String
+            else { return }
+            let sdpMid = candidateDict["sdpMid"] as? String
+            let sdpMLineIndex = Int32((candidateDict["sdpMLineIndex"] as? Int) ?? 0)
+            self?.onEvent?(.callIceCandidate(conversationId: conversationId, candidate: candidate, sdpMid: sdpMid, sdpMLineIndex: sdpMLineIndex, fromUserId: fromUserId))
+        }
+        socket.on("call_end") { [weak self] data, _ in
+            guard let dict = data.first as? [String: Any], let conversationId = dict["conversationId"] as? String else { return }
+            let fromUserId = dict["fromUserId"] as? String ?? ""
+            self?.onEvent?(.callEnd(conversationId: conversationId, fromUserId: fromUserId))
+        }
     }
 
     private static func decodeMessage(_ dict: [String: Any]) -> MessageDto? {
@@ -124,5 +170,28 @@ final class ChatSocketManager {
     func emitTyping(conversationId: String, isTyping: Bool) {
         let payload: [String: Any] = ["conversationId": conversationId, "isTyping": isTyping]
         socket?.emit("typing", payload)
+    }
+
+    // MARK: - Masked in-app voice calling (Tranche 23)
+
+    func emitCallOffer(conversationId: String, sdpType: String, sdp: String) {
+        let payload: [String: Any] = ["conversationId": conversationId, "sdp": ["type": sdpType, "sdp": sdp]]
+        socket?.emit("call_offer", payload)
+    }
+
+    func emitCallAnswer(conversationId: String, sdpType: String, sdp: String) {
+        let payload: [String: Any] = ["conversationId": conversationId, "sdp": ["type": sdpType, "sdp": sdp]]
+        socket?.emit("call_answer", payload)
+    }
+
+    func emitCallIceCandidate(conversationId: String, candidate: String, sdpMid: String?, sdpMLineIndex: Int32) {
+        var candidateDict: [String: Any] = ["candidate": candidate, "sdpMLineIndex": sdpMLineIndex]
+        if let sdpMid { candidateDict["sdpMid"] = sdpMid }
+        let payload: [String: Any] = ["conversationId": conversationId, "candidate": candidateDict]
+        socket?.emit("call_ice_candidate", payload)
+    }
+
+    func emitCallEnd(conversationId: String) {
+        socket?.emit("call_end", ["conversationId": conversationId])
     }
 }

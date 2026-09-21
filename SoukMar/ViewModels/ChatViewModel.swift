@@ -36,6 +36,7 @@ final class ChatViewModel: ObservableObject {
     private let reportRepository = ReportRepository.shared
     private let userRepository = UserRepository.shared
     private let socketManager = ChatSocketManager.shared
+    let callManager = CallManager.shared
 
     func load(id: String) {
         if conversationId == id, conversation != nil { return }
@@ -87,9 +88,24 @@ final class ChatViewModel: ObservableObject {
                     self.partnerTyping = isTyping
                 case .listingStatusChanged(let listingId, let status):
                     if listingId == self.conversation?.listingId { self.listingStatus = status }
+                case .callOffer(let conversationId, let sdpType, let sdp, let fromUserId, let fromUserName):
+                    self.callManager.handleIncomingOffer(conversationId: conversationId, sdpType: sdpType, sdp: sdp, fromUserId: fromUserId, fromUserName: fromUserName)
+                case .callAnswer(let conversationId, let sdpType, let sdp, _):
+                    self.callManager.handleCallAnswer(conversationId: conversationId, sdpType: sdpType, sdp: sdp)
+                case .callIceCandidate(let conversationId, let candidate, let sdpMid, let sdpMLineIndex, _):
+                    self.callManager.handleIceCandidate(conversationId: conversationId, candidate: candidate, sdpMid: sdpMid, sdpMLineIndex: sdpMLineIndex)
+                case .callEnd(let conversationId, _):
+                    self.callManager.handleCallEnd(conversationId: conversationId)
                 }
             }
         }
+    }
+
+    // MARK: - Masked in-app voice calling (Tranche 23)
+
+    func startCall() {
+        guard let conv = conversation else { return }
+        callManager.startCall(conversationId: conv.id)
     }
 
     func messagingBlocked() -> Bool { conversation?.messagingBlocked ?? false }
