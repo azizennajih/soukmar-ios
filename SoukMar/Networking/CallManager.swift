@@ -132,9 +132,12 @@ final class CallManager: NSObject, ObservableObject {
                 callError = "mic_denied"
                 return
             }
+            guard let pc = makePeerConnection() else {
+                callError = "failed"
+                return
+            }
             configureAudioSession()
             activeConversationId = conversationId
-            let pc = makePeerConnection()
             peerConnection = pc
             addLocalAudioTrack(to: pc)
 
@@ -160,8 +163,11 @@ final class CallManager: NSObject, ObservableObject {
                 rejectCall()
                 return
             }
+            guard let pc = makePeerConnection() else {
+                callError = "failed"
+                return
+            }
             configureAudioSession()
-            let pc = makePeerConnection()
             peerConnection = pc
             addLocalAudioTrack(to: pc)
 
@@ -204,7 +210,14 @@ final class CallManager: NSObject, ObservableObject {
 
     // MARK: - Internals
 
-    private func makePeerConnection() -> RTCPeerConnection {
+    /// `RTCPeerConnectionFactory.peerConnection(with:constraints:delegate:)`
+    /// is declared `nullable` in WebRTC's current Objective-C header (bridges
+    /// to `RTCPeerConnection?` in Swift, not a plain `RTCPeerConnection`) —
+    /// verified directly against webrtc.googlesource.com's current
+    /// `RTCPeerConnectionFactory.h` rather than assumed non-optional from
+    /// the (older) reference demo app, which likely predates this header
+    /// picking up `nullable`.
+    private func makePeerConnection() -> RTCPeerConnection? {
         let config = RTCConfiguration()
         config.iceServers = Self.iceServers
         config.sdpSemantics = .unifiedPlan
@@ -221,17 +234,21 @@ final class CallManager: NSObject, ObservableObject {
     }
 
     /// Uses WebRTC's own `RTCAudioSession` wrapper (lock/configure/unlock),
-    /// not a raw `AVAudioSession` call — mirrors `stasel/WebRTC-iOS`'s own
-    /// `WebRTCClient.configureAudioSession()` verbatim (single-argument
-    /// `setCategory`/`setMode`, no options overload guessed at), since
-    /// WebRTC manages this session internally and expects callers to go
-    /// through its lock rather than fighting its own audio routing.
+    /// not a raw `AVAudioSession` call, since WebRTC manages this session
+    /// internally and expects callers to go through its lock rather than
+    /// fighting its own audio routing. **Not** the reference demo's exact
+    /// single-argument `setCategory(_:)` call — that 2-parameter
+    /// `setCategory:error:` overload no longer exists in WebRTC's current
+    /// `RTCAudioSession.h` (verified directly against
+    /// webrtc.googlesource.com's current header, which only declares
+    /// `setCategory:mode:options:error:` and `setCategory:withOptions:error:`
+    /// now) — the demo app predates that header change.
     private func configureAudioSession() {
         let session = RTCAudioSession.sharedInstance()
         session.lockForConfiguration()
         defer { session.unlockForConfiguration() }
         do {
-            try session.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
+            try session.setCategory(AVAudioSession.Category.playAndRecord.rawValue, withOptions: [])
             try session.setMode(AVAudioSession.Mode.voiceChat.rawValue)
             try session.setActive(true)
         } catch {
