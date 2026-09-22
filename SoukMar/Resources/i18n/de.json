@@ -1,6 +1,6 @@
 {
   "nav": {
-    "topbar_tagline": "Die Nr. 1 für Kleinanzeigen",
+    "topbar_tagline": "Der führende Online-Marktplatz",
     "search_placeholder": "Was suchen Sie?",
     "city_placeholder": "Stadt oder Region",
     "search_btn": "Suchen",
@@ -312,7 +312,7 @@
     "MOVING": "Umzug"
   },
   "footer": {
-    "tagline": "Marokkos erste Kleinanzeigen-Plattform. Einfach, schnell und sicher.",
+    "tagline": "Marokkos erster Online-Marktplatz. Einfach, schnell und sicher.",
     "categories": "Kategorien",
     "about": "Über uns",
     "how": "So funktioniert's",
@@ -635,7 +635,7 @@
     },
     "terms": {
       "s1_title": "Gegenstand",
-      "s1_body": "Diese Allgemeinen Geschäftsbedingungen („AGB“) regeln den Zugang zu und die Nutzung der Website SouqMar24, einer Kleinanzeigen-Plattform, die Privatpersonen und Unternehmen die Veröffentlichung, Einsicht und Verhandlung von Anzeigen in Marokko ermöglicht.",
+      "s1_body": "Diese Allgemeinen Geschäftsbedingungen („AGB“) regeln den Zugang zu und die Nutzung der Website SouqMar24, einem Online-Marktplatz, der Privatpersonen und Unternehmen die Veröffentlichung, Einsicht und Verhandlung von Anzeigen in Marokko ermöglicht.",
       "s2_title": "Annahme der AGB",
       "s2_body": "Der Zugang zur und die Nutzung der Website setzt die vollständige und uneingeschränkte Annahme dieser AGB voraus. Wenn Sie diesen Bedingungen nicht zustimmen, dürfen Sie die Website nicht nutzen.",
       "s3_title": "Registrierung und Nutzerkonto",
