@@ -39,7 +39,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         if let user {
-                            Text("Bonjour, \(user.name) 👋")
+                            Text("Bonjour, \(user.name)")
                                 .font(.title3.bold())
                                 .padding(.horizontal)
                         }

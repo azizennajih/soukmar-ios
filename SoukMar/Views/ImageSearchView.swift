@@ -92,7 +92,7 @@ struct ImageSearchView: View {
 
     private var emptyResultsState: some View {
         VStack(spacing: 8) {
-            Text("🔍").font(.system(size: 40))
+            Image(systemName: "magnifyingglass").font(.system(size: 40)).foregroundStyle(.secondary)
             Text(i18n.t("image_search.no_results")).font(.title3.bold())
             Text(i18n.t("image_search.no_results_sub"))
                 .foregroundStyle(.secondary)

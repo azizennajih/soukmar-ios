@@ -39,7 +39,7 @@ struct SavedSearchesView: View {
 
     private var emptyState: some View {
         VStack(spacing: 8) {
-            Text("🔔").font(.system(size: 40))
+            Image(systemName: "bell.slash").font(.system(size: 40)).foregroundStyle(.secondary)
             Text(i18n.t("saved_searches.empty")).font(.title3.bold())
             Text(i18n.t("saved_searches.empty_sub"))
                 .foregroundStyle(.secondary)

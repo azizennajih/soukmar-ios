@@ -93,7 +93,7 @@ struct AdminView: View {
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.filteredReports.isEmpty {
-                    emptyState(icon: "🚩", text: i18n.t("admin.reports_empty"))
+                    emptyState(icon: "flag", text: i18n.t("admin.reports_empty"))
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 10) {
@@ -158,7 +158,7 @@ struct AdminView: View {
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.filteredIdVerifications.isEmpty {
-                    emptyState(icon: "🪪", text: i18n.t("admin.id_verifications_empty"))
+                    emptyState(icon: "person.text.rectangle", text: i18n.t("admin.id_verifications_empty"))
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 10) {
@@ -222,7 +222,7 @@ struct AdminView: View {
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.filteredBoostRequests.isEmpty {
-                    emptyState(icon: "🚀", text: i18n.t("admin.boost_requests_empty"))
+                    emptyState(icon: "bolt.fill", text: i18n.t("admin.boost_requests_empty"))
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 10) {
@@ -258,7 +258,7 @@ struct AdminView: View {
 
     private func emptyState(icon: String, text: String) -> some View {
         VStack(spacing: 8) {
-            Text(icon).font(.system(size: 40))
+            Image(systemName: icon).font(.system(size: 40)).foregroundStyle(.secondary)
             Text(text).foregroundStyle(.secondary).multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -35,7 +35,7 @@ struct ChatListView: View {
 
     private var emptyState: some View {
         VStack(spacing: 8) {
-            Text("💬").font(.system(size: 40))
+            Image(systemName: "message.fill").font(.system(size: 40)).foregroundStyle(.secondary)
             Text(i18n.t("chat.no_conv")).font(.title3.bold())
             Text(i18n.t("chat.no_conv_sub"))
                 .foregroundStyle(.secondary)

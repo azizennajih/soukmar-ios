@@ -54,7 +54,7 @@ struct FavorisView: View {
 
     private var emptyState: some View {
         VStack(spacing: 8) {
-            Text("🤍").font(.system(size: 40))
+            Image(systemName: "heart").font(.system(size: 40)).foregroundStyle(.secondary)
             Text(i18n.t("mes_favoris.empty")).font(.title3.bold())
             Text(i18n.t("mes_favoris.empty_sub"))
                 .foregroundStyle(.secondary)
