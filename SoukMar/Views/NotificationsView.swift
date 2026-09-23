@@ -87,6 +87,7 @@ private struct NotificationRow: View {
         case "NEW_REVIEW": return i18n.t("notifications.new_review", ["name": name])
         case "SAVED_SEARCH_MATCH": return i18n.t("notifications.saved_search_match", ["name": name])
         case "PRICE_DROP": return i18n.t("notifications.price_drop", ["name": name])
+        case "BOOST_REVIEWED": return i18n.t("notifications.boost_reviewed")
         case "REPORT_RESOLVED": return i18n.t("notifications.report_resolved")
         default: return "Nouvelle notification."
         }

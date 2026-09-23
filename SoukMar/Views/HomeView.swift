@@ -205,7 +205,8 @@ struct HomeView: View {
                     MesAnnoncesView(
                         onOpenListing: { id in path.append(id) },
                         onEditListing: { id in path.append(Route.listingForm(editId: id)) },
-                        onNewListing: { path.append(Route.listingForm(editId: nil)) }
+                        onNewListing: { path.append(Route.listingForm(editId: nil)) },
+                        onBoostListing: { id in path.append(BoostRoute(listingId: id)) }
                     )
                 case .favorites:
                     FavorisView(
@@ -273,6 +274,9 @@ struct HomeView: View {
                 SellerProfileView(sellerId: route.sellerId) { listingId in
                     path.append(listingId)
                 }
+            }
+            .navigationDestination(for: BoostRoute.self) { route in
+                BoostListingView(listingId: route.listingId)
             }
             .task {
                 if let refreshed = await AuthRepository.shared.me() {

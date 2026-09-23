@@ -125,6 +125,9 @@
     "back": "Retour aux annonces",
     "breadcrumb_home": "Accueil",
     "breadcrumb_listings": "Annonces",
+    "view_fullscreen": "Voir l'image en plein écran",
+    "prev_image": "Image précédente",
+    "next_image": "Image suivante",
     "views": "vues",
     "fav_add": "Ajouter aux favoris",
     "fav_remove": "Retirer des favoris",
@@ -168,7 +171,9 @@
     "review_thanks": "Merci pour votre évaluation !",
     "location_title": "Localisation",
     "show_map": "Voir sur la carte",
-    "hide_map": "Masquer la carte"
+    "hide_map": "Masquer la carte",
+    "boost_top_badge": "Top",
+    "boost_spotlight_badge": "Spotlight"
   },
   "chat": {
     "back": "Retour",
@@ -233,7 +238,8 @@
     "listing_expiring_soon": "Votre annonce expire dans environ une semaine.",
     "listing_expired": "Votre annonce a expiré. Passez en Premium pour la réactiver.",
     "price_drop": "Baisse de prix ({name}) sur une annonce que vous suivez.",
-    "id_verification_reviewed": "Le statut de votre vérification d'identité a été mis à jour."
+    "id_verification_reviewed": "Le statut de votre vérification d'identité a été mis à jour.",
+    "boost_reviewed": "Ta demande de visibilité a été traitée"
   },
   "auth": {
     "login_title": "Bon retour !",
@@ -1252,7 +1258,17 @@
     "revenue_pct": "% du total",
     "revenue_monthly_avg": "Revenu mensuel moyen",
     "revenue_12m": "Sur 12 mois",
-    "revenue_chart": "💰 Revenus Premium par mois (MAD)"
+    "revenue_chart": "💰 Revenus Premium par mois (MAD)",
+    "tab_boost_requests": "Boosts",
+    "boost_requests_title": "Demandes de visibilité",
+    "boost_requests_empty": "Aucune demande de boost pour le moment.",
+    "boost_requests_listing": "Annonce",
+    "boost_requests_seller": "Vendeur",
+    "boost_requests_tiers": "Formules",
+    "boost_requests_price": "Prix",
+    "boost_requests_approve": "Approuver",
+    "boost_requests_reject": "Refuser",
+    "boost_request_note_prompt": "Note (optionnel) :"
   },
   "deposer": {
     "gate_title": "Connexion requise",
@@ -1399,7 +1415,8 @@
     "funnel_offers": "Offres reçues",
     "funnel_accepted": "Offres acceptées",
     "expires_in_days": "Expire dans {n} jours",
-    "expires_today": "Expire aujourd'hui"
+    "expires_today": "Expire aujourd'hui",
+    "boost": "Booster la visibilité"
   },
   "mes_favoris": {
     "title": "Mes favoris",
@@ -1619,5 +1636,33 @@
     "unblock": "Débloquer",
     "confirm": "Voulez-vous vraiment bloquer cet utilisateur ? Vous ne pourrez plus échanger de messages avec lui.",
     "blocked_indicator": "Utilisateur bloqué"
+  },
+  "boost": {
+    "title": "Booster la visibilité",
+    "subtitle": "Choisis une ou plusieurs formules pour donner plus de visibilité à ton annonce. Combine-les et économise 10%.",
+    "tier_bump_name": "Bump instantané",
+    "tier_bump_desc": "Remonte immédiatement en tête du tri par défaut, sans attendre le bump gratuit de 24h.",
+    "tier_spotlight_name": "Spotlight",
+    "tier_spotlight_desc": "Mise en couleur pendant 7 jours et position prioritaire maintenue en continu, sans avoir à relancer chaque jour.",
+    "tier_top_name": "Position n°1",
+    "tier_top_desc": "Garantie en tête de liste pendant 7 jours, devant même les annonces Spotlight.",
+    "tier_global_name": "Portée internationale",
+    "tier_global_desc": "10 jours en page d'accueil et visible aussi pour les utilisateurs d'autres pays — idéal pour toucher la diaspora.",
+    "duration_days": "{n} jours",
+    "duration_instant": "Une fois, effet immédiat",
+    "active_until": "Actif jusqu'au {date}",
+    "subtotal": "Sous-total",
+    "discount": "Réduction combo (-10%)",
+    "total": "Total",
+    "submit": "Envoyer la demande",
+    "submitting": "Envoi...",
+    "select_at_least_one": "Choisis au moins une formule.",
+    "error_generic": "Une erreur est survenue. Réessaie plus tard.",
+    "payment_note": "Le paiement en ligne arrive bientôt — en attendant, chaque demande est confirmée manuellement par notre équipe.",
+    "pending_title": "Demande en cours d'examen",
+    "pending_body": "Ta sélection ({tiers}) pour {price} est en cours de vérification. Tu recevras une notification dès son activation.",
+    "confirm_title": "Demande envoyée !",
+    "confirm_body": "On vérifie ta demande et on l'active dès la confirmation du paiement. Tu recevras une notification.",
+    "back": "Retour à mes annonces"
   }
 }

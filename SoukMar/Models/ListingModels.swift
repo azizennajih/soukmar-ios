@@ -60,6 +60,12 @@ struct ListingDto: Codable, Identifiable, Equatable {
     let createdAt: String
     var lat: Double?
     var lng: Double?
+    // Paid visibility boosts (see BoostModels.swift) — nil/0 when never
+    // bought or expired.
+    var boostSpotlightUntil: String?
+    var boostTopUntil: String?
+    var boostGlobalUntil: String?
+    var boostRank: Int = 0
 
     // Swift's synthesized Decodable ignores stored-property defaults for a
     // missing key (unlike kotlinx.serialization on the Android side), and a
@@ -95,7 +101,27 @@ struct ListingDto: Codable, Identifiable, Equatable {
         createdAt = try c.decode(String.self, forKey: .createdAt)
         lat = try c.decodeIfPresent(Double.self, forKey: .lat)
         lng = try c.decodeIfPresent(Double.self, forKey: .lng)
+        boostSpotlightUntil = try c.decodeIfPresent(String.self, forKey: .boostSpotlightUntil)
+        boostTopUntil = try c.decodeIfPresent(String.self, forKey: .boostTopUntil)
+        boostGlobalUntil = try c.decodeIfPresent(String.self, forKey: .boostGlobalUntil)
+        boostRank = try c.decodeIfPresent(Int.self, forKey: .boostRank) ?? 0
     }
+}
+
+/// True while a boost "Until" ISO date string (boostSpotlightUntil/
+/// boostTopUntil/boostGlobalUntil) is still in the future. Mirrors
+/// isBoostActive() in the web's listing.model.ts.
+func isBoostActive(_ until: String?) -> Bool {
+    guard let until else { return false }
+    let iso8601 = ISO8601DateFormatter()
+    iso8601.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    var date = iso8601.date(from: until)
+    if date == nil {
+        iso8601.formatOptions = [.withInternetDateTime]
+        date = iso8601.date(from: until)
+    }
+    guard let date else { return false }
+    return date > Date()
 }
 
 struct ListingsResponseDto: Codable {

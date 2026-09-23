@@ -8,6 +8,8 @@ struct ListingCardView: View {
     @ObservedObject private var i18n = I18nRepository.shared
 
     private var cat: CategoryConfig? { categoryConfig(listing.category) }
+    private var isBoostTop: Bool { isBoostActive(listing.boostTopUntil) }
+    private var isBoostSpotlight: Bool { !isBoostTop && isBoostActive(listing.boostSpotlightUntil) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -28,7 +30,23 @@ struct ListingCardView: View {
                     placeholder
                 }
 
-                if listing.isPremium {
+                if isBoostTop {
+                    Label(i18n.t("listing.boost_top_badge"), systemImage: "crown.fill")
+                        .font(.caption2.bold())
+                        .padding(.horizontal, 8).padding(.vertical, 4)
+                        .background(Color.soukmarPrimary)
+                        .foregroundStyle(.white)
+                        .clipShape(Capsule())
+                        .padding(6)
+                } else if isBoostSpotlight {
+                    Label(i18n.t("listing.boost_spotlight_badge"), systemImage: "bolt.fill")
+                        .font(.caption2.bold())
+                        .padding(.horizontal, 8).padding(.vertical, 4)
+                        .background(Color.soukmarPrimaryLight)
+                        .foregroundStyle(Color.soukmarPrimary)
+                        .clipShape(Capsule())
+                        .padding(6)
+                } else if listing.isPremium {
                     Label(i18n.t("listing.premium_badge"), systemImage: "star.fill")
                         .font(.caption2.bold())
                         .padding(.horizontal, 8).padding(.vertical, 4)
@@ -39,6 +57,10 @@ struct ListingCardView: View {
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(isBoostTop ? Color.soukmarPrimary : .clear, lineWidth: 2)
+            )
 
             Text(listing.title)
                 .font(.subheadline.weight(.semibold))

@@ -87,6 +87,78 @@ final class AdminViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Boost requests (paid visibility, see BoostModels.swift)
+
+    @Published private(set) var boostRequests: [BoostRequestDto] = []
+    @Published private(set) var boostRequestsLoading = false
+    @Published private(set) var boostRequestsLoaded = false
+    @Published private(set) var boostRequestsLoadError = false
+    @Published var boostRequestFilter = "PENDING"
+
+    @Published private(set) var boostActionTarget: BoostRequestDto?
+    @Published private(set) var boostActionStatus: String?
+    @Published var boostActionNote = ""
+    @Published private(set) var boostActionSubmitting = false
+
+    var filteredBoostRequests: [BoostRequestDto] {
+        boostRequestFilter == "ALL" ? boostRequests : boostRequests.filter { $0.status == boostRequestFilter }
+    }
+
+    func countForBoostRequest(_ status: String) -> Int {
+        status == "ALL" ? boostRequests.count : boostRequests.filter { $0.status == status }.count
+    }
+
+    /// Lazy-loaded the first time the "Boosts" tab is opened, mirrors the
+    /// id-verifications queue's own load-on-first-open pattern.
+    func loadBoostRequestsIfNeeded() {
+        guard !boostRequestsLoaded, !boostRequestsLoading else { return }
+        Task {
+            boostRequestsLoading = true
+            boostRequestsLoadError = false
+            switch await adminRepository.getBoostRequests() {
+            case .success(let data):
+                boostRequests = data
+                boostRequestsLoaded = true
+            case .failure:
+                boostRequestsLoadError = true
+            }
+            boostRequestsLoading = false
+        }
+    }
+
+    func openBoostAction(_ request: BoostRequestDto, status: String) {
+        boostActionTarget = request
+        boostActionStatus = status
+        boostActionNote = ""
+    }
+
+    func cancelBoostAction() {
+        boostActionTarget = nil
+        boostActionStatus = nil
+        boostActionNote = ""
+    }
+
+    func confirmBoostAction() {
+        guard let request = boostActionTarget, let status = boostActionStatus, !boostActionSubmitting else { return }
+        boostActionSubmitting = true
+        Task {
+            switch await adminRepository.reviewBoostRequest(id: request.id, status: status, adminNote: boostActionNote) {
+            case .success(let updated):
+                if let index = boostRequests.firstIndex(where: { $0.id == request.id }) {
+                    boostRequests[index].status = updated.status
+                    boostRequests[index].adminNote = updated.adminNote
+                    boostRequests[index].resolvedAt = updated.resolvedAt
+                }
+                boostActionTarget = nil
+                boostActionStatus = nil
+                boostActionNote = ""
+            case .failure:
+                break // leave the dialog open so the admin can retry
+            }
+            boostActionSubmitting = false
+        }
+    }
+
     private let adminRepository = AdminRepository.shared
 
     var filteredReports: [AdminReportDto] {

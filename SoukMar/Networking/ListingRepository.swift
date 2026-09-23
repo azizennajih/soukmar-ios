@@ -141,6 +141,28 @@ final class ListingRepository {
         }
     }
 
+    func getBoostStatus(id: String) async -> Result<BoostStatusDto, APIError> {
+        do {
+            let response: BoostStatusDto = try await api.send(path: "listings/\(id)/boost-status")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func requestBoost(id: String, tiers: [String]) async -> Result<BoostRequestDto, APIError> {
+        do {
+            let response: BoostRequestDto = try await api.send(path: "listings/\(id)/boost-request", method: "POST", body: BoostRequestBody(tiers: tiers))
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
     func updateStatus(id: String, status: String) async -> Result<ListingDto, APIError> {
         do {
             let response: ListingDto = try await api.send(path: "listings/\(id)", method: "PUT", body: ListingStatusUpdateRequest(status: status))

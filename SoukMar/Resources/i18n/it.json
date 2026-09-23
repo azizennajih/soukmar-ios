@@ -122,6 +122,9 @@
     "back": "Torna agli annunci",
     "breadcrumb_home": "Home",
     "breadcrumb_listings": "Annunci",
+    "view_fullscreen": "Visualizza immagine a schermo intero",
+    "prev_image": "Immagine precedente",
+    "next_image": "Immagine successiva",
     "views": "visualizzazioni",
     "fav_add": "Aggiungi ai preferiti",
     "fav_remove": "Rimuovi dai preferiti",
@@ -168,7 +171,9 @@
     "review_thanks": "Grazie per la tua recensione!",
     "location_title": "Posizione",
     "show_map": "Vedi sulla mappa",
-    "hide_map": "Nascondi mappa"
+    "hide_map": "Nascondi mappa",
+    "boost_top_badge": "Top",
+    "boost_spotlight_badge": "Spotlight"
   },
   "chat": {
     "back": "Indietro",
@@ -233,7 +238,8 @@
     "listing_expiring_soon": "Il tuo annuncio scade tra circa una settimana.",
     "listing_expired": "Il tuo annuncio è scaduto. Passa a Premium per riattivarlo.",
     "price_drop": "Calo di prezzo ({name}) su un annuncio che segui.",
-    "id_verification_reviewed": "Lo stato della tua verifica d'identità è stato aggiornato."
+    "id_verification_reviewed": "Lo stato della tua verifica d'identità è stato aggiornato.",
+    "boost_reviewed": "La tua richiesta di boost è stata esaminata"
   },
   "auth": {
     "login_title": "Bentornato!",
@@ -484,7 +490,17 @@
     "id_verifications_selfie_photo": "Vedi selfie",
     "id_verifications_approve": "Approva",
     "id_verifications_reject": "Rifiuta",
-    "id_verification_note_prompt": "Motivo del rifiuto (facoltativo):"
+    "id_verification_note_prompt": "Motivo del rifiuto (facoltativo):",
+    "tab_boost_requests": "Boost",
+    "boost_requests_title": "Richieste di visibilità",
+    "boost_requests_empty": "Nessuna richiesta di boost per ora.",
+    "boost_requests_listing": "Annuncio",
+    "boost_requests_seller": "Venditore",
+    "boost_requests_tiers": "Livelli",
+    "boost_requests_price": "Prezzo",
+    "boost_requests_approve": "Approva",
+    "boost_requests_reject": "Rifiuta",
+    "boost_request_note_prompt": "Nota (facoltativo):"
   },
   "mes_annonces": {
     "title": "I miei annunci",
@@ -510,7 +526,8 @@
     "funnel_offers": "Offerte ricevute",
     "funnel_accepted": "Offerte accettate",
     "expires_in_days": "Scade tra {n} giorni",
-    "expires_today": "Scade oggi"
+    "expires_today": "Scade oggi",
+    "boost": "Aumenta visibilità"
   },
   "mes_favoris": {
     "title": "I miei preferiti",
@@ -1619,5 +1636,33 @@
     "unblock": "Sblocca",
     "confirm": "Vuoi davvero bloccare questo utente? Non potrete più scambiarvi messaggi.",
     "blocked_indicator": "Utente bloccato"
+  },
+  "boost": {
+    "title": "Aumenta la tua visibilità",
+    "subtitle": "Scegli uno o più livelli per dare più visibilità al tuo annuncio. Combinali e risparmia il 10%.",
+    "tier_bump_name": "Spinta istantanea",
+    "tier_bump_desc": "Va subito in cima all'ordinamento predefinito, senza aspettare la spinta gratuita ogni 24 ore.",
+    "tier_spotlight_name": "Spotlight",
+    "tier_spotlight_desc": "Evidenziato a colori per 7 giorni e mantenuto costantemente in alto, senza doverlo rilanciare ogni giorno.",
+    "tier_top_name": "Posizione n.1",
+    "tier_top_desc": "Garantito in cima alla lista per 7 giorni, davanti anche agli annunci Spotlight.",
+    "tier_global_name": "Portata internazionale",
+    "tier_global_desc": "10 giorni in homepage e visibile anche agli utenti di altri paesi — ideale per raggiungere anche la diaspora.",
+    "duration_days": "{n} giorni",
+    "duration_instant": "Una tantum, effetto immediato",
+    "active_until": "Attivo fino al {date}",
+    "subtotal": "Subtotale",
+    "discount": "Sconto combo (-10%)",
+    "total": "Totale",
+    "submit": "Invia richiesta",
+    "submitting": "Invio...",
+    "select_at_least_one": "Scegli almeno un livello.",
+    "error_generic": "Si è verificato un errore. Riprova più tardi.",
+    "payment_note": "Il pagamento online arriva presto — nel frattempo ogni richiesta viene confermata manualmente dal nostro team.",
+    "pending_title": "Richiesta in revisione",
+    "pending_body": "La tua selezione ({tiers}) per {price} è in fase di revisione. Riceverai una notifica non appena sarà attivata.",
+    "confirm_title": "Richiesta inviata!",
+    "confirm_body": "Stiamo verificando la tua richiesta e la attiveremo non appena il pagamento sarà confermato. Riceverai una notifica.",
+    "back": "Torna alle mie inserzioni"
   }
 }

@@ -122,6 +122,9 @@
     "back": "Back to listings",
     "breadcrumb_home": "Home",
     "breadcrumb_listings": "Listings",
+    "view_fullscreen": "View image fullscreen",
+    "prev_image": "Previous image",
+    "next_image": "Next image",
     "views": "views",
     "fav_add": "Add to favourites",
     "fav_remove": "Remove from favourites",
@@ -168,7 +171,9 @@
     "review_thanks": "Thanks for your review!",
     "location_title": "Location",
     "show_map": "View on map",
-    "hide_map": "Hide map"
+    "hide_map": "Hide map",
+    "boost_top_badge": "Top",
+    "boost_spotlight_badge": "Spotlight"
   },
   "chat": {
     "back": "Back",
@@ -233,7 +238,8 @@
     "listing_expiring_soon": "Your listing expires in about a week.",
     "listing_expired": "Your listing has expired. Go Premium to reactivate it.",
     "price_drop": "Price drop ({name}) on a listing you're following.",
-    "id_verification_reviewed": "Your identity verification status has been updated."
+    "id_verification_reviewed": "Your identity verification status has been updated.",
+    "boost_reviewed": "Your visibility boost request has been reviewed"
   },
   "auth": {
     "login_title": "Welcome back!",
@@ -456,7 +462,17 @@
     "id_verifications_selfie_photo": "View selfie",
     "id_verifications_approve": "Approve",
     "id_verifications_reject": "Reject",
-    "id_verification_note_prompt": "Reason for rejection (optional):"
+    "id_verification_note_prompt": "Reason for rejection (optional):",
+    "tab_boost_requests": "Boosts",
+    "boost_requests_title": "Visibility boost requests",
+    "boost_requests_empty": "No boost requests yet.",
+    "boost_requests_listing": "Listing",
+    "boost_requests_seller": "Seller",
+    "boost_requests_tiers": "Tiers",
+    "boost_requests_price": "Price",
+    "boost_requests_approve": "Approve",
+    "boost_requests_reject": "Reject",
+    "boost_request_note_prompt": "Note (optional):"
   },
   "deposer": {
     "gate_title": "Login required",
@@ -603,7 +619,8 @@
     "funnel_offers": "Offers received",
     "funnel_accepted": "Offers accepted",
     "expires_in_days": "Expires in {n} days",
-    "expires_today": "Expires today"
+    "expires_today": "Expires today",
+    "boost": "Boost visibility"
   },
   "mes_favoris": {
     "title": "My favorites",
@@ -1619,5 +1636,33 @@
     "unblock": "Unblock",
     "confirm": "Are you sure you want to block this user? You will no longer be able to exchange messages.",
     "blocked_indicator": "Blocked user"
+  },
+  "boost": {
+    "title": "Boost your visibility",
+    "subtitle": "Pick one or more tiers to give your listing more visibility. Combine them and save 10%.",
+    "tier_bump_name": "Instant bump",
+    "tier_bump_desc": "Jumps straight to the top of the default sort right now, without waiting for the free 24h bump.",
+    "tier_spotlight_name": "Spotlight",
+    "tier_spotlight_desc": "Highlighted in color for 7 days and kept continuously near the top — no need to bump it yourself every day.",
+    "tier_top_name": "#1 placement",
+    "tier_top_desc": "Guaranteed at the very top of the list for 7 days, ranking above even Spotlight listings.",
+    "tier_global_name": "Cross-border reach",
+    "tier_global_desc": "Featured on the homepage for 10 days and shown to users in other countries too — great for reaching the diaspora.",
+    "duration_days": "{n} days",
+    "duration_instant": "One-time, instant effect",
+    "active_until": "Active until {date}",
+    "subtotal": "Subtotal",
+    "discount": "Bundle discount (-10%)",
+    "total": "Total",
+    "submit": "Send request",
+    "submitting": "Sending...",
+    "select_at_least_one": "Pick at least one tier.",
+    "error_generic": "Something went wrong. Please try again later.",
+    "payment_note": "Online payment is coming soon — until then, every request is confirmed manually by our team.",
+    "pending_title": "Request under review",
+    "pending_body": "Your selection ({tiers}) for {price} is being reviewed. You’ll get a notification once it’s activated.",
+    "confirm_title": "Request sent!",
+    "confirm_body": "We’re reviewing your request and will activate it once payment is confirmed. You’ll get a notification.",
+    "back": "Back to my listings"
   }
 }

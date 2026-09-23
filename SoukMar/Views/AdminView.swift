@@ -2,6 +2,7 @@ import SwiftUI
 
 private let FILTERS = ["PENDING", "RESOLVED", "DISMISSED", "ALL"]
 private let ID_VERIFICATION_FILTERS = ["PENDING", "APPROVED", "REJECTED", "ALL"]
+private let BOOST_REQUEST_FILTERS = ["PENDING", "APPROVED", "REJECTED", "ALL"]
 
 private func statusLabel(_ status: String, _ i18n: I18nRepository) -> String {
     switch status {
@@ -14,7 +15,7 @@ private func statusLabel(_ status: String, _ i18n: I18nRepository) -> String {
     }
 }
 
-private enum AdminTab { case reports, idVerifications }
+private enum AdminTab { case reports, idVerifications, boostRequests }
 
 /// Mirrors soukmar-android's AdminScreen — reports moderation queue with
 /// filter pills (live counts), resolve/dismiss with an optional note, plus
@@ -32,22 +33,32 @@ struct AdminView: View {
             Picker("", selection: $tab) {
                 Text(i18n.t("admin.tab_reports")).tag(AdminTab.reports)
                 Text(i18n.t("admin.tab_id_verifications")).tag(AdminTab.idVerifications)
+                Text(i18n.t("admin.tab_boost_requests")).tag(AdminTab.boostRequests)
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .padding(.top, 8)
 
-            if tab == .reports {
-                reportsSection
-            } else {
-                idVerificationsSection
+            switch tab {
+            case .reports: reportsSection
+            case .idVerifications: idVerificationsSection
+            case .boostRequests: boostRequestsSection
             }
         }
-        .navigationTitle(tab == .reports ? i18n.t("admin.reports_title") : i18n.t("admin.id_verifications_title"))
+        .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
         .task { viewModel.load() }
         .onChange(of: tab) { newTab in
             if newTab == .idVerifications { viewModel.loadIdVerificationsIfNeeded() }
+            if newTab == .boostRequests { viewModel.loadBoostRequestsIfNeeded() }
+        }
+    }
+
+    private var navigationTitle: String {
+        switch tab {
+        case .reports: return i18n.t("admin.reports_title")
+        case .idVerifications: return i18n.t("admin.id_verifications_title")
+        case .boostRequests: return i18n.t("admin.boost_requests_title")
         }
     }
 
@@ -177,6 +188,71 @@ struct AdminView: View {
             Button(i18n.t("common.cancel"), role: .cancel) { viewModel.cancelIdVerificationAction() }
         } message: {
             Text(i18n.t("admin.id_verification_note_prompt"))
+        }
+    }
+
+    @ViewBuilder
+    private var boostRequestsSection: some View {
+        VStack(spacing: 0) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(BOOST_REQUEST_FILTERS, id: \.self) { f in
+                        Button {
+                            viewModel.boostRequestFilter = f
+                        } label: {
+                            Text("\(statusLabel(f, i18n)) (\(viewModel.countForBoostRequest(f)))")
+                                .font(.caption.weight(.medium))
+                                .padding(.horizontal, 12).padding(.vertical, 8)
+                                .background(viewModel.boostRequestFilter == f ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
+                                .foregroundStyle(viewModel.boostRequestFilter == f ? Color.soukmarPrimary : .primary)
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+            }
+
+            Group {
+                if viewModel.boostRequestsLoading {
+                    ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.boostRequestsLoadError {
+                    Text("Impossible de charger les demandes de visibilité.")
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.filteredBoostRequests.isEmpty {
+                    emptyState(icon: "🚀", text: i18n.t("admin.boost_requests_empty"))
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 10) {
+                            ForEach(viewModel.filteredBoostRequests) { request in
+                                BoostRequestCard(
+                                    request: request,
+                                    onOpenListing: onOpenListing,
+                                    onApprove: { viewModel.openBoostAction(request, status: "APPROVED") },
+                                    onReject: { viewModel.openBoostAction(request, status: "REJECTED") }
+                                )
+                            }
+                        }
+                        .padding(12)
+                    }
+                }
+            }
+        }
+        .alert(
+            viewModel.boostActionStatus == "APPROVED" ? i18n.t("admin.boost_requests_approve") : i18n.t("admin.boost_requests_reject"),
+            isPresented: Binding(
+                get: { viewModel.boostActionTarget != nil },
+                set: { if !$0 { viewModel.cancelBoostAction() } }
+            )
+        ) {
+            TextField(i18n.t("admin.boost_request_note_prompt"), text: $viewModel.boostActionNote)
+            Button(viewModel.boostActionSubmitting ? "…" : i18n.t("common.save")) { viewModel.confirmBoostAction() }
+                .disabled(viewModel.boostActionSubmitting)
+            Button(i18n.t("common.cancel"), role: .cancel) { viewModel.cancelBoostAction() }
+        } message: {
+            Text(i18n.t("admin.boost_request_note_prompt"))
         }
     }
 
@@ -324,6 +400,78 @@ private struct ReportCard: View {
                     Button(i18n.t("admin.reports_resolve"), action: onResolve)
                         .buttonStyle(.borderedProminent).tint(Color.soukmarPrimary)
                     Button(i18n.t("admin.reports_dismiss"), action: onDismiss)
+                        .buttonStyle(.bordered)
+                }
+            }
+        }
+        .padding(14)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+}
+
+/// Mirrors the web admin's Boosts tab: listing/seller refs, the requested
+/// tier ids (translated via boost.tier_<id>_name) + quoted price, status
+/// badge, Approve/Reject only while PENDING. Approving is the only place
+/// that actually activates the effects (see backend's applyBoostTiers) —
+/// the request itself never touches money, since no payment processor
+/// exists yet.
+private struct BoostRequestCard: View {
+    let request: BoostRequestDto
+    let onOpenListing: (String) -> Void
+    let onApprove: () -> Void
+    let onReject: () -> Void
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    private var statusColors: (bg: Color, fg: Color) {
+        switch request.status {
+        case "PENDING": return (Color.soukmarGoldLight, Color.soukmarGold)
+        case "APPROVED": return (Color.green.opacity(0.12), .green)
+        default: return (Color.red.opacity(0.1), .red)
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(statusLabel(request.status, i18n))
+                    .font(.caption2.bold())
+                    .padding(.horizontal, 10).padding(.vertical, 4)
+                    .background(statusColors.bg)
+                    .foregroundStyle(statusColors.fg)
+                    .clipShape(Capsule())
+                Text(i18n.timeAgoT(request.createdAt)).font(.caption2).foregroundStyle(.secondary)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(i18n.t("admin.boost_requests_listing")).font(.caption2).foregroundStyle(.secondary)
+                Button {
+                    onOpenListing(request.listingId)
+                } label: {
+                    Label(request.listing?.title ?? "?", systemImage: "link").font(.subheadline.weight(.semibold)).foregroundStyle(Color.soukmarPrimary)
+                }
+                .buttonStyle(.plain)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(i18n.t("admin.boost_requests_seller")).font(.caption2).foregroundStyle(.secondary)
+                Text("\(request.user?.name ?? "?") · \(request.user?.email ?? "")").font(.subheadline.weight(.medium))
+            }
+
+            let tierNames = request.tiers.map { i18n.t("boost.tier_\($0)_name") }.joined(separator: ", ")
+            let (amount, currency) = formatPriceParts(request.totalPrice, currency: request.currency, lang: i18n.currentLang)
+            Text("\(i18n.t("admin.boost_requests_tiers")): \(tierNames)  ·  \(i18n.t("admin.boost_requests_price")): \(amount) \(currency)")
+                .font(.subheadline)
+
+            if let note = request.adminNote, !note.isEmpty {
+                Label(note, systemImage: "note.text").font(.caption).foregroundStyle(.secondary)
+            }
+
+            if request.status == "PENDING" {
+                HStack(spacing: 8) {
+                    Button(i18n.t("admin.boost_requests_approve"), action: onApprove)
+                        .buttonStyle(.borderedProminent).tint(Color.soukmarPrimary)
+                    Button(i18n.t("admin.boost_requests_reject"), action: onReject)
                         .buttonStyle(.bordered)
                 }
             }

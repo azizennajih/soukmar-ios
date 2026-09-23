@@ -25,6 +25,7 @@ struct MesAnnoncesView: View {
     var onOpenListing: (String) -> Void
     var onEditListing: (String) -> Void
     var onNewListing: () -> Void
+    var onBoostListing: (String) -> Void
 
     @StateObject private var viewModel = MesAnnoncesViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
@@ -48,6 +49,7 @@ struct MesAnnoncesView: View {
                                         statsOpen: viewModel.statsOpenId == listing.id,
                                         onOpen: { onOpenListing(listing.id) },
                                         onEdit: { onEditListing(listing.id) },
+                                        onBoost: { onBoostListing(listing.id) },
                                         onToggleReserve: { viewModel.toggleReserve(listing) },
                                         onBump: { viewModel.bump(listing) },
                                         onToggleStats: { viewModel.toggleStats(listing) },
@@ -124,6 +126,7 @@ private struct ListingRow: View {
     let statsOpen: Bool
     let onOpen: () -> Void
     let onEdit: () -> Void
+    let onBoost: () -> Void
     let onToggleReserve: () -> Void
     let onBump: () -> Void
     let onToggleStats: () -> Void
@@ -212,6 +215,7 @@ private struct ListingRow: View {
                 RowActionButton(systemName: "pencil", action: onEdit)
                 if canToggleReserve {
                     RowActionButton(systemName: "arrow.up", enabled: canBump && !bumping, action: onBump)
+                    RowActionButton(systemName: "bolt.fill", action: onBoost)
                 }
                 RowActionButton(systemName: "chart.bar", active: statsOpen, action: onToggleStats)
                 RowActionButton(systemName: "trash", danger: true, action: onDelete)
@@ -342,5 +346,5 @@ private struct FunnelRow: View {
 }
 
 #Preview {
-    NavigationStack { MesAnnoncesView(onOpenListing: { _ in }, onEditListing: { _ in }, onNewListing: {}) }
+    NavigationStack { MesAnnoncesView(onOpenListing: { _ in }, onEditListing: { _ in }, onNewListing: {}, onBoostListing: { _ in }) }
 }

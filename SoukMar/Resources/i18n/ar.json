@@ -122,6 +122,9 @@
     "back": "العودة إلى الإعلانات",
     "breadcrumb_home": "الرئيسية",
     "breadcrumb_listings": "الإعلانات",
+    "view_fullscreen": "عرض الصورة بالحجم الكامل",
+    "prev_image": "الصورة السابقة",
+    "next_image": "الصورة التالية",
     "views": "مشاهدة",
     "fav_add": "أضف إلى المفضلة",
     "fav_remove": "إزالة من المفضلة",
@@ -168,7 +171,9 @@
     "review_thanks": "شكرًا على تقييمك!",
     "location_title": "الموقع",
     "show_map": "عرض على الخريطة",
-    "hide_map": "إخفاء الخريطة"
+    "hide_map": "إخفاء الخريطة",
+    "boost_top_badge": "الأعلى",
+    "boost_spotlight_badge": "أبرز"
   },
   "chat": {
     "back": "رجوع",
@@ -233,7 +238,8 @@
     "listing_expiring_soon": "ستنتهي صلاحية إعلانك خلال حوالي أسبوع.",
     "listing_expired": "انتهت صلاحية إعلانك. اشترك في Premium لإعادة تفعيله.",
     "price_drop": "انخفاض السعر ({name}) على إعلان تتابعه.",
-    "id_verification_reviewed": "تم تحديث حالة التحقق من هويتك."
+    "id_verification_reviewed": "تم تحديث حالة التحقق من هويتك.",
+    "boost_reviewed": "تمت مراجعة طلب تعزيز الظهور الخاص بك"
   },
   "auth": {
     "login_title": "مرحبًا بعودتك!",
@@ -456,7 +462,17 @@
     "id_verifications_selfie_photo": "عرض الصورة الشخصية",
     "id_verifications_approve": "قبول",
     "id_verifications_reject": "رفض",
-    "id_verification_note_prompt": "سبب الرفض (اختياري):"
+    "id_verification_note_prompt": "سبب الرفض (اختياري):",
+    "tab_boost_requests": "التعزيزات",
+    "boost_requests_title": "طلبات تعزيز الظهور",
+    "boost_requests_empty": "لا توجد طلبات تعزيز حتى الآن.",
+    "boost_requests_listing": "الإعلان",
+    "boost_requests_seller": "البائع",
+    "boost_requests_tiers": "الفئات",
+    "boost_requests_price": "السعر",
+    "boost_requests_approve": "الموافقة",
+    "boost_requests_reject": "رفض",
+    "boost_request_note_prompt": "ملاحظة (اختياري):"
   },
   "deposer": {
     "gate_title": "يجب تسجيل الدخول",
@@ -603,7 +619,8 @@
     "funnel_offers": "العروض المستلمة",
     "funnel_accepted": "العروض المقبولة",
     "expires_in_days": "تنتهي خلال {n} يومًا",
-    "expires_today": "تنتهي اليوم"
+    "expires_today": "تنتهي اليوم",
+    "boost": "تعزيز الظهور"
   },
   "mes_favoris": {
     "title": "المفضلة",
@@ -1619,5 +1636,33 @@
     "unblock": "إلغاء الحظر",
     "confirm": "هل تريد بالتأكيد حظر هذا المستخدم؟ لن تتمكنا بعد ذلك من تبادل الرسائل.",
     "blocked_indicator": "مستخدم محظور"
+  },
+  "boost": {
+    "title": "عزّز ظهور إعلانك",
+    "subtitle": "اختر فئة واحدة أو أكثر لمنح إعلانك مزيدًا من الظهور. اجمع بينها ووفّر 10%.",
+    "tier_bump_name": "رفع فوري",
+    "tier_bump_desc": "يقفز إعلانك مباشرة إلى أعلى الترتيب الافتراضي الآن، دون انتظار الرفع المجاني كل 24 ساعة.",
+    "tier_spotlight_name": "أبرز",
+    "tier_spotlight_desc": "إبراز بالألوان لمدة 7 أيام وبقاء مستمر بالقرب من الأعلى — دون الحاجة لرفعه يدويًا كل يوم.",
+    "tier_top_name": "المرتبة الأولى",
+    "tier_top_desc": "ضمان الظهور في أعلى القائمة لمدة 7 أيام، متقدمًا حتى على إعلانات \"أبرز\".",
+    "tier_global_name": "ظهور عابر للحدود",
+    "tier_global_desc": "ظهور في الصفحة الرئيسية لمدة 10 أيام، بالإضافة إلى عرضه لمستخدمين في دول أخرى — مثالي للوصول إلى الجالية.",
+    "duration_days": "{n} أيام",
+    "duration_instant": "لمرة واحدة، تأثير فوري",
+    "active_until": "نشط حتى {date}",
+    "subtotal": "المجموع الفرعي",
+    "discount": "خصم الدمج (-10%)",
+    "total": "المجموع",
+    "submit": "إرسال الطلب",
+    "submitting": "جارٍ الإرسال...",
+    "select_at_least_one": "يرجى اختيار فئة واحدة على الأقل.",
+    "error_generic": "حدث خطأ ما. حاول مرة أخرى لاحقًا.",
+    "payment_note": "الدفع الإلكتروني قادم قريبًا — وإلى ذلك الحين، يقوم فريقنا بتأكيد كل طلب يدويًا.",
+    "pending_title": "الطلب قيد المراجعة",
+    "pending_body": "اختيارك ({tiers}) مقابل {price} قيد المراجعة. ستصلك إشعار بمجرد تفعيله.",
+    "confirm_title": "تم إرسال الطلب!",
+    "confirm_body": "نقوم بمراجعة طلبك وسنفعّله فور تأكيد الدفع. ستصلك إشعار.",
+    "back": "العودة إلى إعلاناتي"
   }
 }

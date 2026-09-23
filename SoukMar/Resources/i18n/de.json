@@ -122,6 +122,9 @@
     "back": "Zurück zu den Anzeigen",
     "breadcrumb_home": "Startseite",
     "breadcrumb_listings": "Anzeigen",
+    "view_fullscreen": "Bild in voller Größe ansehen",
+    "prev_image": "Vorheriges Bild",
+    "next_image": "Nächstes Bild",
     "views": "Aufrufe",
     "fav_add": "Zu Favoriten hinzufügen",
     "fav_remove": "Aus Favoriten entfernen",
@@ -168,7 +171,9 @@
     "review_thanks": "Danke für Ihre Bewertung!",
     "location_title": "Standort",
     "show_map": "Karte anzeigen",
-    "hide_map": "Karte ausblenden"
+    "hide_map": "Karte ausblenden",
+    "boost_top_badge": "Top",
+    "boost_spotlight_badge": "Spotlight"
   },
   "chat": {
     "back": "Zurück",
@@ -233,7 +238,8 @@
     "listing_expiring_soon": "Ihre Anzeige läuft in etwa einer Woche ab.",
     "listing_expired": "Ihre Anzeige ist abgelaufen. Werden Sie Premium, um sie wieder zu aktivieren.",
     "price_drop": "Preissenkung ({name}) bei einer beobachteten Anzeige.",
-    "id_verification_reviewed": "Der Status Ihrer Identitätsprüfung wurde aktualisiert."
+    "id_verification_reviewed": "Der Status Ihrer Identitätsprüfung wurde aktualisiert.",
+    "boost_reviewed": "Deine Boost-Anfrage wurde bearbeitet"
   },
   "auth": {
     "login_title": "Willkommen zurück!",
@@ -484,7 +490,17 @@
     "id_verifications_selfie_photo": "Selfie ansehen",
     "id_verifications_approve": "Genehmigen",
     "id_verifications_reject": "Ablehnen",
-    "id_verification_note_prompt": "Ablehnungsgrund (optional):"
+    "id_verification_note_prompt": "Ablehnungsgrund (optional):",
+    "tab_boost_requests": "Boosts",
+    "boost_requests_title": "Sichtbarkeits-Anfragen",
+    "boost_requests_empty": "Bisher keine Boost-Anfragen.",
+    "boost_requests_listing": "Anzeige",
+    "boost_requests_seller": "Verkäufer",
+    "boost_requests_tiers": "Stufen",
+    "boost_requests_price": "Preis",
+    "boost_requests_approve": "Genehmigen",
+    "boost_requests_reject": "Ablehnen",
+    "boost_request_note_prompt": "Notiz (optional):"
   },
   "mes_annonces": {
     "title": "Meine Anzeigen",
@@ -510,7 +526,8 @@
     "funnel_offers": "Erhaltene Angebote",
     "funnel_accepted": "Angenommene Angebote",
     "expires_in_days": "Läuft in {n} Tagen ab",
-    "expires_today": "Läuft heute ab"
+    "expires_today": "Läuft heute ab",
+    "boost": "Sichtbarkeit erhöhen"
   },
   "mes_favoris": {
     "title": "Meine Favoriten",
@@ -1619,5 +1636,33 @@
     "unblock": "Entsperren",
     "confirm": "Möchten Sie diesen Nutzer wirklich blockieren? Sie können danach keine Nachrichten mehr austauschen.",
     "blocked_indicator": "Nutzer blockiert"
+  },
+  "boost": {
+    "title": "Sichtbarkeit erhöhen",
+    "subtitle": "Wähle eine oder mehrere Stufen, um deiner Anzeige mehr Sichtbarkeit zu geben. Kombiniere sie und spare 10%.",
+    "tier_bump_name": "Sofort-Bump",
+    "tier_bump_desc": "Springt sofort an die Spitze der Standardsortierung — unabhängig vom kostenlosen 24-Stunden-Bump.",
+    "tier_spotlight_name": "Spotlight",
+    "tier_spotlight_desc": "7 Tage lang farblich hervorgehoben und durchgehend ganz oben platziert — ohne täglich manuell nachzuhelfen.",
+    "tier_top_name": "Platz Nr. 1",
+    "tier_top_desc": "7 Tage lang garantiert ganz oben in der Liste, sogar vor Spotlight-Anzeigen.",
+    "tier_global_name": "Grenzüberschreitende Reichweite",
+    "tier_global_desc": "10 Tage auf der Startseite und zusätzlich für Nutzer in anderen Ländern sichtbar — ideal, um auch die Diaspora zu erreichen.",
+    "duration_days": "{n} Tage",
+    "duration_instant": "Einmalig, sofort",
+    "active_until": "Aktiv bis {date}",
+    "subtotal": "Zwischensumme",
+    "discount": "Kombi-Rabatt (-10%)",
+    "total": "Gesamt",
+    "submit": "Anfrage senden",
+    "submitting": "Wird gesendet...",
+    "select_at_least_one": "Bitte wähle mindestens eine Stufe.",
+    "error_generic": "Etwas ist schiefgelaufen. Bitte versuch es später erneut.",
+    "payment_note": "Online-Zahlung folgt in Kürze — bis dahin bestätigt unser Team jede Anfrage manuell.",
+    "pending_title": "Anfrage in Prüfung",
+    "pending_body": "Deine Auswahl ({tiers}) für {price} wird geprüft. Du bekommst eine Benachrichtigung, sobald sie aktiviert ist.",
+    "confirm_title": "Anfrage gesendet!",
+    "confirm_body": "Wir prüfen deine Anfrage und aktivieren sie, sobald die Zahlung bestätigt ist. Du bekommst eine Benachrichtigung.",
+    "back": "Zurück zu meinen Anzeigen"
   }
 }

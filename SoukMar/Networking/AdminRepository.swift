@@ -61,4 +61,32 @@ final class AdminRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    /// GET /api/admin/boost-requests — pending-first queue of seller
+    /// requests to activate paid visibility tiers (see BoostModels.swift).
+    func getBoostRequests() async -> Result<[BoostRequestDto], APIError> {
+        do {
+            let response: [BoostRequestDto] = try await api.send(path: "admin/boost-requests")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func reviewBoostRequest(id: String, status: String, adminNote: String?) async -> Result<BoostRequestDto, APIError> {
+        do {
+            let trimmedNote = adminNote?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let response: BoostRequestDto = try await api.send(
+                path: "admin/boost-requests/\(id)", method: "PATCH",
+                body: BoostRequestReviewRequest(status: status, adminNote: (trimmedNote?.isEmpty ?? true) ? nil : trimmedNote)
+            )
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }
