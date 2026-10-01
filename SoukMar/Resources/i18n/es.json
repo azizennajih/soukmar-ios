@@ -22,7 +22,10 @@
     "settings": "Ajustes",
     "suggest_in_all": "en todas las categorías",
     "suggest_in": "en",
-    "search_by_image": "Buscar por foto"
+    "search_by_image": "Buscar por foto",
+    "country_fixed": "País fijado por tu cuenta",
+    "country_auto_detected": "País detectado automáticamente según tu ubicación",
+    "my_follows": "Siguiendo"
   },
   "image_search": {
     "title": "Búsqueda por foto",
@@ -35,7 +38,7 @@
     "results_count": "Anuncios similares"
   },
   "home": {
-    "hero_badge": "Más de 50.000 anuncios activos",
+    "hero_badge": "{count} anuncios activos",
     "hero_title": "Compra y vende",
     "hero_highlight": "fácilmente",
     "hero_desc": "SouqMar24 — tu mercado local para encontrar las mejores ofertas cerca de ti.",
@@ -58,8 +61,8 @@
     "feature_fast_desc": "Publica tu anuncio en menos de 2 minutos",
     "feature_secure_title": "100% Seguro",
     "feature_secure_desc": "Todos los anuncios son verificados por nuestro equipo",
-    "feature_community_title": "Gran comunidad",
-    "feature_community_desc": "Más de 120.000 compradores y vendedores activos",
+    "feature_community_title": "Comunidad activa",
+    "feature_community_desc": "Conecta fácilmente con compradores y vendedores como tú",
     "feature_boost_title": "Impulsa tus ventas",
     "feature_boost_desc": "Opciones premium para maximizar la visibilidad",
     "premium_cta": "Premium"
@@ -71,7 +74,7 @@
     "category": "Categoría",
     "all_cats": "Todas las categorías",
     "city": "Ciudad / Zona",
-    "price": "PRECIO (MAD)",
+    "price": "PRECIO ({currency})",
     "min": "Mín",
     "max": "Máx",
     "sort": "ORDENAR POR",
@@ -239,7 +242,8 @@
     "listing_expired": "Tu anuncio ha caducado. Hazte Premium para reactivarlo.",
     "price_drop": "Bajada de precio ({name}) en un anuncio que sigues.",
     "id_verification_reviewed": "El estado de tu verificación de identidad se ha actualizado.",
-    "boost_reviewed": "Tu solicitud de aumento de visibilidad ha sido revisada"
+    "boost_reviewed": "Tu solicitud de aumento de visibilidad ha sido revisada",
+    "new_listing_from_followed": "{name} publicó un nuevo anuncio."
   },
   "auth": {
     "login_title": "¡Bienvenido de vuelta!",
@@ -249,6 +253,7 @@
     "email": "Correo electrónico",
     "password": "Contraseña",
     "name": "Nombre completo",
+    "country": "País",
     "phone": "Teléfono",
     "city": "Ciudad",
     "account_type": "Tipo de cuenta",
@@ -295,7 +300,8 @@
     "reset_mismatch": "Las contraseñas no coinciden.",
     "reset_too_short": "La contraseña debe tener al menos 6 caracteres.",
     "reset_invalid_title": "Enlace no válido",
-    "reset_invalid_sub": "Este enlace de restablecimiento no es válido o ha caducado. Solicita uno nuevo."
+    "reset_invalid_sub": "Este enlace de restablecimiento no es válido o ha caducado. Solicita uno nuevo.",
+    "phone_invalid_length": "Número no válido para este país ({min}-{max} dígitos)."
   },
   "cats": {
     "VEHICLES": "Vehículos",
@@ -988,7 +994,7 @@
     "INDUSTRY": "Sector",
     "PROFESSION": "Profesión",
     "EXPERIENCE_LEVEL": "Experiencia requerida",
-    "SALARY": "Salario (MAD)",
+    "SALARY": "Salario ({currency})",
     "REMOTE_POSSIBLE": "Teletrabajo posible",
     "AVAILABILITY": "Disponibilidad",
     "PRICE_TYPE": "Tipo de tarifa",
@@ -1615,7 +1621,10 @@
     "phone_verified": "Número de teléfono verificado",
     "phone_verified_short": "Teléfono",
     "id_verified": "Identidad verificada por nuestro equipo",
-    "id_verified_short": "Identidad"
+    "id_verified_short": "Identidad",
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir",
+    "followers": "seguidores"
   },
   "saved_searches": {
     "title": "Búsquedas guardadas",
@@ -1664,5 +1673,17 @@
     "confirm_title": "Solicitud enviada!",
     "confirm_body": "Estamos revisando tu solicitud y la activaremos en cuanto se confirme el pago. Recibiras una notificacion.",
     "back": "Volver a mis anuncios"
+  },
+  "mes_abonnements": {
+    "title": "Mis suscripciones",
+    "empty": "Aún no sigues a ningún vendedor",
+    "empty_sub": "Sigue a un vendedor para recibir un aviso en cuanto publique un nuevo anuncio.",
+    "browse_btn": "Explorar anuncios"
+  },
+  "cookie_consent": {
+    "message": "Utilizamos cookies esenciales para el funcionamiento del sitio (inicio de sesión, idioma, país) y, si lo aceptas, cookies de medición de audiencia.",
+    "learn_more": "Más información",
+    "essential_only": "Solo esenciales",
+    "accept_all": "Aceptar todo"
   }
 }

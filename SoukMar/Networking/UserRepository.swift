@@ -49,4 +49,37 @@ final class UserRepository {
             return .failure(.network(error.localizedDescription))
         }
     }
+
+    func followUser(id: String) async -> Result<FollowStatusDto, APIError> {
+        do {
+            let response: FollowStatusDto = try await api.send(path: "users/\(id)/follow", method: "POST")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func unfollowUser(id: String) async -> Result<FollowStatusDto, APIError> {
+        do {
+            let response: FollowStatusDto = try await api.send(path: "users/\(id)/follow", method: "DELETE")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
+
+    func getFollowing() async -> Result<[FollowedUserDto], APIError> {
+        do {
+            let response: [FollowedUserDto] = try await api.send(path: "users/me/following")
+            return .success(response)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(error.localizedDescription))
+        }
+    }
 }

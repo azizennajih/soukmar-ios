@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 struct LanguageOption {
@@ -37,10 +38,33 @@ final class I18nRepository: ObservableObject {
 
     private var dictionaries: [String: [String: Any]] = [:]
 
+    /// True once the visitor has explicitly picked a language via
+    /// setLang() (or a previously-saved choice was loaded) — from then on,
+    /// country changes never override the language. No separate persisted
+    /// flag is needed like on web: setLang() here is ALWAYS a genuine
+    /// manual pick (LanguageSwitcher is the only caller), unlike the web's
+    /// LocaleShellComponent which also calls it on every routine
+    /// URL-segment sync.
+    private var hasExplicitLang = false
+    private var countryCancellable: AnyCancellable?
+
     private init() {
         let saved = UserDefaults.standard.string(forKey: Self.userDefaultsKey)
-        currentLang = saved.flatMap { code in SUPPORTED_LANGUAGES.contains { $0.code == code } ? code : nil }
-            ?? Self.defaultLanguage
+        if let saved, SUPPORTED_LANGUAGES.contains(where: { $0.code == saved }) {
+            hasExplicitLang = true
+            currentLang = saved
+        } else {
+            // No explicit choice yet: default from the visitor's country
+            // (e.g. USA -> English) instead of always French, and keep
+            // following it — CountryRepository's own country may still be
+            // resolving (persisted prefs, or IP-geolocation on a genuine
+            // first launch) at this exact moment.
+            currentLang = defaultLangForCountry(CountryRepository.shared.country)
+            countryCancellable = CountryRepository.shared.$country.sink { [weak self] code in
+                guard let self, !self.hasExplicitLang else { return }
+                self.currentLang = defaultLangForCountry(code)
+            }
+        }
         loadDictionaries()
     }
 
@@ -54,9 +78,12 @@ final class I18nRepository: ObservableObject {
     }
 
     func setLang(_ code: String) {
-        guard code != currentLang, SUPPORTED_LANGUAGES.contains(where: { $0.code == code }) else { return }
-        currentLang = code
+        guard SUPPORTED_LANGUAGES.contains(where: { $0.code == code }) else { return }
+        hasExplicitLang = true
+        countryCancellable = nil
         UserDefaults.standard.set(code, forKey: Self.userDefaultsKey)
+        guard code != currentLang else { return }
+        currentLang = code
     }
 
     func t(_ key: String, _ params: [String: String] = [:]) -> String {

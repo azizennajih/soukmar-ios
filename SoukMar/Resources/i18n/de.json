@@ -22,7 +22,10 @@
     "settings": "Einstellungen",
     "suggest_in_all": "in allen Kategorien",
     "suggest_in": "in",
-    "search_by_image": "Nach Foto suchen"
+    "search_by_image": "Nach Foto suchen",
+    "country_fixed": "Land durch Ihr Konto festgelegt",
+    "country_auto_detected": "Land automatisch anhand Ihres Standorts erkannt",
+    "my_follows": "Abonnements"
   },
   "image_search": {
     "title": "Suche per Foto",
@@ -35,7 +38,7 @@
     "results_count": "Ähnliche Anzeigen"
   },
   "home": {
-    "hero_badge": "Über 50.000 aktive Anzeigen",
+    "hero_badge": "{count} aktive Anzeigen",
     "hero_title": "Kaufen & Verkaufen",
     "hero_highlight": "einfach",
     "hero_desc": "SouqMar24 — Ihr lokaler Marktplatz für die besten Angebote in Ihrer Nähe.",
@@ -58,8 +61,8 @@
     "feature_fast_desc": "Anzeige in unter 2 Minuten veröffentlichen",
     "feature_secure_title": "100% Sicher",
     "feature_secure_desc": "Alle Anzeigen werden von unserem Team geprüft",
-    "feature_community_title": "Große Community",
-    "feature_community_desc": "Über 120.000 aktive Käufer und Verkäufer",
+    "feature_community_title": "Aktive Community",
+    "feature_community_desc": "Tausche dich einfach mit anderen Käufern und Verkäufern aus",
     "feature_boost_title": "Verkäufe steigern",
     "feature_boost_desc": "Premium-Optionen für maximale Sichtbarkeit",
     "premium_cta": "Premium"
@@ -71,7 +74,7 @@
     "category": "Kategorie",
     "all_cats": "Alle Kategorien",
     "city": "Stadt / Region",
-    "price": "PREIS (MAD)",
+    "price": "PREIS ({currency})",
     "min": "Min",
     "max": "Max",
     "sort": "SORTIEREN",
@@ -239,7 +242,8 @@
     "listing_expired": "Ihre Anzeige ist abgelaufen. Werden Sie Premium, um sie wieder zu aktivieren.",
     "price_drop": "Preissenkung ({name}) bei einer beobachteten Anzeige.",
     "id_verification_reviewed": "Der Status Ihrer Identitätsprüfung wurde aktualisiert.",
-    "boost_reviewed": "Deine Boost-Anfrage wurde bearbeitet"
+    "boost_reviewed": "Deine Boost-Anfrage wurde bearbeitet",
+    "new_listing_from_followed": "{name} hat eine neue Anzeige veröffentlicht."
   },
   "auth": {
     "login_title": "Willkommen zurück!",
@@ -249,6 +253,7 @@
     "email": "E-Mail",
     "password": "Passwort",
     "name": "Vollständiger Name",
+    "country": "Land",
     "phone": "Telefon",
     "city": "Stadt",
     "account_type": "Benutzertyp",
@@ -295,7 +300,8 @@
     "reset_mismatch": "Die Passwörter stimmen nicht überein.",
     "reset_too_short": "Das Passwort muss mindestens 6 Zeichen lang sein.",
     "reset_invalid_title": "Ungültiger Link",
-    "reset_invalid_sub": "Dieser Link zum Zurücksetzen ist ungültig oder abgelaufen. Fordern Sie einen neuen an."
+    "reset_invalid_sub": "Dieser Link zum Zurücksetzen ist ungültig oder abgelaufen. Fordern Sie einen neuen an.",
+    "phone_invalid_length": "Ungültige Nummer für dieses Land ({min}-{max} Ziffern)."
   },
   "cats": {
     "VEHICLES": "Fahrzeuge",
@@ -988,7 +994,7 @@
     "INDUSTRY": "Branche",
     "PROFESSION": "Beruf",
     "EXPERIENCE_LEVEL": "Berufserfahrung",
-    "SALARY": "Gehalt (MAD)",
+    "SALARY": "Gehalt ({currency})",
     "REMOTE_POSSIBLE": "Remote möglich",
     "AVAILABILITY": "Verfügbarkeit",
     "PRICE_TYPE": "Preisart",
@@ -1615,7 +1621,10 @@
     "phone_verified": "Telefonnummer verifiziert",
     "phone_verified_short": "Telefon",
     "id_verified": "Identität von unserem Team verifiziert",
-    "id_verified_short": "Identität"
+    "id_verified_short": "Identität",
+    "follow": "Folgen",
+    "unfollow": "Nicht mehr folgen",
+    "followers": "Abonnenten"
   },
   "saved_searches": {
     "title": "Gespeicherte Suchen",
@@ -1664,5 +1673,17 @@
     "confirm_title": "Anfrage gesendet!",
     "confirm_body": "Wir prüfen deine Anfrage und aktivieren sie, sobald die Zahlung bestätigt ist. Du bekommst eine Benachrichtigung.",
     "back": "Zurück zu meinen Anzeigen"
+  },
+  "mes_abonnements": {
+    "title": "Meine Abonnements",
+    "empty": "Du folgst noch keinem Verkäufer",
+    "empty_sub": "Folge einem Verkäufer, um benachrichtigt zu werden, sobald er eine neue Anzeige veröffentlicht.",
+    "browse_btn": "Anzeigen durchsuchen"
+  },
+  "cookie_consent": {
+    "message": "Wir verwenden Cookies, die für den Betrieb der Website notwendig sind (Anmeldung, Sprache, Land), sowie, falls du zustimmst, Cookies zur Reichweitenmessung.",
+    "learn_more": "Mehr erfahren",
+    "essential_only": "Nur notwendige",
+    "accept_all": "Alle akzeptieren"
   }
 }

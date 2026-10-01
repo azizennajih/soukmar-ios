@@ -22,7 +22,10 @@
     "settings": "الإعدادات",
     "suggest_in_all": "في جميع الفئات",
     "suggest_in": "في",
-    "search_by_image": "البحث بالصورة"
+    "search_by_image": "البحث بالصورة",
+    "country_fixed": "الدولة مثبتة حسب حسابك",
+    "country_auto_detected": "الدولة مكتشفة تلقائيًا حسب موقعك",
+    "my_follows": "المتابَعون"
   },
   "image_search": {
     "title": "البحث بالصورة",
@@ -35,7 +38,7 @@
     "results_count": "إعلانات مشابهة"
   },
   "home": {
-    "hero_badge": "أكثر من 50,000 إعلان نشط",
+    "hero_badge": "{count} إعلان نشط",
     "hero_title": "اشترِ وبِع",
     "hero_highlight": "بسهولة",
     "hero_desc": "سوقمار24 — سوقك المحلي للعثور على أفضل الصفقات بالقرب منك.",
@@ -58,8 +61,8 @@
     "feature_fast_desc": "انشر إعلانك في أقل من دقيقتين",
     "feature_secure_title": "آمن 100%",
     "feature_secure_desc": "جميع الإعلانات يتم التحقق منها من طرف فريقنا",
-    "feature_community_title": "مجتمع كبير",
-    "feature_community_desc": "أكثر من 120,000 مشترٍ وبائع نشط",
+    "feature_community_title": "مجتمع نشط",
+    "feature_community_desc": "تواصل بسهولة مع مشترين وبائعين مثلك",
     "feature_boost_title": "عزّز مبيعاتك",
     "feature_boost_desc": "خيارات مميزة لتعظيم الظهور",
     "premium_cta": "بريميوم"
@@ -71,7 +74,7 @@
     "category": "الفئة",
     "all_cats": "جميع الفئات",
     "city": "المدينة / المنطقة",
-    "price": "السعر (درهم)",
+    "price": "السعر ({currency})",
     "min": "الحد الأدنى",
     "max": "الحد الأقصى",
     "sort": "ترتيب حسب",
@@ -239,7 +242,8 @@
     "listing_expired": "انتهت صلاحية إعلانك. اشترك في Premium لإعادة تفعيله.",
     "price_drop": "انخفاض السعر ({name}) على إعلان تتابعه.",
     "id_verification_reviewed": "تم تحديث حالة التحقق من هويتك.",
-    "boost_reviewed": "تمت مراجعة طلب تعزيز الظهور الخاص بك"
+    "boost_reviewed": "تمت مراجعة طلب تعزيز الظهور الخاص بك",
+    "new_listing_from_followed": "نشر {name} إعلانًا جديدًا."
   },
   "auth": {
     "login_title": "مرحبًا بعودتك!",
@@ -249,6 +253,7 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "name": "الاسم الكامل",
+    "country": "الدولة",
     "phone": "رقم الهاتف",
     "city": "المدينة",
     "account_type": "نوع الحساب",
@@ -295,7 +300,8 @@
     "reset_mismatch": "كلمتا المرور غير متطابقتين.",
     "reset_too_short": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.",
     "reset_invalid_title": "رابط غير صالح",
-    "reset_invalid_sub": "رابط إعادة التعيين هذا غير صالح أو منتهي الصلاحية. اطلب رابطًا جديدًا."
+    "reset_invalid_sub": "رابط إعادة التعيين هذا غير صالح أو منتهي الصلاحية. اطلب رابطًا جديدًا.",
+    "phone_invalid_length": "رقم غير صالح لهذا البلد ({min}-{max} أرقام)."
   },
   "cats": {
     "VEHICLES": "سيارات",
@@ -988,7 +994,7 @@
     "INDUSTRY": "القطاع",
     "PROFESSION": "المهنة",
     "EXPERIENCE_LEVEL": "الخبرة المطلوبة",
-    "SALARY": "الراتب (درهم)",
+    "SALARY": "الراتب ({currency})",
     "REMOTE_POSSIBLE": "العمل عن بعد ممكن",
     "AVAILABILITY": "التوفر",
     "PRICE_TYPE": "نوع التسعير",
@@ -1615,7 +1621,10 @@
     "phone_verified": "رقم الهاتف موثق",
     "phone_verified_short": "الهاتف",
     "id_verified": "تم التحقق من الهوية من قبل فريقنا",
-    "id_verified_short": "الهوية"
+    "id_verified_short": "الهوية",
+    "follow": "متابعة",
+    "unfollow": "إلغاء المتابعة",
+    "followers": "متابعون"
   },
   "saved_searches": {
     "title": "عمليات البحث المحفوظة",
@@ -1664,5 +1673,17 @@
     "confirm_title": "تم إرسال الطلب!",
     "confirm_body": "نقوم بمراجعة طلبك وسنفعّله فور تأكيد الدفع. ستصلك إشعار.",
     "back": "العودة إلى إعلاناتي"
+  },
+  "mes_abonnements": {
+    "title": "المتابَعون",
+    "empty": "أنت لا تتابع أي بائع حتى الآن",
+    "empty_sub": "تابع بائعًا لتصلك إشعار بمجرد نشره إعلانًا جديدًا.",
+    "browse_btn": "تصفح الإعلانات"
+  },
+  "cookie_consent": {
+    "message": "نستخدم ملفات تعريف الارتباط الضرورية لتشغيل الموقع (تسجيل الدخول، اللغة، البلد)، وكذلك، إذا وافقت، ملفات تعريف ارتباط قياس الجمهور.",
+    "learn_more": "معرفة المزيد",
+    "essential_only": "الضرورية فقط",
+    "accept_all": "قبول الكل"
   }
 }

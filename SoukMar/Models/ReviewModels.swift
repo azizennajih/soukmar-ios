@@ -80,6 +80,8 @@ struct SellerProfileDto: Codable {
     var phoneVerified: Bool = false
     var idVerified: Bool = false
     var accountType: String?
+    var followerCount: Int = 0
+    var isFollowing: Bool = false
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -96,5 +98,41 @@ struct SellerProfileDto: Codable {
         phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
         idVerified = try c.decodeIfPresent(Bool.self, forKey: .idVerified) ?? false
         accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
+        followerCount = try c.decodeIfPresent(Int.self, forKey: .followerCount) ?? 0
+        isFollowing = try c.decodeIfPresent(Bool.self, forKey: .isFollowing) ?? false
+    }
+}
+
+/// Mirrors soukmar-backend's POST/DELETE /api/users/:id/follow response.
+struct FollowStatusDto: Codable {
+    let following: Bool
+    let followerCount: Int
+}
+
+/// Row shape returned by GET /api/users/me/following — a followed seller/
+/// buyer's basic public info plus their current active-listing count, for
+/// the "Mes abonnements" screen.
+struct FollowedUserDto: Codable, Identifiable {
+    let id: String
+    let name: String
+    var city: String?
+    var image: String?
+    var accountType: String?
+    var emailVerified: Bool = false
+    var phoneVerified: Bool = false
+    var idVerified: Bool = false
+    var activeListingsCount: Int = 0
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        name = try c.decode(String.self, forKey: .name)
+        city = try c.decodeIfPresent(String.self, forKey: .city)
+        image = try c.decodeIfPresent(String.self, forKey: .image)
+        accountType = try c.decodeIfPresent(String.self, forKey: .accountType)
+        emailVerified = try c.decodeIfPresent(Bool.self, forKey: .emailVerified) ?? false
+        phoneVerified = try c.decodeIfPresent(Bool.self, forKey: .phoneVerified) ?? false
+        idVerified = try c.decodeIfPresent(Bool.self, forKey: .idVerified) ?? false
+        activeListingsCount = try c.decodeIfPresent(Int.self, forKey: .activeListingsCount) ?? 0
     }
 }

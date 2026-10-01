@@ -236,6 +236,32 @@ func isKnownCountry(_ code: String) -> Bool {
     COUNTRY_BY_CODE[code] != nil
 }
 
+/// Best-guess UI language for a country, among only the 6 languages this
+/// app actually supports (see I18nRepository.SUPPORTED_LANGUAGES) — mirrors
+/// web's/Android's defaultLangForCountry(), used to default a first-time
+/// visitor's language to match where they're browsing from (e.g. USA ->
+/// English) instead of always falling back to French. Morocco keeps 'fr'
+/// to match the app's pre-existing default/original audience. Countries
+/// web maps to tr/fa/ur/ps (languages this app doesn't support) fall back
+/// to 'en' here instead, same as every other unlisted country.
+private let COUNTRY_LANG: [String: String] = {
+    var map: [String: String] = [:]
+    for c in ["DZ", "TN", "LY", "EG", "SD", "MR", "ER", "DJ", "SO", "KM",
+              "SA", "YE", "OM", "AE", "QA", "BH", "KW", "JO", "LB", "SY", "IQ", "PS"] { map[c] = "ar" }
+    for c in ["MA", "FR", "BE", "LU", "MC",
+              "ML", "NE", "TD", "SN", "GN", "CI", "TG", "BJ", "CM", "CF",
+              "GA", "CG", "CD", "BF", "MG", "RW", "BI", "SC", "MU", "HT"] { map[c] = "fr" }
+    for c in ["DE", "AT", "CH", "LI"] { map[c] = "de" }
+    for c in ["ES", "MX", "AR", "CO", "PE", "VE", "CL", "EC", "BO", "PY",
+              "UY", "CR", "PA", "GT", "HN", "NI", "SV", "DO", "CU", "GQ", "AD"] { map[c] = "es" }
+    for c in ["IT", "SM", "VA"] { map[c] = "it" }
+    return map
+}()
+
+func defaultLangForCountry(_ code: String) -> String {
+    COUNTRY_LANG[code] ?? "en"
+}
+
 /// i18n key for a continent group's label in a country picker, e.g.
 /// "deposer.region_europe" — shared by the country picker so the mapping
 /// lives in exactly one place.

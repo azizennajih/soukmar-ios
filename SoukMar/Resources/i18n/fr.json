@@ -22,7 +22,10 @@
     "all": "Toutes",
     "suggest_in_all": "dans toutes les catégories",
     "suggest_in": "dans",
-    "search_by_image": "Rechercher par photo"
+    "search_by_image": "Rechercher par photo",
+    "country_fixed": "Pays fixé par votre compte",
+    "country_auto_detected": "Pays détecté automatiquement selon votre position",
+    "my_follows": "Mes abonnements"
   },
   "image_search": {
     "title": "Recherche par photo",
@@ -35,7 +38,7 @@
     "results_count": "Annonces similaires"
   },
   "home": {
-    "hero_badge": "Plus de 50 000 annonces actives",
+    "hero_badge": "{count} annonces actives",
     "hero_title": "Achetez & Vendez",
     "hero_highlight": "facilement",
     "hero_desc": "SouqMar24 — votre marketplace locale pour trouver des bonnes affaires près de chez vous.",
@@ -58,8 +61,8 @@
     "feature_fast_desc": "Publiez votre annonce en moins de 2 minutes",
     "feature_secure_title": "100% Sécurisé",
     "feature_secure_desc": "Toutes les annonces sont vérifiées par notre équipe",
-    "feature_community_title": "Grande communauté",
-    "feature_community_desc": "Plus de 120,000 acheteurs et vendeurs actifs",
+    "feature_community_title": "Communauté active",
+    "feature_community_desc": "Échangez facilement avec des acheteurs et vendeurs comme vous",
     "feature_boost_title": "Boostez vos ventes",
     "feature_boost_desc": "Options premium pour maximiser la visibilité",
     "premium_cta": "Premium"
@@ -71,7 +74,7 @@
     "category": "Catégorie",
     "all_cats": "Toutes catégories",
     "city": "Ville / Commune",
-    "price": "PRIX (MAD)",
+    "price": "PRIX ({currency})",
     "min": "Min",
     "max": "Max",
     "sort": "TRIER PAR",
@@ -239,7 +242,8 @@
     "listing_expired": "Votre annonce a expiré. Passez en Premium pour la réactiver.",
     "price_drop": "Baisse de prix ({name}) sur une annonce que vous suivez.",
     "id_verification_reviewed": "Le statut de votre vérification d'identité a été mis à jour.",
-    "boost_reviewed": "Ta demande de visibilité a été traitée"
+    "boost_reviewed": "Ta demande de visibilité a été traitée",
+    "new_listing_from_followed": "{name} a publié une nouvelle annonce."
   },
   "auth": {
     "login_title": "Bon retour !",
@@ -249,6 +253,7 @@
     "email": "Email",
     "password": "Mot de passe",
     "name": "Nom complet",
+    "country": "Pays",
     "phone": "Téléphone",
     "city": "Ville",
     "account_type": "Type de compte",
@@ -295,7 +300,8 @@
     "reset_mismatch": "Les mots de passe ne correspondent pas.",
     "reset_too_short": "Le mot de passe doit contenir au moins 6 caractères.",
     "reset_invalid_title": "Lien invalide",
-    "reset_invalid_sub": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau."
+    "reset_invalid_sub": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
+    "phone_invalid_length": "Numéro invalide pour ce pays ({min}-{max} chiffres)."
   },
   "cats": {
     "VEHICLES": "Véhicules",
@@ -474,7 +480,7 @@
     "INDUSTRY": "Secteur d'activité",
     "PROFESSION": "Métier",
     "EXPERIENCE_LEVEL": "Expérience requise",
-    "SALARY": "Salaire (MAD)",
+    "SALARY": "Salaire ({currency})",
     "REMOTE_POSSIBLE": "Télétravail possible",
     "AVAILABILITY": "Disponibilité",
     "PRICE_TYPE": "Type de tarif",
@@ -1615,7 +1621,10 @@
     "phone_verified": "Numéro de téléphone vérifié",
     "phone_verified_short": "Téléphone",
     "id_verified": "Identité vérifiée par notre équipe",
-    "id_verified_short": "Identité"
+    "id_verified_short": "Identité",
+    "follow": "Suivre",
+    "unfollow": "Ne plus suivre",
+    "followers": "abonnés"
   },
   "saved_searches": {
     "title": "Recherches sauvegardées",
@@ -1664,5 +1673,17 @@
     "confirm_title": "Demande envoyée !",
     "confirm_body": "On vérifie ta demande et on l'active dès la confirmation du paiement. Tu recevras une notification.",
     "back": "Retour à mes annonces"
+  },
+  "mes_abonnements": {
+    "title": "Mes abonnements",
+    "empty": "Vous ne suivez encore aucun vendeur",
+    "empty_sub": "Suivez un vendeur pour être averti dès qu’il publie une nouvelle annonce.",
+    "browse_btn": "Parcourir les annonces"
+  },
+  "cookie_consent": {
+    "message": "Nous utilisons des cookies essentiels au fonctionnement du site (connexion, langue, pays) et, si vous l'acceptez, des cookies de mesure d'audience.",
+    "learn_more": "En savoir plus",
+    "essential_only": "Uniquement nécessaires",
+    "accept_all": "Tout accepter"
   }
 }

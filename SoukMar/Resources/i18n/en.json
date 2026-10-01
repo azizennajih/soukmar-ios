@@ -22,7 +22,10 @@
     "settings": "Settings",
     "suggest_in_all": "in all categories",
     "suggest_in": "in",
-    "search_by_image": "Search by photo"
+    "search_by_image": "Search by photo",
+    "country_fixed": "Country fixed by your account",
+    "country_auto_detected": "Country automatically detected from your location",
+    "my_follows": "Following"
   },
   "image_search": {
     "title": "Search by photo",
@@ -35,7 +38,7 @@
     "results_count": "Similar listings"
   },
   "home": {
-    "hero_badge": "Over 50,000 active listings",
+    "hero_badge": "{count} active listings",
     "hero_title": "Buy & Sell",
     "hero_highlight": "easily",
     "hero_desc": "SouqMar24 — your local marketplace to find the best deals near you.",
@@ -58,8 +61,8 @@
     "feature_fast_desc": "Post your listing in under 2 minutes",
     "feature_secure_title": "100% Secure",
     "feature_secure_desc": "All listings are verified by our team",
-    "feature_community_title": "Large community",
-    "feature_community_desc": "Over 120,000 active buyers and sellers",
+    "feature_community_title": "Active Community",
+    "feature_community_desc": "Connect easily with buyers and sellers like you",
     "feature_boost_title": "Boost your sales",
     "feature_boost_desc": "Premium options to maximize visibility",
     "premium_cta": "Premium"
@@ -71,7 +74,7 @@
     "category": "Category",
     "all_cats": "All categories",
     "city": "City / Area",
-    "price": "PRICE (MAD)",
+    "price": "PRICE ({currency})",
     "min": "Min",
     "max": "Max",
     "sort": "SORT BY",
@@ -239,7 +242,8 @@
     "listing_expired": "Your listing has expired. Go Premium to reactivate it.",
     "price_drop": "Price drop ({name}) on a listing you're following.",
     "id_verification_reviewed": "Your identity verification status has been updated.",
-    "boost_reviewed": "Your visibility boost request has been reviewed"
+    "boost_reviewed": "Your visibility boost request has been reviewed",
+    "new_listing_from_followed": "{name} posted a new listing."
   },
   "auth": {
     "login_title": "Welcome back!",
@@ -249,6 +253,7 @@
     "email": "Email",
     "password": "Password",
     "name": "Full name",
+    "country": "Country",
     "phone": "Phone",
     "city": "City",
     "account_type": "Account type",
@@ -295,7 +300,8 @@
     "reset_mismatch": "Passwords do not match.",
     "reset_too_short": "Password must be at least 6 characters.",
     "reset_invalid_title": "Invalid link",
-    "reset_invalid_sub": "This reset link is invalid or has expired. Request a new one."
+    "reset_invalid_sub": "This reset link is invalid or has expired. Request a new one.",
+    "phone_invalid_length": "Invalid number for this country ({min}-{max} digits)."
   },
   "cats": {
     "VEHICLES": "Vehicles",
@@ -988,7 +994,7 @@
     "INDUSTRY": "Industry",
     "PROFESSION": "Profession",
     "EXPERIENCE_LEVEL": "Experience required",
-    "SALARY": "Salary (MAD)",
+    "SALARY": "Salary ({currency})",
     "REMOTE_POSSIBLE": "Remote work possible",
     "AVAILABILITY": "Availability",
     "PRICE_TYPE": "Price type",
@@ -1615,7 +1621,10 @@
     "phone_verified": "Phone number verified",
     "phone_verified_short": "Phone",
     "id_verified": "Identity verified by our team",
-    "id_verified_short": "Identity"
+    "id_verified_short": "Identity",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": "followers"
   },
   "saved_searches": {
     "title": "Saved Searches",
@@ -1664,5 +1673,17 @@
     "confirm_title": "Request sent!",
     "confirm_body": "We’re reviewing your request and will activate it once payment is confirmed. You’ll get a notification.",
     "back": "Back to my listings"
+  },
+  "mes_abonnements": {
+    "title": "Following",
+    "empty": "You're not following any seller yet",
+    "empty_sub": "Follow a seller to get notified as soon as they post a new listing.",
+    "browse_btn": "Browse listings"
+  },
+  "cookie_consent": {
+    "message": "We use cookies essential to the site's operation (login, language, country) and, if you accept, audience measurement cookies.",
+    "learn_more": "Learn more",
+    "essential_only": "Essential only",
+    "accept_all": "Accept all"
   }
 }

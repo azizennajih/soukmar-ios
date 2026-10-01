@@ -124,6 +124,20 @@ struct SellerProfileView: View {
                     .clipShape(Capsule())
                     .padding(.top, 4)
             }
+
+            HStack(spacing: 10) {
+                Text("\(profile.followerCount) \(i18n.t("seller.followers"))").font(.subheadline).foregroundStyle(.secondary)
+                // A logged-out visitor sees no follow control here (unlike
+                // web's login link) — pushing to the auth flow mid-stack
+                // has no established pattern on iOS (RootView only switches
+                // Auth/Home at the root, see SellerProfileView's own doc).
+                if viewModel.isLoggedIn && !viewModel.isOwnProfile {
+                    FollowButton(following: profile.isFollowing, submitting: viewModel.followSubmitting) {
+                        viewModel.toggleFollow()
+                    }
+                }
+            }
+            .padding(.top, 6)
         }
         .frame(maxWidth: .infinity)
         .padding(20)

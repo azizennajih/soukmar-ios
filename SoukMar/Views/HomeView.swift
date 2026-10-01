@@ -17,6 +17,7 @@ struct HomeView: View {
         case favorites
         case profile
         case savedSearches
+        case mesAbonnements
         case notifications
         case admin
         case legalNotice
@@ -165,6 +166,11 @@ struct HomeView: View {
                     // searches/settings stay here now.
                     Menu {
                         Button {
+                            path.append(Route.mesAbonnements)
+                        } label: {
+                            Label(i18n.t("nav.my_follows"), systemImage: "person.2")
+                        }
+                        Button {
                             path.append(Route.savedSearches)
                         } label: {
                             Label(i18n.t("nav.saved_searches"), systemImage: "bell")
@@ -223,6 +229,11 @@ struct HomeView: View {
                         onEditSearch: { editSearchId in
                             path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: editSearchId))
                         }
+                    )
+                case .mesAbonnements:
+                    MesAbonnementsView(
+                        onOpenSeller: { sellerId in path.append(SellerRoute(sellerId: sellerId)) },
+                        onBrowse: { path.append(Route.listings(category: nil, savedSearchId: nil, editSearchId: nil)) }
                     )
                 case .notifications:
                     NotificationsView(

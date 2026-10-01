@@ -151,6 +151,28 @@ struct AccountTypeLabel: View {
     }
 }
 
+/// Follow/unfollow toggle for a seller or buyer profile — mirrors the
+/// web's app-follow-button / Android's FollowButton (reused on
+/// SellerProfileView and MesAbonnementsView). No confirmation: following
+/// isn't destructive, unlike blocking a user in chat.
+struct FollowButton: View {
+    let following: Bool
+    let submitting: Bool
+    let onToggle: () -> Void
+    @ObservedObject private var i18n = I18nRepository.shared
+
+    var body: some View {
+        Button(action: onToggle) {
+            Label(i18n.t(following ? "seller.unfollow" : "seller.follow"), systemImage: following ? "person.fill.checkmark" : "person.fill.badge.plus")
+                .font(.subheadline.weight(.semibold))
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(following ? Color(.systemGray5) : Color.soukmarPrimary)
+        .foregroundStyle(following ? Color.primary : Color.white)
+        .disabled(submitting)
+    }
+}
+
 struct ErrorBanner: View {
     let message: String
     var body: some View {
