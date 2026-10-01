@@ -9,7 +9,7 @@ struct LanguageOption {
 let SUPPORTED_LANGUAGES: [LanguageOption] = [
     LanguageOption(code: "fr", flag: "🇫🇷", label: "FR"),
     LanguageOption(code: "en", flag: "🇬🇧", label: "EN"),
-    LanguageOption(code: "ar", flag: "🇲🇦", label: "عر"),
+    LanguageOption(code: "ar", flag: "🇸🇦", label: "AR"),
     LanguageOption(code: "de", flag: "🇩🇪", label: "DE"),
     LanguageOption(code: "es", flag: "🇪🇸", label: "ES"),
     LanguageOption(code: "it", flag: "🇮🇹", label: "IT"),
