@@ -10,7 +10,7 @@ final class AuthRepository {
         do {
             let response: LoginResponse = try await api.send(
                 path: "auth/login", method: "POST",
-                body: LoginRequest(email: email, password: password)
+                body: LoginRequest(email: email, password: password, lang: I18nRepository.shared.currentLang)
             )
             TokenStore.shared.saveSession(token: response.token, user: response.user)
             return .success(response.user)
@@ -25,7 +25,7 @@ final class AuthRepository {
         do {
             let response: MessageResponse = try await api.send(
                 path: "auth/register", method: "POST",
-                body: RegisterRequest(name: name, email: email, password: password, phone: phone, city: city, accountType: accountType)
+                body: RegisterRequest(name: name, email: email, password: password, phone: phone, city: city, accountType: accountType, lang: I18nRepository.shared.currentLang)
             )
             return .success(response)
         } catch let error as APIError {
@@ -39,7 +39,7 @@ final class AuthRepository {
         do {
             let response: MessageResponse = try await api.send(
                 path: "auth/forgot-password", method: "POST",
-                body: ForgotPasswordRequest(email: email)
+                body: ForgotPasswordRequest(email: email, lang: I18nRepository.shared.currentLang)
             )
             return .success(response)
         } catch let error as APIError {
@@ -53,7 +53,7 @@ final class AuthRepository {
         do {
             let response: MessageResponse = try await api.send(
                 path: "auth/resend-verification", method: "POST",
-                body: ForgotPasswordRequest(email: email)
+                body: ForgotPasswordRequest(email: email, lang: I18nRepository.shared.currentLang)
             )
             return .success(response)
         } catch let error as APIError {

@@ -52,6 +52,8 @@ struct UserDto: Codable, Equatable {
 struct LoginRequest: Codable {
     let email: String
     let password: String
+    /// UI language — the backend sends account emails in it (User.lang).
+    var lang: String?
 }
 
 struct LoginResponse: Codable {
@@ -66,6 +68,7 @@ struct RegisterRequest: Codable {
     var phone: String?
     var city: String?
     let accountType: String
+    var lang: String?
 }
 
 struct DeleteAccountRequest: Encodable {
@@ -79,6 +82,7 @@ struct MessageResponse: Codable {
 
 struct ForgotPasswordRequest: Codable {
     let email: String
+    var lang: String?
 }
 
 /// A separate type from ProfileImageUpdateRequest: the backend only touches

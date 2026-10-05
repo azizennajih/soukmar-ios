@@ -120,6 +120,8 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
   - **i18n**: alle 6 `Resources/i18n/*.json` 1:1 aus dem Web-Repo neu synchronisiert (brachte `nav.my_follows`, `seller.follow`/`unfollow`/`followers`, `notifications.new_listing_from_followed`, `mes_abonnements.*` mit, die vorher komplett fehlten — war seit Tranche 1 nicht mehr vollständig resynchronisiert worden).
   - **Kein lokaler Compiler verfügbar** — alle neuen/geänderten Dateien sorgfältig gegengelesen (Klammer-/Brace-Balance jeder Datei einzeln nachgezählt, `SellerProfileDto`s `CodingKeys`-Autosynthese-Kompatibilität mit den 2 neuen Feldern geprüft, `FollowButton`s Memberwise-Init-Reihenfolge an beiden Aufrufstellen — Trailing-Closure in `SellerProfileView`, benannter Parameter in `MesAbonnementsView` — gegengeprüft). **Codemagic-Build für Commit `f4635cd` vom Nutzer bestätigt grün.**
 
+- **Tranche 27 (2026-10-05): Mail-Sprache** — das Backend verschickt Konto-Mails jetzt in der Sprache des Nutzers (`User.lang`, 11 Sprachen, siehe Backend-Commit `5bfd303`); ohne mitgesendete Sprache fiele die iOS-App auf Französisch zurück. `LoginRequest`, `RegisterRequest` und `ForgotPasswordRequest` (auch für `auth/resend-verification` genutzt) bekamen ein optionales `lang`-Feld (`AuthModels.swift`), `AuthRepository.swift` füllt es an allen vier Aufrufstellen mit `I18nRepository.shared.currentLang`. Nur 8 Zeilen, keine neue Abhängigkeit. iOS kennt 6 der 11 Sprachen; das Backend nimmt jede der 11. **Android hat dieselbe Lücke noch** (nicht Teil dieser Tranche). **Codemagic-Build noch nicht bestätigt** — Commit pushen, Build prüfen lassen.
+
 ---
 
 ## Wichtige Dateipfade
