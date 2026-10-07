@@ -154,7 +154,7 @@ final class ListingRepository {
 
     func requestBoost(id: String, tiers: [String]) async -> Result<BoostRequestDto, APIError> {
         do {
-            let response: BoostRequestDto = try await api.send(path: "listings/\(id)/boost-request", method: "POST", body: BoostRequestBody(tiers: tiers))
+            let response: BoostRequestDto = try await api.send(path: "listings/\(id)/boost-request", method: "POST", body: BoostRequestBody(tiers: tiers, withdrawalConsent: true))
             return .success(response)
         } catch let error as APIError {
             return .failure(error)

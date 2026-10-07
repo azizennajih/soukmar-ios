@@ -14,6 +14,7 @@ struct LegalPageView: View {
     var extraLinks: (() -> AnyView)? = nil
 
     @ObservedObject private var i18n = I18nRepository.shared
+    @ObservedObject private var operatorRepository = OperatorRepository.shared
 
     var body: some View {
         ScrollView {
@@ -23,7 +24,7 @@ struct LegalPageView: View {
                 ForEach(1...sectionCount, id: \.self) { n in
                     Text(i18n.t("\(namespace).s\(n)_title")).font(.headline)
                     Spacer().frame(height: 4)
-                    Text(i18n.t("\(namespace).s\(n)_body")).font(.subheadline)
+                    Text(operatorRepository.fill(i18n.t("\(namespace).s\(n)_body"))).font(.subheadline)
                     Spacer().frame(height: 16)
                 }
                 if let extraLinks {
@@ -35,6 +36,7 @@ struct LegalPageView: View {
         }
         .navigationTitle(i18n.t(titleKey))
         .navigationBarTitleDisplayMode(.inline)
+        .task { await operatorRepository.load() }
     }
 }
 
@@ -73,7 +75,7 @@ struct LegalNoticeView: View {
     @ObservedObject private var i18n = I18nRepository.shared
 
     var body: some View {
-        LegalPageView(titleKey: "legal.notice_title", namespace: "legal.notice", sectionCount: 6) {
+        LegalPageView(titleKey: "legal.notice_title", namespace: "legal.notice", sectionCount: 7) {
             AnyView(
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer().frame(height: 8)

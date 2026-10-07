@@ -3,6 +3,8 @@ import Foundation
 /// Mirrors soukmar-backend's POST /listings/:id/boost-request body.
 struct BoostRequestBody: Encodable {
     let tiers: [String]
+    /// Express consent that the service starts early and the withdrawal right ends on full performance (§ 356 (4) BGB).
+    let withdrawalConsent: Bool
 }
 
 /// Mirrors GET /listings/:id/boost-status.

@@ -50,7 +50,7 @@ final class ChatSocketManager {
         // iOS Simulator shares the Mac's own localhost, same as APIClient's dev URL.
         let url = URL(string: "http://127.0.0.1:3000")!
         #else
-        let url = URL(string: "https://api.soukmar.ma")!
+        let url = URL(string: "https://souqmar24.com")!
         #endif
         let manager = SocketManager(socketURL: url, config: [.log(false), .compress, .forceWebsockets(true)])
         let socket = manager.defaultSocket

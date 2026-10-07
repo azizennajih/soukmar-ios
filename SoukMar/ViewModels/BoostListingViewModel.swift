@@ -15,6 +15,8 @@ final class BoostListingViewModel: ObservableObject {
 
     @Published private(set) var submitting = false
     @Published private(set) var submitted = false
+    /// The buyer's express consent (§ 356 (4) BGB) — required before the request can be sent.
+    @Published var withdrawalConsent = false
     @Published var errorMessage: String?
 
     private let listingRepository = ListingRepository.shared
@@ -56,7 +58,7 @@ final class BoostListingViewModel: ObservableObject {
 
     func submit(onSelectAtLeastOne: () -> Void) {
         guard !selectedTiers.isEmpty else { onSelectAtLeastOne(); return }
-        guard !submitting else { return }
+        guard !submitting, withdrawalConsent else { return }
         submitting = true
         errorMessage = nil
         Task {

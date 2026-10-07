@@ -12,6 +12,10 @@ import Foundation
 /// SwiftUI view holding `@ObservedObject var countryRepository =
 /// CountryRepository.shared` re-renders automatically when `country`
 /// changes, since it's `@Published`.
+private struct GeoCountryDto: Decodable {
+    let country: String?
+}
+
 final class CountryRepository: ObservableObject {
     static let shared = CountryRepository()
     static let defaultCountry = "MA"
@@ -44,14 +48,11 @@ final class CountryRepository: ObservableObject {
     /// malformed response) this silently keeps the default country — a
     /// convenience default is not worth surfacing an error for.
     private func detectCountryFromIp() {
-        guard let url = URL(string: "https://ipapi.co/json/") else { return }
+        // Our own backend looks the country up locally from the request IP — no third-party service sees it.
         Task {
             do {
-                let (data, response) = try await session.data(from: url)
-                guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return }
-                guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                      let code = (json["country_code"] as? String)?.uppercased(),
-                      isKnownCountry(code) else { return }
+                let geo: GeoCountryDto = try await APIClient.shared.send(path: "geo/country")
+                guard let code = geo.country?.uppercased(), isKnownCountry(code) else { return }
                 await MainActor.run {
                     self.country = code
                     UserDefaults.standard.set(code, forKey: Self.userDefaultsKey)

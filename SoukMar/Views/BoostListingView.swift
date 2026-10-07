@@ -128,6 +128,12 @@ struct BoostListingView: View {
 
             Text(i18n.t("boost.payment_note")).font(.caption).foregroundStyle(.secondary).padding(.top, 6)
 
+            Toggle(isOn: $viewModel.withdrawalConsent) {
+                Text(i18n.t("boost.withdrawal_consent")).font(.caption)
+            }
+            .toggleStyle(.switch)
+            .padding(.top, 8)
+
             if let errorMessage = viewModel.errorMessage {
                 Text(errorMessage).font(.caption.weight(.semibold)).foregroundStyle(.red).padding(.top, 4)
             }
@@ -140,7 +146,7 @@ struct BoostListingView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(Color.soukmarPrimary)
-            .disabled(viewModel.submitting)
+            .disabled(viewModel.submitting || !viewModel.withdrawalConsent)
             .padding(.top, 8)
         }
         .padding(16)

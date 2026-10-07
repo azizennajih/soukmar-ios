@@ -18,7 +18,7 @@ final class APIClient {
     // emulator, which needs the 10.0.2.2 host alias instead.
     private let baseURL = URL(string: "http://127.0.0.1:3000/api/")!
     #else
-    private let baseURL = URL(string: "https://api.soukmar.ma/api/")!
+    private let baseURL = URL(string: "https://souqmar24.com/api/")!
     #endif
 
     private let session = URLSession.shared
