@@ -102,6 +102,11 @@ struct HomeView: View {
                             }
                             .padding(.horizontal)
                         }
+
+                        // The country lives at the very bottom (like the web footer), not in the toolbar.
+                        CountrySwitcher()
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 8)
                     }
                     .padding(.vertical)
                     .padding(.bottom, 60)
@@ -124,7 +129,6 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 16) {
-                        CountrySwitcher()
                         LanguageSwitcher()
                         Button {
                             path.append(Route.chatList)

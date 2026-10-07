@@ -13,10 +13,7 @@ struct LoginView: View {
                 SoukMarLogo()
                     .padding(.top, 32)
 
-                HStack(spacing: 8) {
-                    CountrySwitcher()
-                    LanguageSwitcher()
-                }
+                LanguageSwitcher()
 
                 VStack(spacing: 4) {
                     Text(i18n.t("auth.login_title"))
@@ -77,6 +74,10 @@ struct LoginView: View {
                         .fontWeight(.bold)
                 }
                 .font(.footnote)
+
+                // The country lives at the bottom (like the web footer), not in the top row.
+                CountrySwitcher()
+                    .padding(.top, 8)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 32)
