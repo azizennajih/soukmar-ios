@@ -184,10 +184,13 @@ struct ChatView: View {
 
                 Divider()
                 HStack(alignment: .bottom, spacing: 8) {
-                    Button {
-                        viewModel.showOfferInput.toggle()
-                    } label: {
-                        Image(systemName: "tag").font(.title3)
+                    // Offers go from the buyer to the listing's owner only.
+                    if let conv = viewModel.conversation, conv.listing.userId != viewModel.currentUserId {
+                        Button {
+                            viewModel.showOfferInput.toggle()
+                        } label: {
+                            Image(systemName: "tag").font(.title3)
+                        }
                     }
                     TextField(i18n.t("chat.placeholder"), text: $viewModel.messageText, axis: .vertical)
                         .textFieldStyle(.roundedBorder)

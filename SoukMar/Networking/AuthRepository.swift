@@ -25,7 +25,7 @@ final class AuthRepository {
         do {
             let response: MessageResponse = try await api.send(
                 path: "auth/register", method: "POST",
-                body: RegisterRequest(name: name, email: email, password: password, phone: phone, city: city, accountType: accountType, lang: I18nRepository.shared.currentLang)
+                body: RegisterRequest(name: name, email: email, password: password, phone: phone, city: city, accountType: accountType, lang: I18nRepository.shared.currentLang, country: CountryRepository.shared.country)
             )
             return .success(response)
         } catch let error as APIError {
@@ -189,6 +189,8 @@ final class AuthRepository {
                 path: "auth/change-password", method: "PUT",
                 body: ChangePasswordRequest(currentPassword: currentPassword, newPassword: newPassword)
             )
+            // Every older login token was just revoked server-side; keep this device signed in with the new one.
+            if let newToken = response.token { api.token = newToken }
             return .success(response)
         } catch let error as APIError {
             return .failure(error)

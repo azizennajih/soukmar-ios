@@ -69,6 +69,7 @@ struct RegisterRequest: Codable {
     var city: String?
     let accountType: String
     var lang: String?
+    var country: String?
 }
 
 struct DeleteAccountRequest: Encodable {
@@ -78,6 +79,8 @@ struct DeleteAccountRequest: Encodable {
 struct MessageResponse: Codable {
     var message: String?
     var emailSent: Bool = false
+    /// Set by POST/PUT /auth/change-password: a fresh login token (all older ones were just revoked).
+    var token: String?
 }
 
 struct ForgotPasswordRequest: Codable {

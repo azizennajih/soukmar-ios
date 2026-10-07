@@ -34,6 +34,8 @@ final class APIClient {
         var req = URLRequest(url: baseURL.appendingPathComponent(path))
         req.httpMethod = method
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // Makes the API answer errors in the app's current language.
+        req.setValue(I18nRepository.shared.currentLang, forHTTPHeaderField: "Accept-Language")
         if let token {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
