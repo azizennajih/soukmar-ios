@@ -31,6 +31,9 @@ struct HomeView: View {
     // destination type for the whole stack.
     @State private var path = NavigationPath()
     @State private var unreadCount = 0
+    /// Live listing count per category in the current country (empty until loaded).
+    @State private var categoryCounts: [String: Int] = [:]
+    @ObservedObject private var countryRepository = CountryRepository.shared
 
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 
@@ -102,6 +105,11 @@ struct HomeView: View {
                                                 .foregroundStyle(.primary)
                                                 .multilineTextAlignment(.center)
                                                 .lineLimit(2)
+                                            if let count = categoryCounts[cat.value], count > 0 {
+                                                Text(count == 1 ? i18n.t("home.category_count_one") : i18n.t("home.category_count", ["count": String(count)]))
+                                                    .font(.caption2)
+                                                    .foregroundStyle(.secondary)
+                                            }
                                         }
                                     }
                                     .buttonStyle(.plain)
@@ -301,6 +309,15 @@ struct HomeView: View {
             }
             .navigationDestination(for: BoostRoute.self) { route in
                 BoostListingView(listingId: route.listingId)
+            }
+            // Reloads whenever the country changes.
+            .task(id: countryRepository.country) {
+                do {
+                    let counts: [String: Int] = try await APIClient.shared.send(path: "stats/categories", query: ["country": countryRepository.country])
+                    categoryCounts = counts
+                } catch {
+                    categoryCounts = [:]
+                }
             }
             .task {
                 if let refreshed = await AuthRepository.shared.me() {
