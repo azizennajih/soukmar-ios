@@ -719,7 +719,7 @@
     "last_updated": "Last updated: October 7, 2026",
     "notice": {
       "s1_title": "Provider",
-      "s1_body": "Information pursuant to § 5 DDG (German Digital Services Act):\n\n{op_name}\nOwner, sole proprietor — operator of the \"SouqMar24\" platform\n{op_street}\n{op_zipcity}\n{op_country}",
+      "s1_body": "Information pursuant to § 5 DDG (German Digital Services Act):\n\n{op_name}\n{op_street}\n{op_zipcity}\n{op_country}",
       "s2_title": "Contact",
       "s2_body": "Email: {op_email}\nPhone: {op_phone}\n\nWe aim to answer enquiries within a few working days.",
       "s3_title": "Hosting",
@@ -753,7 +753,7 @@
       "s9_title": "Data security",
       "s9_body": "We implement reasonable technical and organizational measures (password encryption, secure HTTPS connections, access control) to protect your data against unauthorized access, loss or disclosure.",
       "s10_title": "Transfers to third countries",
-      "s10_body": "Our servers are located in the European Union. Some of the service providers named above (e.g. Resend, Twilio, Cloudflare, Cloudinary, OpenAI) are based in third countries, in particular the USA, or process data there. The transfer relies on an adequacy decision of the European Commission (e.g. the EU-US Data Privacy Framework) or on standard contractual clauses under Art. 46 GDPR.",
+      "s10_body": "Our servers are located in the European Union. Some of the service providers named above (e.g. Resend, Twilio, Cloudflare, Cloudinary, OpenAI) are based in third countries, in particular the USA, or process data there. The transfer relies on an adequacy decision of the European Commission (e.g. the EU-US Data Privacy Framework) or on standard contractual clauses under Art. 46 GDPR.\n\nThe service is offered to users worldwide. We treat the data of all users according to the standards of the GDPR, regardless of where they live.",
       "s11_title": "Changes to this policy",
       "s11_body": "This privacy policy may be updated at any time. The date of the last update is shown at the top of this page. We invite you to review it regularly."
     },
@@ -763,7 +763,7 @@
       "s2_title": "Acceptance of the Terms",
       "s2_body": "Accessing and using the Website implies full and unconditional acceptance of these Terms. If you do not accept these Terms, you must refrain from using the Website.",
       "s3_title": "Registration and user account",
-      "s3_body": "Creating an account requires providing accurate and up-to-date information (name, email, phone number). You are responsible for keeping your credentials confidential and for any activity carried out from your account. An account is strictly personal and may not be transferred or shared.",
+      "s3_body": "Creating an account requires providing accurate and up-to-date information (name, email, phone number). You are responsible for keeping your credentials confidential and for any activity carried out from your account. An account is strictly personal and may not be transferred or shared. Registration is reserved for persons aged 18 or over.",
       "s4_title": "Description of the service",
       "s4_body": "SouqMar24 provides a space connecting users who wish to sell, buy, rent or offer goods and services. SouqMar24 is not a party to transactions concluded between users and does not intervene in the negotiation, payment or delivery of the goods or services advertised.",
       "s5_title": "Rules for publishing listings",
@@ -783,7 +783,7 @@
       "s12_title": "Changes to the Terms",
       "s12_body": "SouqMar24 reserves the right to modify these Terms at any time. Users will be informed of any material change. Continued use of the Website after a change constitutes acceptance of the new Terms.",
       "s13_title": "Governing law and disputes",
-      "s13_body": "These Terms and the use of the Website are governed by the law of the Federal Republic of Germany, excluding the UN Convention on Contracts for the International Sale of Goods. If you are a consumer habitually resident in another country, the mandatory consumer protection rules of that country remain unaffected.\n\nIn the event of a dispute an amicable settlement is sought first. The statutory places of jurisdiction apply to consumers; towards businesses the place of jurisdiction is the operator's registered seat. We are neither willing nor obliged to take part in dispute resolution proceedings before a consumer arbitration board.",
+      "s13_body": "These Terms and the use of the Website are governed by the law of the Federal Republic of Germany, excluding the UN Convention on Contracts for the International Sale of Goods. If you are a consumer habitually resident in another country, the mandatory consumer protection rules of that country remain unaffected.\n\nIn the event of a dispute an amicable settlement is sought first. The statutory places of jurisdiction apply to consumers; towards businesses the place of jurisdiction is the operator's registered seat. We are neither willing nor obliged to take part in dispute resolution proceedings before a consumer arbitration board.\n\nThe German version of these Terms is authoritative; translations are provided for convenience only.",
       "s14_title": "Contact",
       "s14_body": "If you have questions about these Terms, you can reach us at {op_email}."
     },

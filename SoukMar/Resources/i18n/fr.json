@@ -1515,7 +1515,7 @@
     "last_updated": "Dernière mise à jour : 7 octobre 2026",
     "notice": {
       "s1_title": "Éditeur",
-      "s1_body": "Informations conformément au § 5 DDG (loi allemande sur les services numériques) :\n\n{op_name}\nPropriétaire, entrepreneur individuel — exploitant de la plateforme « SouqMar24 »\n{op_street}\n{op_zipcity}\n{op_country}",
+      "s1_body": "Informations conformément au § 5 DDG (loi allemande sur les services numériques) :\n\n{op_name}\n{op_street}\n{op_zipcity}\n{op_country}",
       "s2_title": "Contact",
       "s2_body": "Email : {op_email}\nTéléphone : {op_phone}\n\nNous nous efforçons de répondre aux demandes dans un délai de quelques jours ouvrés.",
       "s3_title": "Hébergement",
@@ -1549,7 +1549,7 @@
       "s9_title": "Sécurité des données",
       "s9_body": "Nous mettons en œuvre des mesures techniques et organisationnelles raisonnables (chiffrement des mots de passe, connexions sécurisées HTTPS, contrôle d'accès) pour protéger vos données contre tout accès non autorisé, perte ou divulgation.",
       "s10_title": "Transferts vers des pays tiers",
-      "s10_body": "Nos serveurs sont situés dans l'Union européenne. Certains des prestataires cités (p. ex. Resend, Twilio, Cloudflare, Cloudinary, OpenAI) ont leur siège dans des pays tiers, notamment les États-Unis, ou y traitent des données. Le transfert repose sur une décision d'adéquation de la Commission européenne (p. ex. le cadre de protection des données UE-États-Unis) ou sur des clauses contractuelles types au titre de l'art. 46 RGPD.",
+      "s10_body": "Nos serveurs sont situés dans l'Union européenne. Certains des prestataires cités (p. ex. Resend, Twilio, Cloudflare, Cloudinary, OpenAI) ont leur siège dans des pays tiers, notamment les États-Unis, ou y traitent des données. Le transfert repose sur une décision d'adéquation de la Commission européenne (p. ex. le cadre de protection des données UE-États-Unis) ou sur des clauses contractuelles types au titre de l'art. 46 RGPD.\n\nLe service s'adresse à des utilisateurs du monde entier. Nous traitons les données de tous les utilisateurs selon les normes du RGPD, quel que soit leur lieu de résidence.",
       "s11_title": "Modification de la politique",
       "s11_body": "La présente politique de confidentialité peut être mise à jour à tout moment. La date de dernière mise à jour est indiquée en haut de cette page. Nous vous invitons à la consulter régulièrement."
     },
@@ -1559,7 +1559,7 @@
       "s2_title": "Acceptation des CGU",
       "s2_body": "L'accès et l'utilisation du Site impliquent l'acceptation pleine et entière des présentes CGU. Si vous n'acceptez pas ces conditions, vous devez vous abstenir d'utiliser le Site.",
       "s3_title": "Inscription et compte utilisateur",
-      "s3_body": "La création d'un compte nécessite la fourniture d'informations exactes et à jour (nom, e-mail, numéro de téléphone). Vous êtes responsable de la confidentialité de vos identifiants et de toute activité effectuée depuis votre compte. Un compte est strictement personnel et ne peut être cédé ni partagé.",
+      "s3_body": "La création d'un compte nécessite la fourniture d'informations exactes et à jour (nom, e-mail, numéro de téléphone). Vous êtes responsable de la confidentialité de vos identifiants et de toute activité effectuée depuis votre compte. Un compte est strictement personnel et ne peut être cédé ni partagé. L'inscription est réservée aux personnes de 18 ans et plus.",
       "s4_title": "Description du service",
       "s4_body": "SouqMar24 met à disposition un espace de mise en relation entre utilisateurs souhaitant vendre, acheter, louer ou proposer des biens et services. SouqMar24 n'est pas partie aux transactions conclues entre utilisateurs et n'intervient ni dans la négociation, ni dans le paiement, ni dans la livraison des biens ou services annoncés.",
       "s5_title": "Règles de publication des annonces",
@@ -1579,7 +1579,7 @@
       "s12_title": "Modification des CGU",
       "s12_body": "SouqMar24 se réserve le droit de modifier les présentes CGU à tout moment. Les utilisateurs seront informés de toute modification substantielle. La poursuite de l'utilisation du Site après modification vaut acceptation des nouvelles CGU.",
       "s13_title": "Droit applicable et litiges",
-      "s13_body": "Les présentes CGU et l'utilisation du Site sont soumises au droit de la République fédérale d'Allemagne, à l'exclusion de la Convention de Vienne sur la vente internationale de marchandises. Si vous êtes un consommateur résidant habituellement dans un autre État, les dispositions impératives de protection des consommateurs de cet État demeurent applicables.\n\nEn cas de litige, un règlement amiable est recherché en priorité. Pour les consommateurs, les juridictions légalement compétentes s'appliquent ; à l'égard des professionnels, le tribunal compétent est celui du siège de l'exploitant. Nous ne sommes ni disposés ni tenus de participer à une procédure de règlement devant un organe de conciliation des consommateurs.",
+      "s13_body": "Les présentes CGU et l'utilisation du Site sont soumises au droit de la République fédérale d'Allemagne, à l'exclusion de la Convention de Vienne sur la vente internationale de marchandises. Si vous êtes un consommateur résidant habituellement dans un autre État, les dispositions impératives de protection des consommateurs de cet État demeurent applicables.\n\nEn cas de litige, un règlement amiable est recherché en priorité. Pour les consommateurs, les juridictions légalement compétentes s'appliquent ; à l'égard des professionnels, le tribunal compétent est celui du siège de l'exploitant. Nous ne sommes ni disposés ni tenus de participer à une procédure de règlement devant un organe de conciliation des consommateurs.\n\nLa version allemande des présentes CGU fait foi ; les traductions sont fournies à titre informatif.",
       "s14_title": "Contact",
       "s14_body": "Pour toute question relative aux présentes CGU, vous pouvez nous joindre à {op_email}."
     },

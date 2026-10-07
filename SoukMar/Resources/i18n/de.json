@@ -626,7 +626,7 @@
     "last_updated": "Stand: 7. Oktober 2026",
     "notice": {
       "s1_title": "Anbieter",
-      "s1_body": "Angaben gemäß § 5 DDG:\n\n{op_name}\nInhaber, Einzelunternehmer — Betreiber der Plattform „SouqMar24“\n{op_street}\n{op_zipcity}\n{op_country}",
+      "s1_body": "Angaben gemäß § 5 DDG:\n\n{op_name}\n{op_street}\n{op_zipcity}\n{op_country}",
       "s2_title": "Kontakt",
       "s2_body": "E-Mail: {op_email}\nTelefon: {op_phone}\n\nWir bemühen uns, Anfragen innerhalb weniger Werktage zu beantworten.",
       "s3_title": "Hosting",
@@ -660,7 +660,7 @@
       "s9_title": "Datensicherheit",
       "s9_body": "Wir setzen angemessene technische und organisatorische Maßnahmen (Verschlüsselung von Passwörtern, gesicherte HTTPS-Verbindungen, Zugriffskontrolle) ein, um Ihre Daten vor unbefugtem Zugriff, Verlust oder Offenlegung zu schützen.",
       "s10_title": "Datenübermittlung in Drittländer",
-      "s10_body": "Unsere Server stehen in der Europäischen Union. Einige der genannten Dienstleister (z. B. Resend, Twilio, Cloudflare, Cloudinary, OpenAI) haben ihren Sitz in Drittländern, insbesondere den USA, oder verarbeiten dort Daten. Die Übermittlung stützt sich auf einen Angemessenheitsbeschluss der EU-Kommission (z. B. das EU-US Data Privacy Framework) oder auf Standardvertragsklauseln nach Art. 46 DSGVO.",
+      "s10_body": "Unsere Server stehen in der Europäischen Union. Einige der genannten Dienstleister (z. B. Resend, Twilio, Cloudflare, Cloudinary, OpenAI) haben ihren Sitz in Drittländern, insbesondere den USA, oder verarbeiten dort Daten. Die Übermittlung stützt sich auf einen Angemessenheitsbeschluss der EU-Kommission (z. B. das EU-US Data Privacy Framework) oder auf Standardvertragsklauseln nach Art. 46 DSGVO.\n\nDas Angebot richtet sich an Nutzer weltweit. Wir behandeln die Daten aller Nutzer nach den Maßstäben der DSGVO, unabhängig vom Wohnort.",
       "s11_title": "Änderung der Datenschutzerklärung",
       "s11_body": "Diese Datenschutzerklärung kann jederzeit aktualisiert werden. Das Datum der letzten Aktualisierung ist oben auf dieser Seite angegeben. Wir empfehlen Ihnen, sie regelmäßig zu lesen."
     },
@@ -670,7 +670,7 @@
       "s2_title": "Annahme der AGB",
       "s2_body": "Der Zugang zur und die Nutzung der Website setzt die vollständige und uneingeschränkte Annahme dieser AGB voraus. Wenn Sie diesen Bedingungen nicht zustimmen, dürfen Sie die Website nicht nutzen.",
       "s3_title": "Registrierung und Nutzerkonto",
-      "s3_body": "Die Erstellung eines Kontos erfordert die Angabe zutreffender und aktueller Informationen (Name, E-Mail, Telefonnummer). Sie sind für die Vertraulichkeit Ihrer Zugangsdaten und alle über Ihr Konto vorgenommenen Aktivitäten verantwortlich. Ein Konto ist streng persönlich und darf weder übertragen noch geteilt werden.",
+      "s3_body": "Die Erstellung eines Kontos erfordert die Angabe zutreffender und aktueller Informationen (Name, E-Mail, Telefonnummer). Sie sind für die Vertraulichkeit Ihrer Zugangsdaten und alle über Ihr Konto vorgenommenen Aktivitäten verantwortlich. Ein Konto ist streng persönlich und darf weder übertragen noch geteilt werden. Die Registrierung ist Personen ab 18 Jahren vorbehalten.",
       "s4_title": "Beschreibung des Dienstes",
       "s4_body": "SouqMar24 stellt eine Plattform bereit, über die Nutzer Güter und Dienstleistungen verkaufen, kaufen, vermieten oder anbieten können. SouqMar24 ist an den zwischen Nutzern geschlossenen Transaktionen nicht beteiligt und greift weder in die Verhandlung noch in die Zahlung oder Lieferung der angebotenen Güter oder Dienstleistungen ein.",
       "s5_title": "Regeln für die Veröffentlichung von Anzeigen",
@@ -690,7 +690,7 @@
       "s12_title": "Änderung der AGB",
       "s12_body": "SouqMar24 behält sich das Recht vor, diese AGB jederzeit zu ändern. Nutzer werden über wesentliche Änderungen informiert. Die fortgesetzte Nutzung der Website nach einer Änderung gilt als Annahme der neuen AGB.",
       "s13_title": "Anwendbares Recht und Streitigkeiten",
-      "s13_body": "Auf diese AGB und die Nutzung der Website findet das Recht der Bundesrepublik Deutschland Anwendung, unter Ausschluss des UN-Kaufrechts. Wenn Sie als Verbraucher Ihren gewöhnlichen Aufenthalt in einem anderen Staat haben, bleiben die zwingenden Verbraucherschutzvorschriften dieses Staates unberührt.\n\nIm Streitfall wird vorrangig eine gütliche Einigung angestrebt. Für Verbraucher gelten die gesetzlichen Gerichtsstände; gegenüber Unternehmern ist Gerichtsstand der Sitz des Betreibers. Wir sind weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.",
+      "s13_body": "Auf diese AGB und die Nutzung der Website findet das Recht der Bundesrepublik Deutschland Anwendung, unter Ausschluss des UN-Kaufrechts. Wenn Sie als Verbraucher Ihren gewöhnlichen Aufenthalt in einem anderen Staat haben, bleiben die zwingenden Verbraucherschutzvorschriften dieses Staates unberührt.\n\nIm Streitfall wird vorrangig eine gütliche Einigung angestrebt. Für Verbraucher gelten die gesetzlichen Gerichtsstände; gegenüber Unternehmern ist Gerichtsstand der Sitz des Betreibers. Wir sind weder bereit noch verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.\n\nMaßgeblich ist die deutsche Fassung dieser AGB; Übersetzungen dienen nur dem besseren Verständnis.",
       "s14_title": "Kontakt",
       "s14_body": "Bei Fragen zu diesen AGB erreichen Sie uns unter {op_email}."
     },
