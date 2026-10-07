@@ -65,7 +65,13 @@
     "feature_community_desc": "Connect easily with buyers and sellers like you",
     "feature_boost_title": "Boost your sales",
     "feature_boost_desc": "Premium options to maximize visibility",
-    "premium_cta": "Premium"
+    "premium_cta": "Premium",
+    "cat_group_market": "Buy and sell",
+    "cat_group_work": "Services and jobs",
+    "cat_group_mobility": "On the move",
+    "cat_group_family": "Family and more",
+    "category_count": "{count} listings",
+    "category_count_one": "1 listing"
   },
   "annonces": {
     "title": "All listings",

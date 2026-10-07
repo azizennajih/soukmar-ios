@@ -65,7 +65,13 @@
     "feature_community_desc": "تواصل بسهولة مع مشترين وبائعين مثلك",
     "feature_boost_title": "عزّز مبيعاتك",
     "feature_boost_desc": "خيارات مميزة لتعظيم الظهور",
-    "premium_cta": "بريميوم"
+    "premium_cta": "بريميوم",
+    "cat_group_market": "البيع والشراء",
+    "cat_group_work": "الخدمات والوظائف",
+    "cat_group_mobility": "التنقل",
+    "cat_group_family": "العائلة وأكثر",
+    "category_count": "{count} إعلان",
+    "category_count_one": "إعلان واحد"
   },
   "annonces": {
     "title": "جميع الإعلانات",

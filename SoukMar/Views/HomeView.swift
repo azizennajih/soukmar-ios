@@ -80,8 +80,15 @@ struct HomeView: View {
 
                         VStack(alignment: .leading, spacing: 12) {
                             Text(i18n.t("nav.categories")).font(.headline).padding(.horizontal)
+                            ForEach(CATEGORY_GROUPS, id: \.key) { group in
+                            VStack(alignment: .leading, spacing: 10) {
+                            Text(i18n.t("home.cat_group_\(group.key)").uppercased())
+                                .font(.caption2.weight(.bold))
+                                .foregroundStyle(.secondary)
+                                .padding(.horizontal)
+                                .padding(.top, 6)
                             LazyVGrid(columns: columns, spacing: 16) {
-                                ForEach(CATEGORIES) { cat in
+                                ForEach(group.categories) { cat in
                                     Button {
                                         path.append(Route.listings(category: cat.value, savedSearchId: nil, editSearchId: nil))
                                     } label: {
@@ -101,6 +108,8 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.horizontal)
+                            }
+                            }
                         }
 
                         // The country lives at the very bottom (like the web footer), not in the toolbar.

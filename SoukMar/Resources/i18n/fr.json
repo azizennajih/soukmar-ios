@@ -65,7 +65,13 @@
     "feature_community_desc": "Échangez facilement avec des acheteurs et vendeurs comme vous",
     "feature_boost_title": "Boostez vos ventes",
     "feature_boost_desc": "Options premium pour maximiser la visibilité",
-    "premium_cta": "Premium"
+    "premium_cta": "Premium",
+    "cat_group_market": "Acheter et vendre",
+    "cat_group_work": "Services et emploi",
+    "cat_group_mobility": "Déplacements",
+    "cat_group_family": "Famille et plus",
+    "category_count": "{count} annonces",
+    "category_count_one": "1 annonce"
   },
   "annonces": {
     "title": "Toutes les annonces",

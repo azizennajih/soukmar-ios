@@ -65,7 +65,13 @@
     "feature_community_desc": "Tausche dich einfach mit anderen Käufern und Verkäufern aus",
     "feature_boost_title": "Verkäufe steigern",
     "feature_boost_desc": "Premium-Optionen für maximale Sichtbarkeit",
-    "premium_cta": "Premium"
+    "premium_cta": "Premium",
+    "cat_group_market": "Kaufen und verkaufen",
+    "cat_group_work": "Dienste und Jobs",
+    "cat_group_mobility": "Unterwegs",
+    "cat_group_family": "Familie und mehr",
+    "category_count": "{count} Anzeigen",
+    "category_count_one": "1 Anzeige"
   },
   "annonces": {
     "title": "Alle Anzeigen",

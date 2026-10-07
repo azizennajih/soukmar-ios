@@ -227,3 +227,16 @@ extension Color {
         )
     }
 }
+
+/// Homepage grouping of the categories (labels: i18n "home.cat_group_<key>") — mirrors the web's CATEGORY_GROUPS.
+struct CategoryGroup {
+    let key: String
+    let categories: [CategoryConfig]
+}
+
+let CATEGORY_GROUPS: [CategoryGroup] = [
+    CategoryGroup(key: "market", categories: ["VEHICLES", "REAL_ESTATE", "ELECTRONICS", "HOME_GARDEN", "FASHION", "SPORTS_LEISURE"].compactMap { value in CATEGORIES.first { $0.value == value } }),
+    CategoryGroup(key: "work", categories: ["JOBS", "SERVICES", "LESSONS_COURSES"].compactMap { value in CATEGORIES.first { $0.value == value } }),
+    CategoryGroup(key: "mobility", categories: ["CARPOOLING", "TRANSPORT", "RENTAL", "MOVING"].compactMap { value in CATEGORIES.first { $0.value == value } }),
+    CategoryGroup(key: "family", categories: ["BABY_KIDS", "PETS", "TICKETS", "GIVEAWAY_SWAP", "OTHER"].compactMap { value in CATEGORIES.first { $0.value == value } })
+]
