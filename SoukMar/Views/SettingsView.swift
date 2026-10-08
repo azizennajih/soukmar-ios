@@ -31,6 +31,12 @@ struct SettingsView: View {
                 Spacer(minLength: 10)
                 SettingsRow(icon: "trash", title: i18n.t("parametres.delete_account"), subtitle: i18n.t("parametres.delete_account_sub"), action: onOpenDeleteAccount, danger: true)
 
+                // GeoNames data (CC BY 4.0) feeds the town and village suggestions; the licence requires this credit.
+                Text("\(i18n.t("footer.place_data")) GeoNames (CC BY 4.0)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 6)
+
                 Spacer(minLength: 10)
                 Button {
                     AuthRepository.shared.logout()

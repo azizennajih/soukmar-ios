@@ -166,7 +166,10 @@ struct DeposerAnnonceView: View {
     private var detailsStep: some View {
         VStack(alignment: .leading, spacing: 14) {
             labeledField(i18n.t("deposer.summary_listing_title")) {
-                TextField(i18n.t("deposer.placeholder_title_\(viewModel.category.lowercased())"), text: $viewModel.title).textFieldStyle(.roundedBorder)
+                TextField(
+                    i18n.t("deposer.placeholder_title_\(viewModel.category.lowercased())", ["from": exampleCities.0, "to": exampleCities.1]),
+                    text: $viewModel.title
+                ).textFieldStyle(.roundedBorder)
             }
             labeledField(i18n.t("listing.description")) {
                 TextField(i18n.t("deposer.placeholder_desc_\(viewModel.category.lowercased())"), text: $viewModel.description, axis: .vertical)
@@ -184,17 +187,15 @@ struct DeposerAnnonceView: View {
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
             }
-            labeledField(i18n.t("deposer.label_city")) {
-                // citiesForCountry empty means the chosen country has no
-                // curated list (most of the ~195 countries don't) — falls
-                // back to a plain free-text field, exactly like web/Android's
-                // fallback (Listing.city is a free string backend-side
-                // either way, only without suggestions).
-                if viewModel.citiesForCountry.isEmpty {
-                    TextField(i18n.t("auth.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
-                } else {
-                    CityPickerButton(cities: viewModel.citiesForCountry, selected: $viewModel.city)
-                }
+            labeledField(i18n.t(viewModel.hasDestinationCity ? "deposer.label_start_city" : "deposer.label_city")) {
+                // The country's curated list (if any) plus, as the user types, towns and villages of the
+                // country from the server — any place can be picked, and free text always stays possible
+                // (Listing.city is a free string backend-side).
+                CityPickerButton(
+                    cities: viewModel.citiesForCountry,
+                    selected: $viewModel.city,
+                    suggest: { await viewModel.searchPlaces($0) }
+                )
             }
 
             if viewModel.showCondition {
@@ -249,9 +250,28 @@ struct DeposerAnnonceView: View {
                 }
             }
             .pickerStyle(.menu)
+        } else if def.code == "DESTINATION_CITY" && !viewModel.hasDestinationCountry {
+            // Without a separately chosen destination country the destination is in the listing's own country.
+            CityPickerButton(
+                cities: viewModel.citiesForCountry,
+                selected: Binding(
+                    get: { viewModel.attrText[def.code] ?? "" },
+                    set: { viewModel.attrText[def.code] = $0 }
+                ),
+                suggest: { await viewModel.searchPlaces($0) }
+            )
         } else {
             attributeFieldByType(def)
         }
+    }
+
+    /// Two big cities of the listing's country for the title examples ("Berlin → Hamburg"); never another country's.
+    private var exampleCities: (String, String) {
+        let country = viewModel.country
+        let list = country == "MA" ? ["Casablanca", "Marrakech"] : (CITIES_BY_COUNTRY[country] ?? [])
+        let from = list.count > 0 ? list[0] : i18n.t("deposer.example_city_a")
+        let to = list.count > 1 ? list[1] : i18n.t("deposer.example_city_b")
+        return (from, to)
     }
 
     @ViewBuilder
@@ -462,13 +482,14 @@ struct DeposerAnnonceView: View {
     }
 }
 
-/// Searchable city picker shown only when the currently selected country has
-/// a curated city list (`citiesForCountry` non-empty) — mirrors the same
-/// `.sheet` + `.searchable()` pattern as `PhoneInputField`'s
-/// `CountryPickerSheet`/`CountrySwitcher`'s picker.
+/// City picker: a button that opens a searchable sheet. The sheet lists the country's curated cities (if any)
+/// and, as the user types, towns and villages of the country from the server (`suggest`, GeoNames data) —
+/// so any place down to the smallest village can be picked. What was typed can always be used as is
+/// (Listing.city is a free string backend-side); suggestions are a shortcut, never a constraint.
 private struct CityPickerButton: View {
     let cities: [String]
     @Binding var selected: String
+    let suggest: (String) async -> [PlaceHit]
     @ObservedObject private var i18n = I18nRepository.shared
     @State private var pickerOpen = false
 
@@ -487,7 +508,7 @@ private struct CityPickerButton: View {
         }
         .buttonStyle(.plain)
         .sheet(isPresented: $pickerOpen) {
-            CityPickerSheet(cities: cities, selected: selected) { picked in
+            CityPickerSheet(cities: cities, selected: selected, suggest: suggest) { picked in
                 selected = picked
                 pickerOpen = false
             }
@@ -498,32 +519,71 @@ private struct CityPickerButton: View {
 private struct CityPickerSheet: View {
     let cities: [String]
     let selected: String
+    let suggest: (String) async -> [PlaceHit]
     let onSelect: (String) -> Void
     @ObservedObject private var i18n = I18nRepository.shared
     @State private var query = ""
+    @State private var remote: [PlaceHit] = []
     @Environment(\.dismiss) private var dismiss
 
-    private var filtered: [String] {
-        let q = query.trimmingCharacters(in: .whitespaces).lowercased()
+    private var typed: String { query.trimmingCharacters(in: .whitespaces) }
+
+    private var localMatches: [String] {
+        let q = typed.lowercased()
         guard !q.isEmpty else { return cities }
         return cities.filter { $0.lowercased().contains(q) }
+    }
+
+    private var remoteExtra: [PlaceHit] {
+        remote.filter { hit in
+            !localMatches.contains(where: { $0.caseInsensitiveCompare(hit.name) == .orderedSame })
+        }
+    }
+
+    private var typedIsListed: Bool {
+        localMatches.contains(where: { $0.caseInsensitiveCompare(typed) == .orderedSame })
+            || remote.contains(where: { $0.name.caseInsensitiveCompare(typed) == .orderedSame })
     }
 
     var body: some View {
         NavigationStack {
             List {
-                if filtered.isEmpty {
-                    Text(i18n.t("common.no_results")).foregroundStyle(.secondary)
-                } else {
-                    ForEach(filtered, id: \.self) { city in
-                        Button { onSelect(city) } label: {
-                            Text(city).foregroundStyle(.primary)
-                        }
-                        .listRowBackground(city == selected ? Color.soukmarPrimaryLight : Color(.systemBackground))
+                if !typed.isEmpty && !typedIsListed {
+                    Button { onSelect(typed) } label: {
+                        Label(typed, systemImage: "pencil").foregroundStyle(.primary)
                     }
+                }
+                ForEach(localMatches, id: \.self) { city in
+                    Button { onSelect(city) } label: {
+                        Text(city).foregroundStyle(.primary)
+                    }
+                    .listRowBackground(city == selected ? Color.soukmarPrimaryLight : Color(.systemBackground))
+                }
+                ForEach(remoteExtra) { hit in
+                    Button { onSelect(hit.name) } label: {
+                        HStack {
+                            Text(hit.name).foregroundStyle(.primary)
+                            if let region = hit.admin1, !region.isEmpty {
+                                Text(region).font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+                if localMatches.isEmpty && remoteExtra.isEmpty && typed.isEmpty {
+                    Text(i18n.t("common.no_results")).foregroundStyle(.secondary)
                 }
             }
             .searchable(text: $query, prompt: i18n.t("common.search"))
+            .task(id: query) {
+                // Debounced server lookup; with a curated list the empty query shows just that list.
+                try? await Task.sleep(nanoseconds: 250_000_000)
+                if Task.isCancelled { return }
+                if cities.isEmpty || !typed.isEmpty {
+                    remote = await suggest(typed)
+                } else {
+                    remote = []
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(i18n.t("common.close")) { dismiss() }

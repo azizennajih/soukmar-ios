@@ -1,6 +1,6 @@
 {
   "nav": {
-    "topbar_tagline": "Der führende Online-Marktplatz",
+    "topbar_tagline": "Anzeige in wenigen Klicks aufgeben",
     "search_placeholder": "Was suchen Sie?",
     "city_placeholder": "Stadt oder Region",
     "search_btn": "Suchen",
@@ -216,8 +216,8 @@
     "confirm_cancel_reservation": "Reservierung stornieren? Die Anzeige wird wieder aktiv.",
     "confirm_cancel_offer": "Ihr Angebot stornieren?",
     "no_message": "Keine Nachricht",
-    "offer_short": "Angebot: {amount} MAD",
-    "amount_placeholder": "Betrag in MAD",
+    "offer_short": "Angebot: {amount} {currency}",
+    "amount_placeholder": "Betrag in {currency}",
     "blocked_banner": "Die Kommunikation mit diesem Nutzer ist nicht mehr möglich.",
     "call_start": "Anruf starten",
     "call_incoming": "Eingehender Anruf",
@@ -290,6 +290,7 @@
     "verify_resend_error": "Die E-Mail konnte nicht erneut gesendet werden. Bitte versuchen Sie es später erneut.",
     "captcha_required": "Bitte bestätigen Sie die Anti-Roboter-Prüfung.",
     "verified_success": "E-Mail bestätigt! Sie können sich jetzt anmelden.",
+    "verify_link_invalid": "Der Bestätigungslink ist ungültig oder abgelaufen. Melde dich an, um einen neuen Link anzufordern.",
     "unverified_error": "Konto nicht verifiziert. Bitte prüfen Sie Ihre E-Mail.",
     "unverified_resend": "Bestätigungs-E-Mail erneut senden",
     "forgot_title": "Passwort vergessen?",
@@ -343,8 +344,9 @@
     "rights": "Alle Rechte vorbehalten.",
     "cgu": "AGB",
     "privacy": "Datenschutz",
-    "cookies": "Cookies",
-    "legal_notice": "Impressum"
+    "cookies": "Cookie-Einstellungen verwalten",
+    "legal_notice": "Impressum",
+    "place_data": "Ortsdaten:"
   },
   "common": {
     "mad": "MAD",
@@ -465,7 +467,7 @@
     "revenue_pct": "% des Gesamten",
     "revenue_monthly_avg": "Durchschnittliche Monatseinnahmen",
     "revenue_12m": "Über 12 Monate",
-    "revenue_chart": "Premium-Einnahmen pro Monat (MAD)",
+    "revenue_chart": "Premium-Einnahmen pro Monat ({currency})",
     "tab_reports": "Meldungen",
     "tab_security": "Sicherheit",
     "reports_title": "Meldungen",
@@ -763,8 +765,8 @@
     "placeholder_title_pets": "z. B. Golden-Retriever-Welpen",
     "placeholder_title_sports_leisure": "z. B. Mountainbike, 27 Gänge",
     "placeholder_title_lessons_courses": "z. B. Nachhilfe in Mathematik & Physik",
-    "placeholder_title_carpooling": "z. B. Casablanca → Marrakech, 3 Plätze frei",
-    "placeholder_title_transport": "z. B. Transport Casablanca–Rabat mit LKW",
+    "placeholder_title_carpooling": "z. B. {from} → {to}, 3 Plätze frei",
+    "placeholder_title_transport": "z. B. Transport {from}–{to} mit LKW",
     "placeholder_title_rental": "z. B. Bagger tageweise zu vermieten",
     "placeholder_title_other": "Kurz und aussagekräftig beschreiben",
     "chars": "Zeichen",
@@ -838,12 +840,15 @@
     "show_phone_toggle": "Meine Telefonnummer in der Anzeige anzeigen",
     "show_phone_hint": "Wenn deaktiviert, können Käufer Sie nur über den Chat kontaktieren.",
     "carpooling_phone_hint": "Deine Telefonnummer wird bei Mitfahrgelegenheiten immer angezeigt, damit Mitfahrer dich erreichen können.",
-    "placeholder_title_tickets": "z. B. 2 Tickets Konzert Casablanca zu verkaufen",
+    "placeholder_title_tickets": "z. B. 2 Tickets Konzert {from} zu verkaufen",
     "placeholder_desc_tickets": "Beschreiben Sie die Veranstaltung, den Termin und die Sitzplätze...",
     "placeholder_title_giveaway_swap": "z. B. Sofa zu verschenken",
     "placeholder_desc_giveaway_swap": "Beschreiben Sie den Zustand und was Sie im Tausch suchen...",
-    "placeholder_title_moving": "z. B. Umzugsservice Casablanca–Rabat",
-    "placeholder_desc_moving": "Beschreiben Sie Leistungsumfang, Einsatzgebiet und Erfahrung..."
+    "placeholder_title_moving": "z. B. Umzugsservice {from}–{to}",
+    "placeholder_desc_moving": "Beschreiben Sie Leistungsumfang, Einsatzgebiet und Erfahrung...",
+    "label_start_city": "Startstadt",
+    "example_city_a": "Stadt A",
+    "example_city_b": "Stadt B"
   },
   "subcats": {
     "AUTO": "Auto",
@@ -1690,9 +1695,49 @@
     "browse_btn": "Anzeigen durchsuchen"
   },
   "cookie_consent": {
-    "message": "Wir verwenden Cookies, die für den Betrieb der Website notwendig sind (Anmeldung, Sprache, Land), sowie, falls du zustimmst, Cookies zur Reichweitenmessung.",
+    "message": "Wir verwenden Cookies, die für den Betrieb der Website erforderlich sind (Anmeldung, Sprache, Land). Wenn Sie „Akzeptieren“ wählen, setzen wir zusätzlich Cookies zur Reichweitenmessung ein, um die Website zu verbessern. Wenn Sie „Ablehnen“ wählen, werden nur die erforderlichen Cookies verwendet. Sie können Ihre Wahl jederzeit über „Cookie-Einstellungen verwalten“ in der Fußzeile ändern.",
     "learn_more": "Mehr erfahren",
-    "essential_only": "Nur notwendige",
-    "accept_all": "Alle akzeptieren"
+    "decline": "Ablehnen",
+    "accept": "Akzeptieren"
+  },
+  "info": {
+    "about": {
+      "s1_title": "Der Name: Souq",
+      "s1_body": "„Souq“ (سوق) ist das arabische Wort für Markt. In den Altstädten der arabischen Welt sind die Souks seit Jahrhunderten mehr als Orte zum Einkaufen: Hier treffen sich Menschen, tauschen Neuigkeiten aus, feilschen um den Preis und besiegeln Geschäfte oft mit einem Handschlag. Wer einmal durch die Gassen eines Souks gegangen ist, kennt das Gefühl: Jeder Stand hat ein Gesicht, jede Ware eine Geschichte.",
+      "s2_title": "Vom Souq ins Internet",
+      "s2_body": "SouqMar24 überträgt diese Idee ins digitale Zeitalter. Was im Souk das Gespräch am Stand ist, ist bei uns der Chat. Das Feilschen heißt bei uns Preisangebot. Und das Vertrauen, das dort aus Blickkontakt und gutem Ruf entsteht, bauen bei uns verifizierte Profile und Bewertungen auf. Der Marktplatz bleibt lokal und persönlich – nur dass er jetzt in die Hosentasche passt und rund um die Uhr geöffnet hat.",
+      "s3_title": "Was das für Menschen bewirken kann",
+      "s3_body": "Ein Marktplatz verändert oft mehr als nur den Kontostand:\n\nDinge bekommen ein zweites Leben: Was bei dir im Schrank liegt, ist für jemand anderen genau das, was er sucht – das spart Geld und schont Ressourcen.\n\nKleine Einkünfte, große Wirkung: Ob Privatperson oder kleines Unternehmen – mit einer Anzeige erreichst du Menschen in deiner Nachbarschaft.\n\nNähe statt Anonymität: Käufer und Verkäufer aus derselben Stadt begegnen sich, sprechen miteinander und helfen sich gegenseitig.\n\nChancen vor Ort: Wohnungen, Jobs, Mitfahrgelegenheiten – vieles, was den Alltag leichter macht, findet man direkt in der eigenen Umgebung.",
+      "s4_title": "SouqMar24 heute",
+      "s4_body": "SouqMar24 ist ein Online-Marktplatz für Kleinanzeigen: Privatpersonen und Unternehmen kaufen, verkaufen, vermieten oder verschenken hier Waren und Dienstleistungen – von Fahrzeugen und Immobilien bis zu Elektronik, Mode, Jobs und Mitfahrgelegenheiten. SouqMar24 steht Nutzern in vielen Ländern offen.\n\nEinfach: Eine Anzeige ist in wenigen Minuten erstellt.\n\nLokal: Du siehst Angebote aus deinem Land und deiner Stadt, auf Wunsch auch auf der Karte.\n\nSicher: Anzeigen werden automatisch geprüft, Nutzer können ihr Profil verifizieren, und Bewertungen sowie Meldungen helfen, Betrug schnell zu erkennen.\n\nMehrsprachig: Die Website ist in 11 Sprachen verfügbar.",
+      "s5_title": "Kontakt und Feedback",
+      "s5_body": "Fragen, Anregungen oder einen Fehler gefunden? Über die Kontaktseite erreichst du uns direkt – wir freuen uns über jede Rückmeldung."
+    },
+    "how": {
+      "s1_title": "1. Konto erstellen",
+      "s1_body": "Registriere dich mit deiner E-Mail-Adresse und wähle, ob du als Privatperson oder als Unternehmen auftrittst. Das Land, in dem du inserierst, legst du bei der Registrierung fest.",
+      "s2_title": "2. Anzeige aufgeben",
+      "s2_body": "Wähle Kategorie und Unterkategorie, beschreibe deinen Artikel, lege den Preis fest, gib den Ort an und lade Fotos hoch. Neue Anzeigen werden automatisch geprüft; auffällige Anzeigen sieht sich unser Team an, bevor sie erscheinen.",
+      "s3_title": "3. Finden und Kontakt aufnehmen",
+      "s3_body": "Käufer durchsuchen Kategorien, filtern nach Preis, Ort und Eigenschaften oder suchen auf der Karte. Im Chat kannst du Fragen stellen und Preisangebote machen. Mit gespeicherten Suchen und dem Folgen von Verkäufern verpasst du keine neue Anzeige.",
+      "s4_title": "4. Übergabe und Bewertung",
+      "s4_body": "Vereinbart die Übergabe und bezahle erst, wenn du den Artikel geprüft hast. Markiere deine Anzeige nach dem Verkauf als verkauft; anschließend könnt ihr euch gegenseitig bewerten."
+    },
+    "safety": {
+      "s1_title": "Persönlich und öffentlich treffen",
+      "s1_body": "Triff dich für die Übergabe an einem belebten, öffentlichen Ort und nimm nach Möglichkeit eine Begleitung mit. Prüfe den Artikel vor Ort gründlich, bevor du bezahlst.",
+      "s2_title": "Nie im Voraus bezahlen",
+      "s2_body": "Überweise kein Geld, bevor du den Artikel gesehen hast. Sei besonders vorsichtig bei Vorkasse, Geldtransfer-Diensten, Gutscheincodes und Bitten um eine „Anzahlung zur Reservierung“.",
+      "s3_title": "Zu gut, um wahr zu sein",
+      "s3_body": "Auffällig niedrige Preise, Zeitdruck, angebliche Kuriere oder Treuhanddienste und Nachrichten mit Links zu fremden Seiten sind typische Anzeichen für Betrug.",
+      "s4_title": "Daten schützen",
+      "s4_body": "Gib niemals Passwörter, Bankdaten oder Bestätigungscodes an andere Nutzer weiter. Schreibe nach Möglichkeit im Chat der Plattform: Dort bleibt deine Telefonnummer privat, solange du sie nicht selbst freigibst.",
+      "s5_title": "Melden und blockieren",
+      "s5_body": "Verdächtige Anzeigen und Nutzer kannst du melden – unser Team prüft jede Meldung. Unerwünschte Kontakte kannst du im Chat blockieren. Profile mit geprüfter E-Mail-Adresse, Telefonnummer oder Ausweis sind gekennzeichnet."
+    }
+  },
+  "seo": {
+    "default_title": "SouqMar24 — Kaufen und verkaufen, ganz einfach",
+    "default_description": "SouqMar24 — der Marktplatz für Kleinanzeigen: Fahrzeuge, Immobilien, Elektronik, Mode und vieles mehr in deiner Nähe."
   }
 }

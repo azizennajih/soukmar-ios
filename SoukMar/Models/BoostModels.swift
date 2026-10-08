@@ -56,29 +56,50 @@ enum BoostTierId: String, CaseIterable, Hashable {
 
 struct BoostTier {
     let id: BoostTierId
-    let priceMAD: Int
     let durationDays: Int?
 }
 
 let BOOST_TIERS: [BoostTier] = [
-    BoostTier(id: .bump, priceMAD: 15, durationDays: nil),
-    BoostTier(id: .spotlight, priceMAD: 39, durationDays: 7),
-    BoostTier(id: .top, priceMAD: 59, durationDays: 7),
-    BoostTier(id: .global, priceMAD: 89, durationDays: 10),
+    BoostTier(id: .bump, durationDays: nil),
+    BoostTier(id: .spotlight, durationDays: 7),
+    BoostTier(id: .top, durationDays: 7),
+    BoostTier(id: .global, durationDays: 10),
 ]
 
-struct BoostQuote {
-    let subtotal: Int
-    let discountPercent: Int
-    let total: Int
+/// Boost prices per currency (kept in sync with the web's boost.model.ts and the backend's
+/// lib/boosts.ts). A listing in a currency without its own price list is charged in EUR.
+let BOOST_PRICES: [String: [BoostTierId: Double]] = [
+    "MAD": [.bump: 15, .spotlight: 39, .top: 59, .global: 89],
+    "EUR": [.bump: 1.49, .spotlight: 3.99, .top: 5.99, .global: 8.99],
+    "USD": [.bump: 1.59, .spotlight: 4.29, .top: 6.49, .global: 9.99],
+    "GBP": [.bump: 1.29, .spotlight: 3.49, .top: 4.99, .global: 7.49],
+    "CHF": [.bump: 1.49, .spotlight: 3.99, .top: 5.99, .global: 8.99],
+]
+
+/// The currency a boost for a listing in `listingCurrency` is charged in.
+func boostCurrency(_ listingCurrency: String?) -> String {
+    if let c = listingCurrency, BOOST_PRICES[c] != nil { return c }
+    return "EUR"
 }
 
-/// Mirrors quoteBoostPrice() in the web's boost.model.ts — 10% off when
-/// combining 2+ tiers.
-func quoteBoostPrice(_ tierIds: Set<BoostTierId>) -> BoostQuote {
-    let byId = Dictionary(uniqueKeysWithValues: BOOST_TIERS.map { ($0.id, $0) })
-    let subtotal = tierIds.reduce(0) { $0 + (byId[$1]?.priceMAD ?? 0) }
+func tierPrice(_ id: BoostTierId, currency: String) -> Double {
+    let prices = BOOST_PRICES[currency] ?? BOOST_PRICES["EUR"] ?? [:]
+    return prices[id] ?? 0
+}
+
+struct BoostQuote {
+    let subtotal: Double
+    let discountPercent: Int
+    let total: Double
+}
+
+/// Mirrors quoteBoostPrice() in the web's boost.model.ts — 10% off when combining 2+ tiers;
+/// MAD in whole dirhams, other currencies with cents.
+func quoteBoostPrice(_ tierIds: Set<BoostTierId>, currency: String = "MAD") -> BoostQuote {
+    func cents(_ n: Double) -> Double { (n * 100).rounded() / 100 }
+    let subtotal = cents(tierIds.reduce(0) { $0 + tierPrice($1, currency: currency) })
     let discountPercent = tierIds.count >= 2 ? 10 : 0
-    let total = Int((Double(subtotal) * (1 - Double(discountPercent) / 100)).rounded())
+    let discounted = subtotal * (1 - Double(discountPercent) / 100)
+    let total = currency == "MAD" ? discounted.rounded() : cents(discounted)
     return BoostQuote(subtotal: subtotal, discountPercent: discountPercent, total: total)
 }

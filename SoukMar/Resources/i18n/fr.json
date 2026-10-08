@@ -1,6 +1,6 @@
 {
   "nav": {
-    "topbar_tagline": "La marketplace de référence",
+    "topbar_tagline": "Déposez une annonce en quelques clics",
     "search_placeholder": "Que cherchez-vous ?",
     "city_placeholder": "Ville ou région",
     "city_placeholder_short": "Ville",
@@ -216,8 +216,8 @@
     "confirm_cancel_reservation": "Annuler la réservation ? L'annonce redevient active.",
     "confirm_cancel_offer": "Annuler votre offre ?",
     "no_message": "Aucun message",
-    "offer_short": "Offre: {amount} MAD",
-    "amount_placeholder": "Montant en MAD",
+    "offer_short": "Offre: {amount} {currency}",
+    "amount_placeholder": "Montant en {currency}",
     "blocked_banner": "La messagerie avec cet utilisateur n'est plus disponible.",
     "call_start": "Démarrer un appel",
     "call_incoming": "Appel entrant",
@@ -290,6 +290,7 @@
     "verify_resend_error": "L'email n'a pas pu être renvoyé. Réessayez plus tard.",
     "captcha_required": "Merci de valider la vérification anti-robot.",
     "verified_success": "Email confirmé ! Vous pouvez maintenant vous connecter.",
+    "verify_link_invalid": "Le lien de confirmation est invalide ou a expiré. Connectez-vous pour en demander un nouveau.",
     "unverified_error": "Compte non vérifié. Vérifiez votre email.",
     "unverified_resend": "Renvoyer l'email de confirmation",
     "forgot_title": "Mot de passe oublié ?",
@@ -1111,8 +1112,9 @@
     "rights": "Tous droits réservés.",
     "cgu": "CGU",
     "privacy": "Confidentialité",
-    "cookies": "Cookies",
-    "legal_notice": "Mentions légales"
+    "cookies": "Gérer les paramètres des cookies",
+    "legal_notice": "Mentions légales",
+    "place_data": "Données des lieux :"
   },
   "common": {
     "mad": "MAD",
@@ -1270,7 +1272,7 @@
     "revenue_pct": "% du total",
     "revenue_monthly_avg": "Revenu mensuel moyen",
     "revenue_12m": "Sur 12 mois",
-    "revenue_chart": "Revenus Premium par mois (MAD)",
+    "revenue_chart": "Revenus Premium par mois ({currency})",
     "tab_boost_requests": "Boosts",
     "boost_requests_title": "Demandes de visibilité",
     "boost_requests_empty": "Aucune demande de boost pour le moment.",
@@ -1326,8 +1328,8 @@
     "placeholder_title_pets": "ex: Chiots Golden Retriever",
     "placeholder_title_sports_leisure": "ex: VTT, 27 vitesses",
     "placeholder_title_lessons_courses": "ex: Cours particuliers en maths & physique",
-    "placeholder_title_carpooling": "ex: Casablanca → Marrakech, 3 places libres",
-    "placeholder_title_transport": "ex: Transport Casablanca–Rabat par camion",
+    "placeholder_title_carpooling": "ex: {from} → {to}, 3 places libres",
+    "placeholder_title_transport": "ex: Transport {from}–{to} par camion",
     "placeholder_title_rental": "ex: Pelleteuse à louer à la journée",
     "placeholder_title_other": "Soyez court et clair",
     "chars": "caractères",
@@ -1396,12 +1398,15 @@
     "success_title_edit": "Annonce mise à jour !",
     "success_sub_edit": "Vos modifications sont maintenant visibles.",
     "publish_edit": "Enregistrer les modifications",
-    "placeholder_title_tickets": "ex: 2 billets concert Casablanca à vendre",
+    "placeholder_title_tickets": "ex: 2 billets concert {from} à vendre",
     "placeholder_desc_tickets": "Décrivez l'événement, la date et les places...",
     "placeholder_title_giveaway_swap": "ex: Canapé à donner",
     "placeholder_desc_giveaway_swap": "Décrivez l'état et ce que vous recherchez en échange...",
-    "placeholder_title_moving": "ex: Service de déménagement Casablanca–Rabat",
-    "placeholder_desc_moving": "Décrivez les prestations, la zone d'intervention et votre expérience..."
+    "placeholder_title_moving": "ex: Service de déménagement {from}–{to}",
+    "placeholder_desc_moving": "Décrivez les prestations, la zone d'intervention et votre expérience...",
+    "label_start_city": "Ville de départ",
+    "example_city_a": "Ville A",
+    "example_city_b": "Ville B"
   },
   "mes_annonces": {
     "title": "Mes annonces",
@@ -1690,9 +1695,49 @@
     "browse_btn": "Parcourir les annonces"
   },
   "cookie_consent": {
-    "message": "Nous utilisons des cookies essentiels au fonctionnement du site (connexion, langue, pays) et, si vous l'acceptez, des cookies de mesure d'audience.",
+    "message": "Nous utilisons des cookies essentiels au fonctionnement du site (connexion, langue, pays). Si vous choisissez « Accepter », nous utilisons en plus des cookies de mesure d'audience afin d'améliorer le site. Si vous choisissez « Refuser », seuls les cookies essentiels sont utilisés. Vous pouvez modifier votre choix à tout moment via « Gérer les paramètres des cookies » en bas de page.",
     "learn_more": "En savoir plus",
-    "essential_only": "Uniquement nécessaires",
-    "accept_all": "Tout accepter"
+    "decline": "Refuser",
+    "accept": "Accepter"
+  },
+  "info": {
+    "about": {
+      "s1_title": "Le nom : Souq",
+      "s1_body": "« Souq » (سوق) est le mot arabe pour marché. Dans les médinas du monde arabe, les souks sont depuis des siècles bien plus que des lieux d'achat : on s'y retrouve, on y échange des nouvelles, on marchande le prix et on conclut souvent l'affaire d'une poignée de main. Quiconque a déjà parcouru les ruelles d'un souk connaît cette impression : chaque étal a un visage, chaque marchandise une histoire.",
+      "s2_title": "Du souk à Internet",
+      "s2_body": "SouqMar24 transpose cette idée à l'ère numérique. Ce qui est au souk la conversation devant l'étal est chez nous le chat. Le marchandage devient la proposition de prix. Et la confiance qui naît là-bas du regard et de la réputation, ce sont ici les profils vérifiés et les avis qui la construisent. La place de marché reste locale et personnelle – sauf qu'elle tient désormais dans la poche et ouvre 24 h sur 24.",
+      "s3_title": "Ce que cela peut apporter aux gens",
+      "s3_body": "Une place de marché change souvent plus que le solde d'un compte :\n\nLes objets ont une seconde vie : ce qui dort dans votre placard est exactement ce que quelqu'un d'autre cherche – cela fait économiser de l'argent et préserve les ressources.\n\nPetits revenus, grand effet : particulier ou petite entreprise, une annonce vous met en contact avec les gens de votre quartier.\n\nProximité plutôt qu'anonymat : acheteurs et vendeurs d'une même ville se rencontrent, se parlent et s'entraident.\n\nDes opportunités sur place : logements, emplois, covoiturage – beaucoup de ce qui facilite le quotidien se trouve tout près de chez soi.",
+      "s4_title": "SouqMar24 aujourd'hui",
+      "s4_body": "SouqMar24 est une place de marché en ligne de petites annonces : particuliers et professionnels y achètent, vendent, louent ou donnent des biens et des services – des véhicules et de l'immobilier à l'électronique, la mode, l'emploi et le covoiturage. SouqMar24 est ouvert aux utilisateurs de nombreux pays.\n\nSimple : une annonce se crée en quelques minutes.\n\nLocal : vous voyez les offres de votre pays et de votre ville, et sur la carte si vous le souhaitez.\n\nSûr : les annonces sont vérifiées automatiquement, les utilisateurs peuvent faire vérifier leur profil, et les avis comme les signalements aident à repérer rapidement les fraudes.\n\nMultilingue : le site est disponible en 11 langues.",
+      "s5_title": "Contact et retours",
+      "s5_body": "Une question, une suggestion ou un bug à signaler ? La page Contact vous permet de nous joindre directement – nous apprécions chaque retour."
+    },
+    "how": {
+      "s1_title": "1. Créer un compte",
+      "s1_body": "Inscrivez-vous avec votre adresse e-mail et indiquez si vous agissez en tant que particulier ou professionnel. Le pays dans lequel vous publiez est défini lors de l'inscription.",
+      "s2_title": "2. Déposer une annonce",
+      "s2_body": "Choisissez la catégorie et la sous-catégorie, décrivez votre article, fixez le prix, indiquez le lieu et ajoutez des photos. Les nouvelles annonces sont vérifiées automatiquement ; notre équipe examine les annonces suspectes avant leur publication.",
+      "s3_title": "3. Trouver et contacter",
+      "s3_body": "Les acheteurs parcourent les catégories, filtrent par prix, lieu et caractéristiques, ou cherchent sur la carte. Dans le chat, vous pouvez poser des questions et proposer un prix. Avec les recherches enregistrées et le suivi des vendeurs, vous ne manquez aucune nouvelle annonce.",
+      "s4_title": "4. Remise et avis",
+      "s4_body": "Convenez de la remise en main propre et ne payez qu'après avoir vérifié l'article. Une fois la vente conclue, marquez votre annonce comme vendue ; vous pouvez ensuite vous noter mutuellement."
+    },
+    "safety": {
+      "s1_title": "Se rencontrer en personne, en public",
+      "s1_body": "Donnez rendez-vous dans un lieu public et fréquenté et, si possible, venez accompagné. Examinez l'article attentivement sur place avant de payer.",
+      "s2_title": "Ne jamais payer à l’avance",
+      "s2_body": "Ne versez pas d'argent avant d'avoir vu l'article. Méfiez-vous tout particulièrement du paiement d'avance, des services de transfert d'argent, des codes cadeaux et des demandes d'« acompte pour réserver ».",
+      "s3_title": "Trop beau pour être vrai",
+      "s3_body": "Prix anormalement bas, pression pour décider vite, prétendus coursiers ou services de séquestre et messages contenant des liens vers des sites tiers sont des signes typiques d'arnaque.",
+      "s4_title": "Protéger vos données",
+      "s4_body": "Ne communiquez jamais mots de passe, coordonnées bancaires ou codes de confirmation à d'autres utilisateurs. Écrivez de préférence dans le chat de la plateforme : votre numéro de téléphone y reste privé tant que vous ne le partagez pas vous-même.",
+      "s5_title": "Signaler et bloquer",
+      "s5_body": "Vous pouvez signaler les annonces et utilisateurs suspects – notre équipe examine chaque signalement. Vous pouvez bloquer les contacts indésirables dans le chat. Les profils dont l'e-mail, le téléphone ou la pièce d'identité sont vérifiés sont signalés par un badge."
+    }
+  },
+  "seo": {
+    "default_title": "SouqMar24 — Achetez et vendez facilement",
+    "default_description": "SouqMar24, la marketplace de petites annonces : véhicules, immobilier, électronique, mode et plus encore près de chez vous."
   }
 }

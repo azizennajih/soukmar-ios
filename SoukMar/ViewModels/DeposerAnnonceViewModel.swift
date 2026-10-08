@@ -72,6 +72,17 @@ final class DeposerAnnonceViewModel: ObservableObject {
 
     var maxPhotos: Int { isPremium ? 20 : 10 }
     var derivedCurrency: String { currencyForCountry(country) }
+    /// Towns and villages of the listing's country matching `query` (suggestions for the city fields).
+    func searchPlaces(_ query: String) async -> [PlaceHit] {
+        await ListingRepository.shared.searchPlaces(country: country, query: query)
+    }
+
+    /// Start/destination listings (carpooling, transport…) call the first city the start city.
+    var hasDestinationCity: Bool { attributeDefs.contains { $0.code == "DESTINATION_CITY" } }
+
+    /// A destination country is chosen separately for transport; then the destination city stays free text.
+    var hasDestinationCountry: Bool { attributeDefs.contains { $0.code == "DESTINATION_COUNTRY" } }
+
     var citiesForCountry: [String] { country == "MA" ? MOROCCO_CITIES : (CITIES_BY_COUNTRY[country] ?? []) }
     /// Mirrors Android's `showCondition` — hides "Neuf/Occasion" for
     /// subcategories that opt out even within an otherwise physical-goods

@@ -367,10 +367,7 @@ struct ListingDetailView: View {
                 guard let raw = group.first?.valueText, let date = Self.dateAttrFormatter.date(from: raw) else {
                     return group.first?.valueText ?? ""
                 }
-                let display = DateFormatter()
-                display.dateStyle = .medium
-                display.locale = Locale(identifier: i18n.currentLang)
-                return display.string(from: date)
+                return formatDateForCountry(date, country: CountryRepository.shared.country)
             default: return group.first?.valueText ?? ""
             }
         }()

@@ -160,7 +160,7 @@ struct ChatView: View {
                 if viewModel.showOfferInput {
                     HStack {
                         Image(systemName: "tag")
-                        TextField("Montant en \(viewModel.conversation?.listing.currency ?? "MAD")", text: $viewModel.offerAmount)
+                        TextField(i18n.t("chat.amount_placeholder", ["currency": viewModel.conversation?.listing.currency ?? ""]), text: $viewModel.offerAmount)
                             .keyboardType(.numberPad)
                             .textFieldStyle(.roundedBorder)
                         Button(i18n.t("chat.send_offer")) { viewModel.sendOffer() }
@@ -318,11 +318,10 @@ struct ChatView: View {
             date = iso8601.date(from: iso)
         }
         guard let date else { return ("", "") }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM."
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "HH:mm"
-        return (dateFormatter.string(from: date), timeFormatter.string(from: date))
+        // Day and month in the browsing country's own order and separator (05.12. / 12/05).
+        return (formatDateForCountry(date, country: CountryRepository.shared.country, withYear: false), timeFormatter.string(from: date))
     }
 }
 

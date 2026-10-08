@@ -1,6 +1,6 @@
 {
   "nav": {
-    "topbar_tagline": "Il marketplace leader",
+    "topbar_tagline": "Pubblica un annuncio in pochi clic",
     "search_placeholder": "Cosa stai cercando?",
     "city_placeholder": "Città o regione",
     "search_btn": "Cerca",
@@ -216,8 +216,8 @@
     "confirm_cancel_reservation": "Annullare la prenotazione? L'annuncio torna attivo.",
     "confirm_cancel_offer": "Annullare la tua offerta?",
     "no_message": "Nessun messaggio",
-    "offer_short": "Offerta: {amount} MAD",
-    "amount_placeholder": "Importo in MAD",
+    "offer_short": "Offerta: {amount} {currency}",
+    "amount_placeholder": "Importo in {currency}",
     "blocked_banner": "La messaggistica con questo utente non è più disponibile.",
     "call_start": "Avvia chiamata",
     "call_incoming": "Chiamata in arrivo",
@@ -290,6 +290,7 @@
     "verify_resend_error": "Impossibile reinviare l'email. Riprova più tardi.",
     "captcha_required": "Completa la verifica anti-robot.",
     "verified_success": "Email confermata! Puoi ora accedere.",
+    "verify_link_invalid": "Il link di conferma non è valido o è scaduto. Accedi per richiederne uno nuovo.",
     "unverified_error": "Account non verificato. Controlla la tua email.",
     "unverified_resend": "Reinvia email di conferma",
     "forgot_title": "Password dimenticata?",
@@ -343,8 +344,9 @@
     "rights": "Tutti i diritti riservati.",
     "cgu": "Termini",
     "privacy": "Privacy",
-    "cookies": "Cookie",
-    "legal_notice": "Note legali"
+    "cookies": "Gestisci impostazioni cookie",
+    "legal_notice": "Note legali",
+    "place_data": "Dati dei luoghi:"
   },
   "common": {
     "mad": "MAD",
@@ -465,7 +467,7 @@
     "revenue_pct": "% del totale",
     "revenue_monthly_avg": "Entrate mensili medie",
     "revenue_12m": "In 12 mesi",
-    "revenue_chart": "Entrate Premium al mese (MAD)",
+    "revenue_chart": "Entrate Premium al mese ({currency})",
     "tab_reports": "Segnalazioni",
     "tab_security": "Sicurezza",
     "reports_title": "Segnalazioni",
@@ -763,8 +765,8 @@
     "placeholder_title_pets": "es: Cuccioli di Golden Retriever",
     "placeholder_title_sports_leisure": "es: Mountain bike, 27 marce",
     "placeholder_title_lessons_courses": "es: Ripetizioni di matematica e fisica",
-    "placeholder_title_carpooling": "es: Casablanca → Marrakech, 3 posti liberi",
-    "placeholder_title_transport": "es: Trasporto Casablanca–Rabat con camion",
+    "placeholder_title_carpooling": "es: {from} → {to}, 3 posti liberi",
+    "placeholder_title_transport": "es: Trasporto {from}–{to} con camion",
     "placeholder_title_rental": "es: Escavatore a noleggio giornaliero",
     "placeholder_title_other": "Sii breve e chiaro",
     "chars": "caratteri",
@@ -838,12 +840,15 @@
     "show_phone_toggle": "Mostra il mio numero di telefono nell'annuncio",
     "show_phone_hint": "Se disattivato, gli acquirenti potranno contattarti solo tramite chat.",
     "carpooling_phone_hint": "Il tuo numero di telefono è sempre visibile negli annunci di passaggi auto, così i passeggeri possono contattarti.",
-    "placeholder_title_tickets": "es: 2 biglietti concerto Casablanca in vendita",
+    "placeholder_title_tickets": "es: 2 biglietti concerto {from} in vendita",
     "placeholder_desc_tickets": "Descrivi l'evento, la data e i posti...",
     "placeholder_title_giveaway_swap": "es: Divano da regalare",
     "placeholder_desc_giveaway_swap": "Descrivi le condizioni e cosa cerchi in cambio...",
-    "placeholder_title_moving": "es: Servizio traslochi Casablanca–Rabat",
-    "placeholder_desc_moving": "Descrivi i servizi offerti, l'area coperta e l'esperienza..."
+    "placeholder_title_moving": "es: Servizio traslochi {from}–{to}",
+    "placeholder_desc_moving": "Descrivi i servizi offerti, l'area coperta e l'esperienza...",
+    "label_start_city": "Città di partenza",
+    "example_city_a": "Città A",
+    "example_city_b": "Città B"
   },
   "subcats": {
     "AUTO": "Auto",
@@ -1690,9 +1695,49 @@
     "browse_btn": "Sfoglia gli annunci"
   },
   "cookie_consent": {
-    "message": "Utilizziamo cookie essenziali per il funzionamento del sito (accesso, lingua, paese) e, se lo accetti, cookie di misurazione del pubblico.",
+    "message": "Utilizziamo cookie essenziali per il funzionamento del sito (accesso, lingua, paese). Se scegli «Accetta», utilizzeremo anche cookie di misurazione del pubblico per migliorare il sito. Se scegli «Rifiuta», vengono usati solo i cookie essenziali. Puoi modificare la tua scelta in qualsiasi momento da «Gestisci impostazioni cookie» nel piè di pagina.",
     "learn_more": "Scopri di più",
-    "essential_only": "Solo essenziali",
-    "accept_all": "Accetta tutto"
+    "decline": "Rifiuta",
+    "accept": "Accetta"
+  },
+  "info": {
+    "about": {
+      "s1_title": "Il nome: Souq",
+      "s1_body": "«Souq» (سوق) è la parola araba per mercato. Nelle medine del mondo arabo i suq sono da secoli molto più che luoghi dove fare acquisti: ci si incontra, si scambiano notizie, si tratta sul prezzo e spesso si chiude l'affare con una stretta di mano. Chi ha percorso almeno una volta i vicoli di un suq conosce la sensazione: ogni banco ha un volto, ogni merce una storia.",
+      "s2_title": "Dal suq a internet",
+      "s2_body": "SouqMar24 porta questa idea nell'era digitale. Ciò che nel suq è la conversazione al banco, da noi è la chat. La trattativa diventa la proposta di prezzo. E la fiducia che lì nasce dallo sguardo e dalla buona reputazione, qui la costruiscono i profili verificati e le recensioni. Il mercato resta locale e personale, solo che ora sta in tasca ed è aperto 24 ore su 24.",
+      "s3_title": "Cosa può significare per le persone",
+      "s3_body": "Un mercato spesso cambia più del saldo di un conto:\n\nLe cose hanno una seconda vita: ciò che sta nel tuo armadio è esattamente ciò che cerca qualcun altro, e questo fa risparmiare e salvaguarda le risorse.\n\nPiccoli guadagni, grande effetto: che tu sia un privato o una piccola impresa, un annuncio ti mette in contatto con le persone del tuo quartiere.\n\nVicinanza invece di anonimato: acquirenti e venditori della stessa città si incontrano, si parlano e si aiutano.\n\nOpportunità vicino a te: case, lavoro, passaggi in auto: molto di ciò che rende più facile la vita di tutti i giorni si trova proprio intorno a te.",
+      "s4_title": "SouqMar24 oggi",
+      "s4_body": "SouqMar24 è un marketplace online di annunci: privati e aziende comprano, vendono, affittano o regalano beni e servizi, da veicoli e immobili a elettronica, moda, lavoro e passaggi in auto. SouqMar24 è aperto a utenti di molti paesi.\n\nSemplice: un annuncio si crea in pochi minuti.\n\nLocale: vedi le offerte del tuo paese e della tua città, e se vuoi anche sulla mappa.\n\nSicuro: gli annunci vengono controllati automaticamente, gli utenti possono verificare il proprio profilo e le recensioni e le segnalazioni aiutano a individuare rapidamente le truffe.\n\nMultilingue: il sito è disponibile in 11 lingue.",
+      "s5_title": "Contatti e feedback",
+      "s5_body": "Domande, suggerimenti o hai trovato un errore? Dalla pagina Contatti puoi scriverci direttamente: ogni riscontro ci fa piacere."
+    },
+    "how": {
+      "s1_title": "1. Crea un account",
+      "s1_body": "Registrati con il tuo indirizzo e-mail e scegli se agisci come privato o come azienda. Il paese in cui pubblichi viene stabilito al momento della registrazione.",
+      "s2_title": "2. Pubblica un annuncio",
+      "s2_body": "Scegli categoria e sottocategoria, descrivi il tuo articolo, imposta il prezzo, indica il luogo e carica le foto. I nuovi annunci vengono controllati automaticamente; il nostro team esamina quelli sospetti prima della pubblicazione.",
+      "s3_title": "3. Cerca e contatta",
+      "s3_body": "Gli acquirenti esplorano le categorie, filtrano per prezzo, luogo e caratteristiche oppure cercano sulla mappa. Nella chat puoi fare domande e proporre un prezzo. Con le ricerche salvate e seguendo i venditori non perdi nessun nuovo annuncio.",
+      "s4_title": "4. Consegna e recensioni",
+      "s4_body": "Accordatevi sulla consegna e paga solo dopo aver controllato l'articolo. Dopo la vendita, segna il tuo annuncio come venduto; poi potete recensirvi a vicenda."
+    },
+    "safety": {
+      "s1_title": "Incontrarsi di persona, in pubblico",
+      "s1_body": "Incontrati in un luogo pubblico e frequentato per la consegna e, se possibile, portati qualcuno con te. Controlla bene l'articolo sul posto prima di pagare.",
+      "s2_title": "Mai pagare in anticipo",
+      "s2_body": "Non inviare denaro prima di aver visto l'articolo. Fai particolare attenzione a pagamenti anticipati, servizi di trasferimento di denaro, codici di carte regalo e richieste di una «caparra per prenotare».",
+      "s3_title": "Troppo bello per essere vero",
+      "s3_body": "Prezzi insolitamente bassi, pressione a decidere in fretta, presunti corrieri o servizi di garanzia e messaggi con link a siti esterni sono segnali tipici di truffa.",
+      "s4_title": "Proteggi i tuoi dati",
+      "s4_body": "Non condividere mai password, dati bancari o codici di conferma con altri utenti. Usa preferibilmente la chat della piattaforma: lì il tuo numero di telefono resta privato finché non lo condividi tu.",
+      "s5_title": "Segnalare e bloccare",
+      "s5_body": "Puoi segnalare annunci e utenti sospetti: il nostro team esamina ogni segnalazione. Puoi bloccare i contatti indesiderati nella chat. I profili con e-mail, telefono o documento d'identità verificati sono contrassegnati da un badge."
+    }
+  },
+  "seo": {
+    "default_title": "SouqMar24 — Compra e vendi facilmente",
+    "default_description": "SouqMar24, il marketplace di annunci: veicoli, immobili, elettronica, moda e molto altro vicino a te."
   }
 }

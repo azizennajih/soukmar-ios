@@ -89,6 +89,7 @@ struct BoostListingView: View {
                     ForEach(BOOST_TIERS, id: \.id) { tier in
                         TierRow(
                             tier: tier,
+                            price: money(tierPrice(tier.id, currency: boostCurrency(viewModel.listing?.currency)), currency: boostCurrency(viewModel.listing?.currency)),
                             selected: viewModel.selectedTiers.contains(tier.id),
                             activeUntil: viewModel.activeUntil(for: tier.id),
                             onToggle: { viewModel.toggle(tier.id) }
@@ -116,15 +117,22 @@ struct BoostListingView: View {
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
+    /// Amount with its currency symbol for the active language (boosts are charged in `currency`).
+    private func money(_ amount: Double, currency: String) -> String {
+        let (amountText, currencyLabel) = formatPriceParts(amount, currency: currency, lang: i18n.currentLang)
+        return "\(amountText) \(currencyLabel)"
+    }
+
     private var summaryCard: some View {
-        let quote = quoteBoostPrice(viewModel.selectedTiers)
+        let currency = boostCurrency(viewModel.listing?.currency)
+        let quote = quoteBoostPrice(viewModel.selectedTiers, currency: currency)
         return VStack(alignment: .leading, spacing: 6) {
-            summaryRow(i18n.t("boost.subtotal"), "\(quote.subtotal) MAD")
+            summaryRow(i18n.t("boost.subtotal"), money(quote.subtotal, currency: currency))
             if quote.discountPercent > 0 {
-                summaryRow(i18n.t("boost.discount"), "-\(quote.subtotal - quote.total) MAD", color: Color.soukmarPrimary)
+                summaryRow(i18n.t("boost.discount"), "-" + money(quote.subtotal - quote.total, currency: currency), color: Color.soukmarPrimary)
             }
             Divider().padding(.vertical, 4)
-            summaryRow(i18n.t("boost.total"), "\(quote.total) MAD", bold: true)
+            summaryRow(i18n.t("boost.total"), money(quote.total, currency: currency), bold: true)
 
             Text(i18n.t("boost.payment_note")).font(.caption).foregroundStyle(.secondary).padding(.top, 6)
 
@@ -166,6 +174,7 @@ struct BoostListingView: View {
 
 private struct TierRow: View {
     let tier: BoostTier
+    let price: String
     let selected: Bool
     let activeUntil: String?
     let onToggle: () -> Void
@@ -188,7 +197,7 @@ private struct TierRow: View {
                     HStack {
                         Text(i18n.t("boost.tier_\(tier.id.rawValue)_name")).font(.subheadline.weight(.bold)).foregroundStyle(.primary)
                         Spacer()
-                        Text("\(tier.priceMAD) MAD").font(.subheadline.weight(.bold)).foregroundStyle(.primary)
+                        Text(price).font(.subheadline.weight(.bold)).foregroundStyle(.primary)
                     }
                     Text(i18n.t("boost.tier_\(tier.id.rawValue)_desc")).font(.caption).foregroundStyle(.secondary)
                     HStack(spacing: 6) {

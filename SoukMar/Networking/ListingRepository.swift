@@ -39,6 +39,16 @@ final class ListingRepository {
         }
     }
 
+    /// City-field suggestions; a best-effort convenience, so errors just mean no suggestions.
+    func searchPlaces(country: String, query: String) async -> [PlaceHit] {
+        do {
+            let hits: [PlaceHit] = try await api.send(path: "places", query: ["country": country, "q": query, "limit": "30"])
+            return hits
+        } catch {
+            return []
+        }
+    }
+
     func getFavorites() async -> Result<[ListingDto], APIError> {
         do {
             let response: [ListingDto] = try await api.send(path: "favorites")

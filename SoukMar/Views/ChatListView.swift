@@ -49,6 +49,7 @@ struct ChatListView: View {
 private struct ConversationRow: View {
     let conv: ConversationDto
     let myId: String?
+    @ObservedObject private var i18n = I18nRepository.shared
 
     private var name: String { conv.partnerName(myId: myId) }
 
@@ -69,10 +70,10 @@ private struct ConversationRow: View {
     }
 
     private var lastMessagePreview: String {
-        guard let last = conv.messages.first else { return "Aucun message" }
+        guard let last = conv.messages.first else { return i18n.t("chat.no_message") }
         if last.type == "OFFER" {
             let amount = last.offerAmount.map { $0 == $0.rounded() ? String(Int($0)) : String($0) } ?? ""
-            return "Offre: \(amount) MAD"
+            return i18n.t("chat.offer_short", ["amount": amount, "currency": conv.listing.currency])
         }
         return String(last.content.prefix(40))
     }
