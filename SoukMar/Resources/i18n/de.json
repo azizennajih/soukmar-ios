@@ -71,7 +71,8 @@
     "cat_group_mobility": "Unterwegs",
     "cat_group_family": "Familie und mehr",
     "category_count": "{count} Anzeigen",
-    "category_count_one": "1 Anzeige"
+    "category_count_one": "1 Anzeige",
+    "popular_cities": "Beliebte Städte"
   },
   "annonces": {
     "title": "Alle Anzeigen",
@@ -123,7 +124,8 @@
     "view_mode": "Ansicht",
     "view_list": "Liste",
     "view_map": "Karte",
-    "map_missing_location": "{count} Anzeige(n) ohne Standort werden auf der Karte nicht angezeigt."
+    "map_missing_location": "{count} Anzeige(n) ohne Standort werden auf der Karte nicht angezeigt.",
+    "other_countries_hint": "Noch keine Anzeigen in {country} – hier siehst du Anzeigen aus anderen Ländern."
   },
   "listing": {
     "loading": "Lädt...",
@@ -229,7 +231,8 @@
     "call_mute": "Stummschalten",
     "call_unmute": "Stummschaltung aufheben",
     "call_mic_denied": "Mikrofonzugriff verweigert. Bitte in den Browsereinstellungen erlauben.",
-    "call_failed": "Anruf fehlgeschlagen."
+    "call_failed": "Anruf fehlgeschlagen.",
+    "listing_unavailable": "Diese Anzeige ist nicht mehr verfügbar."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -374,7 +377,8 @@
     "clear": "Löschen",
     "toggle_premium": "Premium umschalten",
     "show_password": "Passwort anzeigen",
-    "hide_password": "Passwort verbergen"
+    "hide_password": "Passwort verbergen",
+    "confirm": "Bestätigen"
   },
   "premium": {
     "badge": "Anzeigen boosten",
@@ -1759,5 +1763,11 @@
   "seo": {
     "default_title": "SouqMar24 — Kaufen und verkaufen, ganz einfach",
     "default_description": "SouqMar24 — der Marktplatz für Kleinanzeigen: Fahrzeuge, Immobilien, Elektronik, Mode und vieles mehr in deiner Nähe."
+  },
+  "not_found": {
+    "title": "Seite nicht gefunden",
+    "body": "Diese Seite gibt es nicht (mehr). Vielleicht wurde die Anzeige gelöscht oder der Link ist falsch.",
+    "home": "Zur Startseite",
+    "browse": "Anzeigen durchsuchen"
   }
 }

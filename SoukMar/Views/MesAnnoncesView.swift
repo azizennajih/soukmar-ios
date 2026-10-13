@@ -193,7 +193,7 @@ private struct ListingRow: View {
                             Image(systemName: "clock").font(.system(size: 10))
                             Text("\(i18n.timeAgoT(listing.createdAt)) ·")
                             Image(systemName: "mappin").font(.system(size: 10))
-                            Text(listing.city)
+                            Text(cityLabel(listing.city, lang: I18nRepository.shared.currentLang))
                         }
                         .font(.caption2)
                         .foregroundStyle(Color.soukmarTextMuted)

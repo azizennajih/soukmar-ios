@@ -46,6 +46,9 @@ final class ListingsViewModel: ObservableObject {
     @Published private(set) var error: String?
     private var page = 1
     @Published private(set) var hasMore = false
+    /// True while the list shows other countries' listings because the visitor's own country has none yet
+    /// (mirrors web's showingOtherCountries).
+    @Published private(set) var showingOtherCountries = false
 
     @Published var showSaveSearchForm = false
     @Published var newSearchName = ""
@@ -211,7 +214,8 @@ final class ListingsViewModel: ObservableObject {
     }
 
     private func buildParams(targetPage: Int) -> [String: String] {
-        var params: [String: String] = ["page": "\(targetPage)", "limit": "20", "country": country]
+        var params: [String: String] = ["page": "\(targetPage)", "limit": "20"]
+        if !showingOtherCountries { params["country"] = country }
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedQuery.isEmpty { params["q"] = trimmedQuery }
         if let selectedCategory { params["category"] = selectedCategory }
@@ -246,12 +250,28 @@ final class ListingsViewModel: ObservableObject {
         search()
     }
 
+    /// A plain browse of the portal (optionally one category) — no search, filter, price or place narrowing.
+    private var isPlainBrowse: Bool {
+        query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedSubcategoryId == nil && selectedCondition == nil
+            && selectedAccountType == nil && minPrice.isEmpty && maxPrice.isEmpty && lat == nil
+            && attrSelections.values.allSatisfy { $0.isEmpty } && attrRanges.values.allSatisfy { $0.min.isEmpty && $0.max.isEmpty }
+    }
+
     func search() {
         page = 1
         loading = true
         error = nil
+        showingOtherCountries = false
         Task {
-            switch await listingRepository.getListings(params: buildParams(targetPage: 1)) {
+            var result = await listingRepository.getListings(params: buildParams(targetPage: 1))
+            // A visitor from a country without listings would face an empty page: show the other countries' listings
+            // instead, with a hint (web does the same, see annonces.component.ts).
+            if case .success(let first) = result, first.total == 0, isPlainBrowse {
+                showingOtherCountries = true
+                let other = await listingRepository.getListings(params: buildParams(targetPage: 1))
+                if case .success(let data) = other, data.total > 0 { result = other } else { showingOtherCountries = false }
+            }
+            switch result {
             case .success(let data):
                 listings = data.listings
                 hasMore = data.page < data.pages

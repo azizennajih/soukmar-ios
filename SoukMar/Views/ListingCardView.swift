@@ -76,7 +76,7 @@ struct ListingCardView: View {
             }
 
             HStack(spacing: 4) {
-                Text(listing.city)
+                Text(cityLabel(listing.city, lang: I18nRepository.shared.currentLang))
                 // Only shown for non-Morocco listings — Morocco is the
                 // overwhelming majority, so a foreign listing is the one
                 // worth calling out while browsing. Mirrors web's foreignFlag.

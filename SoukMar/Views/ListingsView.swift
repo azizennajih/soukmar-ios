@@ -37,6 +37,14 @@ struct ListingsView: View {
                 viewModeToggle
             }
 
+            if viewModel.showingOtherCountries && !viewModel.listings.isEmpty {
+                Text(i18n.t("annonces.other_countries_hint", ["country": Locale(identifier: i18n.currentLang).localizedString(forRegionCode: viewModel.country) ?? viewModel.country]))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 6)
+            }
+
             if viewModel.loading && viewModel.listings.isEmpty {
                 Spacer()
                 ProgressView()

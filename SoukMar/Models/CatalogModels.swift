@@ -163,6 +163,11 @@ func localeForLang(_ lang: String) -> Locale {
     case "de": return Locale(identifier: "de_DE")
     case "es": return Locale(identifier: "es_ES")
     case "it": return Locale(identifier: "it_IT")
+    case "pt": return Locale(identifier: "pt_BR")
+    case "tr": return Locale(identifier: "tr_TR")
+    case "fa": return Locale(identifier: "fa_IR")
+    case "ur": return Locale(identifier: "ur_PK")
+    case "ps": return Locale(identifier: "ps_AF")
     default: return Locale(identifier: "fr_FR")
     }
 }

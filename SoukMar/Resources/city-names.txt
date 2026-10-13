@@ -1,0 +1,505 @@
+# Stored name|de|fr|es|it|ar  (empty slot = same as the stored name). Copied from soukmar/src/app/models/city-names.ts
+Marrakech|Marrakesch
+Fès|Fes
+Meknès|Meknes
+Tanger|Tanger||Tánger|Tangeri
+Tétouan|Tetuan||Tetuán
+Al Hoceïma|Al Hoceima||Alhucemas|Al Hoceima
+Chefchaouen|||Chauen
+Essaouira|||Esauira
+Munich|München||Múnich|Monaco di Baviera|ميونخ
+Cologne|Köln||Colonia|Colonia|كولونيا
+Nuremberg|Nürnberg||Núremberg|Norimberga|نورنبيرغ
+Frankfurt||Francfort|Fráncfort|Francoforte|فرانكفورت
+Hamburg||Hambourg|Hamburgo|Amburgo|هامبورغ
+Berlin|||||برلين
+Hannover||Hanovre|||هانوفر
+Dresden||Dresde||Dresda|درسدن
+Leipzig||||Lipsia|لايبزيغ
+Aachen||Aix-la-Chapelle|Aquisgrán|Aquisgrana|آخن
+Mainz||Mayence|Maguncia|Magonza|ماينس
+Düsseldorf|||||دوسلدورف
+Stuttgart|||||شتوتغارت
+Dortmund|||||دورتموند
+Essen|||||إيسن
+Bremen|||||بريمن
+Cologne|Köln||Colonia|Colonia|كولونيا
+Braunschweig||Brunswick|Brunswick|Brunswick
+Zurich|Zürich||Zúrich|Zurigo|زيورخ
+Geneva|Genf|Genève|Ginebra|Ginevra|جنيف
+Basel||Bâle|Basilea|Basilea|بازل
+Lausanne|||Lausana|Losanna|لوزان
+Bern||Berne|Berna|Berna|برن
+Lucerne|Luzern||Lucerna|Lucerna|لوسيرن
+St. Gallen||Saint-Gall|San Galo|San Gallo
+Lugano|||||لوغانو
+Fribourg|Freiburg||Friburgo|Friburgo
+Neuchâtel|Neuenburg
+Sion|Sitten
+Chur||Coire|Coira|Coira
+Schaffhausen||Schaffhouse||Sciaffusa
+Thun||Thoune
+Vienna|Wien|Vienne|Viena|Vienna|فيينا
+Salzburg||Salzbourg|Salzburgo|Salisburgo|سالزبورغ
+Innsbruck|||||إنسبروك
+Graz|||||غراتس
+Sankt Pölten|||||
+Brussels|Brüssel|Bruxelles|Bruselas|Bruxelles|بروكسل
+Antwerp|Antwerpen|Anvers|Amberes|Anversa|أنتويرب
+Ghent|Gent|Gand|Gante|Gand|غنت
+Bruges|Brügge||Brujas||بروج
+Liège|Lüttich||Lieja|Liegi|لييج
+Mons|Bergen
+Ostend|Ostende||Ostende|Ostenda
+Tournai|Doornik
+Leuven|Löwen|Louvain|Lovaina|Lovanio
+Mechelen|Mecheln|Malines|Malinas|Malines
+Kortrijk||Courtrai||Courtrai
+Luxembourg City|Luxemburg|Luxembourg|Luxemburgo|Lussemburgo|لوكسمبورغ
+Amsterdam|||||أمستردام
+Rotterdam|||||روتردام
+The Hague|Den Haag|La Haye|La Haya|L'Aia|لاهاي
+Utrecht|||||أوترخت
+Nijmegen|Nimwegen|Nimègue|Nimega|Nimega
+Arnhem|Arnheim
+Leiden||Leyde||Leida
+London||Londres|Londres|Londra|لندن
+Edinburgh||Édimbourg|Edimburgo|Edimburgo|إدنبرة
+Glasgow|||||غلاسكو
+Birmingham|||||برمنغهام
+Manchester|||||مانشستر
+Liverpool|||||ليفربول
+Newcastle upon Tyne||Newcastle|Newcastle|Newcastle
+Dublin||| Dublín|Dublino|دبلن
+Paris|||||باريس
+Marseille|||Marsella|Marsiglia|مرسيليا
+Lyon|||||ليون
+Nice|Nizza||Niza|Nizza|نيس
+Strasbourg|Straßburg||Estrasburgo|Strasburgo|ستراسبورغ
+Bordeaux|||Burdeos||بوردو
+Toulouse|||Tolosa||تولوز
+Lille|||Lila|Lilla
+Mulhouse|Mülhausen
+Avignon|||Aviñón|Avignone
+Perpignan|||Perpiñán|Perpignano
+Rouen|||Ruan
+Grenoble
+Madrid|||||مدريد
+Barcelona||Barcelone||Barcellona|برشلونة
+Valencia||Valence|||فالنسيا
+Sevilla||Séville||Siviglia|إشبيلية
+Zaragoza|Saragossa|Saragosse||Saragozza|سرقسطة
+Malaga|Málaga||Málaga||مالقة
+Murcia|||||مرسية
+Bilbao|||||بلباو
+Córdoba||Cordoue||Cordova|قرطبة
+Granada||Grenade|||غرناطة
+Pamplona||Pampelune
+San Sebastián||Saint-Sébastien
+Cádiz||Cadix||Cadice
+Lleida||Lérida|Lérida
+A Coruña|La Coruña|La Corogne|La Coruña|La Coruña
+Lisbon|Lissabon|Lisbonne|Lisboa|Lisbona|لشبونة
+Porto|||Oporto|Oporto|بورتو
+Coimbra|||Coímbra
+Rome|Rom|Rome|Roma|Roma|روما
+Milan|Mailand||Milán|Milano|ميلانو
+Naples|Neapel||Nápoles|Napoli|نابولي
+Turin||||Torino|تورينو
+Genoa|Genua|Gênes|Génova|Genova|جنوة
+Florence|Florenz||Florencia|Firenze|فلورنسا
+Venice|Venedig|Venise|Venecia|Venezia|البندقية
+Padua||Padoue||Padova
+Syracuse|Syrakus||Siracusa|Siracusa
+Bologna||Bologne|Bolonia||بولونيا
+Verona|||||فيرونا
+Palermo|||||باليرمو
+Messina||Messine|Mesina
+Trieste|Triest
+Bolzano|Bozen
+Trento|Trient|Trente
+Modena||Modène|Módena
+Ravenna||Ravenne|Rávena
+Perugia||Pérouse
+Livorno||Livourne
+Taranto|Tarent|Tarente|Tarento
+Piacenza||Plaisance
+Ferrara||Ferrare
+Athens|Athen|Athènes|Atenas|Atene|أثينا
+Thessaloniki||Thessalonique|Salónica|Salonicco|سالونيك
+Patras|||||باتراس
+Heraklion|Iraklio|Héraklion|Heraclión||هيراكليون
+Rhodes|Rhodos||Rodas|Rodi|رودس
+Chania||La Canée|La Canea|La Canea
+Larissa|Larisa||Larisa
+Copenhagen|Kopenhagen|Copenhague|Copenhague|Copenaghen|كوبنهاغن
+Gothenburg|Göteborg||Gotemburgo|Göteborg|غوتنبرغ
+Stockholm|||Estocolmo|Stoccolma|ستوكهولم
+Oslo|||||أوسلو
+Helsinki|||||هلسنكي
+Reykjavík|||Reikiavik|Reykjavik|ريكيافيك
+Warsaw|Warschau|Varsovie|Varsovia|Varsavia|وارسو
+Kraków|Krakau|Cracovie|Cracovia|Cracovia|كراكوف
+Łódź|Lodz||Lodz
+Wrocław|Breslau||Breslavia|Breslavia
+Poznań|Posen
+Gdańsk|Danzig||Gdansk|Danzica
+Szczecin|Stettin|||Stettino
+Katowice|Kattowitz
+Bydgoszcz|Bromberg
+Toruń|Thorn
+Częstochowa|Tschenstochau||Czestochowa
+Opole|Oppeln
+Prague|Prag|Prague|Praga|Praga|براغ
+Brno|Brünn
+Ostrava|Ostrau
+Plzeň|Pilsen||Pilsen|Pilsen
+Olomouc|Olmütz
+České Budějovice|Budweis
+Liberec|Reichenberg
+Hradec Králové|Königgrätz
+Ústí nad Labem|Aussig
+Bratislava|Pressburg
+Košice|Kaschau
+Prešov|Eperies
+Budapest|||||بودابست
+Pécs|Fünfkirchen
+Győr|Raab
+Szeged|Szegedin
+Székesfehérvár|Stuhlweißenburg
+Bucharest|Bukarest|Bucarest|Bucarest|Bucarest|بوخارست
+Cluj-Napoca|Klausenburg
+Timișoara|Temeswar||Timisoara
+Iași|Jassy
+Constanța|Konstanza||Constanza|Costanza
+Brașov|Kronstadt
+Sibiu|Hermannstadt
+Oradea|Großwardein
+Galați|Galatz
+Sofia|||Sofía||صوفيا
+Plovdiv|Plowdiw
+Varna|Warna
+Ruse|Russe|Roussé
+Zagreb|Agram|||Zagabria|زغرب
+Split|||||سبليت
+Rijeka||||Fiume
+Osijek|Esseg
+Zadar|Zara|||Zara
+Pula|Pola|||Pola
+Ljubljana|Laibach||Liubliana|Lubiana
+Maribor|Marburg an der Drau
+Celje|Cilli
+Koper|Capodistria|||Capodistria
+Belgrade|Belgrad||Belgrado|Belgrado|بلغراد
+Novi Sad|Neusatz
+Niš|Nisch
+Sarajevo|||||سراييفو
+Skopje|||Skopie||سكوبيي
+Bitola|Monastir
+Ohrid||||Ocrida
+Tirana|||||تيرانا
+Durrës||||Durazzo
+Shkodër|Skutari||||
+Vlorë|Vlora||Vlora|Valona
+Pristina|Priština||||بريشتينا
+Vilnius|Wilna||Vilna||فيلنيوس
+Klaipėda|Memel||Klaipeda
+Riga|||||ريغا
+Daugavpils|Dünaburg
+Liepāja|Libau
+Tallinn|||Tallin||تالين
+Tartu|Dorpat
+Pärnu|Pernau
+Chișinău|||Chisináu||كيشيناو
+Kyiv|Kiew||Kiev|Kiev|كييف
+Kharkiv|Charkiw||Járkov|Charkiv|خاركيف
+Odesa|Odessa|Odessa||Odessa|أوديسا
+Lviv|Lemberg||Leópolis|Leopoli|لفيف
+Donetsk|Donezk
+Zaporizhzhia|Saporischschja|Zaporijia|Zaporiyia|Zaporižžja
+Mykolaiv|Mykolajiw|Mykolaïv|Nikolaiev|Mykolaïv
+Chernihiv|Tschernihiw|Tchernihiv|Chernígov|Černihiv
+Kryvyi Rih|Kriwoi Rog
+Minsk|||||مينسك
+Gomel|Homel
+Mogilev|Mahiljou
+Vitebsk|Witebsk
+Grodno|Hrodna
+Moscow|Moskau|Moscou|Moscú|Mosca|موسكو
+Saint Petersburg|Sankt Petersburg|Saint-Pétersbourg|San Petersburgo|San Pietroburgo|سانت بطرسبرغ
+Novosibirsk|Nowosibirsk|Novossibirsk
+Yekaterinburg|Jekaterinburg|Ekaterinbourg|Ekaterimburgo|Ekaterinburg
+Kazan|Kasan||Kazán|Kazan'
+Nizhny Novgorod|Nischni Nowgorod|Nijni Novgorod|Nizhni Nóvgorod|Nižnij Novgorod
+Chelyabinsk|Tscheljabinsk
+Rostov-on-Don|Rostow am Don|Rostov-sur-le-Don|Rostov del Don|Rostov sul Don
+Krasnoyarsk|Krasnojarsk
+Voronezh|Woronesch
+Volgograd|Wolgograd
+Valletta|||||فاليتا
+Nicosia|Nikosia|Nicosie|||نيقوسيا
+Limassol|||Limasol||ليماسول
+Larnaca|Larnaka||||لارنكا
+Famagusta||Famagouste||Famagosta
+Paphos|||Pafos|Pafo|بافوس
+Andorra la Vella||Andorre-la-Vieille|Andorra la Vieja||أندورا لا فيلا
+Vatican City|Vatikanstadt|Cité du Vatican|Ciudad del Vaticano|Città del Vaticano|مدينة الفاتيكان
+San Marino City|San Marino|Saint-Marin|San Marino|San Marino|سان مارينو
+Istanbul||||İstanbul|إسطنبول
+Ankara|||||أنقرة
+Izmir|||Esmirna|Smirne|إزمير
+Bursa|||||بورصة
+Antalya|||||أنطاليا
+Adana|||||أضنة
+Konya|||||قونية
+Gaziantep|||||غازي عنتاب
+Mersin|||||مرسين
+Jerusalem||Jérusalem|Jerusalén|Gerusalemme|القدس
+Tel Aviv|||||تل أبيب
+Haifa|||||حيفا
+Beersheba|Be'er Scheva|Beer-Sheva|Beerseba|Beer Sheva|بئر السبع
+Gaza|||||غزة
+Ramallah|||||رام الله
+Hebron||Hébron|Hebrón|Hebron|الخليل
+Nablus||Naplouse|||نابلس
+Bethlehem||Bethléem|Belén|Betlemme|بيت لحم
+Amman|||Amán||عمّان
+Beirut||Beyrouth|||بيروت
+Tripoli|Tripolis||Trípoli||طرابلس
+Sidon||Saïda|Sidón|Sidone|صيدا
+Tyre|Tyros|Tyr|Tiro|Tiro|صور
+Byblos|||Biblos|Biblo|جبيل
+Damascus|Damaskus|Damas|Damasco|Damasco|دمشق
+Aleppo||Alep|Alepo||حلب
+Homs|||||حمص
+Latakia||Lattaquié|||اللاذقية
+Baghdad|Bagdad||Bagdad||بغداد
+Basra||Bassora|Basora|Bassora|البصرة
+Mosul|Mossul|Mossoul|||الموصل
+Erbil|||||أربيل
+Riyadh|Riad|Riyad|Riad||الرياض
+Jeddah|Dschidda|Djeddah|Yeda|Gedda|جدة
+Mecca|Mekka|La Mecque|La Meca|La Mecca|مكة المكرمة
+Medina||Médine|||المدينة المنورة
+Dammam|||||الدمام
+Sanaa|||Saná|Sana'a|صنعاء
+Aden|||Adén||عدن
+Muscat|Maskat|Mascate|Mascate|Mascate|مسقط
+Dubai||Dubaï|Dubái||دبي
+Abu Dhabi|||Abu Dabi||أبو ظبي
+Sharjah|Schardscha|Charjah||Sharja|الشارقة
+Doha|||||الدوحة
+Manama|||||المنامة
+Kuwait City|Kuwait-Stadt|Koweït|Ciudad de Kuwait||مدينة الكويت
+Tehran|Teheran|Téhéran|Teherán|Teheran|طهران
+Mashhad|Meschhed|Mechhed|||مشهد
+Isfahan||Ispahan|Isfahán||أصفهان
+Shiraz||Chiraz|||شيراز
+Tabriz|Täbris|||| تبريز
+Qom|Ghom|||| قم
+Kabul||Kaboul|||كابل
+Kandahar|||||قندهار
+Herat|||||هرات
+Karachi|||||كراتشي
+Lahore|||||لاهور
+Islamabad|||||إسلام آباد
+Peshawar|||||بيشاور
+Mumbai||Bombay|Bombay|Bombay|مومباي
+Delhi|||||دلهي
+Bengaluru|Bangalore|Bangalore|Bangalore|Bangalore|بنغالور
+Chennai|Madras|Madras|Madrás|Madras|تشيناي
+Kolkata|Kalkutta|Calcutta|Calcuta|Calcutta|كولكاتا
+Hyderabad|||||حيدر أباد
+Dhaka||Dacca|Daca|Dacca|دكا
+Colombo|||||كولومبو
+Kathmandu||Katmandou|Katmandú||كاتماندو
+Yangon|Rangun|Rangoun|Rangún|Rangoon|يانغون
+Bangkok|||||بانكوك
+Ho Chi Minh City|Ho-Chi-Minh-Stadt|Hô Chi Minh-Ville|Ciudad Ho Chi Minh|Ho Chi Minh|مدينة هو تشي منه
+Hanoi||Hanoï|Hanói||هانوي
+Phnom Penh|||Nom Pen||بنوم بنه
+Kuala Lumpur|||||كوالالمبور
+Singapore|Singapur|Singapour|Singapur||سنغافورة
+Jakarta|||||جاكرتا
+Manila||Manille|||مانيلا
+Beijing|Peking|Pékin|Pekín|Pechino|بكين
+Shanghai|||Shanghái||شنغهاي
+Guangzhou|Kanton|Canton|Cantón|Canton|قوانغتشو
+Shenzhen|||||شنتشن
+Chengdu|||Chengdú||تشنغدو
+Tianjin|Tientsin|||Tientsin|تيانجين
+Wuhan|||||ووهان
+Hangzhou|||||هانغتشو
+Nanjing|Nanking|Nankin|Nankín|Nanchino|نانجينغ
+Qingdao|Tsingtau|||| تشينغداو
+Tokyo|||Tokio||طوكيو
+Osaka|||||أوساكا
+Kyoto|||Kioto||كيوتو
+Yokohama|||||يوكوهاما
+Nagoya|||||ناغويا
+Seoul||Séoul|Seúl|Seul|سيول
+Busan|||||بوسان
+Pyongyang|Pjöngjang||Pionyang||بيونغ يانغ
+Ulaanbaatar||Oulan-Bator|Ulán Bator||أولان باتور
+Taipei|Taipeh||Taipéi||تايبيه
+Macau||Macao|Macao|Macao|ماكاو
+Almaty|||||ألماتي
+Astana|||||أستانا
+Tashkent|Taschkent|Tachkent|Taskent||طشقند
+Samarkand||Samarcande|Samarcanda|Samarcanda|سمرقند
+Bukhara|Buchara|Boukhara|Bujará||بخارى
+Yerevan|Eriwan|Erevan|Ereván|Erevan|يريفان
+Baku||Bakou|Bakú||باكو
+Tbilisi||Tbilissi|Tiflis||تبليسي
+Batumi||Batoumi|||باتومي
+Cairo|Kairo|Le Caire|El Cairo|Il Cairo|القاهرة
+Alexandria||Alexandrie|Alejandría|Alessandria d'Egitto|الإسكندرية
+Giza|Gizeh|Gizeh|Guiza||الجيزة
+Port Said||Port-Saïd||Porto Said|بورسعيد
+Suez|||||السويس
+Luxor||Louxor|||الأقصر
+Aswan|Assuan|Assouan|Asuán|Assuan|أسوان
+Damietta||Damiette|Damieta||دمياط
+Hurghada|||||الغردقة
+Algiers|Algier|Alger|Argel|Algeri|الجزائر
+Oran|||Orán|Orano|وهران
+Constantine|Konstantine||Constantina|Costantina|قسنطينة
+Annaba|||||عنابة
+Blida|||||البليدة
+Sétif|||||سطيف
+Tlemcen|||||تلمسان
+Béjaïa|||Bugía|Bugia|بجاية
+Tunis|||Túnez|Tunisi|تونس
+Sfax|||||صفاقس
+Sousse|||Susa|Susa|سوسة
+Kairouan|||Kairuán||القيروان
+Bizerte|Biserta||Bizerta|Biserta|بنزرت
+Tripoli|Tripolis||Trípoli||طرابلس
+Benghazi|Bengasi||Bengasi|Bengasi|بنغازي
+Misrata|||||مصراتة
+Tobruk||Tobrouk|||طبرق
+Sirte||Syrte|||سرت
+Nouakchott|||||نواكشوط
+Khartoum||| Jartum|Khartum|الخرطوم
+Omdurman|||||أم درمان
+Mogadishu|Mogadischu|Mogadiscio|Mogadiscio|Mogadiscio|مقديشو
+Djibouti City|Dschibuti|Djibouti|Yibuti|Gibuti|جيبوتي
+Asmara|||||أسمرة
+Moroni|||||موروني
+Dakar|||||داكار
+Bamako|||||باماكو
+Niamey|||||نيامي
+Ouagadougou|||||واغادوغو
+Abidjan|||||أبيدجان
+Yamoussoukro|||||ياموسوكرو
+Accra|||||أكرا
+Lagos|||||لاغوس
+Abuja|||||أبوجا
+Kano|||||كانو
+Douala|||||دوالا
+Yaoundé|||||ياوندي
+Conakry|||||كوناكري
+Freetown|||||فريتاون
+Monrovia|||||مونروفيا
+Lomé|||||لومي
+Cotonou|||||كوتونو
+Porto-Novo|||||بورتو نوفو
+Libreville|||||ليبرفيل
+Brazzaville|||||برازافيل
+Kinshasa|||||كينشاسا
+Lubumbashi|||||لوبومباشي
+Luanda|||||لواندا
+Lusaka|||||لوساكا
+Harare|||||هراري
+Maputo|||||مابوتو
+Kampala|||||كمبالا
+Kigali|||||كيغالي
+Bujumbura|||||بوجمبورا
+Nairobi|||||نيروبي
+Addis Ababa|Addis Abeba|Addis-Abeba|Adís Abeba|Addis Abeba|أديس أبابا
+Dar es Salaam|Daressalam|Dar es-Salaam|||دار السلام
+Dodoma|||||دودوما
+Zanzibar City|Sansibar|Zanzibar|Zanzíbar||زنجبار
+Timbuktu||Tombouctou|Tombuctú|Timbuctù|تمبكتو
+Johannesburg|||Johannesburgo||جوهانسبرغ
+Cape Town|Kapstadt|Le Cap|Ciudad del Cabo|Città del Capo|كيب تاون
+Pretoria|||||بريتوريا
+Durban|||||دوربان
+Windhoek|Windhuk||||ويندهوك
+Gaborone|||||غابورون
+Maseru|||||ماسيرو
+Mbabane|||||مبابان
+Antananarivo|||||أنتاناناريفو
+Port Louis|||||بورت لويس
+Lilongwe|||||ليلونغوي
+Juba|||||جوبا
+Bangui|||||بانغي
+Malabo|||||مالابو
+Banjul|||||بانجول
+Bissau|||||بيساو
+Praia|||||برايا
+New York||||New York|نيويورك
+Los Angeles|||||لوس أنجلوس
+Chicago|||||شيكاغو
+Houston|||||هيوستن
+Philadelphia||Philadelphie|Filadelfia|Filadelfia|فيلادلفيا
+San Francisco|||||سان فرانسيسكو
+Washington|||||واشنطن
+Boston|||||بوسطن
+Miami|||||ميامي
+Las Vegas|||||لاس فيغاس
+Seattle|||||سياتل
+Dallas|||||دالاس
+Atlanta|||||أتلانتا
+Detroit|||||ديترويت
+Denver|||||دنفر
+Phoenix|||||فينيكس
+San Diego|||||سان دييغو
+Toronto|||||تورونتو
+Montreal|Montréal|Montréal||Montréal|مونتريال
+Vancouver|||||فانكوفر
+Ottawa|||||أوتاوا
+Quebec City|Québec|Québec|Quebec|Québec|مدينة كيبك
+Calgary|||||كالغاري
+Edmonton|||||إدمونتون
+Winnipeg|||||وينيبيغ
+Halifax|||||هاليفاكس
+Mexico City|Mexiko-Stadt|Mexico|Ciudad de México|Città del Messico|مكسيكو سيتي
+Guadalajara|||||غوادالاخارا
+Monterrey|||||مونتيري
+Tijuana|||||تيخوانا
+Cancún|||||كانكون
+Guatemala City|Guatemala-Stadt|Guatemala|Ciudad de Guatemala|Città del Guatemala|مدينة غواتيمالا
+Belize City|Belize-Stadt||Ciudad de Belice
+San Salvador|||||سان سلفادور
+Tegucigalpa|||||تيغوسيغالبا
+Managua|||||ماناغوا
+San José|||||سان خوسيه
+Panama City|Panama-Stadt|Panama|Ciudad de Panamá|Città di Panama|مدينة بنما
+Havana|Havanna|La Havane|La Habana|L'Avana|هافانا
+Kingston|||||كينغستون
+Port-au-Prince|||||بورت أو برنس
+Santo Domingo|||||سانتو دومينغو
+Nassau|||||ناساو
+São Paulo|||||ساو باولو
+Rio de Janeiro||||| ريو دي جانيرو
+Brasília|||||برازيليا
+Salvador|||||سلفادور
+Buenos Aires|||||بوينس آيرس
+Santiago|||||سانتياغو
+Bogotá|||||بوغوتا
+Medellín|||||ميديين
+Lima|||||ليما
+Caracas|||||كاراكاس
+Quito|||||كيتو
+La Paz|||||لاباز
+Asunción|||||أسونسيون
+Montevideo|||||مونتيفيديو
+Sydney|||Sídney||سيدني
+Melbourne|||||ملبورن
+Brisbane|||||بريزبان
+Perth|||||بيرث
+Adelaide|||||أديلايد
+Canberra|||||كانبيرا
+Auckland|||||أوكلاند
+Wellington|||||ويلينغتون

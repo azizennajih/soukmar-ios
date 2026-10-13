@@ -14,10 +14,18 @@ let SUPPORTED_LANGUAGES: [LanguageOption] = [
     LanguageOption(code: "de", flag: "🇩🇪", label: "DE"),
     LanguageOption(code: "es", flag: "🇪🇸", label: "ES"),
     LanguageOption(code: "it", flag: "🇮🇹", label: "IT"),
+    LanguageOption(code: "pt", flag: "🇧🇷", label: "PT"),
+    LanguageOption(code: "tr", flag: "🇹🇷", label: "TR"),
+    LanguageOption(code: "fa", flag: "🇮🇷", label: "فا"),
+    LanguageOption(code: "ur", flag: "🇵🇰", label: "اردو"),
+    LanguageOption(code: "ps", flag: "🇦🇫", label: "پښتو"),
 ]
 
+/// Right-to-left scripts among the supported languages — Arabic, Persian, Urdu and Pashto (mirrors web RTL_LANGS).
+let RTL_LANGUAGES: Set<String> = ["ar", "fa", "ur", "ps"]
+
 /// Ports the web app's I18nService 1:1 (same as soukmar-android's
-/// I18nRepository): same 6 languages, same JSON files (copied verbatim into
+/// I18nRepository): same 11 languages, same JSON files (copied verbatim into
 /// Resources/i18n/), same dotted-key nested-object lookup, same single-brace
 /// {param} interpolation, same fr fallback, same "missing key renders as the
 /// raw key" behavior (no per-key language fallback).
@@ -34,7 +42,7 @@ final class I18nRepository: ObservableObject {
 
     @Published private(set) var currentLang: String
 
-    var isRtl: Bool { currentLang == "ar" }
+    var isRtl: Bool { RTL_LANGUAGES.contains(currentLang) }
 
     private var dictionaries: [String: [String: Any]] = [:]
 

@@ -71,7 +71,8 @@
     "cat_group_mobility": "التنقل",
     "cat_group_family": "العائلة وأكثر",
     "category_count": "{count} إعلان",
-    "category_count_one": "إعلان واحد"
+    "category_count_one": "إعلان واحد",
+    "popular_cities": "مدن شائعة"
   },
   "annonces": {
     "title": "جميع الإعلانات",
@@ -123,7 +124,8 @@
     "view_mode": "وضع العرض",
     "view_list": "قائمة",
     "view_map": "خريطة",
-    "map_missing_location": "لا يتم عرض {count} إعلان (إعلانات) بدون موقع على الخريطة."
+    "map_missing_location": "لا يتم عرض {count} إعلان (إعلانات) بدون موقع على الخريطة.",
+    "other_countries_hint": "لا توجد إعلانات في {country} بعد – نعرض لك إعلانات من بلدان أخرى."
   },
   "listing": {
     "loading": "جارٍ التحميل...",
@@ -229,7 +231,8 @@
     "call_mute": "كتم الصوت",
     "call_unmute": "إلغاء كتم الصوت",
     "call_mic_denied": "تم رفض الوصول إلى الميكروفون. يرجى السماح به في إعدادات المتصفح.",
-    "call_failed": "فشلت المكالمة."
+    "call_failed": "فشلت المكالمة.",
+    "listing_unavailable": "هذا الإعلان لم يعد متاحًا."
   },
   "notifications": {
     "title": "الإشعارات",
@@ -868,7 +871,8 @@
     "clear": "مسح",
     "toggle_premium": "تفعيل/إلغاء المميز",
     "show_password": "إظهار كلمة المرور",
-    "hide_password": "إخفاء كلمة المرور"
+    "hide_password": "إخفاء كلمة المرور",
+    "confirm": "تأكيد"
   },
   "subcats": {
     "AUTO": "سيارة",
@@ -1759,5 +1763,11 @@
   "seo": {
     "default_title": "SouqMar24 — بيع واشترِ بسهولة",
     "default_description": "SouqMar24 — سوق الإعلانات المبوّبة: مركبات وعقارات وإلكترونيات وأزياء وأكثر بالقرب منك."
+  },
+  "not_found": {
+    "title": "الصفحة غير موجودة",
+    "body": "هذه الصفحة غير موجودة (أو لم تعد موجودة). ربما حُذف الإعلان أو أن الرابط غير صحيح.",
+    "home": "العودة إلى الصفحة الرئيسية",
+    "browse": "تصفّح الإعلانات"
   }
 }

@@ -71,7 +71,8 @@
     "cat_group_mobility": "On the move",
     "cat_group_family": "Family and more",
     "category_count": "{count} listings",
-    "category_count_one": "1 listing"
+    "category_count_one": "1 listing",
+    "popular_cities": "Popular cities"
   },
   "annonces": {
     "title": "All listings",
@@ -123,7 +124,8 @@
     "view_mode": "View mode",
     "view_list": "List",
     "view_map": "Map",
-    "map_missing_location": "{count} listing(s) without a location aren't shown on the map."
+    "map_missing_location": "{count} listing(s) without a location aren't shown on the map.",
+    "other_countries_hint": "No listings in {country} yet – showing listings from other countries."
   },
   "listing": {
     "loading": "Loading...",
@@ -229,7 +231,8 @@
     "call_mute": "Mute",
     "call_unmute": "Unmute",
     "call_mic_denied": "Microphone access denied. Please allow it in your browser settings.",
-    "call_failed": "Call failed."
+    "call_failed": "Call failed.",
+    "listing_unavailable": "This listing is no longer available."
   },
   "notifications": {
     "title": "Notifications",
@@ -868,7 +871,8 @@
     "clear": "Clear",
     "toggle_premium": "Toggle Premium",
     "show_password": "Show password",
-    "hide_password": "Hide password"
+    "hide_password": "Hide password",
+    "confirm": "Confirm"
   },
   "subcats": {
     "AUTO": "Car",
@@ -1759,5 +1763,11 @@
   "seo": {
     "default_title": "SouqMar24 — Buy and sell with ease",
     "default_description": "SouqMar24 — the classifieds marketplace: vehicles, real estate, electronics, fashion and much more near you."
+  },
+  "not_found": {
+    "title": "Page not found",
+    "body": "This page does not exist (any more). The listing may have been removed or the link is wrong.",
+    "home": "Go to the home page",
+    "browse": "Browse listings"
   }
 }

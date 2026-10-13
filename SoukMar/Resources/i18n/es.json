@@ -71,7 +71,8 @@
     "cat_group_mobility": "En movimiento",
     "cat_group_family": "Familia y más",
     "category_count": "{count} anuncios",
-    "category_count_one": "1 anuncio"
+    "category_count_one": "1 anuncio",
+    "popular_cities": "Ciudades populares"
   },
   "annonces": {
     "title": "Todos los anuncios",
@@ -123,7 +124,8 @@
     "view_mode": "Modo de visualización",
     "view_list": "Lista",
     "view_map": "Mapa",
-    "map_missing_location": "{count} anuncio(s) sin ubicación no se muestran en el mapa."
+    "map_missing_location": "{count} anuncio(s) sin ubicación no se muestran en el mapa.",
+    "other_countries_hint": "Aún no hay anuncios en {country}: te mostramos anuncios de otros países."
   },
   "listing": {
     "loading": "Cargando...",
@@ -229,7 +231,8 @@
     "call_mute": "Silenciar",
     "call_unmute": "Activar micrófono",
     "call_mic_denied": "Acceso al micrófono denegado. Actívalo en la configuración del navegador.",
-    "call_failed": "La llamada falló."
+    "call_failed": "La llamada falló.",
+    "listing_unavailable": "Este anuncio ya no está disponible."
   },
   "notifications": {
     "title": "Notificaciones",
@@ -374,7 +377,8 @@
     "clear": "Borrar",
     "toggle_premium": "Alternar Premium",
     "show_password": "Mostrar contraseña",
-    "hide_password": "Ocultar contraseña"
+    "hide_password": "Ocultar contraseña",
+    "confirm": "Confirmar"
   },
   "premium": {
     "badge": "Impulsa tus anuncios",
@@ -1759,5 +1763,11 @@
   "seo": {
     "default_title": "SouqMar24 — Compra y vende fácilmente",
     "default_description": "SouqMar24, el marketplace de anuncios clasificados: vehículos, inmobiliaria, electrónica, moda y mucho más cerca de ti."
+  },
+  "not_found": {
+    "title": "Página no encontrada",
+    "body": "Esta página no existe (o ya no existe). Puede que el anuncio se haya eliminado o que el enlace sea incorrecto.",
+    "home": "Ir a la página de inicio",
+    "browse": "Ver anuncios"
   }
 }

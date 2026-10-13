@@ -23,6 +23,8 @@ struct SoukMarLogo: View {
             }
             .font(.title3)
         }
+        // The wordmark is a brand: it always reads "S SouqMar24" left to right, also in RTL languages.
+        .environment(\.layoutDirection, .leftToRight)
     }
 }
 

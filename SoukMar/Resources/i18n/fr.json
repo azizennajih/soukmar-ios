@@ -71,7 +71,8 @@
     "cat_group_mobility": "Déplacements",
     "cat_group_family": "Famille et plus",
     "category_count": "{count} annonces",
-    "category_count_one": "1 annonce"
+    "category_count_one": "1 annonce",
+    "popular_cities": "Villes populaires"
   },
   "annonces": {
     "title": "Toutes les annonces",
@@ -123,7 +124,8 @@
     "view_mode": "Mode d'affichage",
     "view_list": "Liste",
     "view_map": "Carte",
-    "map_missing_location": "{count} annonce(s) sans localisation ne sont pas affichées sur la carte."
+    "map_missing_location": "{count} annonce(s) sans localisation ne sont pas affichées sur la carte.",
+    "other_countries_hint": "Pas encore d'annonces en {country} – voici des annonces d'autres pays."
   },
   "listing": {
     "loading": "Chargement...",
@@ -229,7 +231,8 @@
     "call_mute": "Couper le micro",
     "call_unmute": "Réactiver le micro",
     "call_mic_denied": "Accès au micro refusé. Veuillez l'autoriser dans les paramètres du navigateur.",
-    "call_failed": "L'appel a échoué."
+    "call_failed": "L'appel a échoué.",
+    "listing_unavailable": "Cette annonce n'est plus disponible."
   },
   "notifications": {
     "title": "Notifications",
@@ -1142,7 +1145,8 @@
     "clear": "Effacer",
     "toggle_premium": "Activer/désactiver Premium",
     "show_password": "Afficher le mot de passe",
-    "hide_password": "Masquer le mot de passe"
+    "hide_password": "Masquer le mot de passe",
+    "confirm": "Confirmer"
   },
   "premium": {
     "badge": "Boostez vos annonces",
@@ -1759,5 +1763,11 @@
   "seo": {
     "default_title": "SouqMar24 — Achetez et vendez facilement",
     "default_description": "SouqMar24, la marketplace de petites annonces : véhicules, immobilier, électronique, mode et plus encore près de chez vous."
+  },
+  "not_found": {
+    "title": "Page introuvable",
+    "body": "Cette page n'existe pas (ou plus). L'annonce a peut-être été supprimée ou le lien est incorrect.",
+    "home": "Retour à l'accueil",
+    "browse": "Parcourir les annonces"
   }
 }

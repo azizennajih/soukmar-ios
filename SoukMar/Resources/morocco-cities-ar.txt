@@ -1,0 +1,318 @@
+# Moroccan city|Arabic name (copied from soukmar-android CatalogModels.kt MOROCCO_CITIES_AR, itself from web listing.model.ts)
+Casablanca|الدار البيضاء
+Mohammedia|المحمدية
+El Jadida|الجديدة
+Settat|سطات
+Berrechid|برشيد
+Benslimane|بنسليمان
+Médiouna|مديونة
+Nouaceur|النواصر
+Bouskoura|بوسكورة
+Dar Bouazza|دار بوعزة
+Oulad Teima|أولاد تايمة
+Azemmour|أزمور
+Haouzia|الحوزية
+Sidi Bennour|سيدي بنور
+Khémis Zemamra|خميس الزمامرة
+Oulad Frej|أولاد فرج
+Bir Jdid|بير الجديد
+Lqliaa|القليعة
+Sidi Smail|سيدي اسماعيل
+Oulad Amrane|أولاد عمران
+Had Soualem|حد السوالم
+Echemmaia|الشماعية
+Sidi Rahhal|سيدي رحال
+Bouznika|بوزنيقة
+Benhmed|بنحمد
+Oulad Abbou|أولاد عبو
+Rabat|الرباط
+Salé|سلا
+Kénitra|القنيطرة
+Khémisset|الخميسات
+Sidi Kacem|سيدي قاسم
+Sidi Slimane|سيدي سليمان
+Sidi Yahia du Gharb|سيدي يحيى الغرب
+Lalla Mimouna|لالة ميمونة
+Mechra Bel Ksiri|مشرع بلقصيري
+Jorf El Melha|جرف الملحة
+Ouazzane|وزان
+Had Kourt|حد كورت
+Aïn Johra|عين جوهرة
+Tiflet|تيفلت
+Rommani|الرماني
+Maaziz|معزيز
+Souk el Arbaa|سوق الأربعاء
+Moulay Bousselham|مولاي بوسلهام
+Sidi Allal Tazi|سيدي علال التازي
+Arbaoua|أربعاوة
+Fès|فاس
+Meknès|مكناس
+Taza|تازة
+Ifrane|إفران
+Azrou|أزرو
+Moulay Yacoub|مولاي يعقوب
+El Hajeb|الحاجب
+Aïn Taoujdate|عين تاوجطات
+Missour|ميسور
+Boulemane|بولمان
+Guercif|جرسيف
+Sefrou|صفرو
+Imouzzer Kandar|إموزار كندر
+Almis Marmoucha|ألميس مرموشة
+Aïn Leuh|عين اللوح
+Boulmane du Dadès|بومالن دادس
+Tahla|تهلة
+Ain Bni Mathar|عين بني مطهر
+Itzer|إيتزر
+Rich|الريش
+Marrakech|مراكش
+Safi|آسفي
+Essaouira|الصويرة
+Kelaa des Sraghna|قلعة السراغنة
+Chichaoua|شيشاوة
+Youssoufia|اليوسفية
+Rehamna|الرحامنة
+Ben Guerir|بنجرير
+Tamansourt|تامنصورت
+Ait Ourir|أيت أورير
+Amizmiz|أمزميز
+Tahannaout|تحناوت
+Tahnaout|تحناوت
+Asni|أسني
+Tighedouine|تغدوين
+Ouarzazate|ورزازات
+Kelaa M'Gouna|قلعة مكونة
+Skoura|سكورة
+Agdz|أكدز
+Zagora|زاكورة
+M'Hamid|امحاميد
+Tinzouline|تنزولين
+Tamegroute|تامكروت
+Taroudant|تارودانت
+Aoulouz|أولوز
+Biougra|بيوكرى
+Aït Baha|أيت باها
+Massa|ماسة
+Imintanoute|إمنتانوت
+Imi n'Tlit|إيمي نتليت
+Agadir|أكادير
+Inezgane|إنزكان
+Aït Melloul|أيت ملول
+Tiznit|تزنيت
+Chtouka Aït Baha|الشتوكة أيت باها
+Bensergao|بنسركاو
+Drarga|دراركة
+Tafraout|تافراوت
+Sidi Ifni|سيدي إفني
+Guelmim|كلميم
+Tan-Tan|طانطان
+Sidi Bibi|سيدي بيبي
+Sebt Aït Ahmed|سبت أيت أحمد
+Oulad Dahou|أولاد داهو
+Aït Iaazza|أيت إيعزة
+Aït Amira|أيت عميرة
+Dcheira El Jihadia|الدشيرة الجهادية
+Tanger|طنجة
+Tétouan|تطوان
+Al Hoceïma|الحسيمة
+Chefchaouen|شفشاون
+Larache|العرائش
+Asilah|أصيلة
+Fnideq|الفنيدق
+Martil|مرتيل
+Mdiq|المضيق
+Oued Laou|واد لاو
+Bab Berred|باب برد
+Brikcha|بريكشة
+Jebha|جبها
+Targuist|تارجيست
+Imzouren|إمزورن
+Bni Bouayach|بني بوعياش
+Rif|الريف
+Ksar El Kébir|القصر الكبير
+Souk El Arbaa du Rharb|سوق الأربعاء الغرب
+Zouada|الزوادة
+Ain Defali|عين الدفالي
+Oujda|وجدة
+Nador|الناظور
+Berkane|بركان
+Taourirt|تاوريرت
+Jerada|جرادة
+Figuig|فكيك
+Bouarfa|بوعرفة
+Aïn Bni Mathar|عين بني مطهر
+Ras El Ma|رأس الماء
+Debdou|دبدو
+Aïn Sfa|عين الصفا
+Zaïo|زايو
+Selouane|سلوان
+Ben Taïeb|بن الطيب
+Saidia|السعيدية
+Aklim|أكليم
+Boudnib|بودنيب
+Guenfouda|قنفودة
+Ahfir|أحفير
+Garéat Ben Ouali|كارية بن علي
+Touissit|تويسيت
+Béni Mellal|بني ملال
+Khouribga|خريبكة
+Fquih Ben Salah|الفقيه بن صالح
+Azilal|أزيلال
+Kasba Tadla|قصبة تادلة
+Oued Zem|وادي زم
+Boujad|بوجاد
+El Ksiba|القصيبة
+Demnate|دمنات
+Aït Attab|أيت عتاب
+Bzou|بزو
+Rahhal|الرحالة
+Souk Sebt Oulad Nemma|سوق السبت أولاد النمة
+El Brouj|البروج
+Oulad Ayad|أولاد عياد
+Afourer|أفورار
+Bni Ayat|بني عياط
+Timoulilt|تيموليلت
+Errachidia|الرشيدية
+Tinghir|تنغير
+Midelt|ميدلت
+Er-Rich|الريش
+Goulmima|كلميمة
+Erfoud|أرفود
+Rissani|الريصاني
+Merzouga|مرزوكة
+Aoufous|أوفوس
+Arfoud|أرفود
+Jorf|الجرف
+Ksar Souk|قصر السوق
+Alnif|ألنيف
+Ghris|غريس
+Tinjdad|تنجداد
+Tinejdad|تنجداد
+Iknioun|إكنيون
+Laâyoune|العيون
+Boujdour|بوجدور
+Smara|السمارة
+Tarfaya|طرفاية
+Foum El Oued|فم الواد
+Dakhla|الداخلة
+Assa|أسا
+Zag|الزاك
+Tata|طاطا
+Akka|أكا
+Foum Zguid|فم زكيد
+Tissint|تيسينت
+Aousserd|أوسرد
+Bir Gandouz|بئر كندوز
+Ouled Teima|أولاد تايمة
+Aïn Harrouda|عين حرودة
+Mansouria|المنصورية
+Aïn Chock|عين الشق
+Hay Hassani|الحي الحسني
+Ben Msik|بن مسيك
+Sidi Bernoussi|سيدي البرنوصي
+Aïn Sebaâ|عين السبع
+Sidi Moumen|سيدي مومن
+Ain Chock|عين الشق
+Oulfa|أولفة
+Bel Air|بلير
+Anfa|أنفا
+Maarif|المعاريف
+Gauthier|غوتييه
+Agdal|أكدال
+Hassan|حسان
+Souissi|السويسي
+Hay Riad|حي الرياض
+Yacoub El Mansour|يعقوب المنصور
+Temara|تمارة
+Aïn Atiq|عين عتيق
+Skhirat|الصخيرات
+Harhoura|هرهورة
+Aouinet Torkoz|عوينة تركوز
+Taghazout|تغازوت
+Aglou|أكلو
+Mirleft|ميرلفت
+Legzira|لكزيرة
+Souss|سوس
+Tasila|تاسيلة
+Imi Mqorn|إيمي مقورن
+Imsouane|إمسوان
+Tamraght|تمغارت
+Aourir|أوريار
+Belfaa|بلفاع
+Ait Baamrane|أيت باعمران
+Warzazat|ورزازات
+Tazzarine|تازارين
+Nkob|نكوب
+Mhamid El Ghizlane|امحاميد الغزلان
+Akka Ighane|أكا إغان
+Icht|إيشت
+Bou Izakarn|بويزكارن
+Ifrane Anti-Atlas|إفران الأطلس الصغير
+Aït Herbil|أيت هربيل
+Souk El Had|سوق الحد
+Had Hrara|حد حرارة
+Tamzaourt|تامزاورت
+Tikki|تيكي
+Imourane|إموران
+Oued Souss|وادي سوس
+Tikiouine|تيكيوين
+Tassila|تاسيلة
+Dcheira|الدشيرة
+Sebt Gzoula|سبت اكزولة
+Sebt Jahjouh|سبت الجحاجحة
+Sidi L'Mokhtar|سيدي المختار
+Jemâa Shaïm|جمعة شايم
+Abda|عبدة
+Ounagha|أوناغة
+Ida Ougnidif|إدا وكنيدف
+Chiadma|الشياظمة
+Chemaia|الشماعية
+Lalla Fatna|لالة فاطنة
+Sidi Aïssa Ben Slimane|سيدي عيسى بن سليمان
+Tlat Hanchane|تلات الهنشان
+Oulad Berhil|أولاد برحيل
+Tassaout|تاسوت
+Aït Ourirr|أيت أورير
+Tnine Chtouka|اثنين الشتوكة
+Tnine Aït Ourir|اثنين أيت أورير
+Tnine Sidi Yamani|اثنين سيدي اليماني
+Moulay Abdallah|مولاي عبد الله
+Moulay Brahim|مولاي إبراهيم
+Moulay Idriss Zerhoun|مولاي إدريس زرهون
+Sidi Harazem|سيدي حرازم
+Sidi Bettache|سيدي بطاش
+Sidi Bouknadel|سيدي بوقنادل
+Sidi Yahia el Gharb|سيدي يحيى الغرب
+Sidi Allal Bahraoui|سيدي علال البحراوي
+Sidi Mohamed Ben Abdallah|سيدي محمد بن عبد الله
+Sidi Taibi|سيدي الطيبي
+Sidi Yahia Zaer|سيدي يحيى زعير
+Aïn El Aouda|عين العودة
+Aïn Cheggag|عين الشقف
+Aït Oumghar|أيت أومغار
+Zaïda|زايدة
+Mrirt|مريرت
+Khenifra|خنيفرة
+Aït Ishaq|أيت إسحاق
+El Kbab|القباب
+Timahdite|تيمحضيت
+Ain Aicha|عين عائشة
+Taounate|تاونات
+Ghafsai|غفساي
+Rhafsai|غفساي
+Aïn Mediouna|عين مديونة
+Galaz|كلاز
+Arbala|أربالة
+Zoumi|الزومي
+Derdara|الدردارة
+Bab Taza|باب تازة
+Dar Chaoui|دار الشاوي
+Ain Bahja|عين البهجة
+Tlat Taghramt|تلات تغرامت
+Ametrasse|أمتراس
+Fifi|فيفي
+Irherm|إغرم
+Askaoun|أسكاون
+Imi N'Tlit|إيمي نتليت
+Aït Oujane|أيت وجان
+Aït Benhaddou|أيت بن حدو

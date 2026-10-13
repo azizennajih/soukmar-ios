@@ -68,7 +68,7 @@ struct ListingDetailView: View {
                     HStack(spacing: 6) {
                         HStack(spacing: 3) {
                             Image(systemName: "mappin").font(.system(size: 10))
-                            Text(listing.city)
+                            Text(cityLabel(listing.city, lang: I18nRepository.shared.currentLang))
                             if listing.country != "MA" {
                                 Text(flagEmoji(listing.country))
                             }
