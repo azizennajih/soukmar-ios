@@ -60,6 +60,25 @@ struct ListingDetailView: View {
     private func content(for listing: ListingDto) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                // The owner and staff can open a listing that is not public yet; say so.
+                if ["PENDING", "CHANGES_REQUESTED", "REJECTED", "SUSPENDED"].contains(listing.status) {
+                    let statusText: String = {
+                        switch listing.status {
+                        case "PENDING": return i18n.t("annonces.pending")
+                        case "CHANGES_REQUESTED": return i18n.t("annonces.changes_requested")
+                        case "REJECTED": return i18n.t("annonces.rejected")
+                        default: return i18n.t("annonces.suspended")
+                        }
+                    }()
+                    Text(i18n.t("listing.not_public_notice", ["status": statusText]))
+                        .font(.footnote)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(Color.soukmarGoldLight)
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.soukmarGold, lineWidth: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(.horizontal)
+                }
                 gallery(for: listing)
 
                 VStack(alignment: .leading, spacing: 6) {

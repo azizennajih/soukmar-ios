@@ -14,6 +14,8 @@ private func statusStyle(_ status: String, _ i18n: I18nRepository) -> StatusStyl
     case "SOLD": return StatusStyle(label: i18n.t("annonces.sold"), bg: Color(hex: 0xDBEAFE), fg: Color(hex: 0x1D4ED8))
     case "REJECTED": return StatusStyle(label: i18n.t("annonces.rejected"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
     case "EXPIRED": return StatusStyle(label: i18n.t("annonces.expired"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
+    case "CHANGES_REQUESTED": return StatusStyle(label: i18n.t("annonces.changes_requested"), bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207))
+    case "SUSPENDED": return StatusStyle(label: i18n.t("annonces.suspended"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
     default: return StatusStyle(label: status, bg: Color(.secondarySystemBackground), fg: .secondary)
     }
 }
@@ -137,6 +139,19 @@ private struct ListingRow: View {
     private var cat: CategoryConfig? { categoryConfig(listing.category) }
     private var style: StatusStyle { statusStyle(listing.status, i18n) }
     private var canToggleReserve: Bool { listing.status == "ACTIVE" || listing.status == "RESERVED" }
+    /// A final rejection cannot be edited any more (the server refuses it too).
+    private var canEdit: Bool { !(listing.status == "REJECTED" && !listing.resubmitAllowed) }
+
+    /// Explanation under a listing that is not public (waiting for review, needs changes, rejected, suspended).
+    private var reviewHint: String? {
+        switch listing.status {
+        case "PENDING": return i18n.t("mes_annonces.review_pending")
+        case "CHANGES_REQUESTED": return i18n.t("mes_annonces.review_changes")
+        case "REJECTED": return i18n.t(listing.resubmitAllowed ? "mes_annonces.review_rejected_resubmit" : "mes_annonces.review_rejected_final")
+        case "SUSPENDED": return i18n.t("mes_annonces.review_suspended")
+        default: return nil
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -203,6 +218,21 @@ private struct ListingRow: View {
                 .buttonStyle(.plain)
             }
 
+            if let hint = reviewHint {
+                let rejected = listing.status == "REJECTED" || listing.status == "SUSPENDED"
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(hint).font(.caption).foregroundStyle(.primary)
+                    if let reason = listing.moderationReason, !reason.isEmpty, listing.status != "PENDING" {
+                        Text("\(i18n.t("mes_annonces.reason_label")) \(reason)").font(.caption.weight(.semibold)).foregroundStyle(.primary)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(8)
+                .background(rejected ? Color.soukmarPrimaryLight : Color.soukmarGoldLight)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(rejected ? Color.soukmarPrimary : Color.soukmarGold, lineWidth: 1))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+
             HStack(spacing: 4) {
                 RowActionButton(systemName: "eye", action: onOpen)
                 if canToggleReserve {
@@ -212,7 +242,9 @@ private struct ListingRow: View {
                         action: onToggleReserve
                     )
                 }
-                RowActionButton(systemName: "pencil", action: onEdit)
+                if canEdit {
+                    RowActionButton(systemName: "pencil", action: onEdit)
+                }
                 if canToggleReserve {
                     RowActionButton(systemName: "arrow.up", enabled: canBump && !bumping, action: onBump)
                     RowActionButton(systemName: "bolt.fill", action: onBoost)

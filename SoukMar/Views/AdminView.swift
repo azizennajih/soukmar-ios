@@ -15,7 +15,7 @@ private func statusLabel(_ status: String, _ i18n: I18nRepository) -> String {
     }
 }
 
-private enum AdminTab { case reports, idVerifications, boostRequests }
+private enum AdminTab { case moderation, reports, idVerifications, boostRequests }
 
 /// Mirrors soukmar-android's AdminScreen — reports moderation queue with
 /// filter pills (live counts), resolve/dismiss with an optional note, plus
@@ -26,20 +26,24 @@ struct AdminView: View {
 
     @StateObject private var viewModel = AdminViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
-    @State private var tab: AdminTab = .reports
+    @State private var tab: AdminTab = .moderation
 
     var body: some View {
         VStack(spacing: 0) {
-            Picker("", selection: $tab) {
-                Text(i18n.t("admin.tab_reports")).tag(AdminTab.reports)
-                Text(i18n.t("admin.tab_id_verifications")).tag(AdminTab.idVerifications)
-                Text(i18n.t("admin.tab_boost_requests")).tag(AdminTab.boostRequests)
+            // Four long labels do not fit a segmented control on a phone: scrolling pills like the filter rows below.
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    tabPill(.moderation, i18n.t("moderation.title"))
+                    tabPill(.reports, i18n.t("admin.tab_reports"))
+                    tabPill(.idVerifications, i18n.t("admin.tab_id_verifications"))
+                    tabPill(.boostRequests, i18n.t("admin.tab_boost_requests"))
+                }
+                .padding(.horizontal)
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
             .padding(.top, 8)
 
             switch tab {
+            case .moderation: ModerationView(onOpenListing: onOpenListing)
             case .reports: reportsSection
             case .idVerifications: idVerificationsSection
             case .boostRequests: boostRequestsSection
@@ -54,8 +58,22 @@ struct AdminView: View {
         }
     }
 
+    private func tabPill(_ value: AdminTab, _ title: String) -> some View {
+        Button {
+            tab = value
+        } label: {
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+                .padding(.horizontal, 14).padding(.vertical, 8)
+                .background(tab == value ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
+                .foregroundStyle(tab == value ? Color.soukmarPrimary : .primary)
+                .clipShape(Capsule())
+        }
+    }
+
     private var navigationTitle: String {
         switch tab {
+        case .moderation: return i18n.t("moderation.title")
         case .reports: return i18n.t("admin.reports_title")
         case .idVerifications: return i18n.t("admin.id_verifications_title")
         case .boostRequests: return i18n.t("admin.boost_requests_title")

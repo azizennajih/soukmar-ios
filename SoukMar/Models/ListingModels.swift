@@ -66,6 +66,10 @@ struct ListingDto: Codable, Identifiable, Equatable {
     var boostTopUntil: String?
     var boostGlobalUntil: String?
     var boostRank: Int = 0
+    // Review workflow: reason of the last staff decision (rejection, change request, suspension) — owner/staff only —
+    // and whether a rejected listing may be edited and submitted again.
+    var moderationReason: String?
+    var resubmitAllowed: Bool = false
 
     // Swift's synthesized Decodable ignores stored-property defaults for a
     // missing key (unlike kotlinx.serialization on the Android side), and a
@@ -105,6 +109,8 @@ struct ListingDto: Codable, Identifiable, Equatable {
         boostTopUntil = try c.decodeIfPresent(String.self, forKey: .boostTopUntil)
         boostGlobalUntil = try c.decodeIfPresent(String.self, forKey: .boostGlobalUntil)
         boostRank = try c.decodeIfPresent(Int.self, forKey: .boostRank) ?? 0
+        moderationReason = try c.decodeIfPresent(String.self, forKey: .moderationReason)
+        resubmitAllowed = try c.decodeIfPresent(Bool.self, forKey: .resubmitAllowed) ?? false
     }
 }
 

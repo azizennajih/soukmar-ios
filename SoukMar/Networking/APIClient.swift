@@ -56,6 +56,22 @@ final class APIClient {
         try await perform(request(path: path, method: method))
     }
 
+    /// For endpoints whose HTTP status itself carries meaning (the listing review answers 409 when another
+    /// reviewer decided first): returns status code and raw body instead of throwing on a non-2xx answer.
+    func sendRaw<Body: Encodable>(path: String, method: String, body: Body) async throws -> (status: Int, data: Data) {
+        let data = try encoder.encode(body)
+        let (responseData, response): (Data, URLResponse)
+        do {
+            (responseData, response) = try await session.data(for: request(path: path, method: method, body: data))
+        } catch {
+            throw APIError.network(error.localizedDescription)
+        }
+        guard let http = response as? HTTPURLResponse else {
+            throw APIError.network("Réponse invalide.")
+        }
+        return (http.statusCode, responseData)
+    }
+
     /// GET with query parameters (e.g. listing filters), decoding a Codable response.
     func send<Response: Decodable>(path: String, query: [String: String]) async throws -> Response {
         var components = URLComponents(
