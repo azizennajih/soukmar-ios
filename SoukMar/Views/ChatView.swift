@@ -34,15 +34,6 @@ struct ChatView: View {
                 }
             }
             if let conv = viewModel.conversation {
-                if !viewModel.messagingBlocked() && callManager.state == .idle {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            viewModel.startCall()
-                        } label: {
-                            Image(systemName: "phone.fill")
-                        }
-                    }
-                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.reportOpen = true
