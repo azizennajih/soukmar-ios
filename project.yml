@@ -42,7 +42,10 @@ targets:
       path: SoukMar/Info.plist
       properties:
         CFBundleDisplayName: SouqMar24
-        UILaunchScreen: {}
+        # Startbildschirm: Marken-Rot ueber die ganze Flaeche, weisses Logo in der Mitte (Assets.xcassets: LaunchBackground, LaunchLogo)
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+          UIImageName: LaunchLogo
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         NSAppTransportSecurity:
