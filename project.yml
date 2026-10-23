@@ -48,8 +48,9 @@ targets:
           UIImageName: LaunchLogo
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+        # Unverschluesselte Verbindungen nur im lokalen Netz (Entwicklungs-Backend); alles andere muss HTTPS sein.
         NSAppTransportSecurity:
-          NSAllowsArbitraryLoads: true
+          NSAllowsLocalNetworking: true
         NSLocationWhenInUseUsageDescription: "SouqMar24 utilise votre position pour trouver les annonces proches de vous."
         NSCameraUsageDescription: "SouqMar24 a besoin de l'appareil photo pour prendre des photos de votre annonce."
         NSMicrophoneUsageDescription: "SouqMar24 a besoin du microphone pour les appels audio avec les autres utilisateurs."
