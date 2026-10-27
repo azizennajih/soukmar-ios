@@ -423,7 +423,7 @@ final class ListingsViewModel: ObservableObject {
         switch error {
         case .server(let message, _): return message
         case .network(let message): return message
-        case .decoding: return "Une erreur est survenue."
+        case .decoding: return genericErrorText()
         }
     }
 }

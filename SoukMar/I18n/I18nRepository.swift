@@ -142,3 +142,15 @@ final class I18nRepository: ObservableObject {
         }
     }
 }
+
+/// Current-language text for code paths without a view (networking, view models) — falls back to the
+/// given text when the key is missing.
+func appText(_ key: String, _ fallback: String) -> String {
+    let text = I18nRepository.shared.t(key)
+    return text == key ? fallback : text
+}
+
+/// Shown when a request fails without a server message (offline, timeout, unreadable answer).
+func genericErrorText() -> String {
+    appText("auth.generic_error_retry", "Une erreur est survenue. Veuillez réessayer.")
+}

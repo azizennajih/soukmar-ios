@@ -33,7 +33,7 @@ final class UploadRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 

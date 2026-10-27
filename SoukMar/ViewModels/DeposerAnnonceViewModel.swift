@@ -93,7 +93,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
         return !NO_CONDITION_SUBCATEGORIES.contains(subCode)
     }
 
-    func start(editId: String?) {
+    func start(editId: String?, presetCategory: String? = nil) {
         if let editId, self.editId == nil {
             self.editId = editId
             initLoading = true
@@ -106,6 +106,9 @@ final class DeposerAnnonceViewModel: ObservableObject {
             }
         } else if editId == nil, !countrySyncStarted {
             countrySyncStarted = true
+            if let presetCategory, category.isEmpty, CATEGORIES.contains(where: { $0.value == presetCategory }) {
+                selectCategory(presetCategory)
+            }
             // Combine's @Published publisher emits the current value
             // immediately upon subscription, so this single sink covers both
             // the initial default and every later live change — mirrors
@@ -275,7 +278,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
                 case .failure:
                     uploading = false
                     loading = false
-                    error = "Le téléchargement des photos a échoué."
+                    error = appText("deposer.error_upload", "Le téléchargement des photos a échoué.")
                     return
                 }
                 uploading = false
@@ -322,7 +325,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
                 onDone(listing.id)
             case .failure:
                 loading = false
-                error = "La publication a échoué. Réessayez."
+                error = appText("deposer.error_publish", "La publication a échoué. Réessayez.")
             }
         }
     }
@@ -335,7 +338,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
         switch error {
         case .server(let message, _): return message
         case .network(let message): return message
-        case .decoding: return "Une erreur est survenue."
+        case .decoding: return genericErrorText()
         }
     }
 }

@@ -8,10 +8,13 @@ struct ListingsView: View {
     @State private var showFilters = false
     @State private var viewMode: ViewMode = .list
     @ObservedObject private var i18n = I18nRepository.shared
+    /// Opens the post-a-listing form with the category being browsed (nil = none chosen).
+    var onPostListing: ((String?) -> Void)? = nil
 
     private enum ViewMode { case list, map }
 
-    init(initialCategory: String? = nil, savedSearchId: String? = nil, editSearchId: String? = nil) {
+    init(initialCategory: String? = nil, savedSearchId: String? = nil, editSearchId: String? = nil, onPostListing: ((String?) -> Void)? = nil) {
+        self.onPostListing = onPostListing
         _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId, editSearchId: editSearchId))
     }
 
@@ -76,6 +79,22 @@ struct ListingsView: View {
                         ProgressView().padding(.bottom, 16)
                     }
                 }
+            }
+        }
+        .overlay(alignment: .bottomTrailing) {
+            if let onPostListing {
+                Button {
+                    onPostListing(viewModel.selectedCategory)
+                } label: {
+                    Label(i18n.t("nav.post_btn"), systemImage: "plus")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color.soukmarPrimary, in: Capsule())
+                        .shadow(radius: 3, y: 2)
+                }
+                .padding(16)
             }
         }
         .navigationTitle(i18n.t("listing.breadcrumb_listings"))

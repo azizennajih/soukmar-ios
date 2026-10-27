@@ -15,7 +15,7 @@ struct ProfilView: View {
             if viewModel.loading {
                 ProgressView()
             } else if viewModel.loadError || viewModel.profile == nil {
-                Text("Impossible de charger le profil.").foregroundStyle(.secondary)
+                Text(i18n.t("common.error")).foregroundStyle(.secondary)
             } else if let profile = viewModel.profile {
                 content(for: profile)
             }

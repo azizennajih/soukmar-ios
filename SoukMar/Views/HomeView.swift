@@ -11,7 +11,7 @@ struct HomeView: View {
 
     private enum Route: Hashable {
         case listings(category: String?, savedSearchId: String?, editSearchId: String?)
-        case listingForm(editId: String?)
+        case listingForm(editId: String?, category: String? = nil)
         case chatList
         case myListings
         case favorites
@@ -220,9 +220,14 @@ struct HomeView: View {
             .navigationDestination(for: Route.self) { route in
                 switch route {
                 case .listings(let category, let savedSearchId, let editSearchId):
-                    ListingsView(initialCategory: category, savedSearchId: savedSearchId, editSearchId: editSearchId)
-                case .listingForm(let editId):
-                    DeposerAnnonceView(editId: editId) { newListingId in
+                    ListingsView(
+                        initialCategory: category,
+                        savedSearchId: savedSearchId,
+                        editSearchId: editSearchId,
+                        onPostListing: { selectedCategory in path.append(Route.listingForm(editId: nil, category: selectedCategory)) }
+                    )
+                case .listingForm(let editId, let presetCategory):
+                    DeposerAnnonceView(editId: editId, presetCategory: presetCategory) { newListingId in
                         path.removeLast()
                         path.append(newListingId)
                     }

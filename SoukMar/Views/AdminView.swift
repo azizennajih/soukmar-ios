@@ -15,7 +15,8 @@ private func statusLabel(_ status: String, _ i18n: I18nRepository) -> String {
     }
 }
 
-private enum AdminTab { case moderation, reports, idVerifications, boostRequests }
+/// Same order as the web dashboard's tabs.
+private enum AdminTab { case overview, moderation, listings, users, visitors, revenue, reports, idVerifications, boostRequests, security }
 
 /// Mirrors soukmar-android's AdminScreen — reports moderation queue with
 /// filter pills (live counts), resolve/dismiss with an optional note, plus
@@ -25,24 +26,38 @@ struct AdminView: View {
     var onOpenListing: (String) -> Void
 
     @StateObject private var viewModel = AdminViewModel()
+    @StateObject private var dashboard = AdminDashboardViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
-    @State private var tab: AdminTab = .moderation
+    @State private var tab: AdminTab = .overview
 
     var body: some View {
         VStack(spacing: 0) {
-            // Four long labels do not fit a segmented control on a phone: scrolling pills like the filter rows below.
+            AdminScopeBar(viewModel: dashboard)
+            // Ten long labels do not fit a segmented control on a phone: scrolling pills like the filter rows below.
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
+                    tabPill(.overview, i18n.t("admin.tab_overview"))
                     tabPill(.moderation, i18n.t("moderation.title"))
+                    tabPill(.listings, i18n.t("admin.tab_listings"))
+                    tabPill(.users, i18n.t("admin.tab_users"))
+                    tabPill(.visitors, i18n.t("admin.tab_visitors"))
+                    tabPill(.revenue, i18n.t("admin.tab_revenue"))
                     tabPill(.reports, i18n.t("admin.tab_reports"))
                     tabPill(.idVerifications, i18n.t("admin.tab_id_verifications"))
                     tabPill(.boostRequests, i18n.t("admin.tab_boost_requests"))
+                    tabPill(.security, i18n.t("admin.tab_security"))
                 }
                 .padding(.horizontal)
             }
             .padding(.top, 8)
 
             switch tab {
+            case .overview: AdminOverviewView(viewModel: dashboard)
+            case .listings: AdminListingsView(viewModel: dashboard, onOpenListing: onOpenListing)
+            case .users: AdminUsersView(viewModel: dashboard)
+            case .visitors: AdminVisitorsView(viewModel: dashboard)
+            case .revenue: AdminRevenueView(viewModel: dashboard)
+            case .security: AdminSecurityView(viewModel: dashboard)
             case .moderation: ModerationView(onOpenListing: onOpenListing)
             case .reports: reportsSection
             case .idVerifications: idVerificationsSection
@@ -51,7 +66,10 @@ struct AdminView: View {
         }
         .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .task { viewModel.load() }
+        .task {
+            viewModel.load()
+            dashboard.start()
+        }
         .onChange(of: tab) { newTab in
             if newTab == .idVerifications { viewModel.loadIdVerificationsIfNeeded() }
             if newTab == .boostRequests { viewModel.loadBoostRequestsIfNeeded() }
@@ -73,6 +91,12 @@ struct AdminView: View {
 
     private var navigationTitle: String {
         switch tab {
+        case .overview: return i18n.t("admin.title")
+        case .listings: return i18n.t("admin.listings_title")
+        case .users: return i18n.t("admin.users_title")
+        case .visitors: return i18n.t("admin.tab_visitors")
+        case .revenue: return i18n.t("admin.revenue_title")
+        case .security: return i18n.t("admin.security_title")
         case .moderation: return i18n.t("moderation.title")
         case .reports: return i18n.t("admin.reports_title")
         case .idVerifications: return i18n.t("admin.id_verifications_title")
@@ -107,7 +131,7 @@ struct AdminView: View {
                 if viewModel.loading {
                     ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.loadError {
-                    Text("Impossible de charger les signalements.")
+                    Text(i18n.t("common.error"))
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.filteredReports.isEmpty {
@@ -172,7 +196,7 @@ struct AdminView: View {
                 if viewModel.idVerificationsLoading {
                     ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.idVerificationsLoadError {
-                    Text("Impossible de charger les vérifications.")
+                    Text(i18n.t("common.error"))
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.filteredIdVerifications.isEmpty {
@@ -236,7 +260,7 @@ struct AdminView: View {
                 if viewModel.boostRequestsLoading {
                     ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.boostRequestsLoadError {
-                    Text("Impossible de charger les demandes de visibilité.")
+                    Text(i18n.t("common.error"))
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.filteredBoostRequests.isEmpty {

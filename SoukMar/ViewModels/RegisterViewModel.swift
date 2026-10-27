@@ -20,19 +20,19 @@ final class RegisterViewModel: ObservableObject {
 
     func submit() {
         guard password == confirmPassword else {
-            errorMessage = "Les mots de passe ne correspondent pas."
+            errorMessage = appText("auth.reset_mismatch", "Les mots de passe ne correspondent pas.")
             return
         }
         guard password.count >= 6 else {
-            errorMessage = "Le mot de passe doit contenir au moins 6 caractères."
+            errorMessage = appText("auth.reset_too_short", "Le mot de passe doit contenir au moins 6 caractères.")
             return
         }
         guard !name.trimmingCharacters(in: .whitespaces).isEmpty, !email.trimmingCharacters(in: .whitespaces).isEmpty else {
-            errorMessage = "Champs requis manquants."
+            errorMessage = appText("auth.fill_all_fields", "Champs requis manquants.")
             return
         }
         guard accountType == "PRIVATE" || accountType == "BUSINESS" else {
-            errorMessage = "Veuillez sélectionner un type de compte."
+            errorMessage = appText("auth.account_type_required", "Veuillez sélectionner un type de compte.")
             return
         }
 
@@ -57,7 +57,7 @@ final class RegisterViewModel: ObservableObject {
                 if case .server(let message, _) = error {
                     errorMessage = message
                 } else {
-                    errorMessage = "Erreur réseau."
+                    errorMessage = genericErrorText()
                 }
             }
         }

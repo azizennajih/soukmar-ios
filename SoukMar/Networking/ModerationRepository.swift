@@ -15,7 +15,7 @@ final class ModerationRepository {
 
     private func fail<T>(_ error: Error) -> Result<T, APIError> {
         if let apiError = error as? APIError { return .failure(apiError) }
-        return .failure(.network(error.localizedDescription))
+        return .failure(.network(genericErrorText()))
     }
 
     func summary() async -> Result<ModerationSummaryDto, APIError> {
@@ -68,11 +68,11 @@ final class ModerationRepository {
             case 400: return .reasonInvalid
             default:
                 let parsed = try? JSONDecoder().decode(ApiErrorDto.self, from: result.data)
-                return .failed(parsed?.error ?? "Une erreur est survenue.")
+                return .failed(parsed?.error ?? genericErrorText())
             }
         } catch let error as APIError {
             if case .network(let message) = error { return .failed(message) }
-            return .failed("Une erreur est survenue.")
+            return .failed(genericErrorText())
         } catch {
             return .failed(error.localizedDescription)
         }

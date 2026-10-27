@@ -64,10 +64,10 @@ final class APIClient {
         do {
             (responseData, response) = try await session.data(for: request(path: path, method: method, body: data))
         } catch {
-            throw APIError.network(error.localizedDescription)
+            throw APIError.network(genericErrorText())
         }
         guard let http = response as? HTTPURLResponse else {
-            throw APIError.network("Réponse invalide.")
+            throw APIError.network(genericErrorText())
         }
         return (http.statusCode, responseData)
     }
@@ -84,6 +84,7 @@ final class APIClient {
         var req = URLRequest(url: components.url!)
         req.httpMethod = "GET"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.setValue(I18nRepository.shared.currentLang, forHTTPHeaderField: "Accept-Language")
         if let token {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
@@ -122,6 +123,7 @@ final class APIClient {
         var req = URLRequest(url: components.url!)
         req.httpMethod = "POST"
         req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        req.setValue(I18nRepository.shared.currentLang, forHTTPHeaderField: "Accept-Language")
         if let token {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
@@ -134,17 +136,17 @@ final class APIClient {
         do {
             (data, response) = try await session.data(for: req)
         } catch {
-            throw APIError.network(error.localizedDescription)
+            throw APIError.network(genericErrorText())
         }
 
         guard let http = response as? HTTPURLResponse else {
-            throw APIError.network("Réponse invalide.")
+            throw APIError.network(genericErrorText())
         }
 
         guard (200..<300).contains(http.statusCode) else {
             let parsed = try? decoder.decode(ApiErrorDto.self, from: data)
             throw APIError.server(
-                message: parsed?.error ?? "Une erreur est survenue.",
+                message: parsed?.error ?? genericErrorText(),
                 unverified: parsed?.unverified ?? false
             )
         }

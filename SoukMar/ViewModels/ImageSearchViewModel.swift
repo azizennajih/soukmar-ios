@@ -26,7 +26,7 @@ final class ImageSearchViewModel: ObservableObject {
             case .success(let listings):
                 results = listings
             case .failure:
-                errorMessage = "La recherche a échoué. Veuillez réessayer."
+                errorMessage = appText("image_search.error", "La recherche a échoué. Veuillez réessayer.")
             }
             loading = false
         }

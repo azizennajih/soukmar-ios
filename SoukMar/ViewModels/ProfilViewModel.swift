@@ -80,7 +80,7 @@ final class ProfilViewModel: ObservableObject {
 
     func submitIdVerification() {
         guard let idData = idImageData, let selfieData = selfieImageData else {
-            idVerificationErrorMessage = "Veuillez ajouter les deux photos."
+            idVerificationErrorMessage = appText("profil.id_verification_files_required", "Veuillez ajouter les deux photos.")
             return
         }
         guard !idVerificationSubmitting else { return }
@@ -95,7 +95,7 @@ final class ProfilViewModel: ObservableObject {
             guard case .success(let idUrls) = idResult, let idImageUrl = idUrls.first,
                   case .success(let selfieUrls) = selfieResult, let selfieImageUrl = selfieUrls.first
             else {
-                idVerificationErrorMessage = "L'envoi a échoué. Réessayez."
+                idVerificationErrorMessage = appText("profil.id_verification_error", "L'envoi a échoué. Réessayez.")
                 idVerificationSubmitting = false
                 return
             }
@@ -115,7 +115,7 @@ final class ProfilViewModel: ObservableObject {
 
     func saveProfile() {
         guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            errorMessage = "Le nom est requis."
+            errorMessage = appText("profil.name_required", "Le nom est requis.")
             return
         }
         guard !saving else { return }
@@ -208,7 +208,7 @@ final class ProfilViewModel: ObservableObject {
                     }
                 }
             case .failure:
-                errorMessage = "Erreur lors du téléchargement de la photo."
+                errorMessage = appText("profil.photo_upload_error", "Erreur lors du téléchargement de la photo.")
             }
             uploadingImage = false
         }
@@ -218,11 +218,11 @@ final class ProfilViewModel: ObservableObject {
         pwSuccessMessage = nil
         pwErrorMessage = nil
         guard newPassword.count >= 6 else {
-            pwErrorMessage = "Le mot de passe doit contenir au moins 6 caractères."
+            pwErrorMessage = appText("profil.password_too_short", "Le mot de passe doit contenir au moins 6 caractères.")
             return
         }
         guard newPassword == confirmPassword else {
-            pwErrorMessage = "Les mots de passe ne correspondent pas."
+            pwErrorMessage = appText("profil.password_mismatch", "Les mots de passe ne correspondent pas.")
             return
         }
         guard !pwSaving else { return }
@@ -245,7 +245,7 @@ final class ProfilViewModel: ObservableObject {
         switch error {
         case .server(let message, _): return message
         case .network(let message): return message
-        case .decoding: return "Une erreur est survenue."
+        case .decoding: return genericErrorText()
         }
     }
 }

@@ -32,7 +32,7 @@ final class DeleteAccountViewModel: ObservableObject {
                 if case .server(let message, _) = error {
                     errorMessage = message
                 } else {
-                    errorMessage = "Une erreur est survenue. Veuillez réessayer."
+                    errorMessage = appText("delete_account.error_generic", "Une erreur est survenue. Veuillez réessayer.")
                 }
             }
         }

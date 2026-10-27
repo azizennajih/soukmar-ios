@@ -25,6 +25,8 @@ private func machineTypeIcon(_ code: String) -> String {
 /// `ActivityResultContracts.GetMultipleContents()`.
 struct DeposerAnnonceView: View {
     var editId: String? = nil
+    /// Category being browsed when "post a listing" was tapped — skips the category step (web: ?categorie=).
+    var presetCategory: String? = nil
     var onPublished: (String) -> Void
 
     @StateObject private var viewModel = DeposerAnnonceViewModel()
@@ -63,7 +65,7 @@ struct DeposerAnnonceView: View {
         }
         .navigationTitle(viewModel.isEdit ? i18n.t("deposer.header_title_edit") : i18n.t("deposer.header_title"))
         .navigationBarTitleDisplayMode(.inline)
-        .task { viewModel.start(editId: editId) }
+        .task { viewModel.start(editId: editId, presetCategory: presetCategory) }
         .onChange(of: pickerItems) { items in
             Task {
                 var newPhotos: [PhotoItem] = []

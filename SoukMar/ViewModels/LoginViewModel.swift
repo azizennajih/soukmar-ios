@@ -14,7 +14,7 @@ final class LoginViewModel: ObservableObject {
 
     func submit(onSuccess: @escaping () -> Void) {
         guard !email.isEmpty, !password.isEmpty else {
-            errorMessage = "Veuillez remplir tous les champs."
+            errorMessage = appText("auth.fill_all_fields", "Veuillez remplir tous les champs.")
             return
         }
         loading = true
@@ -31,7 +31,7 @@ final class LoginViewModel: ObservableObject {
                     errorMessage = message
                     if unverified { unverifiedEmail = email.trimmingCharacters(in: .whitespaces) }
                 } else {
-                    errorMessage = "Erreur réseau."
+                    errorMessage = genericErrorText()
                 }
             }
         }

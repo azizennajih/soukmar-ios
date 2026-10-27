@@ -17,7 +17,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -31,7 +31,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -45,7 +45,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -59,7 +59,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -92,7 +92,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -107,7 +107,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -121,7 +121,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -135,7 +135,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -150,7 +150,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -165,7 +165,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -179,7 +179,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 
@@ -195,7 +195,7 @@ final class AuthRepository {
         } catch let error as APIError {
             return .failure(error)
         } catch {
-            return .failure(.network(error.localizedDescription))
+            return .failure(.network(genericErrorText()))
         }
     }
 }
