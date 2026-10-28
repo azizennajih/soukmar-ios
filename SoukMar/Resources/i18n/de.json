@@ -316,7 +316,8 @@
     "reset_too_short": "Das Passwort muss mindestens 6 Zeichen lang sein.",
     "reset_invalid_title": "Ungültiger Link",
     "reset_invalid_sub": "Dieser Link zum Zurücksetzen ist ungültig oder abgelaufen. Fordern Sie einen neuen an.",
-    "phone_invalid_length": "Ungültige Nummer für dieses Land ({min}-{max} Ziffern)."
+    "phone_invalid_length": "Ungültige Nummer für dieses Land ({min}-{max} Ziffern).",
+    "marketing_consent": "Ich möchte Neuigkeiten und Angebote von SouqMar24 per E-Mail erhalten (freiwillig). Ich kann diese Einwilligung jederzeit widerrufen."
   },
   "cats": {
     "VEHICLES": "Fahrzeuge",
@@ -658,7 +659,9 @@
     "export_error": "Der Download ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
     "cookies_title": "Cookies",
     "cookies_btn": "Cookie-Einstellungen öffnen",
-    "saved": "Gespeichert"
+    "saved": "Gespeichert",
+    "email_marketing": "Neuigkeiten und Angebote von SouqMar24 (Werbung)",
+    "marketing_hint": "Freiwillig und jederzeit widerrufbar. Jede Werbe-E-Mail enthält einen Abmelde-Link."
   },
   "parametres": {
     "privacy_data": "Meine Daten & Datenschutz",
@@ -705,7 +708,7 @@
       "s2_title": "Erhobene Daten",
       "s2_body": "Wir erheben: bei der Registrierung angegebene Daten (Name, E-Mail-Adresse, Passwort in verschlüsselter Form, Land, optional Telefonnummer und Stadt, Kontoart); Daten zu Ihren Anzeigen (Texte, Fotos, Preis, Ort) und Ihre Nachrichten mit anderen Nutzern; Daten zu Ihrer Nutzung wie Favoriten, gespeicherte Suchen, Bewertungen, Meldungen und Blockierungen; technische Verbindungsdaten (IP-Adresse, Zeitpunkt, aufgerufene Seiten, Browser- und Gerätetyp) in Server-Protokollen; Verifizierungsdaten (E-Mail- oder SMS-Bestätigungscode) und, wenn Sie freiwillig eine Identitätsprüfung beantragen, ein Foto Ihres Ausweisdokuments und ein Selfie. Diese Bilder werden nur zur manuellen Prüfung verwendet und nach der Entscheidung gelöscht.\n\nBeim Aufruf der Website bestimmt unser Server anhand Ihrer IP-Adresse das Land, um Anzeigen und Sprache vorauszuwählen; die IP-Adresse wird dafür weder gespeichert noch an Dritte weitergegeben.",
       "s3_title": "Zwecke der Verarbeitung",
-      "s3_body": "Ihre Daten werden verwendet, um: Ihr Konto einzurichten und zu verwalten; Ihre Anzeigen zu veröffentlichen und zu moderieren; die Nachrichtenfunktion zwischen Nutzern zu ermöglichen; die Sicherheit der Plattform zu gewährleisten und Betrug vorzubeugen; Ihnen Benachrichtigungen zu Ihrer Aktivität zu senden (Angebote, Nachrichten, Anzeigenstatus); und unsere Dienste zu verbessern.",
+      "s3_body": "Ihre Daten werden verwendet, um: Ihr Konto einzurichten und zu verwalten; Ihre Anzeigen zu veröffentlichen und zu moderieren; die Nachrichtenfunktion zwischen Nutzern zu ermöglichen; die Sicherheit der Plattform zu gewährleisten und Betrug vorzubeugen; Ihnen Benachrichtigungen zu Ihrer Aktivität zu senden (Angebote, Nachrichten, Anzeigenstatus); und unsere Dienste zu verbessern.\n\nWerbe-E-Mails: Nur wenn Sie ausdrücklich zugestimmt haben (Art. 6 Abs. 1 lit. a DSGVO, § 7 Abs. 2 Nr. 3 UWG), senden wir Ihnen Neuigkeiten und Angebote von SouqMar24 per E-Mail. Die Einwilligung ist freiwillig, wird bei der Registrierung oder in Ihrem Konto unter „Meine Daten & Datenschutz“ erteilt und ist nicht vorangekreuzt. Zum Nachweis speichern wir Zeitpunkt, Quelle und Textfassung der Einwilligung. Sie können sie jederzeit widerrufen: über den Abmelde-Link in jeder Werbe-E-Mail oder in Ihrem Konto. Danach erhalten Sie keine Werbung mehr; wichtige Mails zu Ihrem Konto bleiben davon unberührt.",
       "s4_title": "Rechtsgrundlage",
       "s4_body": "Rechtsgrundlagen sind: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung — Bereitstellung Ihres Kontos und der Plattformfunktionen); Art. 6 Abs. 1 lit. a DSGVO (Einwilligung — z. B. Push-Benachrichtigungen, optionale Cookies, Identitätsprüfung); Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse — Sicherheit, Missbrauchs- und Betrugsprävention, automatisierte Vorprüfung von Anzeigen, Server-Protokolle); Art. 6 Abs. 1 lit. c DSGVO (gesetzliche Pflichten, z. B. steuerrechtliche Aufbewahrung). Die Speicherung von Informationen auf Ihrem Endgerät (z. B. Anmeldesitzung, Spracheinstellung) erfolgt, soweit unbedingt erforderlich, nach § 25 Abs. 2 TDDDG, andernfalls nur mit Ihrer Einwilligung nach § 25 Abs. 1 TDDDG.\n\nAnzeigen werden automatisch auf auffällige Inhalte vorgeprüft; über verdächtige Anzeigen entscheidet ein Mensch. Eine ausschließlich automatisierte Entscheidung mit rechtlicher Wirkung findet nicht statt.",
       "s5_title": "Empfänger der Daten",
@@ -1941,5 +1944,53 @@
     "mail_resent_ok": "E-Mail wurde gesendet.",
     "mail_resent_fail": "Die E-Mail konnte wieder nicht gesendet werden.",
     "mail_not_retryable": "Diese E-Mail wurde bereits gesendet oder wird gerade gesendet."
+  },
+  "newsletter_unsub": {
+    "title": "Werbe-E-Mails abbestellen",
+    "intro": "Möchten Sie keine Neuigkeiten und Angebote von SouqMar24 mehr per E-Mail erhalten?",
+    "confirm_btn": "Ja, abbestellen",
+    "done_title": "Sie sind abgemeldet",
+    "done_text": "Sie erhalten keine Werbe-E-Mails mehr von uns. Wichtige Mails zu Ihrem Konto erhalten Sie weiterhin.",
+    "error": "Der Link ist ungültig oder die Abmeldung ist fehlgeschlagen. Sie können Werbe-E-Mails auch in Ihrem Konto unter „Meine Daten & Datenschutz“ abschalten.",
+    "home": "Zur Startseite"
+  },
+  "campaigns": {
+    "tab": "Kampagnen",
+    "title": "Werbe-E-Mails",
+    "intro": "Nur registrierte Nutzer, die zugestimmt haben und deren Adresse bestätigt ist, können diese Mails erhalten. Wer sich abmeldet, ist sofort ausgeschlossen.",
+    "new": "Neue Kampagne",
+    "empty": "Noch keine Kampagnen.",
+    "name": "Interner Name",
+    "texts": "Texte je Sprache",
+    "subject": "Betreff",
+    "body": "Text",
+    "body_hint": "Leerzeile = neuer Absatz. {name} wird durch den Vornamen ersetzt. Abmelde-Link, Grund und Absenderangaben werden automatisch angefügt. Nutzer bekommen ihre Sprache, sonst Englisch, sonst Französisch.",
+    "cta_label": "Button-Text (optional)",
+    "cta_url": "Button-Link (https, optional)",
+    "audience": "Empfänger",
+    "countries": "Länder (Codes, z. B. MA, DE; leer = alle)",
+    "langs": "Sprachen der Nutzer (leer = alle)",
+    "account_type": "Kontoart",
+    "account_all": "Alle",
+    "recipients": "{count} Empfänger erreichbar",
+    "save": "Entwurf speichern",
+    "test_send": "Test an mich senden",
+    "test_sent": "Testmail gesendet an {email}",
+    "send": "Jetzt senden",
+    "send_confirm": "Kampagne an {count} Empfänger senden? Das lässt sich nicht zurücknehmen.",
+    "status_DRAFT": "Entwurf",
+    "status_SENDING": "Wird gesendet",
+    "status_SENT": "Gesendet",
+    "status_CANCELLED": "Abgebrochen",
+    "counts": "{sent} von {total} gesendet, {failed} fehlgeschlagen",
+    "cancel_send": "Versand stoppen",
+    "delete": "Löschen",
+    "delete_confirm": "Entwurf „{name}“ löschen?",
+    "back": "Zurück zur Liste",
+    "error": "Fehler. Bitte Eingaben prüfen.",
+    "no_text": "Bitte mindestens einen Text (Betreff und Text) schreiben.",
+    "audience_changed": "Die Empfängerzahl hat sich geändert ({count}). Bitte prüfen und erneut senden.",
+    "private": "Privat",
+    "business": "Gewerblich"
   }
 }

@@ -66,6 +66,11 @@ struct RegisterView: View {
 
                         PasswordField(placeholder: i18n.t("auth.password"), text: $viewModel.password)
                         PasswordField(placeholder: i18n.t("auth.reset_confirm_password"), text: $viewModel.confirmPassword)
+
+                        Toggle(isOn: $viewModel.marketingConsent) {
+                            Text(i18n.t("auth.marketing_consent")).font(.caption).foregroundStyle(.secondary)
+                        }
+                        .tint(Color.soukmarPrimary)
                     }
 
                     Button {

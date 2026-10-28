@@ -316,7 +316,8 @@
     "reset_too_short": "Le mot de passe doit contenir au moins 6 caractères.",
     "reset_invalid_title": "Lien invalide",
     "reset_invalid_sub": "Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.",
-    "phone_invalid_length": "Numéro invalide pour ce pays ({min}-{max} chiffres)."
+    "phone_invalid_length": "Numéro invalide pour ce pays ({min}-{max} chiffres).",
+    "marketing_consent": "Je souhaite recevoir par e-mail les actualités et offres de SouqMar24 (facultatif). Je peux retirer ce consentement à tout moment."
   },
   "cats": {
     "VEHICLES": "Véhicules",
@@ -1554,7 +1555,9 @@
     "export_error": "Le téléchargement a échoué. Veuillez réessayer.",
     "cookies_title": "Cookies",
     "cookies_btn": "Ouvrir les paramètres des cookies",
-    "saved": "Enregistré"
+    "saved": "Enregistré",
+    "email_marketing": "Actualités et offres de SouqMar24 (publicité)",
+    "marketing_hint": "Facultatif et révocable à tout moment. Chaque e-mail publicitaire contient un lien de désabonnement."
   },
   "parametres": {
     "privacy_data": "Mes données et confidentialité",
@@ -1601,7 +1604,7 @@
       "s2_title": "Données collectées",
       "s2_body": "Nous collectons : les données saisies lors de l'inscription (nom, adresse email, mot de passe sous forme chiffrée, pays, éventuellement numéro de téléphone et ville, type de compte) ; les données relatives à vos annonces (textes, photos, prix, lieu) et vos messages avec d'autres utilisateurs ; les données liées à votre utilisation (favoris, recherches enregistrées, avis, signalements, blocages) ; les données techniques de connexion (adresse IP, heure, pages consultées, type de navigateur et d'appareil) dans les journaux du serveur ; les données de vérification (code de confirmation par email ou SMS) et, si vous demandez volontairement une vérification d'identité, une photo de votre pièce d'identité et un selfie. Ces images servent uniquement à un contrôle manuel et sont supprimées après la décision.\n\nLors de l'accès au Site, notre serveur détermine votre pays à partir de votre adresse IP afin de présélectionner les annonces et la langue ; l'adresse IP n'est ni conservée à cette fin ni transmise à des tiers.",
       "s3_title": "Finalités du traitement",
-      "s3_body": "Vos données sont utilisées pour : créer et gérer votre compte ; publier et modérer vos annonces ; permettre la messagerie entre utilisateurs ; assurer la sécurité de la plateforme et prévenir la fraude ; vous envoyer des notifications liées à votre activité (offres, messages, statut d'annonce) ; et améliorer nos services.",
+      "s3_body": "Vos données sont utilisées pour : créer et gérer votre compte ; publier et modérer vos annonces ; permettre la messagerie entre utilisateurs ; assurer la sécurité de la plateforme et prévenir la fraude ; vous envoyer des notifications liées à votre activité (offres, messages, statut d'annonce) ; et améliorer nos services.\n\nE-mails publicitaires : nous ne vous envoyons par e-mail les actualités et offres de SouqMar24 que si vous y avez expressément consenti (art. 6, § 1, point a, RGPD ; art. 7, al. 2, n° 3 UWG). Le consentement est facultatif, est donné lors de l’inscription ou dans votre compte sous « Mes données et confidentialité », et n’est jamais coché par défaut. À titre de preuve, nous conservons la date, l’origine et la version du texte du consentement. Vous pouvez le retirer à tout moment : via le lien de désabonnement présent dans chaque e-mail publicitaire ou dans votre compte. Vous ne recevez ensuite plus de publicité ; les e-mails importants concernant votre compte ne sont pas concernés.",
       "s4_title": "Base légale",
       "s4_body": "Les bases juridiques sont : art. 6, par. 1, point b) RGPD (exécution du contrat — mise à disposition de votre compte et des fonctions de la plateforme) ; art. 6, par. 1, point a) RGPD (consentement — p. ex. notifications push, cookies facultatifs, vérification d'identité) ; art. 6, par. 1, point f) RGPD (intérêt légitime — sécurité, prévention des abus et de la fraude, présélection automatisée des annonces, journaux du serveur) ; art. 6, par. 1, point c) RGPD (obligations légales, p. ex. conservation fiscale). Le stockage d'informations sur votre appareil (p. ex. session de connexion, réglage de langue) s'effectue, lorsqu'il est strictement nécessaire, selon le § 25, al. 2 TDDDG, et sinon uniquement avec votre consentement selon le § 25, al. 1 TDDDG.\n\nLes annonces sont présélectionnées automatiquement pour détecter des contenus suspects ; un humain décide des annonces suspectes. Aucune décision fondée exclusivement sur un traitement automatisé et produisant des effets juridiques n'est prise.",
       "s5_title": "Destinataires des données",
@@ -1941,5 +1944,53 @@
     "mail_resent_ok": "L'e-mail a été envoyé.",
     "mail_resent_fail": "L'e-mail n'a de nouveau pas pu être envoyé.",
     "mail_not_retryable": "Cet e-mail a déjà été envoyé ou est en cours d'envoi."
+  },
+  "newsletter_unsub": {
+    "title": "Se désabonner des e-mails publicitaires",
+    "intro": "Ne souhaitez-vous plus recevoir par e-mail les actualités et offres de SouqMar24 ?",
+    "confirm_btn": "Oui, me désabonner",
+    "done_title": "Vous êtes désabonné",
+    "done_text": "Vous ne recevrez plus d’e-mails publicitaires de notre part. Vous continuerez à recevoir les e-mails importants concernant votre compte.",
+    "error": "Le lien est invalide ou le désabonnement a échoué. Vous pouvez aussi désactiver les e-mails publicitaires dans votre compte, sous « Mes données et confidentialité ».",
+    "home": "Retour à l’accueil"
+  },
+  "campaigns": {
+    "tab": "Campagnes",
+    "title": "E-mails publicitaires",
+    "intro": "Seuls les utilisateurs inscrits ayant donné leur accord et dont l’adresse est vérifiée peuvent les recevoir. Toute personne qui se désabonne est exclue immédiatement.",
+    "new": "Nouvelle campagne",
+    "empty": "Aucune campagne pour le moment.",
+    "name": "Nom interne",
+    "texts": "Texte par langue",
+    "subject": "Objet",
+    "body": "Texte",
+    "body_hint": "Ligne vide = nouveau paragraphe. {name} est remplacé par le prénom. Le lien de désabonnement, le motif et les coordonnées de l’expéditeur sont ajoutés automatiquement. Chacun reçoit sa langue, sinon l’anglais, sinon le français.",
+    "cta_label": "Texte du bouton (facultatif)",
+    "cta_url": "Lien du bouton (https, facultatif)",
+    "audience": "Destinataires",
+    "countries": "Pays (codes, p. ex. MA, DE ; vide = tous)",
+    "langs": "Langues des utilisateurs (vide = toutes)",
+    "account_type": "Type de compte",
+    "account_all": "Tous",
+    "recipients": "{count} destinataires joignables",
+    "save": "Enregistrer le brouillon",
+    "test_send": "M’envoyer un test",
+    "test_sent": "E-mail de test envoyé à {email}",
+    "send": "Envoyer maintenant",
+    "send_confirm": "Envoyer la campagne à {count} destinataires ? Cette action est irréversible.",
+    "status_DRAFT": "Brouillon",
+    "status_SENDING": "En cours d’envoi",
+    "status_SENT": "Envoyée",
+    "status_CANCELLED": "Annulée",
+    "counts": "{sent} sur {total} envoyés, {failed} échecs",
+    "cancel_send": "Arrêter l’envoi",
+    "delete": "Supprimer",
+    "delete_confirm": "Supprimer le brouillon « {name} » ?",
+    "back": "Retour à la liste",
+    "error": "Erreur. Vérifiez votre saisie.",
+    "no_text": "Veuillez rédiger au moins un texte (objet et texte).",
+    "audience_changed": "Le nombre de destinataires a changé ({count}). Vérifiez puis renvoyez.",
+    "private": "Particulier",
+    "business": "Professionnel"
   }
 }

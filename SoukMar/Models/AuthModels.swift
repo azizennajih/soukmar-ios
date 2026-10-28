@@ -70,6 +70,8 @@ struct RegisterRequest: Codable {
     let accountType: String
     var lang: String?
     var country: String?
+    /// Optional advertising consent, only true when the (unticked by default) box was ticked.
+    var marketingConsent: Bool = false
 }
 
 struct DeleteAccountRequest: Encodable {

@@ -34,6 +34,9 @@ struct MesDonneesView: View {
                 prefToggle(i18n.t("mes_donnees.email_saved_searches"), \.emailSavedSearches, prefs.emailSavedSearches)
                 prefToggle(i18n.t("mes_donnees.email_listing_reminders"), \.emailListingReminders, prefs.emailListingReminders)
                 Text(i18n.t("mes_donnees.email_always")).font(.caption2).foregroundStyle(.secondary)
+                Divider()
+                prefToggle(i18n.t("mes_donnees.email_marketing"), \.emailMarketing, prefs.emailMarketing)
+                Text(i18n.t("mes_donnees.marketing_hint")).font(.caption2).foregroundStyle(.secondary)
             }
         }
     }

@@ -100,3 +100,8 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
 - `APIClient.getData(path:)` liefert den Rohbody (Export wird 1:1 gespeichert). i18n-JSONs neu aus dem Web kopiert (`mes_donnees.*`, `parametres.privacy_data*`).
 - **Backend:** `GET/PUT /auth/email-preferences`, `GET /users/me/blocked`, `GET /auth/export` (Commit im Backend-Repo, Migration `20261028100000_email_preferences`).
 - **Nicht getestet:** kein Mac, Codemagic-Lauf der Tranche steht aus.
+
+## Tranche 33 — Werbe-E-Mails: Einwilligung (2026-10-28)
+- **Registrierung:** `RegisterView` hat einen Schalter „Neuigkeiten und Angebote per E-Mail“ (nie vorangekreuzt, `RegisterRequest.marketingConsent`). **Meine Daten:** vierter Schalter `emailMarketing` (`EmailPreferencesDto` liest einen fehlenden Schlüssel als „aus“, falls der Server noch die alte Version ist).
+- Kampagnen schreibt und versendet nur der Admin im Web; die App bekommt nur die Einwilligung. Backend: `marketingConsent*`-Felder, `MarketingCampaign`/`MarketingSend`, Migration `20261028120000_marketing`. i18n-JSONs neu aus dem Web kopiert.
+- **Nicht getestet:** kein Mac, Codemagic-Lauf der Tranche steht aus.

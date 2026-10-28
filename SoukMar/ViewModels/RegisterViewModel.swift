@@ -9,6 +9,8 @@ final class RegisterViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
     @Published var accountType: String = ""
+    /// Advertising e-mail consent: never ticked by default.
+    @Published var marketingConsent = false
     @Published var loading: Bool = false
     @Published var errorMessage: String?
     @Published var registeredEmail: String?
@@ -46,7 +48,8 @@ final class RegisterViewModel: ObservableObject {
                 password: password,
                 phone: phone.isEmpty ? nil : phone,
                 city: city.isEmpty ? nil : city,
-                accountType: accountType
+                accountType: accountType,
+                marketingConsent: marketingConsent
             )
             loading = false
             switch result {

@@ -316,7 +316,8 @@
     "reset_too_short": "Password must be at least 6 characters.",
     "reset_invalid_title": "Invalid link",
     "reset_invalid_sub": "This reset link is invalid or has expired. Request a new one.",
-    "phone_invalid_length": "Invalid number for this country ({min}-{max} digits)."
+    "phone_invalid_length": "Invalid number for this country ({min}-{max} digits).",
+    "marketing_consent": "I would like to receive news and offers from SouqMar24 by e-mail (optional). I can withdraw this consent at any time."
   },
   "cats": {
     "VEHICLES": "Vehicles",
@@ -757,7 +758,9 @@
     "export_error": "The download failed. Please try again.",
     "cookies_title": "Cookies",
     "cookies_btn": "Open cookie settings",
-    "saved": "Saved"
+    "saved": "Saved",
+    "email_marketing": "News and offers from SouqMar24 (advertising)",
+    "marketing_hint": "Optional and revocable at any time. Every advertising e-mail contains an unsubscribe link."
   },
   "parametres": {
     "privacy_data": "My data & privacy",
@@ -804,7 +807,7 @@
       "s2_title": "Data collected",
       "s2_body": "We collect: data provided at registration (name, email address, password in encrypted form, country, optionally phone number and city, account type); data about your listings (texts, photos, price, location) and your messages with other users; data about your use such as favourites, saved searches, reviews, reports and blocks; technical connection data (IP address, time, pages visited, browser and device type) in server logs; verification data (email or SMS confirmation code) and, if you voluntarily request an identity check, a photo of your ID document and a selfie. These images are used only for manual review and are deleted after the decision.\n\nWhen you open the Website, our server determines your country from your IP address in order to preselect listings and language; the IP address is neither stored for this purpose nor passed on to third parties.",
       "s3_title": "Purposes of processing",
-      "s3_body": "Your data is used to: create and manage your account; publish and moderate your listings; enable messaging between users; ensure platform security and prevent fraud; send you notifications related to your activity (offers, messages, listing status); and improve our services.",
+      "s3_body": "Your data is used to: create and manage your account; publish and moderate your listings; enable messaging between users; ensure platform security and prevent fraud; send you notifications related to your activity (offers, messages, listing status); and improve our services.\n\nAdvertising e-mails: only if you have expressly consented (Art. 6(1)(a) GDPR, Section 7(2) No. 3 UWG) do we send you news and offers from SouqMar24 by e-mail. Consent is voluntary, is given at registration or in your account under “My data & privacy”, and is never pre-ticked. As proof we store the time, source and wording of the consent. You can withdraw it at any time: via the unsubscribe link in every advertising e-mail or in your account. After that you receive no more advertising; important e-mails about your account are not affected.",
       "s4_title": "Legal basis",
       "s4_body": "Legal bases are: Art. 6(1)(b) GDPR (performance of a contract — providing your account and the platform features); Art. 6(1)(a) GDPR (consent — e.g. push notifications, optional cookies, identity check); Art. 6(1)(f) GDPR (legitimate interest — security, prevention of abuse and fraud, automated pre-screening of listings, server logs); Art. 6(1)(c) GDPR (legal obligations, e.g. tax-law retention). Information is stored on your device (e.g. login session, language setting) under § 25(2) TDDDG where strictly necessary, and otherwise only with your consent under § 25(1) TDDDG.\n\nListings are automatically pre-screened for suspicious content; a human decides on suspicious listings. No decision based solely on automated processing that produces legal effects is made.",
       "s5_title": "Data recipients",
@@ -1941,5 +1944,53 @@
     "mail_resent_ok": "The e-mail was sent.",
     "mail_resent_fail": "The e-mail could not be sent again.",
     "mail_not_retryable": "This e-mail has already been sent or is being sent."
+  },
+  "newsletter_unsub": {
+    "title": "Unsubscribe from advertising e-mails",
+    "intro": "Do you no longer want to receive news and offers from SouqMar24 by e-mail?",
+    "confirm_btn": "Yes, unsubscribe",
+    "done_title": "You are unsubscribed",
+    "done_text": "You will no longer receive advertising e-mails from us. You will still receive important e-mails about your account.",
+    "error": "The link is invalid or the unsubscription failed. You can also switch off advertising e-mails in your account under “My data & privacy”.",
+    "home": "Go to home page"
+  },
+  "campaigns": {
+    "tab": "Campaigns",
+    "title": "Advertising e-mails",
+    "intro": "Only registered users who agreed and whose address is verified can receive these. Anyone who unsubscribes is excluded immediately.",
+    "new": "New campaign",
+    "empty": "No campaigns yet.",
+    "name": "Internal name",
+    "texts": "Text per language",
+    "subject": "Subject",
+    "body": "Text",
+    "body_hint": "Blank line = new paragraph. {name} is replaced by the first name. Unsubscribe link, reason and sender details are added automatically. Users get their own language, otherwise English, otherwise French.",
+    "cta_label": "Button text (optional)",
+    "cta_url": "Button link (https, optional)",
+    "audience": "Recipients",
+    "countries": "Countries (codes, e.g. MA, DE; empty = all)",
+    "langs": "User languages (empty = all)",
+    "account_type": "Account type",
+    "account_all": "All",
+    "recipients": "{count} recipients reachable",
+    "save": "Save draft",
+    "test_send": "Send test to me",
+    "test_sent": "Test e-mail sent to {email}",
+    "send": "Send now",
+    "send_confirm": "Send the campaign to {count} recipients? This cannot be undone.",
+    "status_DRAFT": "Draft",
+    "status_SENDING": "Sending",
+    "status_SENT": "Sent",
+    "status_CANCELLED": "Cancelled",
+    "counts": "{sent} of {total} sent, {failed} failed",
+    "cancel_send": "Stop sending",
+    "delete": "Delete",
+    "delete_confirm": "Delete draft “{name}”?",
+    "back": "Back to list",
+    "error": "Error. Please check your input.",
+    "no_text": "Please write at least one text (subject and body).",
+    "audience_changed": "The number of recipients has changed ({count}). Please check and send again.",
+    "private": "Private",
+    "business": "Business"
   }
 }

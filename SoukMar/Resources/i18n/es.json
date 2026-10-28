@@ -316,7 +316,8 @@
     "reset_too_short": "La contraseña debe tener al menos 6 caracteres.",
     "reset_invalid_title": "Enlace no válido",
     "reset_invalid_sub": "Este enlace de restablecimiento no es válido o ha caducado. Solicita uno nuevo.",
-    "phone_invalid_length": "Número no válido para este país ({min}-{max} dígitos)."
+    "phone_invalid_length": "Número no válido para este país ({min}-{max} dígitos).",
+    "marketing_consent": "Quiero recibir novedades y ofertas de SouqMar24 por correo electrónico (opcional). Puedo retirar este consentimiento en cualquier momento."
   },
   "cats": {
     "VEHICLES": "Vehículos",
@@ -658,7 +659,9 @@
     "export_error": "La descarga ha fallado. Inténtalo de nuevo.",
     "cookies_title": "Cookies",
     "cookies_btn": "Abrir ajustes de cookies",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "email_marketing": "Novedades y ofertas de SouqMar24 (publicidad)",
+    "marketing_hint": "Opcional y revocable en cualquier momento. Cada correo publicitario incluye un enlace para darte de baja."
   },
   "parametres": {
     "privacy_data": "Mis datos y privacidad",
@@ -705,7 +708,7 @@
       "s2_title": "Datos recopilados",
       "s2_body": "Recogemos: los datos facilitados en el registro (nombre, correo electrónico, contraseña cifrada, país, opcionalmente teléfono y ciudad, tipo de cuenta); datos de sus anuncios (textos, fotos, precio, ubicación) y sus mensajes con otros usuarios; datos de uso como favoritos, búsquedas guardadas, valoraciones, denuncias y bloqueos; datos técnicos de conexión (dirección IP, hora, páginas visitadas, tipo de navegador y dispositivo) en los registros del servidor; datos de verificación (código de confirmación por correo o SMS) y, si solicita voluntariamente una verificación de identidad, una foto de su documento de identidad y un selfie. Estas imágenes solo se usan para una revisión manual y se eliminan tras la decisión.\n\nAl acceder al Sitio, nuestro servidor determina su país a partir de su dirección IP para preseleccionar anuncios e idioma; la dirección IP ni se almacena con ese fin ni se transmite a terceros.",
       "s3_title": "Finalidades del tratamiento",
-      "s3_body": "Sus datos se utilizan para: crear y gestionar su cuenta; publicar y moderar sus anuncios; permitir la mensajería entre usuarios; garantizar la seguridad de la plataforma y prevenir el fraude; enviarle notificaciones relacionadas con su actividad (ofertas, mensajes, estado del anuncio); y mejorar nuestros servicios.",
+      "s3_body": "Sus datos se utilizan para: crear y gestionar su cuenta; publicar y moderar sus anuncios; permitir la mensajería entre usuarios; garantizar la seguridad de la plataforma y prevenir el fraude; enviarle notificaciones relacionadas con su actividad (ofertas, mensajes, estado del anuncio); y mejorar nuestros servicios.\n\nCorreos publicitarios: solo si has dado tu consentimiento expreso (art. 6, apdo. 1, letra a, RGPD; art. 7, apdo. 2, n.º 3 UWG) te enviamos por correo electrónico novedades y ofertas de SouqMar24. El consentimiento es voluntario, se otorga al registrarte o en tu cuenta, en «Mis datos y privacidad», y nunca está premarcado. Como prueba guardamos la fecha, el origen y la versión del texto del consentimiento. Puedes retirarlo en cualquier momento: mediante el enlace de baja de cada correo publicitario o en tu cuenta. Después no recibirás más publicidad; los correos importantes sobre tu cuenta no se ven afectados.",
       "s4_title": "Base jurídica",
       "s4_body": "Las bases jurídicas son: art. 6.1.b RGPD (ejecución del contrato — prestación de su cuenta y de las funciones de la plataforma); art. 6.1.a RGPD (consentimiento — p. ej. notificaciones push, cookies opcionales, verificación de identidad); art. 6.1.f RGPD (interés legítimo — seguridad, prevención de abusos y fraude, preselección automática de anuncios, registros del servidor); art. 6.1.c RGPD (obligaciones legales, p. ej. conservación fiscal). El almacenamiento de información en su dispositivo (p. ej. sesión de inicio de sesión, idioma) se basa, cuando es estrictamente necesario, en el § 25 (2) TDDDG y, en caso contrario, únicamente en su consentimiento conforme al § 25 (1) TDDDG.\n\nLos anuncios se preseleccionan automáticamente para detectar contenido sospechoso; una persona decide sobre los anuncios sospechosos. No se toman decisiones basadas únicamente en un tratamiento automatizado con efectos jurídicos.",
       "s5_title": "Destinatarios de los datos",
@@ -1941,5 +1944,53 @@
     "mail_resent_ok": "Se envió el correo.",
     "mail_resent_fail": "No se pudo enviar de nuevo el correo.",
     "mail_not_retryable": "Este correo ya se ha enviado o se está enviando."
+  },
+  "newsletter_unsub": {
+    "title": "Darse de baja de los correos publicitarios",
+    "intro": "¿Ya no quieres recibir novedades y ofertas de SouqMar24 por correo electrónico?",
+    "confirm_btn": "Sí, darme de baja",
+    "done_title": "Te has dado de baja",
+    "done_text": "Ya no recibirás correos publicitarios nuestros. Seguirás recibiendo los correos importantes sobre tu cuenta.",
+    "error": "El enlace no es válido o la baja ha fallado. También puedes desactivar los correos publicitarios en tu cuenta, en «Mis datos y privacidad».",
+    "home": "Ir al inicio"
+  },
+  "campaigns": {
+    "tab": "Campañas",
+    "title": "Correos publicitarios",
+    "intro": "Solo pueden recibirlos usuarios registrados que hayan aceptado y cuya dirección esté verificada. Quien se da de baja queda excluido de inmediato.",
+    "new": "Nueva campaña",
+    "empty": "Aún no hay campañas.",
+    "name": "Nombre interno",
+    "texts": "Texto por idioma",
+    "subject": "Asunto",
+    "body": "Texto",
+    "body_hint": "Línea en blanco = nuevo párrafo. {name} se sustituye por el nombre. El enlace de baja, el motivo y los datos del remitente se añaden automáticamente. Cada usuario recibe su idioma; si no, inglés; si no, francés.",
+    "cta_label": "Texto del botón (opcional)",
+    "cta_url": "Enlace del botón (https, opcional)",
+    "audience": "Destinatarios",
+    "countries": "Países (códigos, p. ej. MA, DE; vacío = todos)",
+    "langs": "Idiomas de los usuarios (vacío = todos)",
+    "account_type": "Tipo de cuenta",
+    "account_all": "Todos",
+    "recipients": "{count} destinatarios alcanzables",
+    "save": "Guardar borrador",
+    "test_send": "Enviarme una prueba",
+    "test_sent": "Correo de prueba enviado a {email}",
+    "send": "Enviar ahora",
+    "send_confirm": "¿Enviar la campaña a {count} destinatarios? No se puede deshacer.",
+    "status_DRAFT": "Borrador",
+    "status_SENDING": "Enviando",
+    "status_SENT": "Enviada",
+    "status_CANCELLED": "Cancelada",
+    "counts": "{sent} de {total} enviados, {failed} fallidos",
+    "cancel_send": "Detener el envío",
+    "delete": "Eliminar",
+    "delete_confirm": "¿Eliminar el borrador «{name}»?",
+    "back": "Volver a la lista",
+    "error": "Error. Revisa los datos.",
+    "no_text": "Escribe al menos un texto (asunto y texto).",
+    "audience_changed": "El número de destinatarios ha cambiado ({count}). Revísalo y vuelve a enviar.",
+    "private": "Particular",
+    "business": "Empresa"
   }
 }

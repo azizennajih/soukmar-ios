@@ -316,7 +316,8 @@
     "reset_too_short": "Şifre en az 6 karakter olmalıdır.",
     "reset_invalid_title": "Geçersiz bağlantı",
     "reset_invalid_sub": "Bu sıfırlama bağlantısı geçersiz veya süresi doldu. Yeni bir tane isteyin.",
-    "phone_invalid_length": "Bu ülke için geçersiz numara ({min}-{max} hane)."
+    "phone_invalid_length": "Bu ülke için geçersiz numara ({min}-{max} hane).",
+    "marketing_consent": "SouqMar24’ün haber ve tekliflerini e-posta ile almak istiyorum (isteğe bağlı). Bu onayı istediğim zaman geri çekebilirim."
   },
   "cats": {
     "VEHICLES": "Araçlar",
@@ -1554,7 +1555,9 @@
     "export_error": "İndirme başarısız oldu. Lütfen tekrar deneyin.",
     "cookies_title": "Çerezler",
     "cookies_btn": "Çerez ayarlarını aç",
-    "saved": "Kaydedildi"
+    "saved": "Kaydedildi",
+    "email_marketing": "SouqMar24 haber ve teklifleri (reklam)",
+    "marketing_hint": "İsteğe bağlıdır ve istediğiniz zaman geri alınabilir. Her reklam e-postası bir abonelikten çıkma bağlantısı içerir."
   },
   "parametres": {
     "privacy_data": "Verilerim ve gizlilik",
@@ -1601,7 +1604,7 @@
       "s2_title": "Toplanan veriler",
       "s2_body": "Şunları toplarız: kayıt sırasında verilen veriler (ad, e-posta adresi, şifrelenmiş parola, ülke, isteğe bağlı telefon numarası ve şehir, hesap türü); ilanlarınıza ilişkin veriler (metinler, fotoğraflar, fiyat, konum) ve diğer kullanıcılarla mesajlarınız; favoriler, kayıtlı aramalar, değerlendirmeler, bildirimler ve engellemeler gibi kullanım verileri; sunucu kayıtlarındaki teknik bağlantı verileri (IP adresi, zaman, ziyaret edilen sayfalar, tarayıcı ve cihaz türü); doğrulama verileri (e-posta veya SMS onay kodu) ve gönüllü olarak kimlik doğrulaması isterseniz kimlik belgenizin fotoğrafı ile bir selfie. Bu görüntüler yalnızca manuel inceleme için kullanılır ve karardan sonra silinir.\n\nSite'yi açtığınızda sunucumuz, ilanları ve dili önceden seçmek için IP adresinizden ülkenizi belirler; IP adresi bu amaçla saklanmaz ve üçüncü kişilere aktarılmaz.",
       "s3_title": "İşlemenin amaçları",
-      "s3_body": "Verileriniz şu amaçlarla kullanılır: hesabınızı oluşturmak ve yönetmek; ilanlarınızı yayınlamak ve denetlemek; kullanıcılar arası mesajlaşmayı sağlamak; platformun güvenliğini sağlamak ve dolandırıcılığı önlemek; etkinliğinizle ilgili bildirimler göndermek (teklifler, mesajlar, ilan durumu); ve hizmetlerimizi geliştirmek.",
+      "s3_body": "Verileriniz şu amaçlarla kullanılır: hesabınızı oluşturmak ve yönetmek; ilanlarınızı yayınlamak ve denetlemek; kullanıcılar arası mesajlaşmayı sağlamak; platformun güvenliğini sağlamak ve dolandırıcılığı önlemek; etkinliğinizle ilgili bildirimler göndermek (teklifler, mesajlar, ilan durumu); ve hizmetlerimizi geliştirmek.\n\nReklam e-postaları: SouqMar24’ün haber ve tekliflerini yalnızca açıkça onay vermeniz hâlinde e-posta ile göndeririz (GDPR m. 6/1-a, UWG § 7/2 No. 3). Onay isteğe bağlıdır, kayıt sırasında veya hesabınızda “Verilerim ve gizlilik” altında verilir ve asla önceden işaretli değildir. İspat için onayın zamanını, kaynağını ve metin sürümünü saklarız. Onayı istediğiniz zaman geri çekebilirsiniz: her reklam e-postasındaki abonelikten çıkma bağlantısıyla veya hesabınızdan. Bundan sonra reklam almazsınız; hesabınızla ilgili önemli e-postalar etkilenmez.",
       "s4_title": "Hukuki dayanak",
       "s4_body": "Hukuki dayanaklar: GVKT m. 6/1-b (sözleşmenin ifası — hesabınızın ve platform işlevlerinin sağlanması); m. 6/1-a (rıza — ör. anlık bildirimler, isteğe bağlı çerezler, kimlik doğrulama); m. 6/1-f (meşru menfaat — güvenlik, kötüye kullanım ve dolandırıcılığın önlenmesi, ilanların otomatik ön taraması, sunucu kayıtları); m. 6/1-c (yasal yükümlülükler, ör. vergi mevzuatı kapsamında saklama). Cihazınızda bilgi saklanması (ör. oturum, dil ayarı) kesinlikle gerekli olduğunda TDDDG § 25/2 uyarınca, aksi halde yalnızca TDDDG § 25/1 uyarınca rızanızla yapılır.\n\nİlanlar şüpheli içerik açısından otomatik olarak ön taramadan geçirilir; şüpheli ilanlar hakkında bir insan karar verir. Hukuki sonuç doğuran, yalnızca otomatik işlemeye dayalı bir karar verilmez.",
       "s5_title": "Verilerin alıcıları",
@@ -1941,5 +1944,53 @@
     "mail_resent_ok": "E-posta gönderildi.",
     "mail_resent_fail": "E-posta yine gönderilemedi.",
     "mail_not_retryable": "Bu e-posta zaten gönderildi veya şu anda gönderiliyor."
+  },
+  "newsletter_unsub": {
+    "title": "Reklam e-postalarından çık",
+    "intro": "SouqMar24’ün haber ve tekliflerini artık e-posta ile almak istemiyor musunuz?",
+    "confirm_btn": "Evet, abonelikten çık",
+    "done_title": "Abonelikten çıktınız",
+    "done_text": "Artık bizden reklam e-postası almayacaksınız. Hesabınızla ilgili önemli e-postaları almaya devam edeceksiniz.",
+    "error": "Bağlantı geçersiz veya abonelikten çıkma başarısız oldu. Reklam e-postalarını hesabınızda “Verilerim ve gizlilik” altından da kapatabilirsiniz.",
+    "home": "Ana sayfaya git"
+  },
+  "campaigns": {
+    "tab": "Kampanyalar",
+    "title": "Reklam e-postaları",
+    "intro": "Bunları yalnızca onay vermiş ve adresi doğrulanmış kayıtlı kullanıcılar alabilir. Abonelikten çıkan kişi hemen hariç tutulur.",
+    "new": "Yeni kampanya",
+    "empty": "Henüz kampanya yok.",
+    "name": "Dahili ad",
+    "texts": "Dil başına metin",
+    "subject": "Konu",
+    "body": "Metin",
+    "body_hint": "Boş satır = yeni paragraf. {name} ilk adla değiştirilir. Abonelikten çıkma bağlantısı, neden ve gönderen bilgileri otomatik eklenir. Her kullanıcı kendi dilini alır; yoksa İngilizce; yoksa Fransızca.",
+    "cta_label": "Düğme metni (isteğe bağlı)",
+    "cta_url": "Düğme bağlantısı (https, isteğe bağlı)",
+    "audience": "Alıcılar",
+    "countries": "Ülkeler (kodlar, ör. MA, DE; boş = tümü)",
+    "langs": "Kullanıcı dilleri (boş = tümü)",
+    "account_type": "Hesap türü",
+    "account_all": "Tümü",
+    "recipients": "{count} alıcıya ulaşılabilir",
+    "save": "Taslağı kaydet",
+    "test_send": "Bana test gönder",
+    "test_sent": "Test e-postası {email} adresine gönderildi",
+    "send": "Şimdi gönder",
+    "send_confirm": "Kampanya {count} alıcıya gönderilsin mi? Bu geri alınamaz.",
+    "status_DRAFT": "Taslak",
+    "status_SENDING": "Gönderiliyor",
+    "status_SENT": "Gönderildi",
+    "status_CANCELLED": "İptal edildi",
+    "counts": "{total} içinden {sent} gönderildi, {failed} başarısız",
+    "cancel_send": "Göndermeyi durdur",
+    "delete": "Sil",
+    "delete_confirm": "“{name}” taslağı silinsin mi?",
+    "back": "Listeye dön",
+    "error": "Hata. Girdilerinizi kontrol edin.",
+    "no_text": "Lütfen en az bir metin yazın (konu ve metin).",
+    "audience_changed": "Alıcı sayısı değişti ({count}). Lütfen kontrol edip yeniden gönderin.",
+    "private": "Bireysel",
+    "business": "Ticari"
   }
 }
