@@ -23,6 +23,7 @@ struct HomeView: View {
         case legalNotice
         case deleteAccount
         case settings
+        case myData
         case imageSearch
     }
     // NavigationPath (type-erased), not a plain [Route] array: ListingsView
@@ -278,9 +279,12 @@ struct HomeView: View {
                         onOpenProfil: { path.append(Route.profile) },
                         onOpenNotifications: { path.append(Route.notifications) },
                         onOpenLegal: { path.append(Route.legalNotice) },
+                        onOpenMyData: { path.append(Route.myData) },
                         onOpenDeleteAccount: { path.append(Route.deleteAccount) },
                         onLoggedOut: onLoggedOut
                     )
+                case .myData:
+                    MesDonneesView()
                 case .imageSearch:
                     ImageSearchView(onOpenListing: { id in path.append(id) })
                 }

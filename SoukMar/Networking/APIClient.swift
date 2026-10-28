@@ -72,6 +72,24 @@ final class APIClient {
         return (http.statusCode, responseData)
     }
 
+    /// GET returning the raw body (e.g. the account data export, saved as a file exactly as the server sent it).
+    func getData(path: String) async throws -> Data {
+        let (data, response): (Data, URLResponse)
+        do {
+            (data, response) = try await session.data(for: request(path: path, method: "GET"))
+        } catch {
+            throw APIError.network(genericErrorText())
+        }
+        guard let http = response as? HTTPURLResponse else {
+            throw APIError.network(genericErrorText())
+        }
+        guard (200..<300).contains(http.statusCode) else {
+            let parsed = try? decoder.decode(ApiErrorDto.self, from: data)
+            throw APIError.server(message: parsed?.error ?? genericErrorText(), unverified: false)
+        }
+        return data
+    }
+
     /// GET with query parameters (e.g. listing filters), decoding a Codable response.
     func send<Response: Decodable>(path: String, query: [String: String]) async throws -> Response {
         var components = URLComponents(

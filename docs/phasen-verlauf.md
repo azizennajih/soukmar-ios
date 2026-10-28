@@ -94,3 +94,9 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
 - **Anzeige aus Kategorie:** `ListingsView(onPostListing:)` zeigt unten rechts „Anzeige aufgeben“; `Route.listingForm(editId:category:)`, `DeposerAnnonceView(presetCategory:)` überspringt den Kategorieschritt (wie Web `?categorie=`).
 - **Admin:** Länderwahl (Browsing-Land / alle Länder) + neue Tabs Übersicht, Anzeigen, Benutzer, Besucher, Einnahmen, Sicherheit (`Views/AdminDashboardViews.swift`, `ViewModels/AdminDashboardViewModel.swift`, `Networking/AdminDashboardRepository.swift`, `Models/AdminDashboardModels.swift`).
 - **Nicht getestet:** kein Mac, Codemagic-Build dieser Tranche noch nicht gelaufen. Bekannte Lücke: Banning/Entsperren von Benutzern (Web zeigt `banned`) fehlt auch auf Android.
+
+## Tranche 32 — Meine Daten & Datenschutz (2026-10-28)
+- **Neu:** `Views/MesDonneesView.swift` (+ `ViewModels/MesDonneesViewModel.swift`, `Networking/AccountDataRepository.swift`, `Models/AccountDataModels.swift`): E-Mail-Einstellungen je Kategorie (3 Schalter, speichern sofort), Liste blockierter Nutzer mit Entblocken, Datenexport (DSGVO Art. 15/20) als JSON über das System-Share-Sheet. Einstieg: Zeile in `SettingsView` (`Route.myData`). Kein Cookie-Abschnitt (App hat keinen Banner).
+- `APIClient.getData(path:)` liefert den Rohbody (Export wird 1:1 gespeichert). i18n-JSONs neu aus dem Web kopiert (`mes_donnees.*`, `parametres.privacy_data*`).
+- **Backend:** `GET/PUT /auth/email-preferences`, `GET /users/me/blocked`, `GET /auth/export` (Commit im Backend-Repo, Migration `20261028100000_email_preferences`).
+- **Nicht getestet:** kein Mac, Codemagic-Lauf der Tranche steht aus.

@@ -9,6 +9,7 @@ struct SettingsView: View {
     let onOpenProfil: () -> Void
     let onOpenNotifications: () -> Void
     let onOpenLegal: () -> Void
+    let onOpenMyData: () -> Void
     let onOpenDeleteAccount: () -> Void
     let onLoggedOut: () -> Void
 
@@ -26,6 +27,7 @@ struct SettingsView: View {
 
                 SettingsRow(icon: "person", title: i18n.t("parametres.profile_account"), subtitle: i18n.t("parametres.profile_account_sub"), action: onOpenProfil)
                 SettingsRow(icon: "bell", title: i18n.t("parametres.notifications"), subtitle: i18n.t("parametres.notifications_sub"), action: onOpenNotifications)
+                SettingsRow(icon: "lock.shield", title: i18n.t("parametres.privacy_data"), subtitle: i18n.t("parametres.privacy_data_sub"), action: onOpenMyData)
                 SettingsRow(icon: "doc.text", title: i18n.t("parametres.legal"), subtitle: i18n.t("parametres.legal_sub"), action: onOpenLegal)
 
                 Spacer(minLength: 10)
