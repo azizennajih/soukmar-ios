@@ -42,7 +42,22 @@ struct MesAnnoncesView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 10) {
-                            ForEach(viewModel.listings) { listing in
+                            HStack(spacing: 8) {
+                                Image(systemName: "magnifyingglass").foregroundStyle(Color.soukmarTextMuted)
+                                TextField(i18n.t("mes_annonces.search_placeholder"), text: $viewModel.searchTerm)
+                                    .textInputAutocapitalization(.never)
+                                    .autocorrectionDisabled()
+                                if !viewModel.searchTerm.isEmpty {
+                                    Button { viewModel.searchTerm = "" } label: {
+                                        Image(systemName: "xmark.circle.fill").foregroundStyle(Color.soukmarTextMuted)
+                                    }
+                                    .accessibilityLabel(i18n.t("common.close"))
+                                }
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(.systemGray4), lineWidth: 1))
+                            ForEach(viewModel.filteredListings) { listing in
                                 VStack(spacing: 0) {
                                     ListingRow(
                                         listing: listing,

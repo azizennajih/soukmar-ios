@@ -71,7 +71,7 @@ struct ModerationView: View {
 
             if let key = viewModel.messageKey {
                 VStack(spacing: 6) {
-                    Text(i18n.t(key))
+                    Text(i18n.t(key, viewModel.messageParams))
                     if let extra = viewModel.extraMessageKey { Text(i18n.t(extra)) }
                 }
                 .font(.subheadline)
@@ -92,6 +92,10 @@ struct ModerationView: View {
         )) {
             Button(viewModel.confirmAction == "approve" ? i18n.t("moderation.act_approve") : i18n.t("moderation.act_requeue")) { viewModel.confirm() }
             Button(i18n.t("common.cancel"), role: .cancel) { viewModel.cancelDecision() }
+        }
+        .alert(i18n.t("moderation.confirm_bulk_approve", ["count": String(viewModel.summary?.pending ?? 0)]), isPresented: $viewModel.bulkConfirmOpen) {
+            Button(i18n.t("moderation.bulk_approve")) { viewModel.approveAll() }
+            Button(i18n.t("common.cancel"), role: .cancel) { }
         }
         .sheet(isPresented: Binding(
             get: { viewModel.reasonAction != nil },
@@ -130,6 +134,21 @@ private struct ModerationQueueView: View {
                             SummaryCard(value: s.decidedToday ?? 0, label: i18n.t("moderation.sum_today"), onTap: nil)
                         }
                     }
+                }
+
+                if viewModel.status == "PENDING", (viewModel.summary?.pending ?? 0) > 0 {
+                    Button {
+                        viewModel.bulkConfirmOpen = true
+                    } label: {
+                        Label("\(i18n.t("moderation.bulk_approve")) (\(viewModel.summary?.pending ?? 0))", systemImage: "checkmark")
+                            .font(.subheadline.weight(.semibold))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 9)
+                            .foregroundStyle(.white)
+                            .background(Color.soukmarPrimary)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .disabled(viewModel.bulkBusy)
                 }
 
                 ScrollView(.horizontal, showsIndicators: false) {

@@ -41,6 +41,16 @@ final class ModerationRepository {
         }
     }
 
+    /// ADMIN only: approves every waiting listing except high-risk ones; no e-mails.
+    func approveAll() async -> Result<ModerationBulkApproveDto, APIError> {
+        do {
+            let response: ModerationBulkApproveDto = try await api.send(path: "admin/moderation/approve-all", method: "POST", body: ModerationEmptyBody())
+            return .success(response)
+        } catch {
+            return fail(error)
+        }
+    }
+
     func detail(id: String) async -> Result<ModerationDetailDto, APIError> {
         do {
             let response: ModerationDetailDto = try await api.send(path: "admin/moderation/listings/\(id)")

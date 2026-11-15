@@ -106,6 +106,7 @@ final class DeposerAnnonceViewModel: ObservableObject {
             }
         } else if editId == nil, !countrySyncStarted {
             countrySyncStarted = true
+            checkAiStatus()
             if let presetCategory, category.isEmpty, CATEGORIES.contains(where: { $0.value == presetCategory }) {
                 selectCategory(presetCategory)
             }
@@ -201,6 +202,205 @@ final class DeposerAnnonceViewModel: ObservableObject {
         attrMulti = [:]
         attributeDefs = sub.attributeDefinitions
         step = 2
+    }
+
+    // MARK: - AI assistant ("create the listing with AI", mirrors the web component and Android)
+    // State lives here, above the wizard steps, so photos, result and edited texts survive back/next.
+
+    /// Which question the assistant is waiting on.
+    enum AiConfirm { case editedPreview, formTexts }
+
+    /// false until the server says an AI machine is set up: then the assistant is not shown at all.
+    @Published private(set) var aiConfigured = false
+    /// nil = not checked yet
+    @Published private(set) var aiAvailable: Bool?
+    @Published private(set) var aiMaxImages = 6
+    @Published private(set) var aiOpen = false
+    @Published private(set) var aiLoading = false
+    @Published private(set) var aiElapsed = 0
+    @Published private(set) var aiError: String?
+    @Published private(set) var aiNotice: String?
+    @Published private(set) var aiDraft: AiListingDraftDto?
+    @Published var aiTitle = ""
+    @Published var aiDescription = ""
+    /// index into (main suggestion + alternatives)
+    @Published var aiSelectedCategory = 0
+    @Published private(set) var aiConfirm: AiConfirm?
+
+    /// photos the current draft was made from
+    private var aiSignature = ""
+    private var aiPendingDraft: AiListingDraftDto?
+    private var aiPendingSignature = ""
+    /// Title/description as last written by the assistant: tells "still the AI text" from "typed by the user".
+    private var aiAppliedTitle = ""
+    private var aiAppliedDescription = ""
+    private var aiTimer: Task<Void, Never>?
+
+    /// Only freshly picked photos can be analysed (they are still local data).
+    private var aiLocalPhotos: [PhotoItem] { Array(photos.filter { $0.localData != nil }.prefix(aiMaxImages)) }
+    var aiImages: [Data] { aiLocalPhotos.compactMap { $0.localData } }
+    var aiTooManyPhotos: Bool { photos.filter { $0.localData != nil }.count > aiMaxImages }
+    private var aiSignatureNow: String { aiLocalPhotos.map { $0.id.uuidString }.joined(separator: "|") }
+    var aiPhotosChanged: Bool { aiDraft != nil && aiSignatureNow != aiSignature }
+
+    private func trimmed(_ value: String) -> String { value.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var aiTitleEdited: Bool {
+        guard let draft = aiDraft else { return false }
+        return trimmed(aiTitle) != (draft.suggestedTitle ?? "")
+    }
+    private var aiDescriptionEdited: Bool {
+        guard let draft = aiDraft else { return false }
+        return trimmed(aiDescription) != (draft.suggestedDescription ?? "")
+    }
+
+    func checkAiStatus() {
+        Task {
+            let status = await uploadRepository.aiStatus()
+            aiConfigured = status?.configured == true
+            aiAvailable = status?.available == true
+            if let max = status?.maxImages, max > 0 { aiMaxImages = max }
+        }
+    }
+
+    func toggleAi() {
+        aiOpen.toggle()
+        aiNotice = nil
+        if aiOpen, aiAvailable == false { checkAiStatus() }
+    }
+
+    func aiAnalyse(force: Bool) {
+        let images = aiImages
+        guard !images.isEmpty, !aiLoading else { return }
+        let signature = aiSignatureNow
+        aiLoading = true
+        aiError = nil
+        aiNotice = nil
+        aiElapsed = 0
+        aiTimer?.cancel()
+        aiTimer = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                if Task.isCancelled { break }
+                self?.aiElapsed += 1
+            }
+        }
+        Task {
+            let outcome = await uploadRepository.aiListingDraft(images: images, force: force)
+            aiTimer?.cancel()
+            aiLoading = false
+            switch outcome {
+            case .success(let draft):
+                aiAvailable = true
+                // A new result never silently replaces texts the user edited in the preview.
+                if aiTitleEdited || aiDescriptionEdited {
+                    aiPendingDraft = draft
+                    aiPendingSignature = signature
+                    aiConfirm = .editedPreview
+                } else {
+                    takeAiDraft(draft, signature: signature, replaceTexts: true)
+                }
+            case .failed(let message, let unavailable):
+                if unavailable { aiAvailable = false }
+                aiError = message ?? (unavailable
+                    ? appText("ai.unavailable", "L'assistant IA est indisponible pour le moment.")
+                    : appText("ai.error_generic", "L'analyse des photos a échoué. Réessayez ou continuez manuellement."))
+            }
+        }
+    }
+
+    private func takeAiDraft(_ draft: AiListingDraftDto, signature: String, replaceTexts: Bool) {
+        let keepTitle: String? = (!replaceTexts && aiTitleEdited) ? aiTitle : nil
+        let keepDescription: String? = (!replaceTexts && aiDescriptionEdited) ? aiDescription : nil
+        aiDraft = draft
+        aiSignature = signature
+        aiSelectedCategory = 0
+        aiTitle = keepTitle ?? (draft.suggestedTitle ?? "")
+        aiDescription = keepDescription ?? (draft.suggestedDescription ?? "")
+    }
+
+    private func aiFormTextsAreMine() -> (title: Bool, description: Bool) {
+        let newTitle = trimmed(aiTitle)
+        let newDescription = trimmed(aiDescription)
+        let titleIsMine = !trimmed(title).isEmpty && title != aiAppliedTitle && title != newTitle
+        let descIsMine = !trimmed(description).isEmpty && description != aiAppliedDescription && description != newDescription
+        return (titleIsMine, descIsMine)
+    }
+
+    /// "Apply suggestion": texts the user wrote in the form are only replaced after a confirmation.
+    func aiApply() {
+        guard aiDraft != nil, !trimmed(aiTitle).isEmpty, !trimmed(aiDescription).isEmpty else { return }
+        let mine = aiFormTextsAreMine()
+        if mine.title || mine.description {
+            aiConfirm = .formTexts
+        } else {
+            applyAiDraft(replaceTexts: true)
+        }
+    }
+
+    func aiResolveConfirm(replace: Bool) {
+        guard let kind = aiConfirm else { return }
+        aiConfirm = nil
+        switch kind {
+        case .editedPreview:
+            if let draft = aiPendingDraft {
+                takeAiDraft(draft, signature: aiPendingSignature, replaceTexts: replace)
+            }
+        case .formTexts:
+            applyAiDraft(replaceTexts: replace)
+        }
+        aiPendingDraft = nil
+    }
+
+    private func applyAiDraft(replaceTexts: Bool) {
+        guard let draft = aiDraft else { return }
+        let mine = aiFormTextsAreMine()
+        let newTitle = trimmed(aiTitle)
+        let newDescription = trimmed(aiDescription)
+        if replaceTexts || !mine.title { title = newTitle; aiAppliedTitle = newTitle }
+        if replaceTexts || !mine.description { description = newDescription; aiAppliedDescription = newDescription }
+
+        let choices = [draft.suggestedCategory] + (draft.alternativeCategories ?? [])
+        let choice = choices.indices.contains(aiSelectedCategory) ? choices[aiSelectedCategory] : draft.suggestedCategory
+        // Attributes belong to the main suggestion's subcategory; they are dropped if the user picked an alternative.
+        let suggested: [String: AiAttrValue] = aiSelectedCategory == 0 ? (draft.attributes ?? [:]) : [:]
+        aiOpen = false
+        Task {
+            let sameSub = category == choice.category && subcategoryId == (choice.subcategoryId ?? "")
+            if !sameSub {
+                category = choice.category
+                subcategoryId = ""
+                attrText = [:]
+                attrBool = [:]
+                attrMulti = [:]
+                attributeDefs = []
+                loadingSubcats = true
+                switch await catalogRepository.getCategoryFull(category: choice.category) {
+                case .success(let data): subcategories = data.subcategories
+                case .failure: subcategories = []
+                }
+                loadingSubcats = false
+                if let sub = subcategories.first(where: { $0.id == choice.subcategoryId }) {
+                    subcategoryId = sub.id
+                    attributeDefs = sub.attributeDefinitions
+                }
+                if !showCondition { condition = "" }
+            }
+            // Only attributes this subcategory really has, and never over a value the user already entered.
+            for def in attributeDefs {
+                guard let value = suggested[def.code] else { continue }
+                switch value {
+                case .bool(let b):
+                    if attrBool[def.code] == nil { attrBool[def.code] = b }
+                case .text(let s):
+                    if (attrText[def.code] ?? "").isEmpty { attrText[def.code] = s }
+                }
+            }
+            // Subcategory still open (the AI only knew the category): let the user choose it, otherwise go to the details.
+            step = (!subcategories.isEmpty && subcategoryId.isEmpty) ? 1 : 2
+            aiNotice = replaceTexts
+                ? appText("ai.applied", "Proposition reprise.")
+                : appText("ai.applied_kept_texts", "Vos textes ont été conservés.")
+        }
     }
 
     func goBack() {

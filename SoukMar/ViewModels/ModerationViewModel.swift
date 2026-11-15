@@ -100,7 +100,33 @@ final class ModerationViewModel: ObservableObject {
     @Published private(set) var messageKey: String?
     @Published private(set) var extraMessageKey: String?
 
-    func clearMessage() { messageKey = nil; extraMessageKey = nil }
+    /// Placeholders of `messageKey` (only the bulk approval has any).
+    @Published private(set) var messageParams: [String: String] = [:]
+
+    func clearMessage() { messageKey = nil; extraMessageKey = nil; messageParams = [:] }
+
+    // MARK: approve all waiting listings (admin only; the server skips high-risk ones and sends no e-mails)
+
+    @Published var bulkConfirmOpen = false
+    @Published private(set) var bulkBusy = false
+
+    func approveAll() {
+        bulkConfirmOpen = false
+        guard !bulkBusy else { return }
+        bulkBusy = true
+        Task {
+            switch await ModerationRepository.shared.approveAll() {
+            case .success(let r):
+                messageParams = ["approved": String(r.approved ?? 0), "skipped": String(r.skippedHighRisk ?? 0)]
+                messageKey = "moderation.done_bulk_approve"
+                loadSummary()
+                loadQueue()
+            case .failure:
+                messageKey = "auth.generic_error"
+            }
+            bulkBusy = false
+        }
+    }
 
     func openDetail(_ id: String) {
         Task {

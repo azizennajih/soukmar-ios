@@ -53,7 +53,14 @@ struct DeposerAnnonceView: View {
                 Spacer()
             } else {
                 ScrollView {
-                    stepContent.padding()
+                    VStack(spacing: 0) {
+                        if !viewModel.isEdit {
+                            AiAssistantCard(viewModel: viewModel, pickerItems: $pickerItems)
+                                .padding(.horizontal)
+                                .padding(.top, 12)
+                        }
+                        stepContent.padding()
+                    }
                 }
 
                 if let error = viewModel.error {

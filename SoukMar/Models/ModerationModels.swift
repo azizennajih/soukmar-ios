@@ -42,6 +42,12 @@ enum JSONScalar: Codable {
     }
 }
 
+/// Answer of the admin-only "approve all waiting listings".
+struct ModerationBulkApproveDto: Codable {
+    var approved: Int?
+    var skippedHighRisk: Int?
+}
+
 struct ModerationSummaryDto: Codable {
     var pending: Int?
     var changesRequested: Int?

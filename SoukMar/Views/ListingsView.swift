@@ -20,6 +20,14 @@ struct ListingsView: View {
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
+    /// Advertising banners shown between the listings (INLINE placement of the current country).
+    @State private var inlineBanners: [SponsorBannerDto] = []
+
+    private var listingChunks: [[ListingDto]] {
+        let all = viewModel.listings
+        return stride(from: 0, to: all.count, by: 8).map { Array(all[$0..<min($0 + 8, all.count)]) }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             searchBar
@@ -60,16 +68,25 @@ struct ListingsView: View {
                 ListingsMapView(listings: viewModel.listings)
             } else {
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.listings) { listing in
-                            NavigationLink(value: listing.id) {
-                                ListingCardView(listing: listing)
-                            }
-                            .buttonStyle(.plain)
-                            .onAppear {
-                                if listing.id == viewModel.listings.last?.id {
-                                    viewModel.loadMore()
+                    // Groups of 8 listings with an advertising banner between them (same rhythm as the web).
+                    let chunks = listingChunks
+                    LazyVStack(spacing: 16) {
+                        ForEach(Array(chunks.enumerated()), id: \.offset) { index, chunk in
+                            LazyVGrid(columns: columns, spacing: 16) {
+                                ForEach(chunk) { listing in
+                                    NavigationLink(value: listing.id) {
+                                        ListingCardView(listing: listing)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .onAppear {
+                                        if listing.id == viewModel.listings.last?.id {
+                                            viewModel.loadMore()
+                                        }
+                                    }
                                 }
+                            }
+                            if index < chunks.count - 1, !inlineBanners.isEmpty {
+                                SponsorBannerView(banner: inlineBanners[index % inlineBanners.count])
                             }
                         }
                     }
@@ -96,6 +113,9 @@ struct ListingsView: View {
                 }
                 .padding(16)
             }
+        }
+        .task(id: viewModel.country) {
+            inlineBanners = await SponsorRepository.shared.inlineBanners(country: viewModel.country)
         }
         .navigationTitle(i18n.t("listing.breadcrumb_listings"))
         .navigationBarTitleDisplayMode(.inline)

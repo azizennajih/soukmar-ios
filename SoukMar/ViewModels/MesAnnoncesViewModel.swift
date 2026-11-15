@@ -8,6 +8,18 @@ final class MesAnnoncesViewModel: ObservableObject {
     @Published private(set) var listings: [ListingDto] = []
     @Published private(set) var loading = true
 
+    @Published var searchTerm = ""
+
+    /// Case-insensitive match on title, description, city and category label (same rule as the web).
+    var filteredListings: [ListingDto] {
+        let q = searchTerm.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !q.isEmpty else { return listings }
+        return listings.filter { l in
+            let cat = I18nRepository.shared.t("cats.\(l.category)")
+            return [l.title, l.description, l.city, cat].contains { $0.lowercased().contains(q) }
+        }
+    }
+
     @Published private(set) var bumpingId: String?
     @Published private(set) var statsOpenId: String?
     @Published private(set) var statsData: [String: [ViewStatDayDto]] = [:]

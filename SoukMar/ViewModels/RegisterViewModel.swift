@@ -25,8 +25,8 @@ final class RegisterViewModel: ObservableObject {
             errorMessage = appText("auth.reset_mismatch", "Les mots de passe ne correspondent pas.")
             return
         }
-        guard password.count >= 6 else {
-            errorMessage = appText("auth.reset_too_short", "Le mot de passe doit contenir au moins 6 caractères.")
+        guard password.count >= 8 else {
+            errorMessage = appText("auth.reset_too_short", "Le mot de passe doit contenir au moins 8 caractères.")
             return
         }
         guard !name.trimmingCharacters(in: .whitespaces).isEmpty, !email.trimmingCharacters(in: .whitespaces).isEmpty else {

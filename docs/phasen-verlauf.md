@@ -105,3 +105,12 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
 - **Registrierung:** `RegisterView` hat einen Schalter „Neuigkeiten und Angebote per E-Mail“ (nie vorangekreuzt, `RegisterRequest.marketingConsent`). **Meine Daten:** vierter Schalter `emailMarketing` (`EmailPreferencesDto` liest einen fehlenden Schlüssel als „aus“, falls der Server noch die alte Version ist).
 - Kampagnen schreibt und versendet nur der Admin im Web; die App bekommt nur die Einwilligung. Backend: `marketingConsent*`-Felder, `MarketingCampaign`/`MarketingSend`, Migration `20261028120000_marketing`. i18n-JSONs neu aus dem Web kopiert.
 - **Nicht getestet:** kein Mac, Codemagic-Lauf der Tranche steht aus.
+
+## Tranche 34 — Web-Sync: Passwort 8 Zeichen, Suchfeld Meine Anzeigen, Alle freigeben, Werbe-Banner, KI-Assistent (2026-11-15)
+- **Passwort:** Mindestlänge 8 statt 6 (`RegisterViewModel`, `ProfilViewModel`), wie Backend und Web.
+- **Meine Anzeigen:** Suchfeld über der Liste (`MesAnnoncesViewModel.filteredListings`: Titel, Beschreibung, Ort, Kategorie).
+- **Moderation:** „Alle freigeben“ (`POST admin/moderation/approve-all`, nur ADMIN serverseitig) mit Rückfrage; Meldung mit Platzhaltern über `messageParams`.
+- **Werbe-Banner:** `SponsorModels.swift`, `SponsorRepository.swift`, `SponsorBannerView.swift`; nur Platzierung INLINE: in `ListingsView` nach je 8 Anzeigen (Liste in 8er-Gruppen, weil `LazyVGrid` keine Zeile über die volle Breite kennt), in `HomeView` das erste Banner über der Länderwahl. Immer mit Label `sponsor.label`, nur https-Links, Klick wird gezählt.
+- **KI-Assistent:** `AiModels.swift`, `Views/AiAssistantCard.swift`, Zustand in `DeposerAnnonceViewModel` (Abschnitt „AI assistant“), `UploadRepository.aiStatus()/aiListingDraft()`, `APIClient.uploadRaw()` (Timeout 360 s). Karte steht über den Schritten, nutzt die Fotoliste des Formulars, schreibt erst nach „Vorschlag übernehmen“; selbst geschriebene Texte nur nach Rückfrage ersetzen. **Unsichtbar, solange `/api/ai/status` `configured: false` meldet** (Thema ist zurückgestellt, siehe `soukmar/docs/ki-anzeigenassistent.md`).
+- i18n-JSONs neu aus dem Web kopiert (`ai.*`, `sponsor.label`, `moderation.bulk_approve` …).
+- **Nicht getestet:** kein Codemagic-Build bisher, kein Gerätelauf. Der KI-Assistent ist auch im Web nur gegen einen Test-Stellvertreter geprüft.

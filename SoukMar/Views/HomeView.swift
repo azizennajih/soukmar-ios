@@ -34,6 +34,8 @@ struct HomeView: View {
     @State private var unreadCount = 0
     /// Live listing count per category in the current country (empty until loaded).
     @State private var categoryCounts: [String: Int] = [:]
+    /// Advertising banner shown once on the home screen (first INLINE banner of the country).
+    @State private var inlineBanners: [SponsorBannerDto] = []
     @ObservedObject private var countryRepository = CountryRepository.shared
 
     private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -119,6 +121,10 @@ struct HomeView: View {
                             .padding(.horizontal)
                             }
                             }
+                        }
+
+                        if let banner = inlineBanners.first {
+                            SponsorBannerView(banner: banner).padding(.horizontal)
                         }
 
                         // The country lives at the very bottom (like the web footer), not in the toolbar.
@@ -327,6 +333,9 @@ struct HomeView: View {
                 } catch {
                     categoryCounts = [:]
                 }
+            }
+            .task(id: countryRepository.country) {
+                inlineBanners = await SponsorRepository.shared.inlineBanners(country: countryRepository.country)
             }
             .task {
                 if let refreshed = await AuthRepository.shared.me() {

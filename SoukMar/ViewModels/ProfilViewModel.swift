@@ -217,8 +217,8 @@ final class ProfilViewModel: ObservableObject {
     func changePassword() {
         pwSuccessMessage = nil
         pwErrorMessage = nil
-        guard newPassword.count >= 6 else {
-            pwErrorMessage = appText("profil.password_too_short", "Le mot de passe doit contenir au moins 6 caractères.")
+        guard newPassword.count >= 8 else {
+            pwErrorMessage = appText("profil.password_too_short", "Le mot de passe doit contenir au moins 8 caractères.")
             return
         }
         guard newPassword == confirmPassword else {

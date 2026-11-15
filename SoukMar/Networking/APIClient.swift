@@ -149,6 +149,49 @@ final class APIClient {
         return try await perform(req)
     }
 
+    /// Multipart upload returning status code and raw body (the AI listing assistant: its error body carries a
+    /// `code`, and the answer only arrives when the vision model has finished, hence the long timeout).
+    func uploadRaw(
+        path: String, fieldName: String, files: [(data: Data, filename: String, mimeType: String)], fields: [String: String] = [:], timeout: TimeInterval
+    ) async throws -> (status: Int, data: Data) {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for (key, value) in fields {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+        for file in files {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(file.filename)\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: \(file.mimeType)\r\n\r\n".data(using: .utf8)!)
+            body.append(file.data)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+
+        var req = URLRequest(url: baseURL.appendingPathComponent(path))
+        req.httpMethod = "POST"
+        req.timeoutInterval = timeout
+        req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        req.setValue(I18nRepository.shared.currentLang, forHTTPHeaderField: "Accept-Language")
+        if let token {
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        req.httpBody = body
+
+        let (responseData, response): (Data, URLResponse)
+        do {
+            (responseData, response) = try await session.data(for: req)
+        } catch {
+            throw APIError.network(genericErrorText())
+        }
+        guard let http = response as? HTTPURLResponse else {
+            throw APIError.network(genericErrorText())
+        }
+        return (http.statusCode, responseData)
+    }
+
     private func perform<Response: Decodable>(_ req: URLRequest) async throws -> Response {
         let (data, response): (Data, URLResponse)
         do {
