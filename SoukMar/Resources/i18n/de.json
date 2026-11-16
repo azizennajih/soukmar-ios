@@ -25,7 +25,9 @@
     "search_by_image": "Nach Foto suchen",
     "country_fixed": "Land durch Ihr Konto festgelegt",
     "country_auto_detected": "Land automatisch anhand Ihres Standorts erkannt",
-    "my_follows": "Abonnements"
+    "my_follows": "Abonnements",
+    "home": "Startseite",
+    "account": "Mein Konto"
   },
   "image_search": {
     "title": "Suche per Foto",

@@ -83,7 +83,7 @@ struct AdminView: View {
             Text(title)
                 .font(.subheadline.weight(.semibold))
                 .padding(.horizontal, 14).padding(.vertical, 8)
-                .background(tab == value ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
+                .background(tab == value ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
                 .foregroundStyle(tab == value ? Color.soukmarPrimary : .primary)
                 .clipShape(Capsule())
         }
@@ -116,7 +116,7 @@ struct AdminView: View {
                             Text("\(statusLabel(f, i18n)) (\(viewModel.countFor(f)))")
                                 .font(.caption.weight(.medium))
                                 .padding(.horizontal, 12).padding(.vertical, 8)
-                                .background(viewModel.filter == f ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
+                                .background(viewModel.filter == f ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
                                 .foregroundStyle(viewModel.filter == f ? Color.soukmarPrimary : .primary)
                                 .clipShape(Capsule())
                         }
@@ -181,7 +181,7 @@ struct AdminView: View {
                             Text("\(statusLabel(f, i18n)) (\(viewModel.countForIdVerification(f)))")
                                 .font(.caption.weight(.medium))
                                 .padding(.horizontal, 12).padding(.vertical, 8)
-                                .background(viewModel.idVerificationFilter == f ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
+                                .background(viewModel.idVerificationFilter == f ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
                                 .foregroundStyle(viewModel.idVerificationFilter == f ? Color.soukmarPrimary : .primary)
                                 .clipShape(Capsule())
                         }
@@ -245,7 +245,7 @@ struct AdminView: View {
                             Text("\(statusLabel(f, i18n)) (\(viewModel.countForBoostRequest(f)))")
                                 .font(.caption.weight(.medium))
                                 .padding(.horizontal, 12).padding(.vertical, 8)
-                                .background(viewModel.boostRequestFilter == f ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
+                                .background(viewModel.boostRequestFilter == f ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
                                 .foregroundStyle(viewModel.boostRequestFilter == f ? Color.soukmarPrimary : .primary)
                                 .clipShape(Capsule())
                         }
@@ -317,8 +317,8 @@ private struct IdVerificationCard: View {
     private var statusColors: (bg: Color, fg: Color) {
         switch verification.status {
         case "PENDING": return (Color.soukmarGoldLight, Color.soukmarGold)
-        case "APPROVED": return (Color.green.opacity(0.12), .green)
-        default: return (Color.red.opacity(0.1), .red)
+        case "APPROVED": return (Color.soukmarSuccessLight, .green)
+        default: return (Color.soukmarErrorLight, .red)
         }
     }
 
@@ -368,8 +368,8 @@ private struct IdVerificationCard: View {
             }
         }
         .padding(14)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .background(Color.soukmarSurfaceMuted)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private func thumbnail(_ url: URL) -> some View {
@@ -377,7 +377,7 @@ private struct IdVerificationCard: View {
             if case .success(let image) = phase {
                 image.resizable().aspectRatio(contentMode: .fill)
             } else {
-                Rectangle().fill(Color(.tertiarySystemBackground))
+                Rectangle().fill(Color.soukmarSurfaceMuted)
                     .overlay(ProgressView())
             }
         }
@@ -396,8 +396,8 @@ private struct ReportCard: View {
     private var statusColors: (bg: Color, fg: Color) {
         switch report.status {
         case "PENDING": return (Color.soukmarGoldLight, Color.soukmarGold)
-        case "RESOLVED": return (Color.green.opacity(0.12), .green)
-        default: return (Color.red.opacity(0.1), .red)
+        case "RESOLVED": return (Color.soukmarSuccessLight, .green)
+        default: return (Color.soukmarErrorLight, .red)
         }
     }
 
@@ -447,8 +447,8 @@ private struct ReportCard: View {
             }
         }
         .padding(14)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .background(Color.soukmarSurfaceMuted)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 
@@ -468,8 +468,8 @@ private struct BoostRequestCard: View {
     private var statusColors: (bg: Color, fg: Color) {
         switch request.status {
         case "PENDING": return (Color.soukmarGoldLight, Color.soukmarGold)
-        case "APPROVED": return (Color.green.opacity(0.12), .green)
-        default: return (Color.red.opacity(0.1), .red)
+        case "APPROVED": return (Color.soukmarSuccessLight, .green)
+        default: return (Color.soukmarErrorLight, .red)
         }
     }
 
@@ -519,8 +519,8 @@ private struct BoostRequestCard: View {
             }
         }
         .padding(14)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .background(Color.soukmarSurfaceMuted)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 

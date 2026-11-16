@@ -10,7 +10,7 @@ struct LoginView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                SoukMarLogo()
+                SoukMarLogo(markSize: 44, fontSize: 26)
                     .padding(.top, 32)
 
                 LanguageSwitcher()
@@ -40,7 +40,7 @@ struct LoginView: View {
 
                 VStack(spacing: 12) {
                     TextField(i18n.t("auth.email"), text: $viewModel.email)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(SoukTextFieldStyle())
                         .textInputAutocapitalization(.never)
                         .keyboardType(.emailAddress)
                         .autocorrectionDisabled()
@@ -63,9 +63,7 @@ struct LoginView: View {
                         Text(i18n.t("auth.login_btn")).frame(maxWidth: .infinity)
                     }
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(Color.soukmarPrimary)
-                .controlSize(.large)
+                .buttonStyle(SoukPrimaryButtonStyle())
                 .disabled(viewModel.loading)
 
                 HStack(spacing: 4) {

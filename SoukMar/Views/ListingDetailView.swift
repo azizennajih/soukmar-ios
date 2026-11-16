@@ -27,7 +27,7 @@ struct ListingDetailView: View {
                 content(for: listing)
             }
         }
-        .navigationTitle("Annonce")
+        .navigationTitle(viewModel.listing.map { i18n.tCatalog("cats.\($0.category)", code: $0.category) } ?? "")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if viewModel.listing != nil {
@@ -75,14 +75,18 @@ struct ListingDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(12)
                         .background(Color.soukmarGoldLight)
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.soukmarGold, lineWidth: 1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.soukmarGold, lineWidth: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                         .padding(.horizontal)
                 }
                 gallery(for: listing)
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(listing.title).font(.title3.bold())
+                VStack(alignment: .leading, spacing: 8) {
+                    priceSection(for: listing)
+
+                    Text(listing.title)
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(Color.soukmarInk)
 
                     HStack(spacing: 6) {
                         HStack(spacing: 3) {
@@ -100,17 +104,15 @@ struct ListingDetailView: View {
                     .font(.caption)
                     .foregroundStyle(Color.soukmarTextMuted)
 
-                    priceSection(for: listing)
-
                     if let cat = categoryConfig(listing.category) {
-                        HStack(spacing: 4) {
-                            Text(cat.emoji)
+                        HStack(spacing: 6) {
+                            CategoryIcon(category: cat.value, tint: Color.soukmarInk).frame(width: 14, height: 14)
                             Text(i18n.tCatalog("cats.\(cat.value)", code: cat.value))
                         }
                         .font(.caption.weight(.semibold))
-                        .padding(.horizontal, 10).padding(.vertical, 4)
-                        .background(cat.bg)
-                        .foregroundStyle(cat.fg)
+                        .padding(.horizontal, 12).padding(.vertical, 6)
+                        .background(Color.soukmarSurfaceMuted)
+                        .foregroundStyle(Color.soukmarInk)
                         .clipShape(Capsule())
                     }
                 }
@@ -136,8 +138,8 @@ struct ListingDetailView: View {
                                 }
                             }
                         }
-                        .background(Color(.secondarySystemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .background(Color.soukmarSurfaceMuted)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                     .padding(.horizontal)
                 }
@@ -184,7 +186,7 @@ struct ListingDetailView: View {
             if showMap {
                 ListingsMapView(listings: [listing])
                     .frame(height: 220)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
             }
         }
     }
@@ -225,12 +227,12 @@ struct ListingDetailView: View {
             } else {
                 if let phone = listing.phone {
                     HStack {
-                        Label(phone, systemImage: "phone.fill").fontWeight(.semibold).foregroundStyle(.green)
+                        Label(phone, systemImage: "phone.fill").fontWeight(.semibold).foregroundStyle(Color.soukmarSuccess)
                         Spacer()
                     }
                     .padding(12)
-                    .background(Color.green.opacity(0.08))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .background(Color.soukmarSuccessLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 if let whatsapp = listing.whatsapp, let url = URL(string: "https://wa.me/\(whatsapp)") {
                     Link(destination: url) {
@@ -254,8 +256,8 @@ struct ListingDetailView: View {
             }
         }
         .padding(14)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .background(Color.soukmarSurfaceMuted)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private func sellerCard(_ seller: ListingUserDto) -> some View {
@@ -284,8 +286,8 @@ struct ListingDetailView: View {
             .buttonStyle(.bordered)
         }
         .padding(12)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .background(Color.soukmarSurfaceMuted)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     @ViewBuilder
@@ -311,7 +313,7 @@ struct ListingDetailView: View {
                             if case .success(let image) = phase {
                                 image.resizable().aspectRatio(contentMode: .fill)
                             } else {
-                                Rectangle().fill(Color(.secondarySystemBackground))
+                                Rectangle().fill(Color.soukmarSurfaceMuted)
                             }
                         }
                         .clipped()
@@ -328,10 +330,10 @@ struct ListingDetailView: View {
         HStack(alignment: .lastTextBaseline, spacing: 6) {
             if let price = listing.price {
                 let (amount, currency) = formatPriceParts(price, currency: listing.currency, lang: i18n.currentLang)
-                Text(amount).font(.title2.bold())
+                Text(amount).font(.system(size: 28, weight: .heavy)).foregroundStyle(Color.soukmarInk)
                 Text(currency).font(.subheadline.weight(.semibold)).foregroundStyle(Color.soukmarTextMuted)
             } else {
-                Text(i18n.t("listing.negotiate")).font(.title2.bold())
+                Text(i18n.t("listing.negotiate")).font(.system(size: 24, weight: .heavy)).foregroundStyle(Color.soukmarInk)
             }
         }
         if let pct = viewModel.priceComparisonPct {
@@ -410,12 +412,12 @@ struct ListingDetailView: View {
                     HStack(spacing: 4) {
                         ForEach(1...5, id: \.self) { star in
                             Image(systemName: star <= viewModel.reviewRating ? "star.fill" : "star")
-                                .foregroundStyle(Color.soukmarGold)
+                                .foregroundStyle(Color.soukmarAccent)
                                 .onTapGesture { viewModel.reviewRating = star }
                         }
                     }
                     TextField(i18n.t("listing.review_placeholder"), text: $viewModel.reviewComment, axis: .vertical)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(SoukTextFieldStyle())
                         .lineLimit(3...6)
                     Button {
                         viewModel.submitReview()
@@ -452,7 +454,7 @@ private struct ReportSheet: View {
                     ErrorBanner(message: error)
                 }
                 TextField(i18n.t("report.placeholder"), text: $viewModel.reportReason, axis: .vertical)
-                    .textFieldStyle(.roundedBorder)
+                    .textFieldStyle(SoukTextFieldStyle())
                     .lineLimit(4...8)
                 Button {
                     viewModel.submitReport()

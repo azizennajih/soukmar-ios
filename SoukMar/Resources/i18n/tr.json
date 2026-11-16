@@ -25,7 +25,9 @@
     "search_by_image": "Fotoğrafla ara",
     "country_fixed": "Ülke hesabınız tarafından sabitlendi",
     "country_auto_detected": "Ülke, konumunuza göre otomatik olarak algılandı",
-    "my_follows": "Takip edilenler"
+    "my_follows": "Takip edilenler",
+    "home": "Ana sayfa",
+    "account": "Hesabım"
   },
   "image_search": {
     "title": "Fotoğrafla arama",

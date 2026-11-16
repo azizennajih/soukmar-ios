@@ -37,7 +37,7 @@ struct PhoneInputField: View {
                     value = composePhone(iso, newValue)
                 }
         }
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(.systemGray4), lineWidth: 1.5))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.soukmarBorder, lineWidth: 1.5))
         .onAppear { syncFromValue() }
         .onChange(of: value) { newValue in
             guard composePhone(iso, localNumber) != newValue else { return }
@@ -91,7 +91,7 @@ private struct CountryPickerSheet: View {
                                 Text(entry.dialCode).foregroundStyle(.secondary)
                             }
                         }
-                        .listRowBackground(entry.iso == selectedIso ? Color.soukmarPrimaryLight : Color(.systemBackground))
+                        .listRowBackground(entry.iso == selectedIso ? Color.soukmarPrimaryLight : Color.white)
                     }
                 }
             }

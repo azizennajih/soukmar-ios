@@ -53,11 +53,11 @@ struct BoostListingView: View {
                             if case .success(let image) = phase {
                                 image.resizable().aspectRatio(contentMode: .fill)
                             } else {
-                                Rectangle().fill(Color(.secondarySystemBackground))
+                                Rectangle().fill(Color.soukmarSurfaceMuted)
                             }
                         }
                         .frame(width: 56, height: 56)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                     VStack(alignment: .leading, spacing: 2) {
                         Text(listing.title).font(.subheadline.weight(.semibold)).lineLimit(1)
@@ -68,9 +68,9 @@ struct BoostListingView: View {
                     }
                 }
                 .padding(12)
-                .background(Color(.secondarySystemBackground).opacity(0.5))
-                .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.5))
-                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .background(Color.soukmarSurfaceMuted.opacity(0.5))
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarBorder, lineWidth: 0.5))
+                .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 Text(i18n.t("boost.title")).font(.title2.bold())
                 Text(i18n.t("boost.subtitle")).font(.subheadline).foregroundStyle(.secondary)
@@ -114,7 +114,7 @@ struct BoostListingView: View {
         }
         .padding(16)
         .background(Color.soukmarPrimaryLight)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     /// Amount with its currency symbol for the active language (boosts are charged in `currency`).
@@ -143,7 +143,7 @@ struct BoostListingView: View {
             .padding(.top, 8)
 
             if let errorMessage = viewModel.errorMessage {
-                Text(errorMessage).font(.caption.weight(.semibold)).foregroundStyle(.red).padding(.top, 4)
+                Text(errorMessage).font(.caption.weight(.semibold)).foregroundStyle(Color.soukmarError).padding(.top, 4)
             }
 
             Button {
@@ -158,9 +158,9 @@ struct BoostListingView: View {
             .padding(.top, 8)
         }
         .padding(16)
-        .background(Color(.secondarySystemBackground).opacity(0.5))
-        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .background(Color.soukmarSurfaceMuted.opacity(0.5))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarBorder, lineWidth: 0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private func summaryRow(_ label: String, _ value: String, bold: Bool = false, color: Color = .secondary) -> some View {
@@ -184,7 +184,7 @@ private struct TierRow: View {
         Button(action: onToggle) {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: selected ? "checkmark.square.fill" : "square")
-                    .foregroundStyle(selected ? Color.soukmarPrimary : Color(.systemGray3))
+                    .foregroundStyle(selected ? Color.soukmarPrimary : Color.soukmarTextSubtle)
                     .font(.title3)
 
                 Image(systemName: iconName(for: tier.id))
@@ -204,7 +204,7 @@ private struct TierRow: View {
                         Text(tier.durationDays == nil ? i18n.t("boost.duration_instant") : i18n.t("boost.duration_days", ["n": String(tier.durationDays!)]))
                             .font(.caption2.weight(.semibold))
                             .padding(.horizontal, 8).padding(.vertical, 3)
-                            .background(Color(.systemGray5))
+                            .background(Color.soukmarBorder)
                             .foregroundStyle(.secondary)
                             .clipShape(Capsule())
                         if let activeUntil {
@@ -219,9 +219,9 @@ private struct TierRow: View {
                 }
             }
             .padding(12)
-            .background(selected ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground).opacity(0.5))
-            .overlay(RoundedRectangle(cornerRadius: 14).stroke(selected ? Color.soukmarPrimary : Color(.separator), lineWidth: selected ? 1.5 : 0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .background(selected ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted.opacity(0.5))
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(selected ? Color.soukmarPrimary : Color.soukmarBorder, lineWidth: selected ? 1.5 : 0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
         .buttonStyle(.plain)
     }

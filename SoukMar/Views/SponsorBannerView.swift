@@ -25,13 +25,13 @@ struct SponsorBannerView: View {
                     if let image = phase.image {
                         image.resizable().scaledToFit()
                     } else {
-                        Color(.systemGray6).frame(height: 80)
+                        Color.soukmarSurfaceMuted.frame(height: 80)
                     }
                 }
                 .frame(maxWidth: .infinity)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(.systemGray4), lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+            .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Color.soukmarBorder, lineWidth: 1))
         }
         .buttonStyle(.plain)
         .accessibilityLabel(banner.altText?.isEmpty == false ? banner.altText! : i18n.t("sponsor.label"))

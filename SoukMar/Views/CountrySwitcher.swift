@@ -40,7 +40,7 @@ struct CountrySwitcher: View {
             Text("\(flagEmoji(effectiveCountry)) \(effectiveCountry)")
                 .font(.caption.weight(.medium))
                 .padding(.horizontal, 12).padding(.vertical, 6)
-                .background(Color(.secondarySystemBackground))
+                .background(Color.soukmarSurfaceMuted)
                 .clipShape(Capsule())
         }
         .sheet(isPresented: $pickerOpen) {
@@ -110,6 +110,6 @@ private struct CountryPickerSheet: View {
                 Text(displayName(code, locale: uiLocale)).foregroundStyle(.primary)
             }
         }
-        .listRowBackground(code == selected ? Color.soukmarPrimaryLight : Color(.systemBackground))
+        .listRowBackground(code == selected ? Color.soukmarPrimaryLight : Color.white)
     }
 }

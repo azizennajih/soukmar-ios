@@ -96,14 +96,14 @@ struct ChatView: View {
                         systemImage: "xmark.circle.fill"
                     )
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(Color.soukmarError)
                     Spacer()
                     Button { callManager.callError = nil } label: {
                         Image(systemName: "xmark").font(.caption2)
                     }
                 }
                 .padding(.horizontal).padding(.vertical, 8)
-                .background(Color.red.opacity(0.08))
+                .background(Color.soukmarErrorLight)
             }
 
             if viewModel.listingStatus == "RESERVED" {
@@ -118,7 +118,7 @@ struct ChatView: View {
 
             if viewModel.reportSubmitted {
                 Label("Signalement envoyé, merci.", systemImage: "checkmark.circle.fill")
-                    .font(.caption).foregroundStyle(.green)
+                    .font(.caption).foregroundStyle(Color.soukmarSuccess)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal).padding(.vertical, 4)
             }
@@ -146,14 +146,14 @@ struct ChatView: View {
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     .padding(16)
-                    .background(Color(.secondarySystemBackground))
+                    .background(Color.soukmarSurfaceMuted)
             } else {
                 if viewModel.showOfferInput {
                     HStack {
                         Image(systemName: "tag")
                         TextField(i18n.t("chat.amount_placeholder", ["currency": viewModel.conversation?.listing.currency ?? ""]), text: $viewModel.offerAmount)
                             .keyboardType(.numberPad)
-                            .textFieldStyle(.roundedBorder)
+                            .textFieldStyle(SoukTextFieldStyle())
                         Button(i18n.t("chat.send_offer")) { viewModel.sendOffer() }
                             .disabled(viewModel.offerAmount.isEmpty)
                         Button(i18n.t("chat.cancel")) { viewModel.showOfferInput = false }
@@ -184,7 +184,7 @@ struct ChatView: View {
                         }
                     }
                     TextField(i18n.t("chat.placeholder"), text: $viewModel.messageText, axis: .vertical)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(SoukTextFieldStyle())
                         .lineLimit(1...4)
                         .onChange(of: viewModel.messageText) { _ in viewModel.onTyping() }
                     Button {
@@ -218,7 +218,7 @@ struct ChatView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 12).padding(.vertical, 4)
-                .background(Color(.secondarySystemBackground))
+                .background(Color.soukmarSurfaceMuted)
                 .clipShape(Capsule())
             Spacer()
         }
@@ -238,9 +238,9 @@ struct ChatView: View {
             msgTimeLabel(msg.createdAt)
             Text(msg.content)
                 .padding(.horizontal, 12).padding(.vertical, 8)
-                .background(mine ? Color.soukmarPrimary : Color(.secondarySystemBackground))
+                .background(mine ? Color.soukmarPrimary : Color.soukmarSurfaceMuted)
                 .foregroundStyle(mine ? .white : .primary)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .clipShape(RoundedRectangle(cornerRadius: 16))
                 .frame(maxWidth: 260, alignment: mine ? .trailing : .leading)
         }
         .frame(maxWidth: .infinity, alignment: mine ? .trailing : .leading)
@@ -283,8 +283,8 @@ struct ChatView: View {
             }
             .padding(12)
             .background(Color.soukmarGoldLight)
-            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.soukmarGold, lineWidth: 1))
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarGold, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
             .frame(maxWidth: 260, alignment: mine ? .trailing : .leading)
         }
         .frame(maxWidth: .infinity, alignment: mine ? .trailing : .leading)
@@ -294,8 +294,8 @@ struct ChatView: View {
     private func offerStatusLabel(_ msg: MessageDto, mine: Bool) -> some View {
         switch msg.offerStatus {
         case "PENDING": Label(i18n.t("chat.pending"), systemImage: "clock.fill").font(.caption2).foregroundStyle(.secondary)
-        case "ACCEPTED": Label(i18n.t("chat.accepted"), systemImage: "checkmark.circle.fill").font(.caption2).foregroundStyle(.green)
-        case "REJECTED": Label(mine ? i18n.t("chat.cancelled") : i18n.t("chat.rejected"), systemImage: mine ? "nosign" : "xmark.circle.fill").font(.caption2).foregroundStyle(.red)
+        case "ACCEPTED": Label(i18n.t("chat.accepted"), systemImage: "checkmark.circle.fill").font(.caption2).foregroundStyle(Color.soukmarSuccess)
+        case "REJECTED": Label(mine ? i18n.t("chat.cancelled") : i18n.t("chat.rejected"), systemImage: mine ? "nosign" : "xmark.circle.fill").font(.caption2).foregroundStyle(Color.soukmarError)
         default: EmptyView()
         }
     }
@@ -344,7 +344,7 @@ private struct CallBar: View {
                 Image(systemName: "phone.down.fill")
                     .foregroundStyle(.white)
                     .padding(8)
-                    .background(Color.red)
+                    .background(Color.soukmarError)
                     .clipShape(Circle())
             }
         }
@@ -383,7 +383,7 @@ private struct IncomingCallOverlay: View {
                         .font(.title)
                         .foregroundStyle(.white)
                         .frame(width: 64, height: 64)
-                        .background(Color.red)
+                        .background(Color.soukmarError)
                         .clipShape(Circle())
                 }
                 Button {
@@ -393,14 +393,14 @@ private struct IncomingCallOverlay: View {
                         .font(.title)
                         .foregroundStyle(.white)
                         .frame(width: 64, height: 64)
-                        .background(Color.green)
+                        .background(Color.soukmarSuccess)
                         .clipShape(Circle())
                 }
             }
             .padding(.bottom, 60)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
+        .background(Color.white)
     }
 }
 
@@ -416,7 +416,7 @@ private struct ReportSheetChat: View {
                     ErrorBanner(message: error)
                 }
                 TextField("Décrivez le problème (10 caractères min.)", text: $viewModel.reportReason, axis: .vertical)
-                    .textFieldStyle(.roundedBorder)
+                    .textFieldStyle(SoukTextFieldStyle())
                     .lineLimit(4...8)
                 Button {
                     viewModel.submitReport()
