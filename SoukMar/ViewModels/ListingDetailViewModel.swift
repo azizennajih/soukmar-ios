@@ -88,7 +88,7 @@ final class ListingDetailViewModel: ObservableObject {
         favLoading = true
         Task {
             let ok = wasFav ? await listingRepository.removeFavorite(id: id) : await listingRepository.addFavorite(id: id)
-            if !ok { favorited = wasFav }
+            if !ok { favorited = wasFav } else { FavoritesStore.shared.set(id, favorite: !wasFav) }
             favLoading = false
         }
     }

@@ -35,7 +35,7 @@ Sobald ein Apple Developer Program-Konto existiert: zweiten Workflow (`device-bu
 - **MVVM**: `ObservableObject`-ViewModels (`@Published`-Properties) pro Screen, analog zu Androids Hilt-ViewModels — hier ohne DI-Framework, `XRepository.shared`-Singletons genügen für den aktuellen Umfang.
 - **Session-Persistenz**: `Persistence/TokenStore.swift`, Keychain für den JWT (sicherer Default als Androids DataStore-Preferences, die dort auch nicht verschlüsselt sind — bewusst besser gemacht, kein Nachteil).
 - **Models**: `Codable`-Structs unter `Models/`, Feldnamen exakt wie in `soukmar-backend`/Androids DTOs (z. B. `UserDto`, `LoginRequest`) — bei neuen Endpunkten immer zuerst die Android-DTOs oder die Backend-Route lesen, nicht neu raten.
-- **Design-Farben**: `Views/CommonComponents.swift`'s `Color.soukmar*`-Extension — exakt dieselbe Palette wie `soukmar-android/.../theme/Color.kt` und `soukmar/src/styles.scss` (`--primary` = `#D93D4A` etc.). Bei Änderungen alle drei synchron halten.
+- **Designsystem** (Redesign 2026-11, Tranche 35): `Views/DesignSystem.swift` — Farben `Color.soukmar*` (Rot nur für Aktionen, weißer Grund, Gelb `soukmarAccent` als Akzent), `Spacing`, `Radius`, Button- und Feld-Stile (`SoukPrimaryButtonStyle` usw.), `soukCard()`, gemeinsame Bausteine. Nur helles Erscheinungsbild. Keine Systemfarben und keine festen Farbwerte in den Views; mit `soukmar-android/.../ui/theme/` synchron halten.
 - **i18n**: noch nicht portiert (kommt in einer späteren iOS-Phase, mirrort Androids Phase-13-Ansatz: Web-JSONs 1:1 als Bundle-Resources übernehmen, keine eigene Übersetzungspflege).
 
 ---

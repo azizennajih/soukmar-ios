@@ -29,7 +29,7 @@ struct LanguageSwitcher: View {
                 .foregroundStyle(.primary)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
-                .background(Color(.secondarySystemBackground))
+                .background(Color.soukmarSurfaceMuted)
                 .clipShape(Capsule())
         }
     }

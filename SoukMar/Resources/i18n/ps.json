@@ -25,7 +25,9 @@
     "search_by_image": "د انځور له مخې لټون",
     "country_fixed": "هیواد ستاسو د حساب لخوا ټاکل شوی",
     "country_auto_detected": "هیواد ستاسو د موقعیت پر بنسټ په اتوماتيک ډول کشف شوی",
-    "my_follows": "تعقیب شوي"
+    "my_follows": "تعقیب شوي",
+    "home": "کور",
+    "account": "زما حساب"
   },
   "image_search": {
     "title": "د انځور له مخې لټون",

@@ -13,7 +13,7 @@ struct ImageSearchView: View {
     @State private var photoItem: PhotosPickerItem?
     @ObservedObject private var i18n = I18nRepository.shared
 
-    private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
+    private let columns = [GridItem(.adaptive(minimum: 160), spacing: Spacing.md, alignment: .top)]
 
     var body: some View {
         ScrollView {
@@ -40,8 +40,8 @@ struct ImageSearchView: View {
                     .tint(Color.soukmarPrimary)
                 }
                 .padding(16)
-                .background(Color(.secondarySystemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .background(Color.soukmarSurfaceMuted)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
                 .padding(.horizontal, 12)
 
                 if viewModel.loading {
@@ -60,7 +60,7 @@ struct ImageSearchView: View {
                             Text("\(i18n.t("image_search.results_count")) (\(viewModel.results.count))")
                                 .font(.headline)
                                 .padding(.horizontal, 12)
-                            LazyVGrid(columns: columns, spacing: 10) {
+                            LazyVGrid(columns: columns, spacing: Spacing.md) {
                                 ForEach(viewModel.results) { listing in
                                     Button {
                                         onOpenListing(listing.id)

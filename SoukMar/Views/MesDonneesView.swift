@@ -92,8 +92,8 @@ struct MesDonneesView: View {
         VStack(alignment: .leading, spacing: 10, content: content)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
-            .background(Color(.secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .background(Color.soukmarSurfaceMuted)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 
