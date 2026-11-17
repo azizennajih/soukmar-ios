@@ -138,3 +138,5 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
 ### Tranche 37: Chat-Fotos (2026-11-17)
 Web-Sync zu `soukmar`/`soukmar-backend` (Chat-Fotos). Menü mit Büroklammer in `ChatView`: Kamera (`CameraPicker`), Galerie (`.photosPicker`), Datei (`.fileImporter`); Vorschau mit Entfernen-Knopf; `UploadRepository.uploadChatImage` (`POST /api/upload/chat`, Feld `image`, 1600 px JPEG); `ChatViewModel.sendMessage` lädt zuerst hoch und sendet dann `send_message` mit `imageUrl`. Sprechblase mit `AsyncImage`, Tippen → Vollbild (`ChatPhotoViewer`); Liste „📷 Bild“. `MessageDto.imageUrl` neu; i18n `chatimg.*` aus dem Web kopiert. Setzt das Backend-Update (Migration `20261117120000_message_image`) voraus.
 - **Nicht getestet:** kein Compiler lokal; Klammerbilanz der geänderten Dateien geprüft, Codemagic-Lauf durch den Nutzer steht aus (bis dahin ungetestet).
+
+- **Codemagic-Build für Tranche 37 (Chat-Fotos) grün** (vom Nutzer bestätigt, 2026-11-17, Commit `40d70e9`). Gerätelauf (Kamera, Auswahl, Anzeige) weiterhin nicht erfolgt.
