@@ -2134,5 +2134,19 @@
     "keep_mine": "Keep mine",
     "applied": "Suggestion applied. Please check the details and add what is missing.",
     "applied_kept_texts": "Your texts were kept. Category and properties were applied."
+  },
+  "chatimg": {
+    "label": "Photo",
+    "attach": "Attach a photo",
+    "camera": "Take a photo",
+    "gallery": "Choose from gallery",
+    "file": "Upload a file",
+    "remove": "Remove photo",
+    "alt": "Sent photo",
+    "close": "Close",
+    "uploading": "Uploading photo …",
+    "err_type": "Please choose an image (JPG, PNG, WebP or GIF).",
+    "err_big": "The image is too large (max. 10 MB).",
+    "err_upload": "The photo could not be sent. Please try again."
   }
 }

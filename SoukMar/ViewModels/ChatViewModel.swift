@@ -15,6 +15,10 @@ final class ChatViewModel: ObservableObject {
     @Published private(set) var partnerTyping = false
 
     @Published var messageText = ""
+    /// Photo picked for the next message (JPEG/any image data, shown as preview until sent).
+    @Published var pendingImage: Data?
+    @Published private(set) var sendingImage = false
+    @Published var imageError: String?
     @Published var offerAmount = ""
     @Published var showOfferInput = false
 
@@ -156,11 +160,34 @@ final class ChatViewModel: ObservableObject {
 
     func sendMessage() {
         let text = messageText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let conv = conversation, let partner = partnerId(), !text.isEmpty else { return }
-        socketManager.sendMessage(conversationId: conv.id, receiverId: partner, listingId: conv.listingId, content: text)
-        messageText = ""
-        socketManager.emitTyping(conversationId: conv.id, isTyping: false)
-        typingTask?.cancel()
+        guard let conv = conversation, let partner = partnerId(), !sendingImage, !text.isEmpty || pendingImage != nil else { return }
+        guard let image = pendingImage else {
+            socketManager.sendMessage(conversationId: conv.id, receiverId: partner, listingId: conv.listingId, content: text)
+            messageText = ""
+            socketManager.emitTyping(conversationId: conv.id, isTyping: false)
+            typingTask?.cancel()
+            return
+        }
+        sendingImage = true
+        imageError = nil
+        Task {
+            let result = await UploadRepository.shared.uploadChatImage(image)
+            sendingImage = false
+            switch result {
+            case .success(let url):
+                socketManager.sendMessage(conversationId: conv.id, receiverId: partner, listingId: conv.listingId, content: text, imageUrl: url)
+                pendingImage = nil
+                messageText = ""
+                socketManager.emitTyping(conversationId: conv.id, isTyping: false)
+                typingTask?.cancel()
+            case .failure(let error):
+                switch error {
+                case .server(let message, _): imageError = message
+                case .network(let message): imageError = message
+                case .decoding: imageError = genericErrorText()
+                }
+            }
+        }
     }
 
     func onTyping() {

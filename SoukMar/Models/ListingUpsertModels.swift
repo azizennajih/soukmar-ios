@@ -44,6 +44,10 @@ struct ListingUpsertRequest: Encodable {
     var attributes: [String: AttrValue] = [:]
 }
 
+struct ChatImageUploadDto: Codable {
+    let url: String
+}
+
 struct UploadResponseDto: Codable {
     var urls: [String] = []
 

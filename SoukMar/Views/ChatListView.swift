@@ -67,7 +67,8 @@ private struct ConversationRow: View {
             let amount = last.offerAmount.map { $0 == $0.rounded() ? String(Int($0)) : String($0) } ?? ""
             return i18n.t("chat.offer_short", ["amount": amount, "currency": conv.listing.currency])
         }
-        return String(last.content.prefix(40))
+        if last.imageUrl != nil && last.content.isEmpty { return "\u{1F4F7} " + i18n.t("chatimg.label") }
+        return (last.imageUrl != nil ? "\u{1F4F7} " : "") + String(last.content.prefix(40))
     }
 }
 

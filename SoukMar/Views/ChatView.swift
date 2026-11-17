@@ -1,4 +1,6 @@
 import SwiftUI
+import PhotosUI
+import UniformTypeIdentifiers
 
 /// Mirrors soukmar-android's ChatScreen — message list (text/offer/system
 /// bubbles), quick replies, offer input, typing indicator, report sheet,
@@ -8,6 +10,11 @@ struct ChatView: View {
     @StateObject private var viewModel = ChatViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
     @ObservedObject private var callManager = CallManager.shared
+    @State private var showCamera = false
+    @State private var showPhotoPicker = false
+    @State private var showFileImporter = false
+    @State private var photoItem: PhotosPickerItem?
+    @State private var lightbox: ChatPhoto?
 
     private var quickReplies: [String] {
         [i18n.t("chat.quick_available"), i18n.t("chat.quick_last_price"), i18n.t("chat.quick_still_interested"), i18n.t("chat.quick_thanks")]
@@ -174,7 +181,40 @@ struct ChatView: View {
                 }
 
                 Divider()
+                if let data = viewModel.pendingImage, let preview = UIImage(data: data) {
+                    HStack {
+                        Image(uiImage: preview)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 64, height: 64)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        if viewModel.sendingImage {
+                            Text(i18n.t("chatimg.uploading")).font(.caption).foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        Button {
+                            viewModel.pendingImage = nil
+                        } label: {
+                            Image(systemName: "xmark.circle.fill").font(.title3).foregroundStyle(.secondary)
+                        }
+                        .accessibilityLabel(i18n.t("chatimg.remove"))
+                        .disabled(viewModel.sendingImage)
+                    }
+                    .padding(.horizontal).padding(.top, 6)
+                }
+                if let imageError = viewModel.imageError {
+                    Text(imageError).font(.caption).foregroundStyle(Color.soukmarPrimary).padding(.horizontal)
+                }
                 HStack(alignment: .bottom, spacing: 8) {
+                    Menu {
+                        Button { showCamera = true } label: { Label(i18n.t("chatimg.camera"), systemImage: "camera") }
+                        Button { showPhotoPicker = true } label: { Label(i18n.t("chatimg.gallery"), systemImage: "photo") }
+                        Button { showFileImporter = true } label: { Label(i18n.t("chatimg.file"), systemImage: "doc") }
+                    } label: {
+                        Image(systemName: "paperclip").font(.title3)
+                    }
+                    .accessibilityLabel(i18n.t("chatimg.attach"))
+                    .disabled(viewModel.sendingImage)
                     // Offers go from the buyer to the listing's owner only.
                     if let conv = viewModel.conversation, conv.listing.userId != viewModel.currentUserId {
                         Button {
@@ -191,13 +231,38 @@ struct ChatView: View {
                         viewModel.sendMessage()
                     } label: {
                         Image(systemName: "paperplane.fill")
-                            .foregroundStyle(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? Color.soukmarTextMuted : Color.soukmarPrimary)
+                            .foregroundStyle(canSend ? Color.soukmarPrimary : Color.soukmarTextMuted)
                     }
-                    .disabled(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(!canSend)
                 }
                 .padding(8)
+                .photosPicker(isPresented: $showPhotoPicker, selection: $photoItem, matching: .images)
+                .onChange(of: photoItem) { item in
+                    guard let item = item else { return }
+                    Task {
+                        if let data = try? await item.loadTransferable(type: Data.self) { viewModel.pendingImage = data }
+                        photoItem = nil
+                    }
+                }
+                .sheet(isPresented: $showCamera) {
+                    CameraPicker { data in viewModel.pendingImage = data }
+                }
+                .fileImporter(isPresented: $showFileImporter, allowedContentTypes: [.image]) { result in
+                    guard case .success(let url) = result else { return }
+                    let scoped = url.startAccessingSecurityScopedResource()
+                    defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+                    if let data = try? Data(contentsOf: url) { viewModel.pendingImage = data }
+                }
+                .fullScreenCover(item: $lightbox) { photo in
+                    ChatPhotoViewer(url: photo.url, closeLabel: i18n.t("chatimg.close"))
+                }
             }
         }
+    }
+
+    private var canSend: Bool {
+        let hasText = !viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        return (hasText || viewModel.pendingImage != nil) && !viewModel.sendingImage
     }
 
     @ViewBuilder
@@ -236,7 +301,23 @@ struct ChatView: View {
         let mine = viewModel.isMine(msg)
         return HStack(alignment: .bottom, spacing: 4) {
             msgTimeLabel(msg.createdAt)
-            Text(msg.content)
+            VStack(alignment: .leading, spacing: 6) {
+                if let urlString = msg.imageUrl, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image): image.resizable().scaledToFill()
+                        case .failure: Image(systemName: "photo").foregroundStyle(.secondary)
+                        default: ProgressView()
+                        }
+                    }
+                    .frame(width: 220, height: 160)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .contentShape(Rectangle())
+                    .onTapGesture { lightbox = ChatPhoto(url: urlString) }
+                    .accessibilityLabel(i18n.t("chatimg.alt"))
+                }
+                if !msg.content.isEmpty { Text(msg.content) }
+            }
                 .padding(.horizontal, 12).padding(.vertical, 8)
                 .background(mine ? Color.soukmarPrimary : Color.soukmarSurfaceMuted)
                 .foregroundStyle(mine ? .white : .primary)
@@ -440,6 +521,37 @@ private struct ReportSheetChat: View {
                     Button(i18n.t("chat.cancel")) { viewModel.cancelReport() }
                 }
             }
+        }
+    }
+}
+
+private struct ChatPhoto: Identifiable {
+    let id = UUID()
+    let url: String
+}
+
+/// Full-screen view of a chat photo; tap anywhere or the close button to leave.
+private struct ChatPhotoViewer: View {
+    let url: String
+    let closeLabel: String
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            Color.black.ignoresSafeArea()
+            AsyncImage(url: URL(string: url)) { phase in
+                switch phase {
+                case .success(let image): image.resizable().scaledToFit()
+                case .failure: Image(systemName: "photo").foregroundStyle(.white)
+                default: ProgressView().tint(.white)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onTapGesture { dismiss() }
+            Button { dismiss() } label: {
+                Image(systemName: "xmark.circle.fill").font(.largeTitle).foregroundStyle(.white.opacity(0.85)).padding()
+            }
+            .accessibilityLabel(closeLabel)
         }
     }
 }

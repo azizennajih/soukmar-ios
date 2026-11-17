@@ -37,6 +37,22 @@ final class UploadRepository {
         }
     }
 
+    /// One photo for a chat message (POST /api/upload/chat, field "image"): downscaled like a listing photo; the
+    /// server strips EXIF/GPS and returns a private signed URL.
+    func uploadChatImage(_ data: Data) async -> Result<String, APIError> {
+        let jpeg = Self.compressToJpeg(data, maxDimension: 1600) ?? data
+        do {
+            let response: ChatImageUploadDto = try await api.upload(
+                path: "upload/chat", fieldName: "image", files: [(data: jpeg, filename: "chat.jpg", mimeType: "image/jpeg")]
+            )
+            return .success(response.url)
+        } catch let error as APIError {
+            return .failure(error)
+        } catch {
+            return .failure(.network(genericErrorText()))
+        }
+    }
+
     /// AI listing assistant: nil when the status cannot be read (treated as "not configured").
     func aiStatus() async -> AiStatusDto? {
         let status: AiStatusDto? = try? await api.send(path: "ai/status")

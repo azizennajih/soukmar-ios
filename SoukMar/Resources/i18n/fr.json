@@ -2134,5 +2134,19 @@
     "keep_mine": "Garder les miens",
     "applied": "Proposition reprise. Vérifiez les informations et complétez ce qui manque.",
     "applied_kept_texts": "Vos textes ont été conservés. La catégorie et les caractéristiques ont été reprises."
+  },
+  "chatimg": {
+    "label": "Image",
+    "attach": "Joindre une image",
+    "camera": "Prendre une photo",
+    "gallery": "Choisir dans la galerie",
+    "file": "Téléverser un fichier",
+    "remove": "Retirer l'image",
+    "alt": "Image envoyée",
+    "close": "Fermer",
+    "uploading": "Envoi de l'image …",
+    "err_type": "Veuillez choisir une image (JPG, PNG, WebP ou GIF).",
+    "err_big": "L'image est trop volumineuse (10 Mo max.).",
+    "err_upload": "L'image n'a pas pu être envoyée. Veuillez réessayer."
   }
 }

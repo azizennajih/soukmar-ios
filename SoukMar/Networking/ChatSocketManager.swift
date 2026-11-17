@@ -136,11 +136,12 @@ final class ChatSocketManager {
         socket?.emit("join_conversation", conversationId)
     }
 
-    func sendMessage(conversationId: String, receiverId: String, listingId: String, content: String) {
-        let payload: [String: Any] = [
+    func sendMessage(conversationId: String, receiverId: String, listingId: String, content: String, imageUrl: String? = nil) {
+        var payload: [String: Any] = [
             "conversationId": conversationId, "receiverId": receiverId,
             "listingId": listingId, "content": content,
         ]
+        if let imageUrl = imageUrl { payload["imageUrl"] = imageUrl }
         socket?.emit("send_message", payload)
     }
 

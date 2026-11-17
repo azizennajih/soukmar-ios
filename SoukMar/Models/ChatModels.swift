@@ -55,6 +55,8 @@ struct MessageDto: Codable, Identifiable, Equatable {
 
     let id: String
     let content: String
+    /// Signed Cloudinary URL of an attached chat photo (content may then be empty).
+    var imageUrl: String?
     let type: String
     var offerAmount: Double?
     var offerStatus: String?
@@ -70,6 +72,7 @@ struct MessageDto: Codable, Identifiable, Equatable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = try c.decode(String.self, forKey: .id)
         content = try c.decode(String.self, forKey: .content)
+        imageUrl = try c.decodeIfPresent(String.self, forKey: .imageUrl)
         type = try c.decode(String.self, forKey: .type)
         offerAmount = try c.decodeIfPresent(Double.self, forKey: .offerAmount)
         offerStatus = try c.decodeIfPresent(String.self, forKey: .offerStatus)

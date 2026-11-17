@@ -2134,5 +2134,19 @@
     "keep_mine": "Manter os meus",
     "applied": "Sugestão aplicada. Verifica os dados e completa o que falta.",
     "applied_kept_texts": "Os teus textos foram mantidos. A categoria e as características foram aplicadas."
+  },
+  "chatimg": {
+    "label": "Imagem",
+    "attach": "Anexar imagem",
+    "camera": "Tirar uma foto",
+    "gallery": "Escolher da galeria",
+    "file": "Carregar um ficheiro",
+    "remove": "Remover imagem",
+    "alt": "Imagem enviada",
+    "close": "Fechar",
+    "uploading": "A carregar imagem …",
+    "err_type": "Escolha uma imagem (JPG, PNG, WebP ou GIF).",
+    "err_big": "A imagem é demasiado grande (máx. 10 MB).",
+    "err_upload": "Não foi possível enviar a imagem. Tente novamente."
   }
 }

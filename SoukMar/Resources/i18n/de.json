@@ -2134,5 +2134,19 @@
     "keep_mine": "Meine behalten",
     "applied": "Vorschlag übernommen. Bitte prüfe die Angaben und ergänze, was fehlt.",
     "applied_kept_texts": "Deine Texte wurden beibehalten. Kategorie und Eigenschaften wurden übernommen."
+  },
+  "chatimg": {
+    "label": "Bild",
+    "attach": "Bild anhängen",
+    "camera": "Foto aufnehmen",
+    "gallery": "Aus Galerie wählen",
+    "file": "Datei hochladen",
+    "remove": "Bild entfernen",
+    "alt": "Gesendetes Bild",
+    "close": "Schließen",
+    "uploading": "Bild wird hochgeladen …",
+    "err_type": "Bitte ein Bild wählen (JPG, PNG, WebP oder GIF).",
+    "err_big": "Das Bild ist zu groß (max. 10 MB).",
+    "err_upload": "Das Bild konnte nicht gesendet werden. Bitte erneut versuchen."
   }
 }
