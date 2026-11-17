@@ -75,6 +75,9 @@ final class TokenStore {
         SecItemDelete(query as CFDictionary)
         var attributes = query
         attributes[kSecValueData as String] = data
+        // Readable after the first unlock (push handling in the background) but never leaves this device
+        // through a backup or a device migration.
+        attributes[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         SecItemAdd(attributes as CFDictionary, nil)
     }
 

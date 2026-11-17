@@ -234,7 +234,7 @@ struct ListingDetailView: View {
                     .background(Color.soukmarSuccessLight)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-                if let whatsapp = listing.whatsapp, let url = URL(string: "https://wa.me/\(whatsapp)") {
+                if let whatsapp = listing.whatsapp, case let digits = whatsapp.filter({ $0.isNumber }), !digits.isEmpty, let url = URL(string: "https://wa.me/\(digits)") {
                     Link(destination: url) {
                         Label("WhatsApp · \(whatsapp)", systemImage: "message.fill")
                             .frame(maxWidth: .infinity)

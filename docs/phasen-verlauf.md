@@ -126,3 +126,9 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
 - **i18n:** `nav.home`, `nav.account` zuerst im Web angelegt, dann alle 11 Dateien kopiert.
 - **Fallstricke:** `FavoritesStore` ist `@MainActor` wie die ViewModels. Die Interessen-Sektion der Android-Startseite gibt es auf iOS weiterhin nicht (war schon vorher nicht portiert).
 - **Nicht getestet:** kein Mac, der Codemagic-Lauf dieser Tranche steht aus; kein Gerätelauf, keine Sichtprüfung.
+
+## Tranche 36 — Sicherheitsprüfung (2026-11-17)
+- **Keychain:** `TokenStore.writeKeychain` setzt `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly` (Token verlässt das Gerät nicht per Backup oder Geräte-Migration). Bereits gespeicherte Einträge werden beim nächsten Schreiben (Login, Token-Wechsel) neu angelegt.
+- **WhatsApp-Link:** nur Ziffern der Nummer (`ListingDetailView.swift`).
+- Geprüft ohne Befund: ATS (nur `NSAllowsLocalNetworking`, Debug-URL nur unter `#if DEBUG`), kein Logging (`print`/`NSLog` nicht vorhanden), Banner-Links nur `https://`, Berechtigungstexte vorhanden und begründet, keine Geheimnisse im Repo.
+- **Nicht getestet:** kein Compiler lokal, Codemagic-Lauf steht aus (Tranche 35 ebenfalls noch unbestätigt).
