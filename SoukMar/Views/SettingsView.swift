@@ -49,8 +49,9 @@ struct SettingsView: View {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
                         Text(i18n.t("nav.logout"))
                     }
+                    .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(SoukSecondaryButtonStyle())
+                .buttonStyle(.bordered)
             }
             .padding(16)
         }
@@ -70,21 +71,22 @@ private struct SettingsRow: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(danger ? Color.soukmarErrorLight : Color.soukmarSurfaceMuted)
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill((danger ? Color.red : Color.soukmarPrimary).opacity(0.1))
                     Image(systemName: icon)
-                        .foregroundStyle(danger ? Color.soukmarError : Color.soukmarInk)
+                        .foregroundStyle(danger ? Color.red : Color.soukmarPrimary)
                 }
                 .frame(width: 40, height: 40)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(danger ? Color.soukmarError : .primary)
+                    Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(danger ? Color.red : .primary)
                     Text(subtitle).font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
                 Image(systemName: "chevron.right").font(.caption).foregroundStyle(.secondary)
             }
-            .padding(Spacing.lg)
-            .soukCard()
+            .padding(14)
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
     }

@@ -18,7 +18,7 @@ struct ListingsView: View {
         _viewModel = StateObject(wrappedValue: ListingsViewModel(initialCategory: initialCategory, savedSearchId: savedSearchId, editSearchId: editSearchId))
     }
 
-    private let columns = [GridItem(.adaptive(minimum: 160), spacing: Spacing.md, alignment: .top)]
+    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
     /// Advertising banners shown between the listings (INLINE placement of the current country).
     @State private var inlineBanners: [SponsorBannerDto] = []
@@ -72,7 +72,7 @@ struct ListingsView: View {
                     let chunks = listingChunks
                     LazyVStack(spacing: 16) {
                         ForEach(Array(chunks.enumerated()), id: \.offset) { index, chunk in
-                            LazyVGrid(columns: columns, spacing: Spacing.md) {
+                            LazyVGrid(columns: columns, spacing: 16) {
                                 ForEach(chunk) { listing in
                                     NavigationLink(value: listing.id) {
                                         ListingCardView(listing: listing)
@@ -138,7 +138,7 @@ struct ListingsView: View {
             toggleButton(.list, label: i18n.t("annonces.view_list"), icon: "list.bullet")
             toggleButton(.map, label: i18n.t("annonces.view_map"), icon: "map")
         }
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal)
         .padding(.bottom, 8)
     }
@@ -151,7 +151,7 @@ struct ListingsView: View {
                 .font(.caption.weight(.medium))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
-                .background(viewMode == mode ? Color.soukmarPrimary : Color.soukmarSurfaceMuted)
+                .background(viewMode == mode ? Color.soukmarPrimary : Color(.secondarySystemBackground))
                 .foregroundStyle(viewMode == mode ? .white : .primary)
         }
         .buttonStyle(.plain)
@@ -166,8 +166,8 @@ struct ListingsView: View {
                 .submitLabel(.search)
         }
         .padding(10)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal)
         .padding(.top, 8)
     }
@@ -194,20 +194,20 @@ struct ListingsView: View {
         if viewModel.searchSaved {
             Label(i18n.t("annonces.search_saved"), systemImage: "checkmark.circle.fill")
                 .font(.caption.weight(.medium))
-                .foregroundStyle(Color.soukmarSuccess)
+                .foregroundStyle(.green)
                 .padding(.horizontal)
                 .padding(.bottom, 6)
         } else if viewModel.showSaveSearchForm {
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     TextField(i18n.t("annonces.save_search_name"), text: $viewModel.newSearchName)
-                        .textFieldStyle(SoukTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
                     Button(i18n.t("common.cancel")) { viewModel.cancelSaveSearch() }
                     Button(viewModel.savingSearch ? "…" : (viewModel.editSearchId != nil ? i18n.t("annonces.update_search") : i18n.t("common.save"))) { viewModel.saveSearch() }
                         .disabled(viewModel.newSearchName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.savingSearch)
                 }
                 if let error = viewModel.saveSearchError {
-                    Text(error).font(.caption2).foregroundStyle(Color.soukmarError)
+                    Text(error).font(.caption2).foregroundStyle(.red)
                 }
             }
             .padding(.horizontal)
@@ -268,7 +268,7 @@ private struct ChipView: View {
             .font(.caption.weight(.medium))
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(selected ? Color.soukmarPrimary : Color.soukmarSurfaceMuted)
+            .background(selected ? Color.soukmarPrimary : Color(.secondarySystemBackground))
             .foregroundStyle(selected ? .white : .primary)
             .clipShape(Capsule())
         }
@@ -317,7 +317,7 @@ private struct FiltersSheet: View {
                         }
                         .disabled(viewModel.locationLoading)
                         if let locationError = viewModel.locationError {
-                            Text(i18n.t(locationError)).font(.caption).foregroundStyle(Color.soukmarError)
+                            Text(i18n.t(locationError)).font(.caption).foregroundStyle(.red)
                         }
                     }
                 }

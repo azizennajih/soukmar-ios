@@ -49,7 +49,7 @@ struct AdminScopeBar: View {
             Text(title)
                 .font(.caption.weight(.semibold))
                 .padding(.horizontal, 12).padding(.vertical, 7)
-                .background(selected ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
+                .background(selected ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
                 .foregroundStyle(selected ? Color.soukmarPrimary : .primary)
                 .clipShape(Capsule())
         }
@@ -64,7 +64,7 @@ private struct DashboardCard<Content: View>: View {
         VStack(alignment: .leading, spacing: 6, content: content)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(12)
-            .background(Color.soukmarSurfaceMuted)
+            .background(Color(.secondarySystemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
@@ -80,7 +80,7 @@ private struct KpiTile: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
-        .background(Color.soukmarSurfaceMuted)
+        .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
@@ -96,7 +96,7 @@ private struct BarRow: View {
             Text(label).font(.footnote).lineLimit(1).frame(width: 120, alignment: .leading)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.soukmarBorder)
+                    Capsule().fill(Color(.systemGray5))
                     Capsule().fill(color).frame(width: maxValue > 0 ? geo.size.width * CGFloat(value) / CGFloat(maxValue) : 0)
                 }
             }
@@ -121,7 +121,7 @@ private struct FilterPills: View {
                         Text(label(option))
                             .font(.caption.weight(.medium))
                             .padding(.horizontal, 12).padding(.vertical, 8)
-                            .background(selected == option ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
+                            .background(selected == option ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
                             .foregroundStyle(selected == option ? Color.soukmarPrimary : .primary)
                             .clipShape(Capsule())
                     }
@@ -206,7 +206,7 @@ struct AdminListingsView: View {
                 $0 == "ALL" ? i18n.t("admin.filter_all") : statusText($0, i18n)
             }
             if viewModel.actionFailed {
-                Text(i18n.t("admin.update_error")).font(.footnote).foregroundStyle(Color.soukmarError).padding(.horizontal)
+                Text(i18n.t("admin.update_error")).font(.footnote).foregroundStyle(.red).padding(.horizontal)
             }
             if viewModel.filteredListings.isEmpty {
                 Spacer()
@@ -257,7 +257,7 @@ struct AdminListingsView: View {
                 Button(listing.isPremium ? "★ Premium" : "☆ Premium") { viewModel.togglePremium(listing) }
                     .font(.caption)
                     .foregroundStyle(listing.isPremium ? Color.soukmarGold : .secondary)
-                Button("✕") { toDelete = listing }.font(.caption).foregroundStyle(Color.soukmarError)
+                Button("✕") { toDelete = listing }.font(.caption).foregroundStyle(.red)
             }
         }
     }
@@ -272,12 +272,12 @@ struct AdminUsersView: View {
     var body: some View {
         VStack(spacing: 0) {
             TextField(i18n.t("admin.search_users"), text: $viewModel.userSearch)
-                .textFieldStyle(SoukTextFieldStyle())
+                .textFieldStyle(.roundedBorder)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .padding()
             if viewModel.actionFailed {
-                Text(i18n.t("admin.update_error")).font(.footnote).foregroundStyle(Color.soukmarError).padding(.horizontal)
+                Text(i18n.t("admin.update_error")).font(.footnote).foregroundStyle(.red).padding(.horizontal)
             }
             if viewModel.filteredUsers.isEmpty {
                 Spacer()
@@ -322,7 +322,7 @@ struct AdminUsersView: View {
                 Text("\(roleLabel(user.role)) ▾")
                     .font(.caption.weight(.semibold))
                     .padding(.horizontal, 10).padding(.vertical, 6)
-                    .background(Color.soukmarBorder)
+                    .background(Color(.systemGray5))
                     .clipShape(Capsule())
             }
         }

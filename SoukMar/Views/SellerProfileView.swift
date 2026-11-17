@@ -42,7 +42,7 @@ struct SellerProfileView: View {
                     if viewModel.listings.isEmpty {
                         Text(i18n.t("seller.no_listings")).font(.subheadline).foregroundStyle(.secondary)
                     } else {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 160), spacing: Spacing.md, alignment: .top)], spacing: Spacing.md) {
+                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
                             ForEach(viewModel.listings) { listing in
                                 Button {
                                     onOpenListing(listing.id)
@@ -120,7 +120,7 @@ struct SellerProfileView: View {
                 Label(label, systemImage: "bolt.fill")
                     .font(.caption.weight(.semibold))
                     .padding(.horizontal, 10).padding(.vertical, 4)
-                    .background(Color.soukmarSurfaceMuted)
+                    .background(Color(.secondarySystemBackground))
                     .clipShape(Capsule())
                     .padding(.top, 4)
             }
@@ -141,8 +141,8 @@ struct SellerProfileView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(20)
-        .background(Color.soukmarSurfaceMuted.opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     private static func memberSince(_ iso: String) -> String? {
@@ -174,7 +174,7 @@ private struct StarRow: View {
     var body: some View {
         HStack(spacing: 1) {
             ForEach(1...5, id: \.self) { star in
-                Text("★").foregroundStyle(star <= rating ? Color.soukmarAccent : Color.soukmarBorder)
+                Text("★").foregroundStyle(star <= rating ? Color.soukmarGold : Color(.separator))
             }
         }
     }
@@ -210,8 +210,8 @@ private struct ReviewRow: View {
             .foregroundStyle(.secondary)
         }
         .padding(14)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 }
 

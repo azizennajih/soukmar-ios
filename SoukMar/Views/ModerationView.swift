@@ -77,7 +77,7 @@ struct ModerationView: View {
                 .font(.subheadline)
                 .padding(12)
                 .background(.thinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .padding(.bottom, 16)
                 .task(id: key) {
                     try? await Task.sleep(nanoseconds: 4_000_000_000)
@@ -160,7 +160,7 @@ private struct ModerationQueueView: View {
                                 Text(moderationStatusLabel(st, i18n))
                                     .font(.caption.weight(.medium))
                                     .padding(.horizontal, 12).padding(.vertical, 8)
-                                    .background(viewModel.status == st ? Color.soukmarPrimaryLight : Color.soukmarSurfaceMuted)
+                                    .background(viewModel.status == st ? Color.soukmarPrimaryLight : Color(.secondarySystemBackground))
                                     .foregroundStyle(viewModel.status == st ? Color.soukmarPrimary : .primary)
                                     .clipShape(Capsule())
                             }
@@ -205,8 +205,8 @@ private struct ModerationQueueView: View {
                         .onSubmit { viewModel.search() }
                 }
                 .padding(10)
-                .background(Color.soukmarSurfaceMuted)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .background(Color(.secondarySystemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 HStack {
                     Text(i18n.t("moderation.count", ["n": String(viewModel.total)])).font(.caption).foregroundStyle(Color.soukmarTextMuted)
@@ -217,7 +217,7 @@ private struct ModerationQueueView: View {
                 if viewModel.loading {
                     ProgressView().frame(maxWidth: .infinity).padding(24)
                 } else if viewModel.loadError {
-                    Text(i18n.t("auth.generic_error")).foregroundStyle(Color.soukmarError)
+                    Text(i18n.t("auth.generic_error")).foregroundStyle(.red)
                 } else if viewModel.items.isEmpty {
                     Text(i18n.t("moderation.empty")).foregroundStyle(Color.soukmarTextMuted).padding(24)
                 } else {
@@ -255,7 +255,7 @@ private struct FilterMenuLabel: View {
             .font(.caption)
             .lineLimit(1)
             .padding(.horizontal, 12).padding(.vertical, 8)
-            .overlay(Capsule().stroke(Color.soukmarBorder, lineWidth: 1))
+            .overlay(Capsule().stroke(Color(.separator), lineWidth: 1))
             .foregroundStyle(.primary)
     }
 }
@@ -282,8 +282,8 @@ private struct SummaryCard: View {
         }
         .frame(width: 110, alignment: .leading)
         .padding(12)
-        .background(danger ? Color.soukmarPrimaryLight : (highlight ? Color.soukmarGoldLight : Color.soukmarSurfaceMuted.opacity(0.5)))
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(danger ? Color.soukmarPrimary : (highlight ? Color.soukmarGold : Color.soukmarBorder), lineWidth: 1))
+        .background(danger ? Color.soukmarPrimaryLight : (highlight ? Color.soukmarGoldLight : Color(.secondarySystemBackground).opacity(0.5)))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(danger ? Color.soukmarPrimary : (highlight ? Color.soukmarGold : Color(.separator)), lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 12))
 
         if let onTap {
@@ -315,15 +315,15 @@ private struct QueueRow: View {
                             if case .success(let image) = phase {
                                 image.resizable().aspectRatio(contentMode: .fill)
                             } else {
-                                Rectangle().fill(Color.soukmarSurfaceMuted)
+                                Rectangle().fill(Color(.secondarySystemBackground))
                             }
                         }
                     } else {
-                        Rectangle().fill(Color.soukmarSurfaceMuted)
+                        Rectangle().fill(Color(.secondarySystemBackground))
                     }
                 }
                 .frame(width: 64, height: 64)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack {
@@ -348,9 +348,9 @@ private struct QueueRow: View {
                 }
             }
             .padding(10)
-            .background(Color.soukmarSurfaceMuted.opacity(0.5))
-            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarBorder, lineWidth: 0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .background(Color(.secondarySystemBackground).opacity(0.5))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
     }
@@ -396,9 +396,9 @@ private struct ModerationDetailView: View {
         VStack(alignment: .leading, spacing: 6) { content() }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(12)
-            .background(Color.soukmarSurfaceMuted.opacity(0.5))
-            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarBorder, lineWidth: 0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .background(Color(.secondarySystemBackground).opacity(0.5))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     @ViewBuilder
@@ -472,11 +472,11 @@ private struct ModerationDetailView: View {
                             if case .success(let image) = phase {
                                 image.resizable().aspectRatio(contentMode: .fill)
                             } else {
-                                Rectangle().fill(Color.soukmarSurfaceMuted)
+                                Rectangle().fill(Color(.secondarySystemBackground))
                             }
                         }
                         .frame(width: 220, height: 165)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
             }
@@ -577,7 +577,7 @@ private struct InfoRow: View {
         HStack(alignment: .top) {
             Text(label).font(.caption).foregroundStyle(Color.soukmarTextMuted)
             Spacer(minLength: 12)
-            Text(value).font(.caption.weight(.semibold)).foregroundStyle(warn ? Color.soukmarError : Color.primary).multilineTextAlignment(.trailing)
+            Text(value).font(.caption.weight(.semibold)).foregroundStyle(warn ? Color.red : Color.primary).multilineTextAlignment(.trailing)
         }
     }
 }
@@ -609,8 +609,8 @@ private struct SignalRow: View {
             Spacer(minLength: 0)
         }
         .padding(8)
-        .background(severity == "high" ? Color.soukmarPrimaryLight : (severity == "medium" ? Color.soukmarGoldLight : Color.white))
-        .overlay(RoundedRectangle(cornerRadius: 8).stroke(severity == "low" ? Color.soukmarBorder : tint, lineWidth: 1))
+        .background(severity == "high" ? Color.soukmarPrimaryLight : (severity == "medium" ? Color.soukmarGoldLight : Color(.systemBackground)))
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(severity == "low" ? Color(.separator) : tint, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 8))
 
         if let onTap {
@@ -650,12 +650,12 @@ private struct EventRow: View {
                 HStack(spacing: 6) {
                     Text("✉ " + i18n.t("moderation.mail_\(st)"))
                         .font(.caption2)
-                        .foregroundStyle(st == "FAILED" ? Color.soukmarError : Color.soukmarTextMuted)
+                        .foregroundStyle(st == "FAILED" ? Color.red : Color.soukmarTextMuted)
                     if st == "FAILED" || st == "PENDING" {
                         Button(i18n.t("moderation.mail_resend"), action: onResend).font(.caption2).disabled(resending)
                     }
                 }
-                if let err = event.emailError, !err.isEmpty { Text(err).font(.system(size: 10)).foregroundStyle(Color.soukmarError) }
+                if let err = event.emailError, !err.isEmpty { Text(err).font(.system(size: 10)).foregroundStyle(Color.red) }
             }
         }
         .padding(.vertical, 4)
@@ -681,14 +681,14 @@ private struct ReasonSheet: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(i18n.t("moderation.reason_label")).font(.footnote).foregroundStyle(Color.soukmarTextMuted)
                 TextField(i18n.t("moderation.reason_ph"), text: $viewModel.reason, axis: .vertical)
-                    .textFieldStyle(SoukTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .lineLimit(4...8)
                     .onChange(of: viewModel.reason) { newValue in
                         if newValue.count > MODERATION_REASON_MAX { viewModel.reason = String(newValue.prefix(MODERATION_REASON_MAX)) }
                     }
                 Text("\(viewModel.reason.trimmingCharacters(in: .whitespacesAndNewlines).count)/\(MODERATION_REASON_MAX) · \(i18n.t("moderation.reason_min", ["n": String(MODERATION_REASON_MIN)]))")
                     .font(.caption2)
-                    .foregroundStyle(!viewModel.reason.isEmpty && !viewModel.reasonValid ? Color.soukmarError : Color.soukmarTextMuted)
+                    .foregroundStyle(!viewModel.reason.isEmpty && !viewModel.reasonValid ? Color.red : Color.soukmarTextMuted)
                 if viewModel.reasonAction == "reject" {
                     Toggle(i18n.t("moderation.allow_resubmit"), isOn: $viewModel.allowResubmit).font(.footnote)
                 }

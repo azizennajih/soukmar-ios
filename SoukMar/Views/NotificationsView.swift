@@ -113,7 +113,7 @@ private struct NotificationRow: View {
                 Spacer()
             }
             .padding(14)
-            .background(notification.isRead ? Color.soukmarSurfaceMuted : Color.soukmarPrimaryLight)
+            .background(notification.isRead ? Color(.secondarySystemBackground) : Color.soukmarPrimaryLight)
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .buttonStyle(.plain)

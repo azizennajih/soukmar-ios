@@ -8,7 +8,7 @@ struct RegisterView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                SoukMarLogo(markSize: 44, fontSize: 26).padding(.top, 32)
+                SoukMarLogo().padding(.top, 32)
 
                 if viewModel.emailSent {
                     VStack(spacing: 4) {
@@ -43,15 +43,15 @@ struct RegisterView: View {
 
                     VStack(spacing: 12) {
                         TextField(i18n.t("auth.name"), text: $viewModel.name)
-                            .textFieldStyle(SoukTextFieldStyle())
+                            .textFieldStyle(.roundedBorder)
                         TextField(i18n.t("auth.email"), text: $viewModel.email)
-                            .textFieldStyle(SoukTextFieldStyle())
+                            .textFieldStyle(.roundedBorder)
                             .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
                             .autocorrectionDisabled()
                         PhoneInputField(value: $viewModel.phone)
                         TextField(i18n.t("auth.city"), text: $viewModel.city)
-                            .textFieldStyle(SoukTextFieldStyle())
+                            .textFieldStyle(.roundedBorder)
 
                         VStack(alignment: .leading, spacing: 6) {
                             Text(i18n.t("auth.account_type")).font(.subheadline.weight(.medium))
@@ -82,7 +82,9 @@ struct RegisterView: View {
                             Text(i18n.t("auth.register_btn")).frame(maxWidth: .infinity)
                         }
                     }
-                    .buttonStyle(SoukPrimaryButtonStyle())
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.soukmarPrimary)
+                    .controlSize(.large)
                     .disabled(viewModel.loading)
 
                     HStack(spacing: 4) {

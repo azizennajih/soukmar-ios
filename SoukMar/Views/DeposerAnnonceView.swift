@@ -94,27 +94,21 @@ struct DeposerAnnonceView: View {
     }
 
     private var stepIndicator: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 6) {
-                ForEach(Array(DEPOSER_STEPS.enumerated()), id: \.offset) { index, _ in
-                    Capsule()
-                        .fill(index <= viewModel.step ? Color.soukmarPrimary : Color.soukmarBorder)
-                        .frame(height: 4)
-                        .frame(maxWidth: .infinity)
+        HStack(spacing: 4) {
+            ForEach(Array(DEPOSER_STEPS.enumerated()), id: \.offset) { index, _ in
+                VStack(spacing: 4) {
+                    Circle()
+                        .fill(index <= viewModel.step ? Color.soukmarPrimary : Color(.secondarySystemBackground))
+                        .frame(width: 8, height: 8)
+                    Text(i18n.t(stepKeys[index]))
+                        .font(.caption2)
+                        .foregroundStyle(index == viewModel.step ? Color.soukmarPrimary : .secondary)
                 }
-            }
-            HStack {
-                Text(i18n.t(stepKeys[min(max(viewModel.step, 0), stepKeys.count - 1)]))
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundStyle(Color.soukmarInk)
-                Spacer()
-                Text("\(viewModel.step + 1) / \(DEPOSER_STEPS.count)")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Color.soukmarTextMuted)
+                .frame(maxWidth: .infinity)
             }
         }
-        .padding(.horizontal, Spacing.lg)
-        .padding(.vertical, Spacing.md)
+        .padding(.horizontal)
+        .padding(.vertical, 10)
     }
 
     @ViewBuilder
@@ -169,8 +163,8 @@ struct DeposerAnnonceView: View {
                             }
                         }
                         .padding()
-                        .background(Color.soukmarSurfaceMuted)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .background(Color(.secondarySystemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                     .foregroundStyle(.primary)
                 }
@@ -184,11 +178,11 @@ struct DeposerAnnonceView: View {
                 TextField(
                     i18n.t("deposer.placeholder_title_\(viewModel.category.lowercased())", ["from": exampleCities.0, "to": exampleCities.1]),
                     text: $viewModel.title
-                ).textFieldStyle(SoukTextFieldStyle())
+                ).textFieldStyle(.roundedBorder)
             }
             labeledField(i18n.t("listing.description")) {
                 TextField(i18n.t("deposer.placeholder_desc_\(viewModel.category.lowercased())"), text: $viewModel.description, axis: .vertical)
-                    .textFieldStyle(SoukTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .lineLimit(4...10)
             }
             // No country field here on purpose — country is centrally
@@ -199,7 +193,7 @@ struct DeposerAnnonceView: View {
             // start(editId:)'s Combine subscription).
             labeledField("\(i18n.t("deposer.label_price")) (\(viewModel.derivedCurrency))") {
                 TextField("Laissez vide pour \"à négocier\"", text: $viewModel.price)
-                    .textFieldStyle(SoukTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .keyboardType(.decimalPad)
             }
             labeledField(i18n.t(viewModel.hasDestinationCity ? "deposer.label_start_city" : "deposer.label_city")) {
@@ -223,7 +217,7 @@ struct DeposerAnnonceView: View {
                                 Text(option.label)
                                     .font(.caption.weight(.medium))
                                     .padding(.horizontal, 12).padding(.vertical, 8)
-                                    .background(viewModel.condition == option.value ? Color.soukmarPrimary : Color.soukmarSurfaceMuted)
+                                    .background(viewModel.condition == option.value ? Color.soukmarPrimary : Color(.secondarySystemBackground))
                                     .foregroundStyle(viewModel.condition == option.value ? .white : .primary)
                                     .clipShape(Capsule())
                             }
@@ -314,7 +308,7 @@ struct DeposerAnnonceView: View {
                 get: { viewModel.attrText[def.code] ?? "" },
                 set: { viewModel.attrText[def.code] = $0 }
             ))
-            .textFieldStyle(SoukTextFieldStyle())
+            .textFieldStyle(.roundedBorder)
             .keyboardType(.decimalPad)
         case "MULTI_SELECT":
             VStack(alignment: .leading, spacing: 6) {
@@ -325,7 +319,7 @@ struct DeposerAnnonceView: View {
                     } label: {
                         HStack {
                             Image(systemName: isOn ? "checkmark.square.fill" : "square")
-                                .foregroundStyle(isOn ? Color.soukmarPrimary : Color.soukmarTextSubtle)
+                                .foregroundStyle(isOn ? Color.soukmarPrimary : Color(.systemGray3))
                             Text(i18n.tCatalog("attrs.opts.\(option)", code: option))
                                 .foregroundStyle(.primary)
                         }
@@ -344,7 +338,7 @@ struct DeposerAnnonceView: View {
                 get: { viewModel.attrText[def.code] ?? "" },
                 set: { viewModel.attrText[def.code] = $0 }
             ))
-            .textFieldStyle(SoukTextFieldStyle())
+            .textFieldStyle(.roundedBorder)
         }
     }
 
@@ -379,7 +373,7 @@ struct DeposerAnnonceView: View {
                             Text("Ajouter").font(.caption2)
                         }
                         .frame(width: 80, height: 80)
-                        .background(Color.soukmarSurfaceMuted)
+                        .background(Color(.secondarySystemBackground))
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                         .foregroundStyle(.secondary)
                     }
@@ -393,7 +387,7 @@ struct DeposerAnnonceView: View {
                                 Text(i18n.t("deposer.take_photo")).font(.caption2)
                             }
                             .frame(width: 80, height: 80)
-                            .background(Color.soukmarSurfaceMuted)
+                            .background(Color(.secondarySystemBackground))
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                             .foregroundStyle(.secondary)
                         }
@@ -414,11 +408,11 @@ struct DeposerAnnonceView: View {
                         if case .success(let image) = phase {
                             image.resizable().aspectRatio(contentMode: .fill)
                         } else {
-                            Color.soukmarSurfaceMuted
+                            Color(.secondarySystemBackground)
                         }
                     }
                 } else {
-                    Color.soukmarSurfaceMuted
+                    Color(.secondarySystemBackground)
                 }
             }
             .frame(width: 80, height: 80)
@@ -467,15 +461,16 @@ struct DeposerAnnonceView: View {
     }
 
     private var bottomBar: some View {
-        HStack(spacing: Spacing.md) {
+        HStack {
             if viewModel.step > 0 {
                 Button(i18n.t("deposer.back")) { viewModel.goBack() }
-                    .buttonStyle(SoukSecondaryButtonStyle())
-                    .frame(maxWidth: 130)
+                    .buttonStyle(.bordered)
             }
+            Spacer()
             if viewModel.step < DEPOSER_STEPS.count - 1 {
                 Button(i18n.t("deposer.next")) { viewModel.goNext() }
-                    .buttonStyle(SoukPrimaryButtonStyle())
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.soukmarPrimary)
                     .disabled(!viewModel.canNext)
             } else {
                 Button {
@@ -487,7 +482,8 @@ struct DeposerAnnonceView: View {
                         Text(viewModel.uploading ? i18n.t("deposer.uploading") : i18n.t("deposer.publish"))
                     }
                 }
-                .buttonStyle(SoukPrimaryButtonStyle())
+                .buttonStyle(.borderedProminent)
+                .tint(Color.soukmarPrimary)
                 .disabled(viewModel.loading)
             }
         }
@@ -517,7 +513,7 @@ private struct CityPickerButton: View {
                 Image(systemName: "chevron.down").font(.caption).foregroundStyle(.secondary)
             }
             .padding(.horizontal, 12).padding(.vertical, 10)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.soukmarBorder, lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.systemGray4), lineWidth: 1))
         }
         .buttonStyle(.plain)
         .sheet(isPresented: $pickerOpen) {
@@ -570,7 +566,7 @@ private struct CityPickerSheet: View {
                     Button { onSelect(city) } label: {
                         Text(city).foregroundStyle(.primary)
                     }
-                    .listRowBackground(city == selected ? Color.soukmarPrimaryLight : Color.white)
+                    .listRowBackground(city == selected ? Color.soukmarPrimaryLight : Color(.systemBackground))
                 }
                 ForEach(remoteExtra) { hit in
                     Button { onSelect(hit.name) } label: {

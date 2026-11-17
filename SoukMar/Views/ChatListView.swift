@@ -34,7 +34,15 @@ struct ChatListView: View {
     }
 
     private var emptyState: some View {
-        EmptyStateView(systemImage: "bubble.left", title: i18n.t("chat.no_conv"), subtitle: i18n.t("chat.no_conv_sub"))
+        VStack(spacing: 8) {
+            Image(systemName: "message.fill").font(.system(size: 40)).foregroundStyle(.secondary)
+            Text(i18n.t("chat.no_conv")).font(.title3.bold())
+            Text(i18n.t("chat.no_conv_sub"))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

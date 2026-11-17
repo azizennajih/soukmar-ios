@@ -95,8 +95,8 @@ private struct SavedSearchRow: View {
                 .buttonStyle(.plain)
             }
             .padding(14)
-            .background(Color.soukmarSurfaceMuted)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
     }

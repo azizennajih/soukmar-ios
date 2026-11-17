@@ -18,7 +18,7 @@ struct AiAssistantCard: View {
                 if let notice = viewModel.aiNotice {
                     Text(notice)
                         .font(.footnote)
-                        .foregroundStyle(Color.soukmarSuccess)
+                        .foregroundStyle(.green)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 8)
                 }
@@ -27,9 +27,9 @@ struct AiAssistantCard: View {
                     content.padding(14)
                 }
             }
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarGold, lineWidth: 1.5))
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.soukmarGold, lineWidth: 1.5))
             // A new result never silently replaces texts edited in the preview; "apply" never silently
             // replaces a title or description the user wrote in the form.
             .alert(confirmMessage, isPresented: Binding(
@@ -103,7 +103,7 @@ struct AiAssistantCard: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 11)
                         .foregroundStyle(Color.primary)
-                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.soukmarBorder, lineWidth: 1))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(.systemGray4), lineWidth: 1))
                 }
                 .disabled(viewModel.aiLoading)
             }
@@ -127,7 +127,7 @@ struct AiAssistantCard: View {
                 }
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.soukmarSurfaceMuted)
+                .background(Color(.secondarySystemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
 
@@ -164,7 +164,7 @@ struct AiAssistantCard: View {
             Spacer()
             Text("\(i18n.t("ai.confidence")): \(confidenceLabel(confidence))")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(confidence >= 0.75 ? Color.soukmarSuccess : (confidence >= 0.5 ? Color.soukmarGold : Color.soukmarError))
+                .foregroundStyle(confidence >= 0.75 ? Color.green : (confidence >= 0.5 ? Color.soukmarGold : Color.red))
         }
         Text(i18n.t("ai.result_note")).font(.caption).foregroundStyle(Color.soukmarTextMuted)
 
@@ -182,7 +182,7 @@ struct AiAssistantCard: View {
         VStack(alignment: .leading, spacing: 4) {
             label(i18n.t("deposer.label_title"))
             TextField("", text: $viewModel.aiTitle, axis: .vertical)
-                .textFieldStyle(SoukTextFieldStyle())
+                .textFieldStyle(.roundedBorder)
                 .onChange(of: viewModel.aiTitle) { value in
                     if value.count > 100 { viewModel.aiTitle = String(value.prefix(100)) }
                 }
@@ -192,7 +192,7 @@ struct AiAssistantCard: View {
             label(i18n.t("deposer.label_desc"))
             TextField("", text: $viewModel.aiDescription, axis: .vertical)
                 .lineLimit(5...12)
-                .textFieldStyle(SoukTextFieldStyle())
+                .textFieldStyle(.roundedBorder)
         }
     }
 
@@ -211,9 +211,9 @@ struct AiAssistantCard: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 7)
                         .foregroundStyle(selected ? Color.soukmarPrimary : Color.primary)
-                        .background(selected ? Color.soukmarPrimaryLight : Color.white)
+                        .background(selected ? Color.soukmarPrimaryLight : Color(.systemBackground))
                         .clipShape(Capsule())
-                        .overlay(Capsule().stroke(selected ? Color.soukmarPrimary : Color.soukmarBorder, lineWidth: 1.5))
+                        .overlay(Capsule().stroke(selected ? Color.soukmarPrimary : Color(.systemGray4), lineWidth: 1.5))
                 }
                 .buttonStyle(.plain)
             }
@@ -320,7 +320,7 @@ struct AiAssistantCard: View {
                 if let image = photo.previewImage {
                     Image(uiImage: image).resizable().aspectRatio(contentMode: .fill)
                 } else {
-                    Color.soukmarSurfaceMuted
+                    Color(.secondarySystemBackground)
                 }
             }
             .frame(width: 72, height: 72)
@@ -349,7 +349,7 @@ struct AiAssistantCard: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
                 .foregroundStyle(.white)
-                .background(enabled ? Color.soukmarPrimary : Color.soukmarTextSubtle)
+                .background(enabled ? Color.soukmarPrimary : Color(.systemGray3))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .buttonStyle(.plain)
@@ -363,7 +363,7 @@ struct AiAssistantCard: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 11)
                 .foregroundStyle(enabled ? Color.primary : Color.secondary)
-                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.soukmarBorder, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(.systemGray4), lineWidth: 1))
         }
         .buttonStyle(.plain)
         .disabled(!enabled)
@@ -386,8 +386,8 @@ struct AiAssistantCard: View {
 
     private func notice(_ text: String, warn: Bool) -> some View {
         HStack(alignment: .top, spacing: 8) {
-            Image(systemName: "exclamationmark.triangle").foregroundStyle(warn ? Color.soukmarGold : Color.soukmarError)
-            Text(text).font(.footnote).foregroundStyle(warn ? Color.primary : Color.soukmarError)
+            Image(systemName: "exclamationmark.triangle").foregroundStyle(warn ? Color.soukmarGold : Color.red)
+            Text(text).font(.footnote).foregroundStyle(warn ? Color.primary : Color.red)
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 12)

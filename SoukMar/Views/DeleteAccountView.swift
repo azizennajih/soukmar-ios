@@ -18,8 +18,8 @@ struct DeleteAccountView: View {
                         .font(.subheadline)
                         .padding(16)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.soukmarErrorLight)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .background(Color.red.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
 
                     VStack(alignment: .leading, spacing: 14) {
                         if let error = viewModel.errorMessage {
@@ -33,7 +33,7 @@ struct DeleteAccountView: View {
                         } label: {
                             HStack(alignment: .top) {
                                 Image(systemName: viewModel.confirmed ? "checkmark.square.fill" : "square")
-                                    .foregroundStyle(viewModel.confirmed ? .red : Color.soukmarTextSubtle)
+                                    .foregroundStyle(viewModel.confirmed ? .red : Color(.systemGray3))
                                 Text(i18n.t("delete_account.confirm_checkbox"))
                                     .foregroundStyle(.primary)
                                     .multilineTextAlignment(.leading)
@@ -55,8 +55,8 @@ struct DeleteAccountView: View {
                         .disabled(!viewModel.canSubmit)
                     }
                     .padding(16)
-                    .background(Color.soukmarSurfaceMuted)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .background(Color(.secondarySystemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
             }
             .padding(16)

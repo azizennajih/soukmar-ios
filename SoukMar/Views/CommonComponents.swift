@@ -1,24 +1,30 @@
 import SwiftUI
 
-// Colours, spacing, button and field styles live in DesignSystem.swift.
+/// Same palette as soukmar-android's ui/theme/Color.kt and the web's
+/// styles.scss CSS variables — keep these three in sync.
+extension Color {
+    static let soukmarPrimary = Color(red: 0xD9 / 255, green: 0x3D / 255, blue: 0x4A / 255)
+    static let soukmarPrimaryLight = Color(red: 0xFE / 255, green: 0xF1 / 255, blue: 0xF2 / 255)
+    static let soukmarGold = Color(red: 0xC9 / 255, green: 0x94 / 255, blue: 0x1A / 255)
+    static let soukmarGoldLight = Color(red: 0xFE / 255, green: 0xF6 / 255, blue: 0xE4 / 255)
+    static let soukmarTextMuted = Color(red: 0x6B / 255, green: 0x72 / 255, blue: 0x80 / 255)
+}
 
 struct SoukMarLogo: View {
-    var markSize: CGFloat = 32
-    var fontSize: CGFloat = 20
-
     var body: some View {
-        HStack(spacing: markSize * 0.25) {
-            SoukMarMark(size: markSize)
+        HStack(spacing: 8) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.soukmarPrimary)
+                .frame(width: 36, height: 36)
+                .overlay(Text("S").font(.headline.bold()).foregroundStyle(.white))
             HStack(spacing: 0) {
-                Text("SouqMar").foregroundStyle(Color.soukmarInk)
-                Text("24").foregroundStyle(Color.soukmarPrimary)
+                Text("SouqMar").fontWeight(.black)
+                Text("24").fontWeight(.black).foregroundStyle(Color.soukmarPrimary)
             }
-            .font(.system(size: fontSize, weight: .black))
+            .font(.title3)
         }
         // The wordmark is a brand: it always reads "S SouqMar24" left to right, also in RTL languages.
         .environment(\.layoutDirection, .leftToRight)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("SouqMar24")
     }
 }
 
@@ -39,14 +45,14 @@ struct AccountTypeSelector: View {
                     Text(option.label)
                         .fontWeight(isSelected ? .bold : .regular)
                         .frame(maxWidth: .infinity)
-                        .frame(minHeight: 48)
+                        .padding(.vertical, 10)
                 }
-                .foregroundStyle(isSelected ? Color.soukmarPrimary : Color.soukmarInk)
-                .background(isSelected ? Color.soukmarPrimaryLight : Color.white)
+                .foregroundStyle(isSelected ? Color.soukmarPrimary : .primary)
+                .background(isSelected ? Color.soukmarPrimaryLight : Color.clear)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(isSelected ? Color.soukmarPrimary : Color.soukmarBorder, lineWidth: 1.5)
+                        .stroke(isSelected ? Color.soukmarPrimary : Color(.systemGray4), lineWidth: 1.5)
                 )
             }
         }
@@ -72,7 +78,7 @@ struct PasswordField: View {
                     SecureField(placeholder, text: $text)
                 }
             }
-            .textFieldStyle(SoukTextFieldStyle())
+            .textFieldStyle(.roundedBorder)
             .padding(.trailing, 30)
 
             Button {
@@ -118,10 +124,10 @@ struct VerifiedBadge: View {
             Image(systemName: "checkmark.seal.fill").font(.system(size: 9))
             Text(label).font(.system(size: 10, weight: .semibold))
         }
-        .foregroundStyle(Color.soukmarSuccess)
+        .foregroundStyle(.green)
         .padding(.horizontal, 6)
         .padding(.vertical, 2)
-        .background(Color.soukmarSuccessLight)
+        .background(Color.green.opacity(0.12))
         .clipShape(Capsule())
     }
 }
@@ -163,41 +169,37 @@ struct FollowButton: View {
                 .font(.subheadline.weight(.semibold))
         }
         .buttonStyle(.borderedProminent)
-        .tint(following ? Color.soukmarBorder : Color.soukmarPrimary)
+        .tint(following ? Color(.systemGray5) : Color.soukmarPrimary)
         .foregroundStyle(following ? Color.primary : Color.white)
         .disabled(submitting)
     }
 }
 
-/// Error message of a form or screen: says what went wrong, with an icon so it is not carried by colour alone.
 struct ErrorBanner: View {
     let message: String
     var body: some View {
-        HStack(alignment: .top, spacing: Spacing.sm) {
-            Image(systemName: "exclamationmark.circle")
-            Text(message)
-        }
-        .font(.subheadline)
-        .foregroundStyle(Color.soukmarErrorDark)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Spacing.md)
-        .background(Color.soukmarErrorLight)
-        .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+        Text(message)
+            .font(.subheadline)
+            .foregroundStyle(.red)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(Color.red.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
 struct SuccessBanner: View {
     let message: String
     var body: some View {
-        HStack(alignment: .top, spacing: Spacing.sm) {
-            Image(systemName: "checkmark.circle")
+        HStack(spacing: 6) {
+            Image(systemName: "checkmark.circle.fill")
             Text(message)
         }
         .font(.subheadline)
-        .foregroundStyle(Color.soukmarSuccessDark)
+        .foregroundStyle(.green)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Spacing.md)
-        .background(Color.soukmarSuccessLight)
-        .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+        .padding(12)
+        .background(Color.green.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

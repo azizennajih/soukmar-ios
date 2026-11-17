@@ -16,7 +16,7 @@ private func statusStyle(_ status: String, _ i18n: I18nRepository) -> StatusStyl
     case "EXPIRED": return StatusStyle(label: i18n.t("annonces.expired"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
     case "CHANGES_REQUESTED": return StatusStyle(label: i18n.t("annonces.changes_requested"), bg: Color(hex: 0xFEF9C3), fg: Color(hex: 0xA16207))
     case "SUSPENDED": return StatusStyle(label: i18n.t("annonces.suspended"), bg: Color(hex: 0xFEE2E2), fg: Color(hex: 0xB91C1C))
-    default: return StatusStyle(label: status, bg: Color.soukmarSurfaceMuted, fg: .secondary)
+    default: return StatusStyle(label: status, bg: Color(.secondarySystemBackground), fg: .secondary)
     }
 }
 
@@ -56,7 +56,7 @@ struct MesAnnoncesView: View {
                             }
                             .padding(.horizontal, 12)
                             .padding(.vertical, 10)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.soukmarBorder, lineWidth: 1))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(.systemGray4), lineWidth: 1))
                             ForEach(viewModel.filteredListings) { listing in
                                 VStack(spacing: 0) {
                                     ListingRow(
@@ -88,7 +88,7 @@ struct MesAnnoncesView: View {
                     .font(.subheadline)
                     .padding(12)
                     .background(.thinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.bottom, 16)
                     .task {
                         try? await Task.sleep(nanoseconds: 3_000_000_000)
@@ -178,11 +178,11 @@ private struct ListingRow: View {
                                 if case .success(let image) = phase {
                                     image.resizable().aspectRatio(contentMode: .fill)
                                 } else {
-                                    Rectangle().fill(cat?.bg ?? Color.soukmarSurfaceMuted)
+                                    Rectangle().fill(cat?.bg ?? Color(.secondarySystemBackground))
                                 }
                             }
                         } else {
-                            Rectangle().fill(cat?.bg ?? Color.soukmarSurfaceMuted)
+                            Rectangle().fill(cat?.bg ?? Color(.secondarySystemBackground))
                                 .overlay(
                                     Group {
                                         if let emoji = cat?.emoji {
@@ -195,7 +195,7 @@ private struct ListingRow: View {
                         }
                     }
                     .frame(width: 72, height: 72)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .buttonStyle(.plain)
 
@@ -270,9 +270,9 @@ private struct ListingRow: View {
             }
         }
         .padding(12)
-        .background(Color.soukmarSurfaceMuted.opacity(0.5))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.soukmarBorder, lineWidth: 0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground).opacity(0.5))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 }
 
@@ -378,9 +378,9 @@ private struct FunnelRow: View {
                 .frame(width: 92, alignment: .leading)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.soukmarBorder).frame(height: 8)
+                    Capsule().fill(Color(.systemGray5)).frame(height: 8)
                     Capsule()
-                        .fill(accented ? Color.soukmarSuccess : Color.soukmarPrimary)
+                        .fill(accented ? Color.green : Color.soukmarPrimary)
                         .frame(width: geo.size.width * CGFloat(pct / 100), height: 8)
                 }
             }

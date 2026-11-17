@@ -9,7 +9,7 @@ struct FavorisView: View {
     @StateObject private var viewModel = FavorisViewModel()
     @ObservedObject private var i18n = I18nRepository.shared
 
-    private let columns = [GridItem(.adaptive(minimum: 160), spacing: Spacing.md, alignment: .top)]
+    private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
     var body: some View {
         Group {
@@ -19,13 +19,13 @@ struct FavorisView: View {
                 emptyState
             } else {
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: Spacing.md) {
+                    LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(viewModel.listings) { listing in
                             ZStack(alignment: .topTrailing) {
                                 Button {
                                     onOpenListing(listing.id)
                                 } label: {
-                                    ListingCardView(listing: listing, showFavorite: false)
+                                    ListingCardView(listing: listing)
                                 }
                                 .buttonStyle(.plain)
 
@@ -33,19 +33,17 @@ struct FavorisView: View {
                                     viewModel.removeFavorite(listing.id)
                                 } label: {
                                     Image(systemName: "heart.fill")
-                                        .font(.system(size: 15, weight: .semibold))
+                                        .font(.caption)
                                         .foregroundStyle(Color.soukmarPrimary)
-                                        .frame(width: 32, height: 32)
-                                        .background(Color.white.opacity(0.92))
+                                        .padding(6)
+                                        .background(.white.opacity(0.9))
                                         .clipShape(Circle())
-                                        .frame(width: 44, height: 44)
-                                        .contentShape(Rectangle())
                                 }
-                                .accessibilityLabel(i18n.t("listing.fav_remove"))
+                                .padding(6)
                             }
                         }
                     }
-                    .padding(Spacing.lg)
+                    .padding(12)
                 }
             }
         }
@@ -55,13 +53,19 @@ struct FavorisView: View {
     }
 
     private var emptyState: some View {
-        EmptyStateView(
-            systemImage: "heart",
-            title: i18n.t("mes_favoris.empty"),
-            subtitle: i18n.t("mes_favoris.empty_sub"),
-            actionLabel: i18n.t("mes_favoris.browse_btn"),
-            onAction: onBrowse
-        )
+        VStack(spacing: 8) {
+            Image(systemName: "heart").font(.system(size: 40)).foregroundStyle(.secondary)
+            Text(i18n.t("mes_favoris.empty")).font(.title3.bold())
+            Text(i18n.t("mes_favoris.empty_sub"))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            Button(i18n.t("mes_favoris.browse_btn"), action: onBrowse)
+                .buttonStyle(.borderedProminent)
+                .tint(Color.soukmarPrimary)
+                .padding(.top, 8)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(24)
     }
 }
 

@@ -99,8 +99,8 @@ private struct FollowedUserRow: View {
             FollowButton(following: true, submitting: submitting, onToggle: onUnfollow)
         }
         .padding(12)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 }
 

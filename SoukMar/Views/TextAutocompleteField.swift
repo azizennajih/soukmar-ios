@@ -30,7 +30,7 @@ struct TextAutocompleteField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TextField(placeholder, text: $value)
-                .textFieldStyle(SoukTextFieldStyle())
+                .textFieldStyle(.roundedBorder)
                 .focused($isFocused)
                 .onChange(of: value) { _ in suppressSuggestions = false }
 
@@ -55,7 +55,7 @@ struct TextAutocompleteField: View {
                     }
                 }
                 .frame(maxHeight: 240)
-                .background(Color.soukmarSurfaceMuted)
+                .background(Color(.secondarySystemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }

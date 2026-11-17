@@ -80,7 +80,7 @@ struct ProfilView: View {
             case "APPROVED":
                 Label(i18n.t("profil.id_verification_approved"), systemImage: "checkmark.seal.fill")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(Color.soukmarSuccess)
+                    .foregroundStyle(.green)
             case "PENDING":
                 Label(i18n.t("profil.id_verification_pending"), systemImage: "clock.fill")
                     .font(.caption.weight(.semibold))
@@ -89,7 +89,7 @@ struct ProfilView: View {
                 if viewModel.idVerificationStatus == "REJECTED" {
                     Label(i18n.t("profil.id_verification_rejected"), systemImage: "xmark.circle.fill")
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(Color.soukmarError)
+                        .foregroundStyle(.red)
                     if let note = viewModel.idVerificationNote, !note.isEmpty {
                         Text(note).font(.caption).foregroundStyle(.secondary)
                     }
@@ -128,8 +128,8 @@ struct ProfilView: View {
             }
         }
         .padding(16)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     private func idPhotoPicker(label: String, item: Binding<PhotosPickerItem?>, hasData: Bool) -> some View {
@@ -141,8 +141,8 @@ struct ProfilView: View {
                 Spacer()
             }
             .padding(10)
-            .background(Color.soukmarSurfaceMuted)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .background(Color(.tertiarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
     }
 
@@ -194,8 +194,8 @@ struct ProfilView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(20)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     private var editForm: some View {
@@ -209,16 +209,16 @@ struct ProfilView: View {
                 ErrorBanner(message: error)
             }
 
-            TextField(i18n.t("profil.name"), text: $viewModel.name).textFieldStyle(SoukTextFieldStyle())
+            TextField(i18n.t("profil.name"), text: $viewModel.name).textFieldStyle(.roundedBorder)
             TextField("Email", text: .constant(viewModel.profile?.email ?? ""))
-                .textFieldStyle(SoukTextFieldStyle())
+                .textFieldStyle(.roundedBorder)
                 .disabled(true)
                 .foregroundStyle(.secondary)
             PhoneInputField(value: $viewModel.phone)
             if !(viewModel.profile?.phone ?? "").isEmpty {
                 PhoneVerificationRow(viewModel: viewModel)
             }
-            TextField(i18n.t("profil.city"), text: $viewModel.city).textFieldStyle(SoukTextFieldStyle())
+            TextField(i18n.t("profil.city"), text: $viewModel.city).textFieldStyle(.roundedBorder)
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(i18n.t("auth.account_type")).font(.subheadline.weight(.medium))
@@ -245,8 +245,8 @@ struct ProfilView: View {
             .disabled(viewModel.saving)
         }
         .padding(16)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     private var passwordForm: some View {
@@ -278,8 +278,8 @@ struct ProfilView: View {
             .disabled(viewModel.pwSaving)
         }
         .padding(16)
-        .background(Color.soukmarSurfaceMuted)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 }
 
@@ -292,7 +292,7 @@ private struct PhoneVerificationRow: View {
             if viewModel.profile?.phoneVerified == true {
                 Label(i18n.t("profil.phone_verified"), systemImage: "checkmark.seal.fill")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(Color.soukmarSuccess)
+                    .foregroundStyle(.green)
             } else if !viewModel.phoneCodeSent {
                 HStack {
                     Text(i18n.t("profil.phone_not_verified"))
@@ -311,7 +311,7 @@ private struct PhoneVerificationRow: View {
                     .foregroundStyle(.secondary)
                 HStack {
                     TextField("", text: $viewModel.phoneCode)
-                        .textFieldStyle(SoukTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                     Button(viewModel.phoneVerifying ? i18n.t("profil.phone_verifying") : i18n.t("profil.phone_confirm_btn")) {
                         viewModel.verifyPhoneCode()

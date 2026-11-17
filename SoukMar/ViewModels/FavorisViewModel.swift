@@ -14,7 +14,6 @@ final class FavorisViewModel: ObservableObject {
             switch await listingRepository.getFavorites() {
             case .success(let data):
                 listings = data
-                for item in data { FavoritesStore.shared.set(item.id, favorite: true) }
             case .failure:
                 break // empty list is a fine fallback here
             }
@@ -30,8 +29,6 @@ final class FavorisViewModel: ObservableObject {
         Task {
             if !(await listingRepository.removeFavorite(id: id)) {
                 listings = previous
-            } else {
-                FavoritesStore.shared.set(id, favorite: false)
             }
         }
     }
