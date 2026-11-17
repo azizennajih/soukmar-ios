@@ -132,3 +132,5 @@ Wie bei Android wächst das Projekt ab hier nicht mehr in nummerierten Phasen, s
 - **WhatsApp-Link:** nur Ziffern der Nummer (`ListingDetailView.swift`).
 - Geprüft ohne Befund: ATS (nur `NSAllowsLocalNetworking`, Debug-URL nur unter `#if DEBUG`), kein Logging (`print`/`NSLog` nicht vorhanden), Banner-Links nur `https://`, Berechtigungstexte vorhanden und begründet, keine Geheimnisse im Repo.
 - **Nicht getestet:** kein Compiler lokal, Codemagic-Lauf steht aus (Tranche 35 ebenfalls noch unbestätigt).
+
+- **Codemagic-Build für Tranche 35 und 36 grün** (vom Nutzer bestätigt, 2026-11-17, Commit `5f31a86`). Davor scheiterten zwei Läufe nur beim Klonen (`Could not resolve host: github.com`, Netzwerkproblem beim Anbieter, kein Codefehler). Gerätelauf weiterhin nicht erfolgt.
