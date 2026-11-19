@@ -123,6 +123,14 @@ struct ListingCardView: View {
                     Text(flagEmoji(listing.country))
                 }
                 Spacer(minLength: 4)
+                // Number of views, like the web card
+                HStack(spacing: 2) {
+                    Image(systemName: "eye").font(.system(size: 10))
+                    Text("(listing.views)")
+                }
+                .foregroundStyle(Color.soukmarTextSubtle)
+                .lineLimit(1)
+                .layoutPriority(1)
                 Text(i18n.timeAgoT(listing.createdAt))
                     .foregroundStyle(Color.soukmarTextSubtle)
                     .lineLimit(1)

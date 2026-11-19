@@ -140,3 +140,6 @@ Web-Sync zu `soukmar`/`soukmar-backend` (Chat-Fotos). Menü mit Büroklammer in 
 - **Nicht getestet:** kein Compiler lokal; Klammerbilanz der geänderten Dateien geprüft, Codemagic-Lauf durch den Nutzer steht aus (bis dahin ungetestet).
 
 - **Codemagic-Build für Tranche 37 (Chat-Fotos) grün** (vom Nutzer bestätigt, 2026-11-17, Commit `40d70e9`). Gerätelauf (Kamera, Auswahl, Anzeige) weiterhin nicht erfolgt.
+
+### Tranche 38: Aufrufe auf der Anzeigenkarte (2026-11-19)
+Web-Sync: `ListingCardView.swift` zeigt neben dem Alter ein Augen-Symbol mit `listing.views` (Feld war schon im Modell). Zwei Karten pro Zeile (`GridItem.adaptive(160)`) und Verkäufer-Karte (reiner Web-CSS-Fix) brauchten keine Änderung. **Nicht getestet:** kein Compiler lokal, Codemagic-Lauf durch den Nutzer steht aus (bis dahin ungetestet).
